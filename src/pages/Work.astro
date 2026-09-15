@@ -1,0 +1,263 @@
+---
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/token.css";
+import "../styles/global.css";
+import "../styles/Navbar.css";
+import "../styles/work.css";
+import "../styles/footer.css";
+import { getEntry, getCollection } from "astro:content";
+
+// 1. Fetch Page Master Data & Filters
+const workPageEntry = await getEntry("workPage", "index");
+if (!workPageEntry) {
+  throw new Error("Could not find index.md in src/content/workPage/");
+}
+const pageData = workPageEntry.data;
+
+// 2. Fetch All Individual Projects
+const rawProjects = await getCollection("projects");
+const projects = rawProjects.map((item) => ({
+  id: item.id,
+  ...item.data,
+}));
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={pageData.heroDescription} />
+    <title>{pageData.heroTitle} — Axys3D</title>
+  </head>
+
+  <body class="page-work">
+    <Navbar variant="solid" />
+
+    <main class="work-page">
+      <div class="wrk-wrap">
+        <!-- HERO SECTION -->
+        <header class="wrk-hero">
+          <p class="wrk-eyebrow">{pageData.heroTitle}</p>
+          <h1 class="wrk-h1">{pageData.heroSubtitle}</h1>
+          <p class="wrk-lead">{pageData.heroDescription}</p>
+        </header>
+
+        <!-- PUBLIC QUERY BOUNDARY NOTICE -->
+        <section class="wrk-notice-box">
+          <h2 class="wrk-notice-title">{pageData.noticeTitle}</h2>
+          <p class="wrk-notice-text">{pageData.noticeText}</p>
+        </section>
+
+        <!-- INTERACTIVE FILTERS SECTION -->
+        <section class="wrk-filter-bar">
+          <div class="wrk-filter-grid">
+            <!-- Service Filter -->
+            <div class="wrk-filter-group">
+              <label for="filter-service">Service</label>
+              <select id="filter-service" class="wrk-select">
+                {pageData.filters.services.map((opt) => (
+                  <option value={opt}>{opt}</option>
+                ))}
+              </select>
+            </div>
+
+            <!-- Stage Filter -->
+            <div class="wrk-filter-group">
+              <label for="filter-stage">Project Stage</label>
+              <select id="filter-stage" class="wrk-select">
+                {pageData.filters.stages.map((opt) => (
+                  <option value={opt}>{opt}</option>
+                ))}
+              </select>
+            </div>
+
+            <!-- Sector Filter -->
+            <div class="wrk-filter-group">
+              <label for="filter-sector">Sector</label>
+              <select id="filter-sector" class="wrk-select">
+                {pageData.filters.sectors.map((opt) => (
+                  <option value={opt}>{opt}</option>
+                ))}
+              </select>
+            </div>
+
+            <!-- Delivery Type Filter -->
+            <div class="wrk-filter-group">
+              <label for="filter-delivery">Delivery Type</label>
+              <select id="filter-delivery" class="wrk-select">
+                {pageData.filters.deliveryTypes.map((opt) => (
+                  <option value={opt}>{opt}</option>
+                ))}
+              </select>
+            </div>
+
+            <!-- Public / NDA Safe Status Filter -->
+            <div class="wrk-filter-group">
+              <label for="filter-status">Public / NDA-Safe Status</label>
+              <select id="filter-status" class="wrk-select">
+                {pageData.filters.publicationStatuses.map((opt) => (
+                  <option value={opt}>{opt}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+
+          <!-- RESULTS BAR -->
+          <div class="wrk-results-bar">
+            <span id="case-study-count" class="wrk-count">
+              {projects.length} case studies
+            </span>
+            <button id="clear-filters-btn" class="wrk-clear-btn" type="button">
+              Clear filters
+            </button>
+          </div>
+        </section>
+
+        <!-- PROJECTS GRID CONTAINER -->
+        <section class="wrk-projects-section">
+          <div id="projects-grid" class="wrk-projects-grid">
+            {projects.map((project) => (
+              <article
+                class="wrk-card"
+                data-services={JSON.stringify(project.services)}
+                data-stage={project.projectStage}
+                data-sector={project.sector}
+                data-delivery={project.deliveryType}
+                data-status={project.publicationStatus}
+              >
+                <div class="wrk-card-header">
+                  <span class="wrk-badge-tag">{project.badgeText}</span>
+                  <span class="wrk-meta-sub">
+                    {project.sector} · {project.projectStage}
+                  </span>
+                </div>
+
+                <h3 class="wrk-card-title">
+                  <a
+                    href={`/work/${project.id}`}
+                    style="text-decoration: none; color: inherit; display: block;"
+                  >
+                    {project.title}
+                  </a>
+                </h3>
+                <p class="wrk-card-summary">{project.summary}</p>
+
+                <div class="wrk-card-footer">
+                  <div class="wrk-delivery-tag">{project.deliveryType}</div>
+                  <div class="wrk-pills-row">
+                    {project.services.map((srv) => (
+                      <span class="wrk-pill">{srv}</span>
+                    ))}
+                  </div>
+                  <div class="wrk-status-indicator">
+                    <span class="wrk-dot"></span>
+                    <span>{project.publicationStatus}</span>
+                  </div>
+                </div>
+
+                <div style="margin-top: 16px;">
+                  <a
+                    href={`/work/${project.id}`}
+                    class="wrk-clear-btn"
+                    style="text-decoration: none; display: inline-block; text-align: center; width: 100%;"
+                  >
+                    Review case study →
+                  </a>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <!-- NO RESULTS PLACEHOLDER -->
+          <div id="no-results" class="wrk-no-results" style="display: none;">
+            <p>No case studies match your selected filters.</p>
+            <button id="reset-search-btn" class="wrk-clear-btn">
+              Reset filters
+            </button>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <Footer />
+
+    <!-- CLIENT-SIDE FILTERING LOGIC -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const serviceSelect = document.getElementById("filter-service") as HTMLSelectElement;
+        const stageSelect = document.getElementById("filter-stage") as HTMLSelectElement;
+        const sectorSelect = document.getElementById("filter-sector") as HTMLSelectElement;
+        const deliverySelect = document.getElementById("filter-delivery") as HTMLSelectElement;
+        const statusSelect = document.getElementById("filter-status") as HTMLSelectElement;
+
+        const countDisplay = document.getElementById("case-study-count");
+        const clearBtn = document.getElementById("clear-filters-btn");
+        const resetBtn = document.getElementById("reset-search-btn");
+        const cards = document.querySelectorAll(".wrk-card");
+        const noResults = document.getElementById("no-results");
+
+        function filterProjects() {
+          let visibleCount = 0;
+
+          const selService = serviceSelect.value;
+          const selStage = stageSelect.value;
+          const selSector = sectorSelect.value;
+          const selDelivery = deliverySelect.value;
+          const selStatus = statusSelect.value;
+
+          cards.forEach((cardEl) => {
+            const card = cardEl as HTMLElement;
+            const cardServices: string[] = JSON.parse(card.dataset.services || "[]");
+            const cardStage = card.dataset.stage;
+            const cardSector = card.dataset.sector;
+            const cardDelivery = card.dataset.delivery;
+            const cardStatus = card.dataset.status;
+
+            const matchService = selService === "All services" || cardServices.includes(selService);
+            const matchStage = selStage === "All stages" || cardStage === selStage;
+            const matchSector = selSector === "All sectors" || cardSector === selSector;
+            const matchDelivery =
+              selDelivery === "All delivery types" || cardDelivery === selDelivery;
+            const matchStatus =
+              selStatus === "All safe publication states" || cardStatus === selStatus;
+
+            if (matchService && matchStage && matchSector && matchDelivery && matchStatus) {
+              card.style.display = "flex";
+              visibleCount++;
+            } else {
+              card.style.display = "none";
+            }
+          });
+
+          if (countDisplay) {
+            countDisplay.textContent = `${visibleCount} case study${visibleCount === 1 ? "" : "ies"}`;
+          }
+
+          if (noResults) {
+            noResults.style.display = visibleCount === 0 ? "block" : "none";
+          }
+        }
+
+        function resetFilters() {
+          serviceSelect.selectedIndex = 0;
+          stageSelect.selectedIndex = 0;
+          sectorSelect.selectedIndex = 0;
+          deliverySelect.selectedIndex = 0;
+          statusSelect.selectedIndex = 0;
+          filterProjects();
+        }
+
+        [serviceSelect, stageSelect, sectorSelect, deliverySelect, statusSelect].forEach(
+          (select) => {
+            select?.addEventListener("change", filterProjects);
+          },
+        );
+
+        clearBtn?.addEventListener("click", resetFilters);
+        resetBtn?.addEventListener("click", resetFilters);
+      });
+    </script>
+  </body>
+</html>

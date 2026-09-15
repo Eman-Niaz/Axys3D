@@ -1,0 +1,148 @@
+---
+const services = [
+  {
+    number: "01",
+    title: "BIM execution and model production",
+    description:
+      "BIM execution support, model-production planning and governed authoring aligned to client-issued information requirements and approval gates.",
+    image:
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
+    features: ["BIM production plan", "Discipline model packages", "Model audit and issue logs"],
+  },
+  {
+    number: "02",
+    title: "Revit production and documentation coordination",
+    description:
+      "Revit authoring, family production and documentation support tied to approved design information, sheet protocols and review cycles.",
+    image:
+      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+    features: [
+      "Revit model packages",
+      "Families and governed content",
+      "Drawing and schedule production support",
+    ],
+  },
+  {
+    number: "03",
+    title: "MEP coordination support",
+    description:
+      "Federated-model review, issue identification and coordination support across architectural, structural and building-services information.",
+    image:
+      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
+    features: ["Federated review model", "Coordination views", "Issue register or BCF package"],
+  },
+  {
+    number: "04",
+    title: "3D modeling and digital production",
+    description:
+      "Controlled geometry and asset production from approved drawings, BIM references, surveys and client-issued design information.",
+    image:
+      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+    features: [
+      "Purpose-built 3D models",
+      "Cleaned or converted geometry",
+      "Reusable component library",
+    ],
+  },
+  {
+    number: "05",
+    title: "3ds Max production",
+    description:
+      "Specialist Autodesk 3ds Max production support for controlled modeling, scene assembly, material and lighting setup, visualization-ready assets, animation support and structured handoff.",
+    image:
+      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+    features: [
+      "Structured 3ds Max scene packages",
+      "Purpose-built models and visualization-ready assets",
+      "Material, lighting and scene-assembly setup",
+    ],
+  },
+  {
+    number: "06",
+    title: "Architectural visualization",
+    description:
+      "Technically informed imagery for planning communication, approvals, stakeholder alignment and property marketing.",
+    image:
+      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=800&q=80",
+    features: [
+      "High-resolution still imagery",
+      "Approval-stage visual sets",
+      "Option comparison views",
+    ],
+  },
+  {
+    number: "07",
+    title: "Animation and motion",
+    description:
+      "Architectural animation organized around an approved narrative, camera plan, information freeze and staged review workflow.",
+    image:
+      "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=800&q=80",
+    features: ["Storyboard and camera plan", "Animation sequences", "Motion-graphics package"],
+  },
+  {
+    number: "08",
+    title: "Real-time and Unreal Engine production",
+    description:
+      "Optimized Unreal Engine environments for interactive review, configurators, immersive presentations and real-time stakeholder experiences.",
+    image:
+      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80",
+    features: [
+      "Optimized Unreal Engine scene",
+      "Material and lighting systems",
+      "Interactive review build",
+    ],
+  },
+];
+---
+
+<section class="services-section">
+  <!-- Faded 2D Sketch Background Image Overlay -->
+  <div class="bg-sketch-overlay" aria-hidden="true"></div>
+
+  <div class="services-container">
+    <!-- Updated Header Section -->
+    <div class="production-header">
+      <span class="services-eyebrow">Eight technical services</span>
+      <h2>
+        Production capability across the{" "}
+        <span class="highlight-text">
+          <br /> AEC pipeline
+        </span>
+      </h2>
+    </div>
+
+    <!-- Horizontal Slider with Zig-Zag Cards -->
+    <div class="services-slider-wrapper">
+      <div class="services-slider-track">
+        {services.map((service) => (
+          <article class="service-card">
+            <!-- Image Container with Floating Number Badge -->
+            <div class="card-image">
+              <img src={service.image} alt={service.title} loading="lazy" />
+              <span class="service-number">{service.number}</span>
+            </div>
+
+            <!-- Card Body Content -->
+            <div class="card-body">
+              <h3>{service.title}</h3>
+              <p>{service.description}</p>
+
+              <ul class="service-features">
+                {service.features.map((feature) => (
+                  <li>{feature}</li>
+                ))}
+              </ul>
+            </div>
+
+            <!-- Card Footer Link -->
+            <div class="card-footer">
+              <a href="#review" class="scope-link">
+                Review technical scope <span>↗</span>
+              </a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>

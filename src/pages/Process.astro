@@ -1,0 +1,121 @@
+---
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/token.css";
+import "../styles/global.css";
+import "../styles/Navbar.css";
+import "../styles/processPage.css";
+import "../styles/footer.css";
+import { getEntry } from "astro:content";
+
+// Aap ke schema ke exact loader ke mutabiq entry fetch kar rahe hain
+const processEntry = await getEntry("process", "index");
+
+if (!processEntry) {
+  throw new Error("Could not find index.md in src/content/process/");
+}
+
+const {
+  heroTitle,
+  heroSubtitle,
+  heroDescription,
+  steps,
+  controlPointsTitle,
+  controlPointsSubtitle,
+  controlPoints = [],
+  ctaTitle,
+  ctaSubtitle,
+  ctaLabel,
+  ctaLink,
+} = processEntry.data;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={heroDescription} />
+    <title>{heroSubtitle} — Axys3D</title>
+  </head>
+
+  <body class="page-process">
+    <Navbar variant="solid" />
+
+    <main class="process-page">
+      <!-- HERO SECTION -->
+      <section class="prc-hero">
+        <div class="prc-wrap">
+          <p class="prc-eyebrow">{heroTitle}</p>
+          <h1 class="prc-h1">{heroSubtitle}</h1>
+          <p class="prc-lead">{heroDescription}</p>
+        </div>
+      </section>
+
+      <!-- STEPS LIST SECTION (01 - 06) -->
+      <section class="prc-steps-section">
+        <div class="prc-wrap">
+          <div class="prc-steps-grid">
+            {steps.map((step) => (
+              <div class="prc-step-card">
+                <div class="prc-step-header">
+                  <span class="prc-step-num">{step.id}</span>
+                  <h2 class="prc-step-title">{step.title}</h2>
+                </div>
+                <p class="prc-step-desc">{step.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTROL POINTS SECTION -->
+      {controlPoints.length > 0 && (
+        <section class="prc-controls-section">
+          <div class="prc-wrap">
+            <div class="prc-controls-grid">
+              <div class="prc-controls-left">
+                {controlPointsTitle && <p class="prc-eyebrow-small">{controlPointsTitle}</p>}
+                {controlPointsSubtitle && (
+                  <h2 class="prc-controls-subtitle">{controlPointsSubtitle}</h2>
+                )}
+              </div>
+
+              <div class="prc-controls-right">
+                <ul class="prc-controls-list">
+                  {controlPoints.map((point) => (
+                    <li class="prc-control-item">
+                      <span class="prc-check-icon">✓</span>
+                      <span>{point}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <!-- CTA / TECHNICAL BRIEF SECTION -->
+      {ctaTitle && (
+        <section class="prc-cta-section">
+          <div class="prc-wrap">
+            <div class="prc-cta-box">
+              <div class="prc-cta-content">
+                <p class="prc-eyebrow-small">{ctaTitle}</p>
+                {ctaSubtitle && <h3 class="prc-cta-h3">{ctaSubtitle}</h3>}
+              </div>
+              {ctaLabel && (
+                <a href={ctaLink || "/Contact/"} class="prc-cta-btn">
+                  {ctaLabel} <span class="prc-arrow">→</span>
+                </a>
+              )}
+            </div>
+          </div>
+        </section>
+      )}
+    </main>
+
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,75 @@
+---
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/token.css";
+import "../styles/global.css";
+import "../styles/Navbar.css";
+import "../styles/insights.css";
+import "../styles/footer.css";
+import { getCollection } from "astro:content";
+
+// Fetch Master Insights Page Header Content
+const insightsPageEntries = await getCollection("insightsPage");
+const pageData = insightsPageEntries[0]?.data || {
+  heroTitle: "Insights / Technical production",
+  heroSubtitle: "Practical notes for controlled AEC delivery.",
+  heroDescription:
+    "Fictional development articles demonstrate the editorial structure. They are not client evidence, legal advice or published thought leadership.",
+};
+
+// Fetch All Insight Articles
+const articles = await getCollection("insights");
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{pageData.heroTitle} — Axys3D</title>
+  </head>
+
+  <body class="page-insights">
+    <Navbar variant="solid" />
+
+    <main class="insights-page">
+      <div class="ins-wrap">
+        <!-- HERO SECTION -->
+        <header class="ins-hero">
+          <p class="ins-eyebrow">{pageData.heroTitle}</p>
+          <h1 class="ins-h1">{pageData.heroSubtitle}</h1>
+          <p class="ins-lead">{pageData.heroDescription}</p>
+        </header>
+
+        <!-- ARTICLES LIST GRID -->
+        <section class="ins-articles-grid">
+          {articles && articles.length > 0 ? (
+            articles.map((article) => (
+              <article class="ins-card">
+                <div class="ins-card-header">
+                  <span class="ins-category">
+                    {article.data.category} / {article.data.readTime}
+                  </span>
+                  <span class="ins-badge">{article.data.badgeText}</span>
+                </div>
+
+                <h2 class="ins-card-title">{article.data.title}</h2>
+                <p class="ins-card-summary">{article.data.summary}</p>
+
+                <div class="ins-card-footer">
+                  <a href={`/insights/${article.id}`} class="ins-link">
+                    {article.data.ctaLabel} →
+                  </a>
+                </div>
+              </article>
+            ))
+          ) : (
+            <p style="color: #6e675c;">No articles found in src/content/insights/</p>
+          )}
+        </section>
+      </div>
+    </main>
+
+    <Footer />
+  </body>
+</html>

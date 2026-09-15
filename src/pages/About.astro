@@ -1,0 +1,78 @@
+---
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/token.css";
+import "../styles/global.css";
+import "../styles/Navbar.css";
+import "../styles/footer.css";
+import "../styles/about.css";
+import { getCollection } from "astro:content";
+
+const aboutEntries = await getCollection("aboutPage");
+const pageData = aboutEntries[0]?.data;
+
+if (!pageData) {
+  throw new Error("Could not find index.md in src/content/aboutPage/");
+}
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>About Us — Axys3D</title>
+  </head>
+
+  <body class="page-about">
+    <Navbar variant="solid" />
+
+    <main class="about-page">
+      <div class="about-wrap">
+        <!-- Hero Section -->
+        <header class="about-hero">
+          <p class="about-eyebrow">{pageData.heroEyebrow}</p>
+          <h1 class="about-h1">{pageData.heroTitle}</h1>
+          <p class="about-lead">{pageData.heroDescription}</p>
+        </header>
+
+        <!-- Why Section -->
+        <section class="about-why">
+          <h2 class="about-why-title">{pageData.whyTitle}</h2>
+          <p class="about-why-sub">{pageData.whySubtitle}</p>
+          <p class="about-why-desc">{pageData.whyDescription}</p>
+        </section>
+
+        <!-- Operating Principles -->
+        <section class="about-principles">
+          <h2 class="about-sec-title">Operating principles</h2>
+          <div class="principles-grid">
+            {pageData.principles.map((p) => (
+              <div class="principle-card">
+                <span class="principle-num">{p.num}</span>
+                <h3 class="principle-title">{p.title}</h3>
+                <p class="principle-desc">{p.description}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <!-- Delivery Controls -->
+        <!-- Delivery Controls -->
+        <section class="about-delivery">
+          <div class="about-delivery-content">
+            <h2 class="about-delivery-title">{pageData.deliveryTitle}</h2>
+            <p class="about-delivery-desc">{pageData.deliveryDescription}</p>
+          </div>
+          <div class="about-delivery-action">
+            <a href="/Process" class="about-cta-btn">
+              {pageData.ctaLabel || "See the six-stage process"} →
+            </a>
+          </div>
+        </section>
+      </div>
+    </main>
+
+    <Footer />
+  </body>
+</html>

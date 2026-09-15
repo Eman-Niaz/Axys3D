@@ -1,0 +1,123 @@
+---
+import Navbar from "./Navbar.astro";
+---
+
+<section class="hero">
+  <!-- ================= BACKGROUND VIDEO ================= -->
+  <video class="hero-video" autoplay muted loop playsinline>
+    <source src="/videos/hero-video.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Dark transparent overlay -->
+  <div class="hero-overlay"></div>
+
+  <Navbar />
+
+  <!-- ================= HERO CONTENT ================= -->
+  <div class="hero-content">
+    <!-- LEFT SIDE -->
+    <div class="hero-left">
+      <div class="hero-eyebrow">Full-service AEC production partner</div>
+
+      <h1>
+        <span class="brown-text">
+          <b>AEC production </b>
+        </span>
+        <br />
+        without the production friction.
+      </h1>
+
+      <p class="hero-description">
+        <strong>Axys3D</strong> is an integrated AEC production partner delivering BIM, Revit
+        production, MEP coordination support, 3D modeling, architectural visualization, animation
+        and real-time experiences.
+      </p>
+
+      <p class="hero-description second">
+        We extend technically fluent architecture, engineering, developer and agency teams with
+        controlled production capacity, defined review gates and structured handoff.
+      </p>
+
+      <div class="hero-buttons">
+        <a href="/Services" class="primary-button">
+          Review the full pipeline
+        </a>
+
+        <a href="/Contact" class="secondary-button">
+          Scope a production package
+        </a>
+      </div>
+
+      <!-- ================= FEATURES ================= -->
+      <div class="hero-features">
+        <div class="feature">
+          <h3>Scope control</h3>
+          <p>Defined inputs, intended use and production boundaries</p>
+        </div>
+
+        <div class="feature">
+          <h3>Review model</h3>
+          <p>Named client approvers and recorded decision gates</p>
+        </div>
+
+        <div class="feature">
+          <h3>Handoff</h3>
+          <p>Editable sources, status records and known limitations</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================= RIGHT SIDE DELIVERY BOX ================= -->
+    <div class="delivery-box">
+      <div class="delivery-header">
+        <span>AEC / INTEGRATED DELIVERY</span>
+        <span>CONTROLLED DELIVERY</span>
+      </div>
+
+      <div class="delivery-item">
+        <span class="number">01</span>
+
+        <div class="item-content">
+          <span>Information requirements received</span>
+          <span class="status ready">READY</span>
+        </div>
+      </div>
+
+      <div class="delivery-item">
+        <span class="number">02</span>
+
+        <div class="item-content">
+          <span>BIM production aligned</span>
+          <span class="status ready">READY</span>
+        </div>
+      </div>
+
+      <div class="delivery-item">
+        <span class="number">03</span>
+
+        <div class="item-content">
+          <span>Revit package in review</span>
+          <span class="status ready">READY</span>
+        </div>
+      </div>
+
+      <div class="delivery-item">
+        <span class="number">04</span>
+
+        <div class="item-content">
+          <span>Coordination issues routed</span>
+          <span class="status open">OPEN</span>
+        </div>
+      </div>
+
+      <div class="delivery-item">
+        <span class="number">05</span>
+
+        <div class="item-content">
+          <span>Client approval gate open</span>
+          <span class="status open">OPEN</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,194 @@
+---
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import "../../styles/token.css";
+import "../../styles/global.css";
+import "../../styles/Navbar.css";
+import "../../styles/industry-single.css";
+import "../../styles/footer.css";
+import { getCollection, getEntry, type CollectionEntry } from "astro:content";
+
+export async function getStaticPaths() {
+  let industries: CollectionEntry<"industries">[] = [];
+  try {
+    industries = await getCollection("industries");
+  } catch (e) {
+    console.log("Collection fetch error:", e);
+  }
+
+  if (!industries || industries.length === 0) {
+    return [
+      { params: { slug: "architecture-design-practices" } },
+      { params: { slug: "engineering-multidisciplinary" } },
+      { params: { slug: "developers-asset-teams" } },
+      { params: { slug: "agencies-production-partners" } },
+    ];
+  }
+
+  return industries.map((entry) => ({
+    params: { slug: entry.id },  
+    props: { entry },
+  }));
+}
+
+const { slug } = Astro.params;
+let entry: CollectionEntry<"industries"> | undefined = Astro.props.entry;
+
+if (!entry && slug) {
+  try {
+    entry = await getEntry("industries", slug);
+  } catch (e) {
+    console.log("Error loading entry:", e);
+  }
+}
+
+const data = entry?.data || ({} as Partial<CollectionEntry<"industries">["data"]>);
+
+// Safe type extraction with fallbacks
+const title: string = data.title || "Industry Workflow";
+const serviceLabel: string = data.serviceLabel || "Design-team production capacity";
+const description: string =
+  data.description ||
+  "Extend BIM, Revit, modeling and visual communication capacity while the appointed practice retains design authorship.";
+const operatingContext: string =
+  data.operatingContext || "Production pressure needs a governed response.";
+
+const buyerPressures: string[] = data.buyerPressures || [
+  "Compressed submission and documentation programmes",
+  "Uneven internal Revit or visualization capacity",
+  "Design changes propagating across models, sheets and media",
+  "External production that does not follow office standards",
+];
+
+const productionRequirements: string[] = data.productionRequirements || [
+  "BEP- and template-aligned authoring",
+  "Documentation coordination against approved design information",
+  "Planning and stakeholder visuals tied to named revisions",
+  "Transparent assumptions, issues and structured handoff",
+];
+
+const engagementModel: Array<{ step: string; description: string }> = data.engagementModel
+  ? data.engagementModel.map((item, index) => ({
+      step: item.step ?? String(index + 1).padStart(2, "0"),
+      description: item.description,
+    }))
+  : [
+      { step: "01", description: "Confirm standards, model ownership and approval roles" },
+      { step: "02", description: "Package work by discipline, zone, stage or deliverable" },
+      { step: "03", description: "Review through the practice's named design leads" },
+      { step: "04", description: "Return editable sources, status and unresolved items" },
+    ];
+
+const typicalServices: string[] = data.typicalServices || [
+  "BIM execution and model production",
+  "Revit production",
+  "3D modeling",
+  "Architectural visualization",
+  "Animation and real-time",
+];
+
+const responsibilityBoundary: string =
+  data.responsibilityBoundary ||
+  "The appointed practice retains design authorship, statutory responsibility and professional sign-off.";
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>{title} — Axys3D</title>
+  </head>
+
+  <body class="page-industries">
+    <Navbar variant="solid" />
+
+    <main class="ind-single-page">
+      <!-- HERO -->
+      <section class="ind-single-hero">
+        <div class="ind-single-wrap">
+          <p class="ind-single-eyebrow">Industry Workflow / {serviceLabel}</p>
+          <h1 class="ind-single-title">{title}</h1>
+          <p class="ind-single-lead">{description}</p>
+        </div>
+      </section>
+
+      <!-- OPERATING CONTEXT (PRESSURES VS REQUIREMENTS) -->
+      <section class="ind-single-section">
+        <div class="ind-single-wrap">
+          <p class="ind-single-section-title">Operating context</p>
+          <h2 class="ind-single-subtitle">{operatingContext}</h2>
+
+          <div class="ind-grid-2">
+            <!-- Typical Buyer Pressures -->
+            <div class="ind-box">
+              <h3 class="ind-box-title">Typical buyer pressures</h3>
+              <ul class="ind-list">
+                {buyerPressures.map((item: string) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <!-- Production Requirements -->
+            <div class="ind-box">
+              <h3 class="ind-box-title">Production requirements</h3>
+              <ul class="ind-list">
+                {productionRequirements.map((item: string) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ENGAGEMENT MODEL (01 - 04 STEPS) -->
+      <section class="ind-single-section">
+        <div class="ind-single-wrap">
+          <p class="ind-single-section-title">Engagement model</p>
+          <h2 class="ind-single-subtitle">One brief, named approvals, structured handoff.</h2>
+
+          <div class="ind-steps-grid">
+            {engagementModel.map((item: { step: string; description: string }) => (
+              <div class="ind-step-card">
+                <span class="ind-step-num">{item.step}</span>
+                <p class="ind-step-desc">{item.description}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- RELEVANT CAPABILITIES & BOUNDARY -->
+      <section class="ind-single-section">
+        <div class="ind-single-wrap">
+          <p class="ind-single-section-title">Relevant capabilities</p>
+          <h2 class="ind-single-subtitle">Connected service packages.</h2>
+
+          <!-- Services Chips -->
+          <div class="ind-chips-flex">
+            {typicalServices.map((svc: string) => (
+              <span class="ind-service-chip">{svc}</span>
+            ))}
+          </div>
+
+          <!-- Responsibility Boundary -->
+          <div class="ind-boundary-box">
+            <p>
+              <strong>Responsibility boundary:</strong> {responsibilityBoundary}
+            </p>
+          </div>
+
+          <!-- CTA Button -->
+          <a href="/Contact/" class="ind-cta-btn">
+            Define the production package <span>→</span>
+          </a>
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>

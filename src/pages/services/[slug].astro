@@ -1,0 +1,119 @@
+---
+// src/pages/services/[slug].astro
+//
+// Dynamic detail page for a single service. One page is generated per
+// entry in the "services" content collection (01-bim-execution-model-production.md,
+// 02-revit-production.md, etc — the files you already have).
+//
+// The "Review technical scope" button on the services index page links to
+// `s.href`, which should point here, e.g. /services/bim-execution-model-production/
+
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import "../../styles/token.css";
+import "../../styles/global.css";
+import "../../styles/Navbar.css";
+import "../../styles/services.css";
+import "../../styles/service-details.css";
+import "../../styles/footer.css";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const services = await getCollection("services");
+
+  return services.map((service) => {
+    // Strip a leading "01-" / "02-" style numeric prefix from the filename
+    // if present, so the URL slug stays clean regardless of how the files
+    // are named on disk. serviceNumber in the frontmatter is still the
+    // source of truth for display and ordering.
+    const slug = service.id.replace(/^\d+-/, "");
+
+    return {
+      params: { slug },
+      props: { service },
+    };
+  });
+}
+
+const { service } = Astro.props;
+const {
+  title,
+  serviceNumber,
+  serviceLabel,
+  description,
+  bestFitBuyers,
+  projectStages,
+  engagementContext,
+} = service.data;
+
+const { Content } = await render(service);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>{title} — Axys3D</title>
+  </head>
+
+  <body class="page-service-detail">
+    <Navbar variant="solid" />
+
+    <main class="svcd-page">
+      <!-- HERO -->
+      <section class="svcd-hero">
+        <div class="svc-wrap">
+          <a class="svcd-back" href="/Services/">
+            ← All services
+          </a>
+
+          <p class="svc-eyebrow">
+            Service {serviceNumber} / {serviceLabel}
+          </p>
+          <h1 class="svcd-h1">{title}</h1>
+          <p class="svcd-lead">{description}</p>
+
+          <div class="svcd-meta-grid">
+            <div class="svcd-meta-col">
+              <p class="svcd-meta-label">Best-fit buyers</p>
+              <ul class="svcd-meta-list">
+                {bestFitBuyers.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="svcd-meta-col">
+              <p class="svcd-meta-label">Project stages</p>
+              <ul class="svcd-meta-list">
+                {projectStages.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div class="svcd-meta-col">
+              <p class="svcd-meta-label">Engagement context</p>
+              <ul class="svcd-meta-list">
+                {engagementContext.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- FULL SERVICE CONTENT (parsed from the markdown body) -->
+      <section class="svcd-body">
+        <div class="svc-wrap svcd-prose">
+          <Content />
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>

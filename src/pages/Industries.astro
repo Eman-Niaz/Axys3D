@@ -1,0 +1,98 @@
+---
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/token.css";
+import "../styles/global.css";
+import "../styles/Navbar.css";
+import "../styles/industries.css";
+import "../styles/footer.css";
+import { getEntry } from "astro:content";
+
+interface IndustrySection {
+  id: string;
+  title: string;
+  targetBuyer: string;
+  description: string;
+  ctaLink: string;
+  ctaLabel: string;
+}
+
+const pageEntry = await getEntry("industriesPage", "index");
+
+if (!pageEntry) {
+  throw new Error("Could not find index.md in src/content/industriesPage/");
+}
+
+const { heroTitle, heroSubtitle, heroDescription, industrySections } = pageEntry.data as {
+  heroTitle: string;
+  heroSubtitle: string;
+  heroDescription: string;
+  industrySections: IndustrySection[];
+};
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={heroDescription} />
+    <title>Industries & Workflows — Axys3D</title>
+  </head>
+
+  <body class="page-industries">
+    <Navbar variant="solid" />
+
+    <main class="industries-page">
+      <!-- HERO -->
+      <section class="ind-hero">
+        <div class="ind-wrap">
+          <p class="ind-eyebrow">{heroTitle}</p>
+          <h1 class="ind-h1">{heroSubtitle}</h1>
+          <p class="ind-lead">{heroDescription}</p>
+        </div>
+      </section>
+
+      <!-- OVERVIEW CHIP STRIP -->
+      <section class="ind-overview">
+        <div class="ind-wrap">
+          <div class="ind-chip-row">
+            {industrySections?.map((item: IndustrySection) => (
+              <a class="ind-chip" href={`#industry-${item.id}`}>
+                <span class="ind-chip-num">{item.id}</span>
+                <span class="ind-chip-title">{item.title}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- DETAILED INDUSTRY ROWS -->
+      <section class="ind-detail">
+        <div class="ind-wrap">
+          {industrySections?.map((item: IndustrySection, i: number) => (
+            <div class={`ind-row ${i === 0 ? "ind-row-first" : ""}`} id={`industry-${item.id}`}>
+              <div class="ind-left">
+                <span class="ind-ghost-num">{item.id}</span>
+                <!-- Small Buyer Tagline -->
+                <span class="ind-eyebrow-small">{item.targetBuyer}</span>
+              </div>
+
+              <div class="ind-right">
+                <!-- Main Heading Title -->
+                <h2 class="ind-title">{item.title}</h2>
+                <p class="ind-desc">{item.description}</p>
+
+                <a class="ind-link" href={item.ctaLink}>
+                  {item.ctaLabel} <span class="ind-arrow">→</span>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>

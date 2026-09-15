@@ -1,0 +1,202 @@
+/* =========================================================
+   CTA
+========================================================= */
+
+.cta-section {
+  --ink: #050505;
+  --gold: #b38b4c;
+  --gold-light: #c49c61;
+  --muted: rgba(244, 241, 235, 0.62);
+  --line: rgba(244, 241, 235, 0.12);
+
+  width: 100%;
+
+  background: #ececec;
+  color: var(--ink);
+
+  padding: 90px 0 35px;
+}
+
+.cta-inner {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* =========================================================
+   TOP
+========================================================= */
+
+.cta-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-bottom: 25px;
+
+  border-bottom: 1px solid var(--line);
+}
+
+.cta-top > span {
+  color: var(--gold);
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.cta-index {
+  color: rgba(0, 0, 0, 0.38);
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+}
+
+/* =========================================================
+   MAIN
+========================================================= */
+
+.cta-main {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+
+  gap: 70px;
+
+  padding: 75px 0 90px;
+}
+
+.cta-main h2 {
+  max-width: 650px;
+
+  margin: 0;
+
+  color: var(--ink);
+
+  font-family: "Manrope", sans-serif;
+  font-size: 37px;
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.8px;
+}
+
+.cta-main h2 span {
+  color: var(--gold);
+}
+
+/* =========================================================
+   ACTION
+========================================================= */
+
+.cta-action {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.cta-action p {
+  max-width: 380px;
+
+  margin: 0 0 28px;
+
+  color: var(--ink);
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.65;
+}
+
+/* =========================================================
+   BUTTON
+========================================================= */
+
+.cta-button {
+  width: fit-content;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+
+  gap: 35px;
+
+  padding: 14px 16px 14px 20px;
+
+  background: var(--gold);
+  color: #060606;
+
+  text-decoration: none;
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.cta-button:hover {
+  background: var(--gold-light);
+  transform: translateY(-2px);
+}
+
+.cta-arrow {
+  font-size: 19px;
+}
+
+/* =========================================================
+   BOTTOM
+========================================================= */
+
+.cta-bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding-top: 22px;
+
+  border-top: 1px solid var(--line);
+
+  color: rgba(14, 13, 13, 0.35);
+
+  font-family: Arial, Helvetica, sans-serif;
+  font-size: 9px;
+  letter-spacing: 0.14em;
+}
+
+/* =========================================================
+   RESPONSIVE
+========================================================= */
+
+@media (max-width: 900px) {
+  .cta-inner {
+    padding: 0 22px;
+  }
+
+  .cta-main {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+}
+
+@media (max-width: 560px) {
+  .cta-section {
+    padding: 75px 0 30px;
+  }
+
+  .cta-main {
+    padding: 60px 0 70px;
+  }
+
+  .cta-main h2 {
+    font-size: 28px;
+  }
+
+  .cta-bottom {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+}

@@ -1,0 +1,267 @@
+/* ==========================================================================
+   INSIGHTS PAGE STYLING (MATCHED TO SERVICES & WORK SYSTEM)
+   ========================================================================== */
+
+.insights-page {
+  --ink: #1b1712;
+  --cream: #faf6ee;
+  --gold: #c08a3e;
+  --gold-deep: #8c6528;
+  --line: rgba(27, 23, 18, 0.1);
+  --muted: #6e675c;
+
+  background: var(--cream);
+  color: var(--ink);
+  font-family:
+    system-ui,
+    -apple-system,
+    sans-serif;
+}
+
+.ins-wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ---------- Hero ---------- */
+.ins-hero {
+  padding: 96px 0 48px;
+}
+
+.ins-eyebrow {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 18px;
+}
+
+.ins-h1 {
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1.15;
+  color: var(--ink);
+  max-width: 680px;
+  margin: 0 0 20px;
+}
+
+.ins-lead {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 580px;
+  margin: 0;
+}
+
+/* ---------- Articles Grid ---------- */
+.ins-articles-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-bottom: 100px;
+}
+
+.ins-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 32px;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.ins-card:hover {
+  border-color: rgba(192, 138, 62, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -12px rgba(27, 23, 18, 0.18);
+}
+
+.ins-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.ins-category {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gold-deep);
+}
+
+.ins-badge {
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  color: var(--muted);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.ins-card-title {
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.35;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+
+.ins-card-summary {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0 0 20px;
+  max-width: 780px;
+}
+
+.ins-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--gold-deep);
+  text-decoration: none;
+  transition:
+    gap 0.2s ease,
+    color 0.2s ease;
+}
+
+.ins-link:hover {
+  gap: 10px;
+  color: var(--gold);
+}
+
+/* ---------- Detail Page Styles ---------- */
+.ins-detail-wrap {
+  max-width: 760px;
+  padding-top: 60px;
+  padding-bottom: 100px;
+}
+
+.ins-back-link {
+  display: inline-block;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold-deep);
+  text-decoration: none;
+  margin-bottom: 32px;
+}
+
+.ins-detail-header {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 32px;
+  margin-bottom: 40px;
+}
+
+.ins-detail-title {
+  font-family: "Manrope", sans-serif;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 12px 0 16px;
+}
+
+.ins-detail-lead {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* Markdown Typography */
+.ins-markdown-body h2 {
+  font-family: "Manrope", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 40px 0 16px;
+}
+
+.ins-markdown-body p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--ink);
+  margin-bottom: 20px;
+}
+
+.ins-markdown-body ul {
+  padding-left: 20px;
+  margin-bottom: 24px;
+}
+
+.ins-markdown-body li {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: var(--ink);
+  margin-bottom: 8px;
+}
+
+.ins-markdown-body blockquote {
+  background: #ffffff;
+  border-left: 3px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+  margin: 32px 0;
+}
+
+.ins-markdown-body blockquote p {
+  font-size: 13.5px;
+  color: var(--muted);
+  margin: 0;
+}
+
+.ins-markdown-body hr {
+  border: none;
+  border-top: 1px solid var(--line);
+  margin: 40px 0;
+}
+
+/* ---------- Shared Navbar Overrides ---------- */
+.page-insights .navbar {
+  background: #ffffff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid rgba(27, 23, 18, 0.08);
+  position: static;
+}
+
+.page-insights .logo,
+.page-insights .nav-links a {
+  color: #1b1712;
+}
+
+.page-insights .nav-button {
+  color: #1b1712;
+  border-color: rgba(27, 23, 18, 0.15);
+  background: rgba(27, 23, 18, 0.04);
+}
+
+.page-insights .nav-button:hover {
+  background: rgba(27, 23, 18, 0.08);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .ins-wrap {
+    padding: 0 22px;
+  }
+  .ins-h1 {
+    font-size: 32px;
+  }
+  .ins-detail-title {
+    font-size: 28px;
+  }
+}

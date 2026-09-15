@@ -1,0 +1,334 @@
+/* ==========================================================================
+   WORK / GOVERNED EVIDENCE PAGE STYLING (MATCHED TO SERVICES SYSTEM)
+   ========================================================================== */
+
+.work-page {
+  --ink: #1b1712;
+  --cream: #faf6ee;
+  --gold: #c08a3e;
+  --gold-deep: #8c6528;
+  --line: rgba(27, 23, 18, 0.1);
+  --muted: #6e675c;
+
+  background: var(--cream);
+  color: var(--ink);
+}
+
+.wrk-wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ---------- Hero ---------- */
+.wrk-hero {
+  padding: 96px 0 36px;
+}
+
+.wrk-eyebrow {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 18px;
+}
+
+.wrk-h1 {
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1.15;
+  color: var(--ink);
+  max-width: 680px;
+  margin: 0 0 20px;
+}
+
+.wrk-lead {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 560px;
+  margin: 0;
+}
+
+/* ---------- Public Query Boundary Notice Box ---------- */
+.wrk-notice-box {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--gold);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 48px;
+}
+
+.wrk-notice-title {
+  font-family: "Manrope", sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.wrk-notice-text {
+  font-size: 13.5px;
+  font-weight: 500;
+  line-height: 1.55;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* ---------- Interactive Filter Bar ---------- */
+.wrk-filter-bar {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+  margin-bottom: 48px;
+  box-shadow: 0 4px 16px -8px rgba(27, 23, 18, 0.06);
+}
+
+.wrk-filter-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 20px;
+}
+
+.wrk-filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.wrk-filter-group label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--gold-deep);
+}
+
+.wrk-select {
+  width: 100%;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  outline: none;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%201b1712' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 12px center;
+}
+
+.wrk-select:hover,
+.wrk-select:focus {
+  border-color: rgba(192, 138, 62, 0.5);
+}
+
+/* Results counter & clear filter button */
+.wrk-results-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 16px;
+}
+
+.wrk-count {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold-deep);
+}
+
+.wrk-clear-btn {
+  background: transparent;
+  border: none;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  cursor: pointer;
+  text-decoration: underline;
+  transition: color 0.2s ease;
+}
+
+.wrk-clear-btn:hover {
+  color: var(--ink);
+}
+
+/* ---------- Projects Cards Section ---------- */
+.wrk-projects-section {
+  padding-bottom: 100px;
+}
+
+.wrk-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.wrk-card {
+  background: #ffffff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.wrk-card:hover {
+  border-color: rgba(192, 138, 62, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -12px rgba(27, 23, 18, 0.18);
+}
+
+.wrk-card-header {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.wrk-badge-tag {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold-deep);
+  letter-spacing: 0.02em;
+}
+
+.wrk-meta-sub {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.wrk-card-title {
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  font-size: 20px;
+  line-height: 1.35;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+
+.wrk-card-summary {
+  font-size: 14px;
+  font-weight: 500;
+  font-weight: 1.6;
+  color: var(--muted);
+  margin: 0 0 20px;
+  flex-grow: 1;
+}
+
+/* Footer details inside card */
+.wrk-card-footer {
+  border-top: 1px solid var(--line);
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.wrk-delivery-tag {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink);
+}
+
+.wrk-pills-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.wrk-pill {
+  font-size: 11px;
+  font-weight: 600;
+  background: var(--cream);
+  border: 1px solid var(--line);
+  color: var(--ink);
+  padding: 3px 8px;
+  border-radius: 4px;
+}
+
+.wrk-status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.wrk-dot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--gold);
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* Empty State */
+.wrk-no-results {
+  text-align: center;
+  padding: 60px 0;
+  color: var(--muted);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+/* ---------- Shared Navbar Overrides ---------- */
+.page-work .navbar {
+  background: #ffffff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid rgba(27, 23, 18, 0.08);
+  position: static;
+}
+
+.page-work .logo,
+.page-work .nav-links a {
+  color: #1b1712;
+}
+
+.page-work .nav-button {
+  color: #1b1712;
+  border-color: rgba(27, 23, 18, 0.15);
+  background: rgba(27, 23, 18, 0.04);
+}
+
+.page-work .nav-button:hover {
+  background: rgba(27, 23, 18, 0.08);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .wrk-wrap {
+    padding: 0 22px;
+  }
+  .wrk-h1 {
+    font-size: 32px;
+  }
+  .wrk-filter-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .wrk-projects-grid {
+    grid-template-columns: 1fr;
+  }
+}

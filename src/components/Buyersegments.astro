@@ -1,0 +1,84 @@
+---
+import "../styles/Buyer-segments.css";
+
+const segments = [
+  {
+    num: "01",
+    title: "Architecture practices",
+    desc: "BEP- and template-aligned Revit, BIM, documentation and visual-production capacity.",
+    href: "/industries/architecture-design-practices/",
+    icon: "blueprint",
+  },
+  {
+    num: "02",
+    title: "Engineering multidisciplinary",
+    desc: "Federation, issue-management and model-production support inside engineer-led approvals.",
+    href: "/industries/engineering-multidisciplinary/",
+    icon: "gear",
+  },
+  {
+    num: "03",
+    title: "Developers and asset teams",
+    desc: "Traceable planning, approval, marketing and real-time communication packages.",
+    href: "/industries/developers-asset-teams/",
+    icon: "building",
+  },
+  {
+    num: "04",
+    title: "Agencies and production partners",
+    desc: "NDA-first, white-label technical production with controlled contact and publication rights.",
+    href: "/industries/agencies-production-partners/",
+    icon: "handshake",
+  },
+];
+
+const icons: Record<string, string> = {
+  blueprint: '<path d="M4 4h13l3 3v13H4V4Z"/><path d="M17 4v3h3"/><path d="M8 11h8M8 14.5h5"/>',
+  gear: '<circle cx="12" cy="12" r="3.2"/><path d="M12 3.5v2.4M12 18.1v2.4M20.5 12h-2.4M5.9 12H3.5M17.7 6.3l-1.7 1.7M8 16l-1.7 1.7M17.7 17.7 16 16M8 8 6.3 6.3"/>',
+  building:
+    '<path d="M5 21V6l7-3 7 3v15"/><path d="M9 21v-5h6v5"/><path d="M9 9h.01M13 9h.01M9 13h.01M13 13h.01"/>',
+  handshake:
+    '<path d="M3 12.5 7 9l3.2 2.7a1.6 1.6 0 0 0 2.2-.1l.2-.2a1.6 1.6 0 0 0-.1-2.3L9.5 6.5"/><path d="M21 12.5 17 9l-3 2.5"/><path d="M7 9 3 12.7V17l3 2 3-1.7M17 9l4 3.7V17l-3 2-3-1.7"/>',
+};
+---
+
+<section class="buyer-segments">
+  <div class="bs-wrap">
+    <div class="bs-head">
+      <p class="bs-tag">Built for accountable teams</p>
+      <h2 class="bs-heading">
+        The production model <br />{" "}
+        <span class="brown-text">adapts to the buyer not the controls.</span>
+      </h2>
+      <p class="bs-sub">
+        Every engagement keeps authoritative inputs, responsibility, review ownership and delivery
+        status visible while adapting the production package to the team commissioning it.
+      </p>
+    </div>
+
+    <div class="bs-grid">
+      {segments.map((seg) => (
+        <a class="bs-card" href={seg.href}>
+          <div class="bs-top">
+            <svg
+              class="bs-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.5"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              set:html={icons[seg.icon]}
+            />
+            <span class="bs-ghost-num">{seg.num}</span>
+          </div>
+          <h3 class="bs-title">{seg.title}</h3>
+          <p class="bs-desc">{seg.desc}</p>
+          <span class="bs-link">
+            Review workflow <span class="bs-arrow">→</span>
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>

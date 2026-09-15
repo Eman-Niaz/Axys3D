@@ -1,0 +1,220 @@
+.industries-page {
+  --ink: #1b1712;
+  --cream: #faf6ee;
+  --gold: #c08a3e;
+  --gold-deep: #8c6528;
+  --line: rgba(27, 23, 18, 0.1);
+  --muted: #6e675c;
+
+  background: var(--cream);
+}
+
+.ind-wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ---------- Hero ---------- */
+.ind-hero {
+  padding: 96px 0 56px;
+}
+
+.ind-eyebrow {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 18px;
+}
+
+.ind-h1 {
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1.15;
+  color: var(--ink);
+  max-width: 680px;
+  margin: 0 0 20px;
+}
+
+.ind-lead {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 560px;
+  margin: 0;
+}
+
+/* ---------- Quick-nav chip strip ---------- */
+.ind-overview {
+  padding-bottom: 72px;
+}
+
+.ind-chip-row {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.ind-chip {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 16px 14px;
+  text-decoration: none;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.ind-chip:hover {
+  border-color: rgba(192, 138, 62, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -12px rgba(27, 23, 18, 0.18);
+}
+
+.ind-chip-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold-deep);
+}
+
+.ind-chip-title {
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.35;
+}
+
+/* ---------- Detailed industry rows ---------- */
+.ind-detail {
+  padding-bottom: 100px;
+}
+
+.ind-row {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 56px;
+  padding: 52px 0;
+  border-top: 1px solid var(--line);
+  scroll-margin-top: 100px;
+}
+
+.ind-row-first {
+  border-top: none;
+}
+
+.ind-left {
+  position: relative;
+}
+
+.ind-ghost-num {
+  display: block;
+  font-family: "Manrope", sans-serif;
+  font-weight: 800;
+  font-size: 72px;
+  line-height: 1;
+  color: transparent;
+  -webkit-text-stroke: 1.4px rgba(192, 138, 62, 0.35);
+  margin-bottom: 14px;
+}
+
+.ind-eyebrow-small {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  max-width: 200px;
+  line-height: 1.4;
+}
+
+.ind-right {
+  max-width: 640px;
+}
+
+.ind-title {
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 1.35;
+  color: var(--ink);
+  margin: 0 0 14px;
+}
+
+.ind-desc {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.65;
+  margin: 0 0 22px;
+}
+
+.ind-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--gold-deep);
+  text-decoration: none;
+  transition:
+    gap 0.2s ease,
+    color 0.2s ease;
+}
+
+.ind-link:hover {
+  gap: 10px;
+  color: var(--gold);
+}
+
+.page-industries .navbar {
+  background: #ffffff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid rgba(27, 23, 18, 0.08);
+  position: static;
+}
+
+.page-industries .logo,
+.page-industries .nav-links a {
+  color: #1b1712;
+}
+
+.page-industries .nav-button {
+  color: #1b1712;
+  border-color: rgba(27, 23, 18, 0.15);
+  background: rgba(27, 23, 18, 0.04);
+}
+
+.page-industries .nav-button:hover {
+  background: rgba(27, 23, 18, 0.08);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .ind-wrap {
+    padding: 0 22px;
+  }
+  .ind-h1 {
+    font-size: 32px;
+  }
+  .ind-chip-row {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .ind-row {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .ind-title {
+    max-width: none;
+  }
+}

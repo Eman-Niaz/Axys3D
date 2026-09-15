@@ -1,0 +1,184 @@
+.buyer-segments {
+  --ink: #1b1712;
+  --gold: #c08a3e;
+  --gold-deep: #8c6528;
+  --line: rgba(27, 23, 18, 0.1);
+  --muted: #6e675c;
+  --ghost: rgba(27, 23, 18, 0.07);
+
+  background: #ffffff;
+  padding: 0px 0 100px;
+}
+
+.bs-wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ---------- Centered heading ---------- */
+.bs-head {
+  text-align: center;
+  max-width: 640px;
+  margin: 0 auto 64px;
+}
+
+.bs-tag {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 14px;
+}
+.brown-text {
+  color: #b38b4c;
+}
+
+.bs-heading {
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  font-size: 37px;
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 0 0 16px;
+}
+
+.bs-sub {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--muted);
+  margin: 0 auto;
+  max-width: 520px;
+}
+
+/* ---------- Card grid ---------- */
+.bs-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+.bs-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  padding: 0 28px;
+  border-left: 1px solid var(--line);
+}
+
+.bs-card:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.bs-card:last-child {
+  padding-right: 0;
+}
+
+.bs-top {
+  position: relative;
+  height: 56px;
+  display: flex;
+  align-items: flex-start;
+  margin-bottom: 22px;
+}
+
+.bs-icon {
+  width: 30px;
+  height: 30px;
+  color: var(--gold);
+  position: relative;
+  z-index: 2;
+}
+
+.bs-ghost-num {
+  position: absolute;
+  top: -22px;
+  left: 18px;
+  font-family: "Manrope", sans-serif;
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 1;
+  color: var(--ghost);
+  z-index: 1;
+  user-select: none;
+}
+
+.bs-title {
+  font-size: 15.5px;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  margin: 0 0 10px;
+  line-height: 1.35;
+}
+
+.bs-desc {
+  font-size: 13.5px;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.6;
+  margin: 0 0 20px;
+}
+
+.bs-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--gold-deep);
+  transition:
+    gap 0.2s ease,
+    color 0.2s ease;
+}
+
+.bs-card:hover .bs-link {
+  gap: 10px;
+  color: var(--gold);
+}
+
+.bs-arrow {
+  transition: transform 0.2s ease;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .bs-wrap {
+    padding: 0 22px;
+  }
+  .bs-heading {
+    font-size: 26px;
+  }
+  .bs-grid {
+    grid-template-columns: repeat(2, 1fr);
+    row-gap: 40px;
+  }
+  .bs-card {
+    border-left: none;
+    padding: 0;
+  }
+  .bs-card:nth-child(odd) {
+    border-right: 1px solid var(--line);
+    padding-right: 24px;
+  }
+  .bs-card:nth-child(even) {
+    padding-left: 24px;
+  }
+}
+
+@media (max-width: 560px) {
+  .bs-grid {
+    grid-template-columns: 1fr;
+    row-gap: 36px;
+  }
+  .bs-card:nth-child(odd) {
+    border-right: none;
+    padding-right: 0;
+  }
+  .bs-card:nth-child(even) {
+    padding-left: 0;
+  }
+}

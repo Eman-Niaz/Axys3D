@@ -1,0 +1,188 @@
+.production-layer {
+  --ink: #1b1712;
+  --pill-bg: #f4f4f4;
+  --gold: #c08a3e;
+  --gold-deep: #8c6528;
+  --line: rgba(27, 23, 18, 0.14);
+  --muted: #6e675c;
+
+  background: white;
+  padding: 100px 0;
+}
+
+.pl-wrap {
+  max-width: 1180px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ---------- Heading ---------- */
+.pl-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 28px;
+  margin-bottom: 48px;
+  flex-wrap: wrap;
+}
+
+.pl-tag {
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 10px;
+}
+
+.pl-heading {
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  font-size: 35px;
+  line-height: 1.2;
+  color: var(--ink);
+  margin: 0;
+  max-width: 560px;
+}
+
+.pl-heading span {
+  color: #b28956;
+}
+
+/* right-side paragraph, with the small vertical divider line before it */
+.pl-sub {
+  font-size: 15px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--muted);
+  max-width: 300px;
+  margin: 0;
+  margin-top: 30px;
+  padding-left: 24px;
+  border-left: 1px solid var(--line);
+}
+
+/* ---------- Pill track ---------- */
+.pl-track {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  width: 100%;
+}
+
+.pl-pill {
+  flex: 1 1 0;
+  min-width: 110px;
+  min-height: 180px;
+  background: var(--pill-bg);
+  border-radius: 64px;
+  border: 1px solid #7e7e7e2e;
+  box-shadow:
+    0 1px 2px rgba(27, 23, 18, 0.04),
+    0 12px 24px -8px rgba(140, 101, 40, 0.18),
+    inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 26px 12px;
+  text-align: center;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.pl-pill:hover {
+  transform: translateY(-3px);
+  box-shadow:
+    0 2px 4px rgba(27, 23, 18, 0.05),
+    0 18px 30px -10px rgba(140, 101, 40, 0.24),
+    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+}
+
+.pl-num {
+  font-family: "Manrope", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--gold-deep);
+  margin-bottom: 16px;
+}
+
+.pl-icon {
+  width: 23px;
+  height: 23px;
+  color: var(--gold);
+  margin-bottom: 14px;
+}
+
+.pl-label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink);
+  line-height: 1.3;
+}
+
+/* ---------- Connector between pills ---------- */
+.pl-connector {
+  flex: 1 0 20px;
+  display: flex;
+  align-items: center;
+  min-width: 20px;
+  margin-top: 72px;
+  padding: 0 6px;
+}
+
+.pl-line {
+  flex: 1;
+  height: 1px;
+  background: repeating-linear-gradient(
+    to right,
+    var(--gold-deep) 0,
+    var(--gold-deep) 4px,
+    transparent 4px,
+    transparent 9px
+  );
+}
+
+.pl-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--gold-deep);
+  flex: 0 0 auto;
+  margin: 0 3px;
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 900px) {
+  .pl-wrap {
+    padding: 0 22px;
+  }
+  .pl-heading {
+    font-size: 30px;
+  }
+  .pl-sub {
+    margin-top: 16px;
+    border-left: none;
+    padding-left: 0;
+  }
+  .pl-track {
+    flex-wrap: wrap;
+    row-gap: 16px;
+  }
+  .pl-pill {
+    flex: 1 1 calc(25% - 12px);
+    min-width: 130px;
+    min-height: 160px;
+    border-radius: 56px;
+  }
+  .pl-connector {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .pl-pill {
+    flex: 1 1 calc(50% - 12px);
+  }
+}

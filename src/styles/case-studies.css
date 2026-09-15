@@ -1,0 +1,269 @@
+.case-studies {
+  --ink: #1b1712;
+  --cream: #f4f4f3;
+  --gold: #c08a3e;
+  --gold-deep: #8c6528;
+  --line: rgba(27, 23, 18, 0.1);
+  --muted: #6e675c;
+
+  background: var(--cream);
+  padding: 88px 0;
+}
+
+.cs-wrap {
+  max-width: 840px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ---------- Heading ---------- */
+.cs-head {
+  max-width: 560px;
+  margin-bottom: 40px;
+}
+
+.cs-tag {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 12px;
+}
+
+.cs-heading {
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.25;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+
+.brown-text {
+  color: #b38b4c;
+}
+
+.cs-sub {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0;
+  max-width: 460px;
+}
+
+/* ---------- Bento grid: 2 up top, 1 centered below ---------- */
+.cs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.cs-card-wide {
+  grid-column: 1 / -1;
+  max-width: 400px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* ---------- Card ---------- */
+.cs-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  background: #fff;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--line);
+  box-shadow: 0 1px 2px rgba(27, 23, 18, 0.04);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.cs-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 16px 30px -14px rgba(27, 23, 18, 0.22);
+}
+
+/* video area — gradient stays as fallback background behind the <video> */
+.cs-media {
+  position: relative;
+  height: 170px;
+  background: linear-gradient(135deg, #2b2621 0%, #1b1712 55%, #3a2f22 100%);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+}
+
+.cs-card-wide .cs-media {
+  height: 150px;
+}
+
+/* Actual video fills the media box, sits above the gradient background,
+   below the badge/play/overlay content */
+.cs-media video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.cs-media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.18) 45%,
+    transparent 70%
+  );
+  z-index: 1;
+}
+
+.cs-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  z-index: 2;
+  font-size: 9.5px;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  color: rgba(255, 255, 255, 0.75);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 4px 10px;
+  border-radius: 20px;
+  backdrop-filter: blur(4px);
+}
+
+.cs-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 2;
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cs-play svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* frosted overlay text box, matches the reference card style */
+.cs-overlay {
+  position: relative;
+  z-index: 2;
+  margin: 0 10px 10px;
+  padding: 10px 14px;
+  background: rgba(250, 246, 238, 0.92);
+  backdrop-filter: blur(6px);
+  border-radius: 8px;
+  width: calc(100% - 20px);
+}
+
+.cs-category {
+  display: block;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  margin-bottom: 3px;
+}
+
+.cs-title {
+  font-family: "Manrope", sans-serif;
+  font-size: 14.5px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0;
+  line-height: 1.3;
+}
+
+/* ---------- Body below the media ---------- */
+.cs-body {
+  padding: 16px 18px 18px;
+}
+
+.cs-desc {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  line-height: 1.55;
+  margin: 0 0 12px;
+}
+
+.cs-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-bottom: 14px;
+}
+
+.cs-tag-pill {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--gold-deep);
+  border: 1px solid rgba(192, 138, 62, 0.3);
+  background: rgba(192, 138, 62, 0.06);
+  padding: 4px 10px;
+  border-radius: 20px;
+}
+
+.cs-foot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+}
+
+.cs-status {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.cs-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11.5px;
+  font-weight: 700;
+  color: var(--gold-deep);
+  transition:
+    gap 0.2s ease,
+    color 0.2s ease;
+}
+
+.cs-card:hover .cs-link {
+  gap: 8px;
+  color: var(--gold);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 700px) {
+  .cs-wrap {
+    padding: 0 22px;
+  }
+  .cs-heading {
+    font-size: 23px;
+  }
+  .cs-grid {
+    grid-template-columns: 1fr;
+  }
+  .cs-card-wide {
+    grid-column: auto;
+    max-width: none;
+  }
+}

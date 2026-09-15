@@ -1,0 +1,85 @@
+---
+// Adjust these two import paths/names to match your actual Navbar and Footer
+// components — you mentioned both already exist in your project.
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/token.css";
+import "../styles/global.css";
+import "../styles/Navbar.css";
+import "../styles/services.css";
+import "../styles/footer.css";
+import { getEntry } from "astro:content";
+
+const page = await getEntry("servicesPage", "index");
+
+if (!page) {
+  throw new Error("Services page content not found in content collection.");
+}
+
+const { heading, description } = page.data;
+const services = page.data.services; // already sorted in the md file, 01–08
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <title>Services — Axys3D</title>
+  </head>
+
+  <body class="page-services">
+    <Navbar variant="solid" />
+
+    <main class="services-page">
+      <!-- HERO -->
+      <section class="svc-hero">
+        <div class="svc-wrap">
+          <p class="svc-eyebrow">Services / Full AEC pipeline</p>
+          <h1 class="svc-h1">{heading}</h1>
+          <p class="svc-lead">{description}</p>
+        </div>
+      </section>
+
+      <!-- QUICK-NAV OVERVIEW STRIP -->
+      <section class="svc-overview">
+        <div class="svc-wrap">
+          <div class="svc-chip-row">
+            {services.map((s) => (
+              <a class="svc-chip" href={`#service-${s.num}`}>
+                <span class="svc-chip-num">{s.num}</span>
+                <span class="svc-chip-title">{s.shortTitle}</span>
+              </a>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- DETAILED SERVICES -->
+      <section class="svc-detail">
+        <div class="svc-wrap">
+          {services.map((s, i) => (
+            <div class={`svc-row ${i === 0 ? "svc-row-first" : ""}`} id={`service-${s.num}`}>
+              <div class="svc-left">
+                <span class="svc-ghost-num">{s.num}</span>
+                <span class="svc-eyebrow-small">{s.shortTitle}</span>
+              </div>
+
+              <div class="svc-right">
+                <h2 class="svc-title">{s.title}</h2>
+                <p class="svc-desc">{s.description}</p>
+
+                <a class="svc-link" href={s.href}>
+                  Review technical scope <span class="svc-arrow">→</span>
+                </a>
+              </div>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+
+    <Footer />
+  </body>
+</html>

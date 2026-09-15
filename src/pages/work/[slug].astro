@@ -1,0 +1,92 @@
+---
+import Navbar from "../../components/Navbar.astro";
+import Footer from "../../components/Footer.astro";
+import "../../styles/token.css";
+import "../../styles/global.css";
+import "../../styles/Navbar.css";
+import "../../styles/work.css";
+import "../../styles/footer.css";
+import { getCollection, render } from "astro:content";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+
+  return projects.map((project) => ({
+    params: { slug: project.id },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+const {
+  title,
+  badgeText,
+  sector,
+  projectStage,
+  summary,
+  deliveryType,
+  services,
+  publicationStatus,
+} = project.data;
+const { Content } = await render(project);
+
+const servicesLabel = Array.isArray(services) ? services.join(", ") : services;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={summary} />
+    <title>{title} — Axys3D Case Study</title>
+  </head>
+
+  <body class="page-work-detail">
+    <Navbar variant="solid" />
+
+    <main class="wrk-page">
+      <div class="wrk-wrap">
+        <a
+          class="wrk-back"
+          href="/work"
+          style="display: inline-block; margin-bottom: 24px; color: var(--gold-deep); text-decoration: none; font-weight: 700;"
+        >
+          ← Back to all case studies
+        </a>
+
+        <header class="wrk-hero">
+          <p class="wrk-eyebrow">
+            {badgeText} · {sector}
+          </p>
+          <h1 class="wrk-h1">{title}</h1>
+          <p class="wrk-lead">{summary}</p>
+        </header>
+
+        <section
+          class="wrk-meta-bar"
+          style="display: flex; gap: 16px; margin-bottom: 40px; flex-wrap: wrap;"
+        >
+          <span style="background: rgba(0,0,0,0.05); padding: 6px 14px; border-radius: 6px; font-weight: 600;">
+            Stage: {projectStage}
+          </span>
+          <span style="background: rgba(0,0,0,0.05); padding: 6px 14px; border-radius: 6px; font-weight: 600;">
+            Delivery: {deliveryType}
+          </span>
+          <span style="background: rgba(0,0,0,0.05); padding: 6px 14px; border-radius: 6px; font-weight: 600;">
+            Services: {servicesLabel}
+          </span>
+          <span style="background: rgba(0,0,0,0.05); padding: 6px 14px; border-radius: 6px; font-weight: 600;">
+            Status: {publicationStatus}
+          </span>
+        </section>
+
+        <article class="wrk-content-body" style="line-height: 1.7; font-size: 16px;">
+          <Content />
+        </article>
+      </div>
+    </main>
+
+    <Footer />
+  </body>
+</html>

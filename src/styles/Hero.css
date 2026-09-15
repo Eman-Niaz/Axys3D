@@ -1,0 +1,547 @@
+/* =========================================================
+   HERO
+========================================================= */
+
+.hero {
+  position: relative;
+  font-family: "Manrope", sans-serif;
+  width: 100%;
+  height: 100%;
+  min-height: 80vh;
+
+  overflow: hidden;
+
+  margin: 0;
+  padding: 0;
+}
+
+/* =========================================================
+   VIDEO
+========================================================= */
+
+.hero-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  z-index: 0;
+}
+
+/* =========================================================
+   OVERLAY
+========================================================= */
+
+.hero-overlay {
+  position: absolute;
+
+  inset: 0;
+
+  background: rgba(0, 0, 0, 0.4);
+
+  z-index: 1;
+}
+
+/* =========================================================
+   HERO CONTENT
+========================================================= */
+
+.hero-content {
+  position: relative;
+  z-index: 5;
+
+  width: 100%;
+  height: 100%;
+
+  padding: 150px 8% 50px;
+
+  display: flex;
+  flex-direction: row;
+
+  justify-content: flex-start;
+  align-items: center;
+
+  gap: 65px;
+
+  box-sizing: border-box;
+}
+
+/* =========================================================
+   LEFT SIDE
+========================================================= */
+
+.hero-left {
+  max-width: 760px;
+  flex-shrink: 1;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  width: 55%;
+}
+
+/* =========================================================
+   EYEBROW
+========================================================= */
+
+.hero-eyebrow {
+  color: white;
+
+  font-size: 15px;
+  font-weight: 500;
+
+  margin: 0 0 12px;
+
+  line-height: 1.3;
+
+  transform: translateY(2px);
+}
+
+/* =========================================================
+   HEADING
+========================================================= */
+
+.hero h1 {
+  max-width: 900px;
+
+  margin: 0 0 25px;
+
+  color: white;
+
+  font-size: clamp(33px, 5.5vw, 63px);
+
+  line-height: 0.98;
+
+  letter-spacing: -3px;
+
+  font-weight: 600;
+}
+
+/* =========================================================
+   HERO DESCRIPTION
+========================================================= */
+
+.hero-description {
+  max-width: 760px;
+
+  margin: 0 0 16px;
+
+  color: rgba(251, 247, 247, 0.92);
+
+  font-size: 17px;
+
+  line-height: 1.6;
+}
+
+.hero-description.second {
+  max-width: 720px;
+
+  color: rgba(255, 255, 255, 0.75);
+
+  margin-bottom: 30px;
+
+  font-size: 15.5px;
+}
+
+/* =========================================================
+   HERO BUTTONS
+========================================================= */
+
+.hero-buttons {
+  display: flex;
+
+  align-items: center;
+
+  gap: 14px;
+
+  margin-bottom: 45px;
+}
+
+.primary-button,
+.secondary-button {
+  display: inline-flex;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 12px 20px;
+
+  border-radius: 8px;
+
+  text-decoration: none;
+
+  font-size: 14px;
+
+  font-weight: 500;
+
+  transition: all 0.2s ease;
+}
+
+/* =========================================================
+   PRIMARY BUTTON
+========================================================= */
+
+.primary-button {
+  background: #b38b4c;
+
+  color: white;
+
+  border: 1px solid #b89e73;
+}
+
+.primary-button:hover {
+  background: rgb(111, 78, 33);
+}
+
+/* =========================================================
+   SECONDARY BUTTON
+========================================================= */
+
+.secondary-button {
+  background: rgba(17, 16, 16, 0.12);
+
+  color: white;
+
+  border: 1px solid rgba(255, 255, 255, 0.4);
+
+  backdrop-filter: blur(6px);
+}
+
+.secondary-button:hover {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+/* =========================================================
+   DELIVERY BOX
+========================================================= */
+
+.delivery-box {
+  width: 430px;
+
+  flex-shrink: 0;
+
+  padding: 24px 25px;
+
+  box-sizing: border-box;
+
+  background: rgba(35, 35, 35, 0.68);
+
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+
+  border: 1px solid rgba(255, 255, 255, 0.18);
+
+  border-radius: 12px;
+
+  box-shadow: 0 15px 40px rgba(0, 0, 0, 0.22);
+}
+
+/* =========================================================
+   DELIVERY HEADER
+========================================================= */
+
+.delivery-header {
+  display: flex;
+
+  justify-content: space-between;
+  align-items: center;
+
+  padding-bottom: 18px;
+
+  margin-bottom: 5px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+
+  color: rgba(255, 255, 255, 0.68);
+
+  font-size: 10px;
+
+  letter-spacing: 1.3px;
+
+  font-weight: 600;
+}
+
+/* =========================================================
+   DELIVERY ITEMS
+========================================================= */
+
+.delivery-item {
+  display: flex;
+
+  align-items: center;
+
+  gap: 18px;
+
+  padding: 17px 0;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.delivery-item:last-child {
+  border-bottom: none;
+
+  padding-bottom: 4px;
+}
+
+/* =========================================================
+   NUMBERS
+========================================================= */
+
+.number {
+  min-width: 25px;
+
+  color: #b38b4c;
+
+  font-size: 13px;
+
+  font-weight: 600;
+
+  letter-spacing: 0.5px;
+}
+
+/* =========================================================
+   ITEM CONTENT
+========================================================= */
+
+.item-content {
+  width: 100%;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.item-content > span:first-child {
+  color: rgba(255, 255, 255, 0.86);
+
+  font-size: 13.5px;
+
+  line-height: 1.4;
+}
+
+/* =========================================================
+   STATUS
+========================================================= */
+
+.status {
+  font-size: 10px;
+
+  font-weight: 600;
+
+  letter-spacing: 1px;
+
+  flex-shrink: 0;
+}
+
+.ready {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.open {
+  color: #b38b4c;
+}
+
+/* =========================================================
+   HERO FEATURES
+========================================================= */
+
+.hero-features {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 45px;
+
+  width: 100%;
+
+  max-width: 900px;
+}
+
+.feature {
+  padding-left: 16px;
+
+  border-left: 1px solid rgba(255, 255, 255, 0.4);
+}
+
+.feature h3 {
+  margin: 0 0 7px;
+
+  color: white;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+.feature p {
+  margin: 0;
+
+  max-width: 240px;
+
+  color: rgba(255, 255, 255, 0.68);
+
+  font-size: 12.5px;
+
+  line-height: 1.5;
+}
+
+/* =========================================================
+   TABLET
+========================================================= */
+
+@media (max-width: 1100px) {
+  .hero-content {
+    padding: 130px 5% 40px;
+
+    gap: 40px;
+  }
+
+  .hero-left {
+    width: 52%;
+  }
+
+  .delivery-box {
+    width: 390px;
+  }
+}
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 768px) {
+  .hero-content {
+    height: auto;
+
+    min-height: 100%;
+
+    padding: 120px 6% 50px;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    justify-content: center;
+
+    gap: 35px;
+  }
+
+  .hero-left {
+    width: 100%;
+
+    max-width: none;
+  }
+
+  .hero h1 {
+    font-size: 48px;
+
+    letter-spacing: -2px;
+
+    line-height: 1;
+  }
+
+  .hero-description {
+    font-size: 15px;
+  }
+
+  .hero-description.second {
+    font-size: 14px;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    margin-bottom: 20px;
+  }
+
+  .delivery-box {
+    width: 100%;
+
+    max-width: 500px;
+
+    padding: 20px;
+  }
+
+  .delivery-header {
+    font-size: 8px;
+
+    letter-spacing: 1px;
+  }
+
+  .delivery-item {
+    padding: 15px 0;
+  }
+
+  .item-content > span:first-child {
+    font-size: 12px;
+  }
+
+  .status {
+    font-size: 9px;
+  }
+
+  .hero-features {
+    grid-template-columns: 1fr;
+
+    gap: 20px;
+  }
+}
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 40px;
+  }
+
+  .hero-content {
+    padding: 120px 6% 50px;
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    justify-content: center;
+
+    gap: 35px;
+
+    height: auto;
+
+    min-height: 100%;
+  }
+
+  .delivery-box {
+    width: 100%;
+
+    max-width: 500px;
+
+    padding: 18px;
+  }
+
+  .delivery-header {
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 6px;
+  }
+
+  .item-content {
+    gap: 8px;
+  }
+
+  .item-content > span:first-child {
+    font-size: 11.5px;
+  }
+}

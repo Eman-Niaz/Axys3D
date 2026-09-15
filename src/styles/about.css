@@ -1,0 +1,233 @@
+/* ==========================================================================
+   ABOUT PAGE STYLING (EXACT SERVICES REFERENCE MATCH)
+   ========================================================================== */
+
+.page-about {
+  --ink: #1b1712;
+  --cream: #faf6ee;
+  --gold: #c08a3e;
+  --gold-deep: #8c6528;
+  --line: rgba(27, 23, 18, 0.1);
+  --muted: #6e675c;
+
+  background: var(--cream);
+}
+
+.about-wrap {
+  max-width: 1040px;
+  margin: 0 auto;
+  padding: 0 40px;
+}
+
+/* ---------- Hero ---------- */
+.about-hero {
+  padding: 96px 0 56px;
+}
+
+.about-eyebrow {
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0 0 18px;
+}
+
+.about-h1 {
+  font-family: "Manrope", sans-serif;
+  font-weight: 700;
+  font-size: 44px;
+  line-height: 1.15;
+  color: var(--ink);
+  max-width: 680px;
+  margin: 0 0 20px;
+}
+
+.about-lead {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 640px;
+  margin: 0;
+}
+
+/* ---------- Why Section ---------- */
+.about-why {
+  padding: 52px 0;
+  border-top: 1px solid var(--line);
+}
+
+.about-why-title {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--gold-deep);
+  margin: 0 0 12px;
+}
+
+.about-why-sub {
+  font-family: "Manrope", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  line-height: 1.35;
+  color: var(--ink);
+  max-width: 680px;
+  margin: 0 0 14px;
+}
+
+.about-why-desc {
+  font-size: 14.5px;
+  font-weight: 500;
+  line-height: 1.65;
+  color: var(--muted);
+  max-width: 640px;
+  margin: 0;
+}
+
+/* ---------- Principles Section ---------- */
+.about-principles {
+  padding: 52px 0 72px;
+  border-top: 1px solid var(--line);
+}
+
+.about-sec-title {
+  font-family: "Manrope", sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 28px;
+}
+
+.principles-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.principle-card {
+  background: #fff;
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  transition:
+    border-color 0.2s ease,
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.principle-card:hover {
+  border-color: rgba(192, 138, 62, 0.4);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -12px rgba(27, 23, 18, 0.18);
+}
+
+.principle-num {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--gold-deep);
+  margin-bottom: 12px;
+}
+
+.principle-title {
+  font-family: "Manrope", sans-serif;
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 10px;
+}
+
+.principle-desc {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.6;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* ---------- Delivery Controls Bar ---------- */
+.about-delivery {
+  padding: 40px 0 100px;
+  border-top: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.about-delivery-title {
+  font-family: "Manrope", sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 0 0 6px;
+}
+
+.about-delivery-desc {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--muted);
+  margin: 0;
+}
+
+.about-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--gold-deep);
+  text-decoration: none;
+  transition:
+    gap 0.2s ease,
+    color 0.2s ease;
+}
+
+.about-cta-btn:hover {
+  gap: 10px;
+  color: var(--gold);
+}
+
+/* ---------- Navbar Overrides ---------- */
+.page-about .navbar {
+  background: #ffffff;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border-bottom: 1px solid rgba(27, 23, 18, 0.08);
+  position: static;
+}
+
+.page-about .logo,
+.page-about .nav-links a {
+  color: #1b1712;
+}
+
+.page-about .nav-button {
+  color: #1b1712;
+  border-color: rgba(27, 23, 18, 0.15);
+  background: rgba(27, 23, 18, 0.04);
+}
+
+.page-about .nav-button:hover {
+  background: rgba(27, 23, 18, 0.08);
+}
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .about-wrap {
+    padding: 0 22px;
+  }
+  .about-h1 {
+    font-size: 32px;
+  }
+  .principles-grid {
+    grid-template-columns: 1fr;
+  }
+  .about-delivery {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
