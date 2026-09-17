@@ -5,103 +5,149 @@ const steps = [
   {
     num: "01",
     label: "BIM execution",
-    icon: "document",
+    detail: "Model setup, standards and information input.",
+    slug: "bim-execution",
+    image:
+      "https://tewbhv.vtexassets.com/arquivos/ids/158339/DN%7C547%7C401%7C935%7C118%7C399.png?v=638007725075500000",
   },
   {
     num: "02",
     label: "Revit production",
-    icon: "cube",
+    detail: "Architectural, structural and documentation models.",
+    slug: "revit-production",
+    image:
+      "https://fiverr-res.cloudinary.com/images/t_main1%2Cq_auto%2Cf_auto%2Cq_auto%2Cf_auto/gigs2/450084919/original/490fd759b0ef419af08efbe26f7acd7d9c79a822/build-complete-revit-bim-model-architecture-layout-and-3d-visualization.png",
   },
   {
     num: "03",
-    label: "MEP coordination support",
-    icon: "share",
+    label: "MEP support",
+    detail: "Coordinated MEP models and clash resolution.",
+    slug: "mep-coordination",
+    image:
+      "https://www.teslacad.com.au/images/img2.webp",
   },
   {
     num: "04",
-    label: "3D modeling + 3ds Max",
-    icon: "cube",
+    label: "3D modeling + animation",
+    detail: "Clean geometry and motion where needed.",
+    slug: "3d-modeling",
+    image:
+      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "05",
     label: "Visualization + animation",
-    icon: "monitor",
+    detail: "High-quality renders, views and narratives.",
+    slug: "visualization",
+    image:
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "06",
     label: "Real-time + handoff",
-    icon: "play",
+    detail: "Interactive models and real-time experiences.",
+    slug: "real-time",
+    image:
+      "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "07",
     label: "Technical documentation",
-    icon: "users",
+    detail: "Drawings, schedules and supporting documents.",
+    slug: "handoff",
+    image:
+      "https://tewbhv.vtexassets.com/arquivos/ids/158339/DN%7C547%7C401%7C935%7C118%7C399.png?v=638007725075500000",
   },
   {
     num: "08",
     label: "Handoff + delivery",
-    icon: "pie",
+    detail: "Organized deliverables and final handover.",
+    slug: "handoff",
+    image:
+      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85",
   },
 ];
-
-// inline SVG paths, kept simple so no icon library dependency is needed
-const icons: Record<string, string> = {
-  document:
-    '<path d="M7 3.5h7l4 4V20a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14 3.5V8h4"/><path d="M9 13h6M9 16.5h6"/>',
-  cube: '<path d="M12 3 20 7.5 12 12 4 7.5 12 3Z"/><path d="M4 7.5V16.5L12 21 20 16.5V7.5"/><path d="M12 12V21"/>',
-  share:
-    '<circle cx="6" cy="12" r="2"/><circle cx="17" cy="6" r="2"/><circle cx="17" cy="18" r="2"/><path d="M7.7 11 15.3 7M7.7 13 15.3 17"/>',
-  monitor: '<rect x="3.5" y="5" width="17" height="12" rx="1.2"/><path d="M8.5 20.5h7M12 17v3.5"/>',
-  play: '<circle cx="12" cy="12" r="8.5"/><path d="M10.2 9 15 12l-4.8 3V9Z"/>',
-  users:
-    '<circle cx="9" cy="9" r="2.7"/><path d="M4 19c0-3 2.2-5 5-5s5 2 5 5"/><circle cx="17" cy="9.5" r="2.2"/><path d="M15.5 14.3c2.2.4 3.5 2 3.5 4.7"/>',
-  pie: '<path d="M12 3.5v8.5h8.5A8.5 8.5 0 1 1 12 3.5Z"/>',
-};
 ---
 
+<style>
+  /* Reset default <a> styling so the card keeps its original block layout */
+  a.prod-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+
+  /* Let clicks pass through decorative inner layers straight to the link,
+     without touching their original position/layout */
+  a.prod-card .pl-image-wrap,
+  a.prod-card .pl-image,
+  a.prod-card .pl-image-overlay,
+  a.prod-card .pl-detail,
+  a.prod-card .pl-card-info {
+    pointer-events: none;
+  }
+</style>
+
 <section class="production-layer">
+
   <div class="pl-wrap">
-    <div class="pl-head">
-      <div>
-        <p class="pl-tag">One production layer</p>
-        <h2 class="pl-heading">
-          From model information to
-          <br />
-          <span>stakeholder-ready output.</span>
-        </h2>
-      </div>
-      <p class="pl-sub">
-        Every package starts with client-issued information, explicit responsibility boundaries and
-        an agreed approval route.
-      </p>
+
+   <div class="pl-heading-area">
+
+  <div class="pl-heading-line"></div>
+
+  <div class="pl-heading-content">
+    <p class="pl-tag">Production pipeline</p>
+
+    <h2 class="pl-heading">
+      From model information to
+      <span>stakeholder-ready output.</span>
+    </h2>
+
+    <p class="pl-intro">
+      A controlled production workflow connecting approved design information
+      to coordinated, presentation-ready and handoff-ready outputs.
+    </p>
+  </div>
+
+  <div class="pl-heading-line"></div>
+
+</div>
+
+    <div class="pl-grid">
+
+      {steps.map((step) => (
+        <a class="prod-card" href={`/Services/${step.slug}`}>
+
+          <div class="pl-image-wrap">
+
+            <img
+              src={step.image}
+              alt={step.label}
+              class="pl-image"
+              loading="lazy"
+            />
+
+            <div class="pl-image-overlay"></div>
+
+            <div class="pl-detail">
+              {step.detail}
+            </div>
+
+          </div>
+
+          <div class="pl-card-info">
+            <span class="pl-num">{step.num}</span>
+
+            <h3>{step.label}</h3>
+          </div>
+
+        </a>
+      ))}
+
     </div>
 
-    <div class="pl-track">
-      {steps.map((step, i) => (
-        <>
-          <div class="pl-pill">
-            <span class="pl-num">{step.num}</span>
-            <svg
-              class="pl-icon"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="1.5"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              set:html={icons[step.icon]}
-            />
-            <span class="pl-label">{step.label}</span>
-          </div>
-          {i < steps.length - 1 && (
-            <div class="pl-connector">
-              <span class="pl-line" />
-              <span class="pl-dot" />
-              <span class="pl-line" />
-            </div>
-          )}
-        </>
-      ))}
-    </div>
   </div>
+
 </section>

@@ -3,121 +3,199 @@ import Navbar from "./Navbar.astro";
 ---
 
 <section class="hero">
+
   <!-- ================= BACKGROUND VIDEO ================= -->
   <video class="hero-video" autoplay muted loop playsinline>
     <source src="/videos/hero-video.mp4" type="video/mp4" />
   </video>
 
-  <!-- Dark transparent overlay -->
+  <!-- ================= BLUE DARK OVERLAY ================= -->
   <div class="hero-overlay"></div>
 
+  <!-- ================= NAVBAR ================= -->
   <Navbar />
 
   <!-- ================= HERO CONTENT ================= -->
   <div class="hero-content">
-    <!-- LEFT SIDE -->
-    <div class="hero-left">
-      <div class="hero-eyebrow">Full-service AEC production partner</div>
+
+    <!-- ================= MAIN HERO ================= -->
+    <div class="hero-main">
+
+      <div class="hero-eyebrow">
+        Full-service AEC production partner
+      </div>
 
       <h1>
-        <span class="brown-text">
-          <b>AEC production </b>
-        </span>
+        <span>AEC production</span>
         <br />
         without the production friction.
       </h1>
 
-      <p class="hero-description">
-        <strong>Axys3D</strong> is an integrated AEC production partner delivering BIM, Revit
-        production, MEP coordination support, 3D modeling, architectural visualization, animation
-        and real-time experiences.
-      </p>
-
-      <p class="hero-description second">
-        We extend technically fluent architecture, engineering, developer and agency teams with
-        controlled production capacity, defined review gates and structured handoff.
-      </p>
-
       <div class="hero-buttons">
+
         <a href="/Services" class="primary-button">
-          Review the full pipeline
+          <span>Review the full pipeline</span>
+          <span class="arrow">↗</span>
         </a>
 
         <a href="/Contact" class="secondary-button">
-          Scope a production package
+          <span>Scope a production package</span>
+          <span class="arrow">↗</span>
         </a>
+
       </div>
 
-      <!-- ================= FEATURES ================= -->
-      <div class="hero-features">
-        <div class="feature">
-          <h3>Scope control</h3>
-          <p>Defined inputs, intended use and production boundaries</p>
+
+      <!-- ================= SOFTWARE STACK ================= -->
+      <div class="tech-stack">
+
+        <span class="tech-label">WORKFLOW /</span>
+
+        <div class="tech-items">
+
+          <!-- REVIT -->
+          <div class="tech-badge" title="Autodesk Revit">
+            <div class="tech-icon revit-icon">
+              <span>R</span>
+            </div>
+            <span>Revit</span>
+          </div>
+
+          <!-- 3DS MAX -->
+          <div class="tech-badge" title="Autodesk 3ds Max">
+            <div class="tech-icon max-icon">
+              <span>3</span>
+            </div>
+            <span>3ds Max</span>
+          </div>
+
+          <!-- UNREAL ENGINE -->
+          <div class="tech-badge" title="Unreal Engine">
+            <div class="tech-icon unreal-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path
+                  d="M17.8 6.2A8.5 8.5 0 0 0 12 3.5c-4.7 0-8.5 3.8-8.5 8.5s3.8 8.5 8.5 8.5c2.3 0 4.4-.9 6-2.5"
+                />
+                <path d="M15.5 8.5v7M19 8.5v7M15.5 8.5l3.5 2.5" />
+              </svg>
+            </div>
+            <span>Unreal</span>
+          </div>
+
+          <!-- RHINO -->
+          <div class="tech-badge" title="Rhinoceros 3D">
+            <div class="tech-icon rhino-icon">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M5 18.5 8 6h8l3 12.5" />
+                <path d="M8 10h8M7 14h10M6 18h12" />
+              </svg>
+            </div>
+            <span>Rhino</span>
+          </div>
+
+          <!-- BIM 360 -->
+          <div class="tech-badge" title="Autodesk BIM 360">
+            <div class="tech-icon bim-icon">
+              <span>B</span>
+            </div>
+            <span>BIM 360</span>
+          </div>
+
         </div>
 
-        <div class="feature">
-          <h3>Review model</h3>
-          <p>Named client approvers and recorded decision gates</p>
-        </div>
-
-        <div class="feature">
-          <h3>Handoff</h3>
-          <p>Editable sources, status records and known limitations</p>
-        </div>
       </div>
+
     </div>
 
-    <!-- ================= RIGHT SIDE DELIVERY BOX ================= -->
+    <!-- ================= RIGHT DELIVERY BOX ================= -->
     <div class="delivery-box">
+
       <div class="delivery-header">
         <span>AEC / INTEGRATED DELIVERY</span>
         <span>CONTROLLED DELIVERY</span>
       </div>
 
       <div class="delivery-item">
+
         <span class="number">01</span>
 
         <div class="item-content">
           <span>Information requirements received</span>
           <span class="status ready">READY</span>
         </div>
+
       </div>
 
       <div class="delivery-item">
+
         <span class="number">02</span>
 
         <div class="item-content">
           <span>BIM production aligned</span>
           <span class="status ready">READY</span>
         </div>
+
       </div>
 
       <div class="delivery-item">
+
         <span class="number">03</span>
 
         <div class="item-content">
           <span>Revit package in review</span>
           <span class="status ready">READY</span>
         </div>
+
       </div>
 
       <div class="delivery-item">
+
         <span class="number">04</span>
 
         <div class="item-content">
           <span>Coordination issues routed</span>
           <span class="status open">OPEN</span>
         </div>
+
       </div>
 
       <div class="delivery-item">
+
         <span class="number">05</span>
 
         <div class="item-content">
           <span>Client approval gate open</span>
           <span class="status open">OPEN</span>
         </div>
+
       </div>
+
     </div>
+
+
+    <!-- ================= BOTTOM INFORMATION ================= -->
+    <div class="hero-bottom">
+
+      <div class="hero-description-wrap">
+
+        <div class="plus">+</div>
+
+        <p class="hero-description">
+          <strong>Axys3D</strong> is an integrated AEC production partner delivering BIM, Revit
+          production, MEP coordination support, 3D modeling, architectural visualization, animation
+          and real-time experiences.
+        </p>
+
+      </div>
+
+
+      <p class="hero-description second">
+        We extend technically fluent architecture, engineering, developer and agency teams with
+        controlled production capacity, defined review gates and structured handoff.
+      </p>
+
+    </div>
+
   </div>
+
 </section>

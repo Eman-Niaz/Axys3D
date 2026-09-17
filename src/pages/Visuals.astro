@@ -1,0 +1,317 @@
+---
+import Navbar from "../components/Navbar.astro";
+import Footer from "../components/Footer.astro";
+import "../styles/token.css";
+import "../styles/global.css";
+import "../styles/Navbar.css";
+import "../styles/visual-library.css";
+import "../styles/footer.css";
+
+const libraryCategories = [
+  "All",
+  "BIM execution",
+  "Revit production",
+  "MEP coordination",
+  "3D modeling",
+  "Visualization",
+  "Animation",
+  "Real-time",
+  "Handoff",
+];
+
+const assets = [
+  {
+    title: "Structural MEP Federation",
+    category: "MEP coordination",
+    tag: "LOD 400",
+    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+    ratio: "wide"
+  },
+  {
+    title: "Coordinated Clash Review Set",
+    category: "MEP coordination",
+    tag: "Clash Review",
+    image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1200&q=80",
+    ratio: "square"
+  },
+  {
+    title: "BIM Execution Model — Core & Shell",
+    category: "BIM execution",
+    tag: "LOD 300",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    ratio: "tall"
+  },
+  {
+    title: "Controlled BIM Production Set",
+    category: "BIM execution",
+    tag: "Model Setup",
+    image: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
+    ratio: "square"
+  },
+  {
+    title: "Revit Documentation Package",
+    category: "Revit production",
+    tag: "Sheet Set",
+    image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=80",
+    ratio: "wide"
+  },
+  {
+    title: "Revit Family & Component Library",
+    category: "Revit production",
+    tag: "Families",
+    image: "https://images.unsplash.com/photo-1503387837-b154d5074bd2?auto=format&fit=crop&w=1200&q=80",
+    ratio: "square"
+  },
+  {
+    title: "Architectural Asset Production",
+    category: "3D modeling",
+    tag: "Geometry",
+    image: "https://images.unsplash.com/photo-1542621334-a254cf47733d?auto=format&fit=crop&w=1200&q=80",
+    ratio: "tall"
+  },
+  {
+    title: "Digital Production Study",
+    category: "3D modeling",
+    tag: "Digital Production",
+    image: "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1200&q=80",
+    ratio: "square"
+  },
+  {
+    title: "Modern Villa Interior Render",
+    category: "Visualization",
+    tag: "Interior",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    ratio: "tall"
+  },
+  {
+    title: "Commercial Complex Exterior",
+    category: "Visualization",
+    tag: "Exterior",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
+    ratio: "wide"
+  },
+  {
+    title: "Residential Facade Design",
+    category: "Visualization",
+    tag: "Facade",
+    image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
+    ratio: "square"
+  },
+  {
+    title: "Cinematic Lighting Walkthrough",
+    category: "Animation",
+    tag: "4K Motion",
+    image: "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1200&q=80",
+    ratio: "tall"
+  },
+  {
+    title: "Design Progression Sequence",
+    category: "Animation",
+    tag: "Walkthrough",
+    image: "https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=1200&q=80",
+    ratio: "wide"
+  },
+  {
+    title: "Unreal Engine ArchViz Sequence",
+    category: "Real-time",
+    tag: "Interactive",
+    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
+    ratio: "wide"
+  },
+  {
+    title: "Real-Time Design Exploration",
+    category: "Real-time",
+    tag: "Real-Time",
+    image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=1200&q=80",
+    ratio: "square"
+  },
+  {
+    title: "Structured Handoff Package",
+    category: "Handoff",
+    tag: "Documentation",
+    image: "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1200&q=80",
+    ratio: "square"
+  },
+  {
+    title: "Drawing & Export Set",
+    category: "Handoff",
+    tag: "Export Set",
+    image: "https://images.unsplash.com/photo-1568992687947-868a62a9f521?auto=format&fit=crop&w=1200&q=80",
+    ratio: "tall"
+  }
+];
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Visual Asset Library — Axys3D</title>
+  </head>
+
+  <body class="page-visual-library">
+    <!-- BACKGROUND LAYER -->
+    <div class="lib-page-bg"><div class="lib-page-bg-overlay"></div></div>
+
+    <!-- Navbar Moved Outside Section Container -->
+    <Navbar variant="solid" />
+
+    <main class="library-page">
+      <section class="library-section" id="visual-library">
+        <div class="library-container">
+
+          <!-- Section Header -->
+          <div class="library-header">
+            <div>
+              <span class="library-eyebrow">Visual Asset Library</span>
+              <h2>Explore production assets & renders.</h2>
+            </div>
+            <p class="library-desc">
+              A curated archive of photorealistic visual sets, BIM coordination models, and interactive real-time environments.
+            </p>
+          </div>
+
+          <!-- Filter Buttons -->
+          <div class="library-filters">
+            {libraryCategories.map((cat, idx) => (
+              <button
+                class={`filter-btn ${idx === 0 ? "active" : ""}`}
+                data-category={cat}
+              >
+                {cat}
+              </button>
+            ))}
+          </div>
+
+          <!-- Masonry Grid Asset Gallery -->
+          <div class="library-grid" id="libraryGrid">
+            {assets.map((item) => (
+              <div class={`gallery-item ${item.ratio}`} data-category={item.category}>
+                <div class="gallery-card">
+                  <img src={item.image} alt={item.title} loading="lazy" />
+                  <div class="gallery-overlay">
+                    <span class="asset-tag">{item.tag}</span>
+                    <h3 class="asset-title">{item.title}</h3>
+                    <button class="view-btn" data-img={item.image} data-title={item.title}>
+                      View Asset <span>↗</span>
+                    </button>
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+
+        <!-- Lightbox Modal -->
+        <div class="lightbox" id="lightboxModal">
+          <span class="lightbox-close">&times;</span>
+          <div class="lightbox-content">
+            <img id="lightboxImg" src="" alt="Expanded View" />
+            <div id="lightboxCaption" class="lightbox-caption"></div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer Outside Main Section -->
+    <Footer />
+
+    <script>
+      // Scroll-reveal for gallery items, matching Work/Process pages
+      const revealTargets = document.querySelectorAll(".gallery-item");
+
+      revealTargets.forEach((el, i) => {
+        (el as HTMLElement).style.setProperty("--lib-delay", `${(i % 6) * 0.08}s`);
+      });
+
+      const revealObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("lib-reveal-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+      );
+
+      revealTargets.forEach((el) => revealObserver.observe(el));
+
+      // Filter Functionality
+      const filterBtns = document.querySelectorAll('.filter-btn');
+      const items = document.querySelectorAll('.gallery-item');
+
+      function applyFilter(selectedCategory: string) {
+        filterBtns.forEach(b => b.classList.remove('active'));
+
+        const matchedBtn = Array.from(filterBtns).find(
+          (b) => b.getAttribute('data-category') === selectedCategory
+        );
+        (matchedBtn || filterBtns[0])?.classList.add('active');
+
+        items.forEach(item => {
+          const itemCategory = item.getAttribute('data-category');
+          if (selectedCategory === 'All' || itemCategory === selectedCategory) {
+            (item as HTMLElement).style.display = 'block';
+          } else {
+            (item as HTMLElement).style.display = 'none';
+          }
+        });
+      }
+
+      filterBtns.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const selectedCategory = btn.getAttribute('data-category') || 'All';
+          applyFilter(selectedCategory);
+        });
+      });
+
+      // Auto-select category from the URL (e.g. coming from a Services card click)
+      const urlParams = new URLSearchParams(window.location.search);
+      const categoryFromUrl = urlParams.get('category');
+
+      if (categoryFromUrl) {
+        applyFilter(categoryFromUrl);
+
+        document.getElementById('visual-library')?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
+      }
+
+      // Lightbox Modal Functionality
+      const lightbox = document.getElementById('lightboxModal');
+      const lightboxImg = document.getElementById('lightboxImg') as HTMLImageElement;
+      const lightboxCaption = document.getElementById('lightboxCaption');
+      const viewBtns = document.querySelectorAll('.view-btn');
+      const closeBtn = document.querySelector('.lightbox-close');
+
+      viewBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const imgUrl = btn.getAttribute('data-img');
+          const title = btn.getAttribute('data-title');
+
+          if(lightboxImg && lightboxCaption && lightbox) {
+            lightboxImg.src = imgUrl || '';
+            lightboxCaption.textContent = title || '';
+            lightbox.classList.add('show');
+          }
+        });
+      });
+
+      closeBtn?.addEventListener('click', () => {
+        lightbox?.classList.remove('show');
+      });
+
+      lightbox?.addEventListener('click', (e) => {
+        if (e.target === lightbox) {
+          lightbox.classList.remove('show');
+        }
+      });
+    </script>
+  </body>
+</html>

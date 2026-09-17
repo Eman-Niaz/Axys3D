@@ -1,21 +1,40 @@
-@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap");
 
-* {
+/* =========================================================
+   GLOBAL CSS VARIABLES & THEME SETUP
+   ========================================================= */
+:root {
+  --color-black: #0b111e;
+  --color-card-bg: #111827;
+  --color-brown: #e5d0a9;
+  --color-text-primary: #ffffff;
+  --color-text-secondary: #9ca3af;
+  --font-primary: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  --font-heading: "Manrope", sans-serif;
+}
+
+/* =========================================================
+   ZERO-GAP FULLSCREEN RESET
+   ========================================================= */
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
-html {
-  margin: 0;
-  padding: 0;
-  scroll-behavior: smooth;
-}
-
+html,
 body {
-  margin: 0;
-  padding: 0;
-  font-family: var(--font-primary);
-  background: var(--color-black);
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-height: 100vh;
+  overflow-x: hidden !important;
+  background-color: var(--color-black);
   color: var(--color-text-primary);
+  font-family: var(--font-primary);
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
 }
 
 a {
@@ -30,12 +49,16 @@ a {
 
 button {
   font: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
 }
 
 img,
 video {
   display: block;
   max-width: 100%;
+  height: auto;
 }
 
 :focus-visible {
@@ -43,6 +66,7 @@ video {
   outline-offset: 3px;
 }
 
+/* Accessibility: Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;

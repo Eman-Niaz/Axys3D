@@ -1,148 +1,374 @@
 ---
+import "../styles/services.css";
+
 const services = [
   {
     number: "01",
     title: "BIM execution and model production",
+    shortTitle: "BIM execution",
     description:
-      "BIM execution support, model-production planning and governed authoring aligned to client-issued information requirements and approval gates.",
+      "Disciplined BIM production from approved design information, with controlled model structure, geometry and documentation.",
     image:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80",
-    features: ["BIM production plan", "Discipline model packages", "Model audit and issue logs"],
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85",
+    features: [
+      "BIM model production",
+      "Model setup and standards",
+      "Drawing-to-model workflows",
+      "Controlled revisions",
+    ],
   },
   {
     number: "02",
-    title: "Revit production and documentation coordination",
+    title: "Revit production",
+    shortTitle: "Revit production",
     description:
-      "Revit authoring, family production and documentation support tied to approved design information, sheet protocols and review cycles.",
+      "Production-ready Revit modeling and documentation built around project standards, templates and approved design information.",
     image:
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=85",
     features: [
-      "Revit model packages",
-      "Families and governed content",
-      "Drawing and schedule production support",
+      "Revit model development",
+      "Families and components",
+      "Documentation support",
+      "Model cleanup",
     ],
   },
   {
     number: "03",
     title: "MEP coordination support",
+    shortTitle: "MEP coordination",
     description:
-      "Federated-model review, issue identification and coordination support across architectural, structural and building-services information.",
+      "Structured coordination support across architectural, structural and MEP information to reduce downstream production friction.",
     image:
-      "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=800&q=80",
-    features: ["Federated review model", "Coordination views", "Issue register or BCF package"],
+      "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1000&q=85",
+    features: [
+      "MEP model coordination",
+      "Clash review support",
+      "Coordination workflows",
+      "Issue tracking",
+    ],
   },
   {
     number: "04",
     title: "3D modeling and digital production",
+    shortTitle: "3D modeling",
     description:
       "Controlled geometry and asset production from approved drawings, BIM references, surveys and client-issued design information.",
     image:
-      "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1542621334-a254cf47733d?auto=format&fit=crop&w=1000&q=85",
     features: [
-      "Purpose-built 3D models",
-      "Cleaned or converted geometry",
-      "Reusable component library",
+      "Architectural modeling",
+      "Asset production",
+      "Geometry development",
+      "Digital production",
     ],
   },
   {
     number: "05",
-    title: "3ds Max production",
+    title: "Architectural visualization",
+    shortTitle: "Visualization",
     description:
-      "Specialist Autodesk 3ds Max production support for controlled modeling, scene assembly, material and lighting setup, visualization-ready assets, animation support and structured handoff.",
+      "High-quality architectural visuals that translate approved design information into clear, presentation-ready imagery.",
     image:
-      "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=85",
     features: [
-      "Structured 3ds Max scene packages",
-      "Purpose-built models and visualization-ready assets",
-      "Material, lighting and scene-assembly setup",
+      "Exterior visualization",
+      "Interior visualization",
+      "Material development",
+      "Presentation imagery",
     ],
   },
   {
     number: "06",
-    title: "Architectural visualization",
+    title: "Animation and walkthroughs",
+    shortTitle: "Animation",
     description:
-      "Technically informed imagery for planning communication, approvals, stakeholder alignment and property marketing.",
+      "Production-focused animation and walkthroughs that communicate spatial intent, design progression and project experience.",
     image:
-      "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1000&q=85",
     features: [
-      "High-resolution still imagery",
-      "Approval-stage visual sets",
-      "Option comparison views",
+      "Architectural animation",
+      "Camera development",
+      "Walkthrough production",
+      "Presentation sequences",
     ],
   },
   {
     number: "07",
-    title: "Animation and motion",
+    title: "Real-time experiences",
+    shortTitle: "Real-time",
     description:
-      "Architectural animation organized around an approved narrative, camera plan, information freeze and staged review workflow.",
+      "Interactive real-time environments built from controlled project geometry for review, communication and visual exploration.",
     image:
-      "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=800&q=80",
-    features: ["Storyboard and camera plan", "Animation sequences", "Motion-graphics package"],
+      "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=1000&q=85",
+    features: [
+      "Real-time environments",
+      "Interactive scenes",
+      "Design exploration",
+      "Experience development",
+    ],
   },
   {
     number: "08",
-    title: "Real-time and Unreal Engine production",
+    title: "Documentation and handoff",
+    shortTitle: "Handoff",
     description:
-      "Optimized Unreal Engine environments for interactive review, configurators, immersive presentations and real-time stakeholder experiences.",
+      "Organized documentation, exports and structured handoff packages designed to keep production information usable downstream.",
     image:
-      "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1000&q=85",
     features: [
-      "Optimized Unreal Engine scene",
-      "Material and lighting systems",
-      "Interactive review build",
+      "Drawing packages",
+      "Model exports",
+      "Documentation sets",
+      "Structured handoff",
     ],
   },
 ];
 ---
 
-<section class="services-section">
-  <!-- Faded 2D Sketch Background Image Overlay -->
-  <div class="bg-sketch-overlay" aria-hidden="true"></div>
+<style>
+  /* Reset default <a> styling so the card keeps its original block layout */
+  a.service-card-item {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    cursor: pointer;
+  }
+</style>
 
+<section class="services-section" id="services">
   <div class="services-container">
-    <!-- Updated Header Section -->
-    <div class="production-header">
-      <span class="services-eyebrow">Eight technical services</span>
-      <h2>
-        Production capability across the{" "}
-        <span class="highlight-text">
-          <br /> AEC pipeline
+
+    <!-- =====================================================
+         SERVICES HEADER
+         ===================================================== -->
+    <div class="services-header">
+
+      <div class="services-heading-wrap">
+        <span class="services-eyebrow">
+          EIGHT TECHNICAL SERVICES
         </span>
-      </h2>
-    </div>
 
-    <!-- Horizontal Slider with Zig-Zag Cards -->
-    <div class="services-slider-wrapper">
-      <div class="services-slider-track">
-        {services.map((service) => (
-          <article class="service-card">
-            <!-- Image Container with Floating Number Badge -->
-            <div class="card-image">
-              <img src={service.image} alt={service.title} loading="lazy" />
-              <span class="service-number">{service.number}</span>
-            </div>
-
-            <!-- Card Body Content -->
-            <div class="card-body">
-              <h3>{service.title}</h3>
-              <p>{service.description}</p>
-
-              <ul class="service-features">
-                {service.features.map((feature) => (
-                  <li>{feature}</li>
-                ))}
-              </ul>
-            </div>
-
-            <!-- Card Footer Link -->
-            <div class="card-footer">
-              <a href="#review" class="scope-link">
-                Review technical scope <span>↗</span>
-              </a>
-            </div>
-          </article>
-        ))}
+        <h2>
+          Production capability
+          <br />
+          <span>across the AEC pipeline.</span>
+        </h2>
       </div>
+
+      <a href="#review" class="services-header-cta">
+        <span>Scope a production package</span>
+        <span class="cta-arrow">↗</span>
+      </a>
+
     </div>
+
+
+    <!-- =====================================================
+         SERVICES GRID
+         ===================================================== -->
+    <div class="services-grid">
+
+      {services.map((service) => (
+        <a
+          class="service-card-item"
+          href={`/Visuals?category=${encodeURIComponent(service.shortTitle)}`}
+        >
+
+          <div class="service-card-image">
+
+            <img
+              src={service.image}
+              alt={service.title}
+              loading="lazy"
+            />
+
+            <div class="service-card-shade"></div>
+
+            <div class="service-number">
+              {service.number}
+            </div>
+
+            <div class="service-card-content">
+
+              <div class="service-title-row">
+
+                <div>
+
+                  <span class="service-mini-label">
+                    {service.shortTitle}
+                  </span>
+
+                  <h3>
+                    {service.title}
+                  </h3>
+
+                </div>
+
+                <span class="service-card-arrow">
+                  ↗
+                </span>
+
+              </div>
+
+              <div class="service-card-reveal">
+
+                <p>
+                  {service.description}
+                </p>
+
+                <span class="reveal-line"></span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </a>
+      ))}
+
+    </div>
+
+
+    <!-- =====================================================
+         FROM MODEL TO EXPERIENCE
+         ===================================================== -->
+    <div class="model-experience">
+
+      <div class="model-experience-inner">
+
+        <!-- HEADING -->
+        <div class="model-experience-heading">
+
+          <div>
+
+            <span class="section-eyebrow">
+              FROM MODEL TO EXPERIENCE
+            </span>
+
+            <h2>
+              See the production
+              <span>layer in motion.</span>
+            </h2>
+
+          </div>
+
+          <p>
+            Move the slider to compare the raw production model
+            with the final visual output.
+          </p>
+
+        </div>
+
+
+        <!-- COMPARISON -->
+        <div class="comparison-wrapper">
+
+          <!-- FINAL RENDER -->
+          <div class="comparison-image comparison-final">
+
+            <img
+              src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90"
+              alt="Final architectural render"
+            />
+
+            <div class="comparison-label final-label">
+              <span>02</span>
+              FINAL RENDER
+            </div>
+
+          </div>
+
+
+          <!-- RAW MODEL -->
+          <div class="comparison-image comparison-before">
+
+            <img
+              src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=90"
+              alt="Architectural production model"
+            />
+
+            <div class="comparison-label model-label">
+              <span>01</span>
+              RAW BIM / WIREFRAME
+            </div>
+
+          </div>
+
+
+          <!-- DRAG HANDLE -->
+          <div class="comparison-handle">
+
+            <div class="handle-line"></div>
+
+            <div class="handle-circle">
+              <span>←</span>
+              <span>→</span>
+            </div>
+
+          </div>
+
+
+          <!-- INVISIBLE RANGE CONTROL -->
+          <input
+            class="comparison-range"
+            type="range"
+            min="0"
+            max="100"
+            value="50"
+            aria-label="Compare raw BIM model with final render"
+          />
+
+        </div>
+
+
+        <!-- FOOTER -->
+        <div class="comparison-footer">
+
+          <span>
+            RAW PRODUCTION MODEL
+          </span>
+
+          <div class="comparison-progress">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          <span>
+            FINAL VISUAL OUTPUT
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
   </div>
 </section>
+
+
+<script>
+  const comparisonRange =
+    document.querySelector(".comparison-range") as HTMLInputElement | null;
+
+  const comparisonBefore =
+    document.querySelector(".comparison-before") as HTMLElement | null;
+
+  const comparisonHandle =
+    document.querySelector(".comparison-handle") as HTMLElement | null;
+
+  if (comparisonRange && comparisonBefore && comparisonHandle) {
+    const updateComparison = () => {
+      const value = Number(comparisonRange.value);
+
+      comparisonBefore.style.width = `${value}%`;
+      comparisonHandle.style.left = `${value}%`;
+    };
+
+    comparisonRange.addEventListener("input", updateComparison);
+
+    updateComparison();
+  }
+</script>

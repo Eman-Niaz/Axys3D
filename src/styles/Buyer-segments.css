@@ -1,184 +1,207 @@
-.buyer-segments {
-  --ink: #1b1712;
-  --gold: #c08a3e;
-  --gold-deep: #8c6528;
-  --line: rgba(27, 23, 18, 0.1);
-  --muted: #6e675c;
-  --ghost: rgba(27, 23, 18, 0.07);
+/* =========================================================
+   DARK THEME ACCORDION LAYOUT
+========================================================= */
 
-  background: #ffffff;
-  padding: 0px 0 100px;
+.buyer-segments {
+  --bg-dark: #141d31;
+  --text-white: #ffffff;
+  --gold: #d4a373;
+  --gold-light: #e6c594;
+  --line-dark: rgba(255, 255, 255, 0.12);
+  --muted-text: #94a3b8;
+
+  background: var(--bg-dark);
+  color: var(--text-white);
+  padding: 100px 120px; /* Enhanced side spacing */
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  box-sizing: border-box;
 }
 
 .bs-wrap {
-  max-width: 1180px;
+  max-width: 1300px;
   margin: 0 auto;
-  padding: 0 40px;
 }
 
-/* ---------- Centered heading ---------- */
+/* Two Column Layout */
+.bs-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr;
+  gap: 80px;
+  align-items: start;
+}
+
+/* Left Heading Section */
 .bs-head {
-  text-align: center;
-  max-width: 640px;
-  margin: 0 auto 64px;
+  text-align: left;
 }
 
 .bs-tag {
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--gold);
-  margin: 0 0 14px;
-}
-.brown-text {
-  color: #b38b4c;
+  margin: 0 0 16px;
 }
 
 .bs-heading {
   font-family: "Manrope", sans-serif;
   font-weight: 700;
-  font-size: 37px;
-  line-height: 1.25;
-  color: var(--ink);
-  margin: 0 0 16px;
+  font-size: clamp(34px, 3.5vw, 48px);
+  line-height: 1.15;
+  color: var(--text-white);
+  margin: 0 0 24px;
+  letter-spacing: -1px;
 }
 
 .bs-sub {
   font-size: 15px;
-  font-weight: 500;
+  font-weight: 400;
   line-height: 1.65;
-  color: var(--muted);
-  margin: 0 auto;
-  max-width: 520px;
+  color: var(--muted-text);
+  margin: 0;
 }
 
-/* ---------- Card grid ---------- */
-.bs-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 0;
-}
-
-.bs-card {
-  display: block;
-  text-decoration: none;
-  color: inherit;
-  padding: 0 28px;
-  border-left: 1px solid var(--line);
-}
-
-.bs-card:first-child {
-  border-left: none;
-  padding-left: 0;
-}
-
-.bs-card:last-child {
-  padding-right: 0;
-}
-
-.bs-top {
-  position: relative;
-  height: 56px;
+/* Accordion Container (Right Side) */
+.bs-accordion {
+  border-top: 1px solid var(--line-dark);
   display: flex;
-  align-items: flex-start;
-  margin-bottom: 22px;
+  flex-direction: column;
 }
 
-.bs-icon {
-  width: 30px;
-  height: 30px;
+/* Individual Accordion Item */
+.bs-item {
+  border-bottom: 1px solid var(--line-dark);
+  background: transparent;
+  transition: background-color 0.3s ease;
+}
+
+/* Clickable Header */
+.bs-item-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 12px;
+  background: none;
+  border: none;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+  outline: none;
+}
+
+.bs-item-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.bs-num {
+  font-size: 14px;
+  font-weight: 600;
   color: var(--gold);
-  position: relative;
-  z-index: 2;
-}
-
-.bs-ghost-num {
-  position: absolute;
-  top: -22px;
-  left: 18px;
-  font-family: "Manrope", sans-serif;
-  font-weight: 800;
-  font-size: 64px;
-  line-height: 1;
-  color: var(--ghost);
-  z-index: 1;
-  user-select: none;
+  min-width: 24px;
 }
 
 .bs-title {
-  font-size: 15.5px;
-  font-weight: 700;
-  letter-spacing: 0.01em;
-  color: var(--ink);
-  margin: 0 0 10px;
-  line-height: 1.35;
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text-white);
+  margin: 0;
+  transition: color 0.3s ease;
+}
+
+.bs-icon-arrow {
+  color: var(--muted-text);
+  font-size: 18px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+}
+
+/* Hover Effects */
+.bs-item-header:hover .bs-title {
+  color: var(--gold-light);
+}
+
+.bs-item-header:hover .bs-icon-arrow {
+  color: var(--gold);
+}
+
+/* Active State (When Expanded) */
+.bs-item.active .bs-title {
+  color: var(--gold);
+}
+
+.bs-item.active .bs-icon-arrow {
+  transform: rotate(180deg);
+  color: var(--gold);
+}
+
+/* Expandable Content Panel */
+.bs-item-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
+  padding: 0 12px 0 64px;
+}
+
+.bs-item.active .bs-item-content {
+  max-height: 280px; /* Holds open expanded details */
+  padding: 0 12px 28px 64px;
 }
 
 .bs-desc {
-  font-size: 13.5px;
-  font-weight: 500;
-  color: var(--muted);
+  font-size: 14.5px;
+  font-weight: 400;
+  color: var(--muted-text);
   line-height: 1.6;
-  margin: 0 0 20px;
+  margin: 0 0 16px;
 }
 
 .bs-link {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--gold-deep);
-  transition:
-    gap 0.2s ease,
-    color 0.2s ease;
-}
-
-.bs-card:hover .bs-link {
-  gap: 10px;
+  gap: 8px;
+  font-size: 13.5px;
+  font-weight: 600;
   color: var(--gold);
+  text-decoration: none;
+  transition: gap 0.2s ease, color 0.2s ease;
 }
 
-.bs-arrow {
-  transition: transform 0.2s ease;
+.bs-link:hover {
+  gap: 12px;
+  color: var(--gold-light);
 }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 900px) {
-  .bs-wrap {
-    padding: 0 22px;
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .buyer-segments {
+    padding: 80px 40px;
   }
-  .bs-heading {
-    font-size: 26px;
-  }
-  .bs-grid {
-    grid-template-columns: repeat(2, 1fr);
-    row-gap: 40px;
-  }
-  .bs-card {
-    border-left: none;
-    padding: 0;
-  }
-  .bs-card:nth-child(odd) {
-    border-right: 1px solid var(--line);
-    padding-right: 24px;
-  }
-  .bs-card:nth-child(even) {
-    padding-left: 24px;
-  }
-}
-
-@media (max-width: 560px) {
-  .bs-grid {
+  .bs-layout {
     grid-template-columns: 1fr;
-    row-gap: 36px;
+    gap: 48px;
   }
-  .bs-card:nth-child(odd) {
-    border-right: none;
-    padding-right: 0;
+}
+
+@media (max-width: 640px) {
+  .buyer-segments {
+    padding: 60px 20px;
   }
-  .bs-card:nth-child(even) {
-    padding-left: 0;
+  .bs-item-header {
+    padding: 20px 8px;
+  }
+  .bs-item-title-wrap {
+    gap: 16px;
+  }
+  .bs-title {
+    font-size: 17px;
+  }
+  .bs-item-content {
+    padding: 0 8px 0 40px;
+  }
+  .bs-item.active .bs-item-content {
+    padding: 0 8px 20px 40px;
   }
 }

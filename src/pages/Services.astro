@@ -1,6 +1,4 @@
 ---
-// Adjust these two import paths/names to match your actual Navbar and Footer
-// components — you mentioned both already exist in your project.
 import Navbar from "../components/Navbar.astro";
 import Footer from "../components/Footer.astro";
 import "../styles/token.css";
@@ -17,7 +15,62 @@ if (!page) {
 }
 
 const { heading, description } = page.data;
-const services = page.data.services; // already sorted in the md file, 01–08
+const services = page.data.services;
+
+/*
+ * PAGE BACKGROUND IMAGE
+ * ---------------------------------------------------------
+ * Yahan apni image ka path daal dein, e.g. "/images/services-bg.jpg"
+ * (public folder me rakhein) ya import karke use karein.
+ * Poore page ke peeche fixed rehti hai — saara text iske upar aata hai.
+ * Opacity / blur / overlay ki strength Services.css me
+ * "PAGE BACKGROUND IMAGE" block se control hoti hai.
+ */
+const pageBackground =
+  "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=2400&q=85";
+
+/*
+ * Visual images only.
+ * Service text still comes directly from the content collection.
+ */
+const serviceImages = [
+  "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1400&q=85",
+  "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1400&q=85",
+];
+
+/*
+ * One small line-icon per service, used on the capability cards below.
+ * Falls back to icon index 0 if there are more services than icons.
+ */
+const chipIcons = [
+  // 01 — BIM production (linked cube / model)
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z"/><path d="M12 3v9M12 12l8-4.5M12 12l-8-4.5M12 12v9"/></svg>`,
+  // 02 — Revit production (layered plan)
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>`,
+  // 03 — MEP coordination (network nodes)
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="17" r="2"/><circle cx="19" cy="17" r="2"/><path d="M12 7v4M12 11L6.5 15.3M12 11l5.5 4.3"/></svg>`,
+  // 04 — 3D modeling (wireframe cube)
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M4 7l8-4 8 4-8 4-8-4z"/><path d="M4 7v10l8 4 8-4V7"/><path d="M12 11v10"/></svg>`,
+  // 05 — 3ds Max production (polygon mesh)
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M12 2l9 6.2-3.4 10.8H6.4L3 8.2 12 2z"/><path d="M12 2v20M3 8.2h18M6.4 19h11.2"/></svg>`,
+  // 06 — Visualization (eye)
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M2 12s4-7 10-7 10 7 10 7-4 7-10 7-10-7-10-7z"/><circle cx="12" cy="12" r="3"/></svg>`,
+  // 07 — Animation (play frame)
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><rect x="3" y="4" width="18" height="16" rx="1"/><path d="M10 9l6 3-6 3V9z" fill="currentColor" stroke="none"/></svg>`,
+  // 08 — Real-time / Unreal (bolt)
+  `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>`,
+];
+
+function shortBlurb(text: string, max = 92) {
+  if (!text) return "";
+  return text.length > max ? text.slice(0, max).trim() + "…" : text;
+}
 ---
 
 <!doctype html>
@@ -30,56 +83,436 @@ const services = page.data.services; // already sorted in the md file, 01–08
   </head>
 
   <body class="page-services">
+
+    <!-- =====================================================
+         PAGE BACKGROUND IMAGE + OVERLAY
+         (fixed layer — poore page ke peeche, saara content
+         iske upar render hota hai)
+         ===================================================== -->
+    <div class="svc-page-bg" aria-hidden="true">
+
+      <img
+        class="svc-page-bg-img"
+        src={pageBackground}
+        alt=""
+        loading="eager"
+        decoding="async"
+      />
+
+      <div class="svc-page-bg-overlay"></div>
+
+      <div class="svc-page-bg-grid"></div>
+
+    </div>
+
     <Navbar variant="solid" />
 
     <main class="services-page">
-      <!-- HERO -->
-      <section class="svc-hero">
+
+      <!-- =====================================================
+           FULL-BLEED HERO BANNER
+           (inspired by reference — full-width photo, dark
+           overlay, centered page title)
+           ===================================================== -->
+      <!-- <section class="svc-hero-banner">
+        <img
+          class="svc-hero-banner-img"
+          src="https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=2000&q=85"
+          alt="Axys3D production studio"
+        />
+        <div class="svc-hero-banner-overlay"></div>
+        <h1 class="svc-hero-banner-title">Services.</h1>
+      </section> -->
+
+
+      <!-- =====================================================
+           PAGE INTRO
+           ===================================================== -->
+      <section class="svc-intro">
+
+        <div class="svc-blue-glow svc-blue-glow-one"></div>
+        <div class="svc-blue-glow svc-blue-glow-two"></div>
+
         <div class="svc-wrap">
-          <p class="svc-eyebrow">Services / Full AEC pipeline</p>
-          <h1 class="svc-h1">{heading}</h1>
-          <p class="svc-lead">{description}</p>
-        </div>
-      </section>
 
-      <!-- QUICK-NAV OVERVIEW STRIP -->
-      <section class="svc-overview">
-        <div class="svc-wrap">
-          <div class="svc-chip-row">
-            {services.map((s) => (
-              <a class="svc-chip" href={`#service-${s.num}`}>
-                <span class="svc-chip-num">{s.num}</span>
-                <span class="svc-chip-title">{s.shortTitle}</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
+          <div class="svc-intro-grid">
 
-      <!-- DETAILED SERVICES -->
-      <section class="svc-detail">
-        <div class="svc-wrap">
-          {services.map((s, i) => (
-            <div class={`svc-row ${i === 0 ? "svc-row-first" : ""}`} id={`service-${s.num}`}>
-              <div class="svc-left">
-                <span class="svc-ghost-num">{s.num}</span>
-                <span class="svc-eyebrow-small">{s.shortTitle}</span>
-              </div>
-
-              <div class="svc-right">
-                <h2 class="svc-title">{s.title}</h2>
-                <p class="svc-desc">{s.description}</p>
-
-                <a class="svc-link" href={s.href}>
-                  Review technical scope <span class="svc-arrow">→</span>
-                </a>
-              </div>
+            <div class="svc-intro-label">
+              <span class="intro-line"></span>
+              SERVICES
             </div>
-          ))}
+
+            <div class="svc-intro-content">
+
+              <div class="svc-kicker">
+                <span class="kicker-dot"></span>
+                FULL AEC PRODUCTION PIPELINE
+              </div>
+
+              <h2 class="svc-h1">
+                {heading}
+              </h2>
+
+              <p class="svc-lead">
+                {description}
+              </p>
+
+            </div>
+
+          </div>
+
         </div>
+
       </section>
+
+
+      <!-- =====================================================
+           SERVICE CAPABILITY CARDS
+           (icon-card grid — inspired by reference layout,
+           rebuilt in the Axys3D blue / gold / white system)
+           ===================================================== -->
+      <section class="svc-overview">
+
+        <div class="svc-wrap">
+
+          <div class="svc-section-heading svc-section-heading--center">
+
+            <div>
+              <span class="section-kicker">OUR CAPABILITIES</span>
+
+              <h2>
+                Production,
+                <span>layer by layer.</span>
+              </h2>
+
+              <p class="svc-section-intro">
+                {description}
+              </p>
+            </div>
+
+          </div>
+
+
+          <div class="svc-card-grid">
+
+            {services.map((s, i) => (
+
+              <a
+                class="svc-card"
+                href={`#service-${s.num}`}
+                data-reveal
+                style={`--delay: ${i * 70}ms`}
+              >
+
+                <span class="svc-card-num">0{i + 1}</span>
+
+                <div class="svc-card-icon" set:html={chipIcons[i % chipIcons.length]} />
+
+                <h3 class="svc-card-title">
+                  {s.shortTitle}
+                </h3>
+
+                <p class="svc-card-blurb">
+                  {shortBlurb(s.description)}
+                </p>
+
+                <span class="svc-card-link">
+                  View scope
+                  <span class="svc-card-link-icon">↗</span>
+                </span>
+
+              </a>
+
+            ))}
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           DETAILED SERVICES
+           ===================================================== -->
+      <section class="svc-detail">
+
+        <div class="svc-wrap">
+
+          {services.map((s, i) => (
+
+            <article
+              class:list={{
+                "svc-row": true,
+                "svc-row-white": i % 2 === 1,
+                "svc-row-first": i === 0,
+              }}
+              id={`service-${s.num}`}
+              data-service
+              style={`--service-delay: ${i * 50}ms`}
+            >
+
+              <div class="svc-service-inner">
+
+                <!-- NUMBER -->
+                <div class="svc-left">
+
+                  <div class="svc-number-wrap">
+
+                    <span class="svc-ghost-num">
+                      {s.num}
+                    </span>
+
+                    <span class="svc-index-line"></span>
+
+                  </div>
+
+                  <span class="svc-eyebrow-small">
+                    {s.shortTitle}
+                  </span>
+
+                </div>
+
+
+                <!-- CONTENT -->
+                <div class="svc-middle">
+
+                  <div class="service-status">
+                    <span class="status-dot"></span>
+                    AEC PRODUCTION CAPABILITY
+                  </div>
+
+                  <h2 class="svc-title">
+                    {s.title}
+                  </h2>
+
+                  <p class="svc-desc">
+                    {s.description}
+                  </p>
+
+                  <a
+                    class="svc-link"
+                    href={s.href || "#contact"}
+                  >
+                    <span>Review technical scope</span>
+                    <span class="svc-arrow">↗</span>
+                  </a>
+
+                </div>
+
+
+                <!-- IMAGE -->
+                <div class="svc-visual">
+
+                  <img
+                    src={serviceImages[i]}
+                    alt={s.title}
+                    loading={i === 0 ? "eager" : "lazy"}
+                    decoding="async"
+                  />
+
+                  <div class="visual-overlay"></div>
+
+                  <div class="visual-top">
+
+                    <span>
+                      AXYS3D
+                    </span>
+
+                    <span>
+                      {s.num} / 08
+                    </span>
+
+                  </div>
+
+                  <div class="visual-corner visual-corner-tl"></div>
+                  <div class="visual-corner visual-corner-br"></div>
+
+                  <div class="visual-bottom">
+
+                    <span>
+                      AEC PRODUCTION
+                    </span>
+
+                    <span>
+                      DIGITAL DELIVERY
+                    </span>
+
+                  </div>
+
+                </div>
+
+              </div>
+
+            </article>
+
+          ))}
+
+        </div>
+
+      </section>
+
+
+      <!-- =====================================================
+           FINAL CTA
+           ===================================================== -->
+      <section class="svc-final-cta">
+
+        <div class="svc-cta-grid"></div>
+
+        <div class="svc-wrap">
+
+          <div class="svc-final-inner">
+
+            <div class="final-kicker">
+              READY WHEN THE PROJECT IS READY
+            </div>
+
+            <h2>
+              Bring us the <br>
+              <span>production problem.</span>
+            </h2>
+
+            <p>
+              Tell us what stage you're at, what needs to move,
+              and what the final handoff needs to look like.
+            </p>
+
+            <a
+              href="/contact"
+              class="final-cta-button"
+            >
+              <span>Discuss a production package</span>
+              <span>↗</span>
+            </a>
+
+          </div>
+
+        </div>
+
+      </section>
+
     </main>
 
     <Footer />
+
+
+    <!-- =====================================================
+         INTERACTIONS
+         ===================================================== -->
+    <script>
+      const revealItems =
+        document.querySelectorAll("[data-reveal]");
+
+      const serviceRows =
+        document.querySelectorAll("[data-service]");
+
+
+      /* ---------------------------------------------
+         CARD REVEAL
+         --------------------------------------------- */
+
+      const revealObserver =
+        new IntersectionObserver(
+          (entries) => {
+
+            entries.forEach((entry) => {
+
+              if (entry.isIntersecting) {
+
+                entry.target.classList.add("is-visible");
+
+                revealObserver.unobserve(entry.target);
+
+              }
+
+            });
+
+          },
+          {
+            threshold: 0.12,
+          }
+        );
+
+
+      revealItems.forEach((item) => {
+        revealObserver.observe(item);
+      });
+
+
+      /* ---------------------------------------------
+         SERVICE REVEAL
+         --------------------------------------------- */
+
+      const serviceObserver =
+        new IntersectionObserver(
+          (entries) => {
+
+            entries.forEach((entry) => {
+
+              if (entry.isIntersecting) {
+
+                entry.target.classList.add(
+                  "service-visible"
+                );
+
+                serviceObserver.unobserve(entry.target);
+
+              }
+
+            });
+
+          },
+          {
+            threshold: 0.12,
+          }
+        );
+
+
+      serviceRows.forEach((row) => {
+        serviceObserver.observe(row);
+      });
+
+
+      /* ---------------------------------------------
+         IMAGE PARALLAX
+         --------------------------------------------- */
+
+      serviceRows.forEach((row) => {
+
+        const image =
+          row.querySelector<HTMLImageElement>(".svc-visual img");
+
+        if (!image) return;
+
+        row.addEventListener("mousemove", (event) => {
+
+          const mouseEvent = event as MouseEvent;
+
+          const rect =
+            row.getBoundingClientRect();
+
+          const x =
+            (mouseEvent.clientX - rect.left) / rect.width - 0.5;
+
+          const y =
+            (mouseEvent.clientY - rect.top) / rect.height - 0.5;
+
+          image.style.transform =
+            `scale(1.07) translate(${x * 10}px, ${y * 10}px)`;
+
+        });
+
+        row.addEventListener("mouseleave", () => {
+
+          image.style.transform =
+            "scale(1) translate(0, 0)";
+
+        });
+
+      });
+
+    </script>
+
   </body>
 </html>

@@ -1,188 +1,300 @@
+/* =========================================================
+   PRODUCTION LAYER / PROCESS SECTION
+   ========================================================= */
+
 .production-layer {
-  --ink: #1b1712;
-  --pill-bg: #f4f4f4;
-  --gold: #c08a3e;
-  --gold-deep: #8c6528;
-  --line: rgba(27, 23, 18, 0.14);
-  --muted: #6e675c;
-
-  background: white;
-  padding: 100px 0;
+  width: 100%;
+  padding: 80px 0;
+  background: #f7f5ef;
+  font-family: "Manrope", sans-serif;
+  overflow: hidden;
 }
 
+/* Yeh ab full-width hai, safaid spaces hata di gayi hain */
 .pl-wrap {
-  max-width: 1180px;
-  margin: 0 auto;
-  padding: 0 40px;
+  width: 100%; /* Full container width */
+  /* margin: 0; */
 }
 
-/* ---------- Heading ---------- */
-.pl-head {
+/* =========================================================
+   HEADING AREA
+   ========================================================= */
+
+.pl-heading-area {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  gap: 28px;
-  margin-bottom: 48px;
-  flex-wrap: wrap;
+  align-items: center;
+  gap: 32px;
+  width: min(1080px, 90%); /* Heading ko thoda padding dein */
+  margin: 0 auto 55px;
+}
+
+.pl-heading-content {
+  flex: 0 1 720px;
+  text-align: center;
+}
+
+.pl-heading-line {
+  flex: 1;
+  height: 1px;
+  background: #132131;
+  opacity: 0.18;
 }
 
 .pl-tag {
-  font-size: 13px;
+  margin: 0 0 12px;
+  color: #13173f;
+  font-size: 11px;
   font-weight: 700;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--gold);
-  margin: 0 0 10px;
 }
 
 .pl-heading {
-  font-family: "Manrope", sans-serif;
-  font-weight: 700;
-  font-size: 35px;
-  line-height: 1.2;
-  color: var(--ink);
   margin: 0;
-  max-width: 560px;
+  color: #132131;
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 650;
+  line-height: 1.12;
+  letter-spacing: -1.8px;
 }
 
 .pl-heading span {
-  color: #b28956;
+  display: block;
+  color: #8eafc9;
 }
 
-/* right-side paragraph, with the small vertical divider line before it */
-.pl-sub {
-  font-size: 15px;
-  font-weight: 500;
-  line-height: 1.6;
-  color: var(--muted);
-  max-width: 300px;
-  margin: 0;
-  margin-top: 30px;
-  padding-left: 24px;
-  border-left: 1px solid var(--line);
+.pl-intro {
+  max-width: 610px;
+  margin: 18px auto 0;
+  color: #495158;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.7;
 }
 
-/* ---------- Pill track ---------- */
-.pl-track {
-  display: flex;
-  align-items: flex-start;
-  gap: 0;
-  width: 100%;
+/* =========================================================
+   CARDS GRID (Ab Full-Width Images ka Grid hai)
+   ========================================================= */
+
+.pl-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 30px 20px;
+  padding: 0 20px; /* Thoda gap dein total width par */
 }
 
-.pl-pill {
-  flex: 1 1 0;
-  min-width: 110px;
-  min-height: 180px;
-  background: var(--pill-bg);
-  border-radius: 64px;
-  border: 1px solid #7e7e7e2e;
-  box-shadow:
-    0 1px 2px rgba(27, 23, 18, 0.04),
-    0 12px 24px -8px rgba(140, 101, 40, 0.18),
-    inset 0 1px 0 rgba(255, 255, 255, 0.6);
-  display: flex;
+/* =========================================================
+   CARD
+   ========================================================= */
+
+.prod-card {
+  min-width: 0;
+  transition: transform 0.4s ease, opacity 0.4s ease;
+  display: flex; /* Text placement ke liye naya column flex */
   flex-direction: column;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 26px 12px;
-  text-align: center;
-  transition:
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
 }
 
-.pl-pill:hover {
-  transform: translateY(-3px);
-  box-shadow:
-    0 2px 4px rgba(27, 23, 18, 0.05),
-    0 18px 30px -10px rgba(140, 101, 40, 0.24),
-    inset 0 1px 0 rgba(255, 255, 255, 0.7);
+.pl-card:hover {
+  transform: translateY(-6px);
+}
+
+/* =========================================================
+   IMAGE CONTAINER & HOVER ANIMATION (No more rounded edges)
+   ========================================================= */
+
+.pl-image-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 0.70; 
+  overflow: hidden;
+  /* background: #dfe3e5; */ /* Background hata diya hai */
+  border-radius: 0; /* Rounded corners hata diye hain */
+}
+
+.pl-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1);
+  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease;
+}
+
+.pl-card:hover .pl-image {
+  transform: scale(1.07);
+  filter: saturate(0.92);
+}
+
+/* =========================================================
+   IMAGE OVERLAY
+   ========================================================= */
+
+.pl-image-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(8, 17, 27, 0.82) 0%,
+    rgba(8, 17, 27, 0.35) 42%,
+    rgba(8, 17, 27, 0) 75%
+  );
+  opacity: 0;
+  transition: opacity 0.45s ease;
+}
+
+.prod-card:hover .pl-image-overlay {
+  opacity: 1;
+}
+
+/* =========================================================
+   HOVER DETAIL TEXT
+   ========================================================= */
+
+.pl-detail {
+  position: absolute;
+  left: 16px;
+  right: 16px;
+  bottom: 16px;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.55;
+  opacity: 0;
+  transform: translateY(12px);
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  z-index: 2;
+}
+
+.prod-card:hover .pl-detail {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* =========================================================
+   CARD INFORMATION (Ab seedha image ke nechy display hota hai)
+   ========================================================= */
+
+.pl-card-info {
+  display: flex;
+  align-items: center; /* Number aur Title ko vertically align karein */
+  gap: 10px;
+  padding: 12px 2px 0;
+  margin-top: 5px; /* Thoda gap image ke nechy */
 }
 
 .pl-num {
-  font-family: "Manrope", sans-serif;
-  font-size: 18px;
+  flex-shrink: 0;
+  color: #405a77;
+  font-size: 11px;
   font-weight: 700;
-  color: var(--gold-deep);
-  margin-bottom: 16px;
+  letter-spacing: 0.08em;
 }
 
-.pl-icon {
-  width: 23px;
-  height: 23px;
-  color: var(--gold);
-  margin-bottom: 14px;
+.pl-card-info h3 {
+  margin: 0;
+  color: #132131;
+  font-size: 14px;
+  font-weight: 650;
+  line-height: 1.35;
+  letter-spacing: -0.2px;
+  transition: color 0.3s ease;
 }
 
-.pl-label {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--ink);
-  line-height: 1.3;
+.prod-card:hover .pl-card-info h3 {
+  color: #5478a1;
 }
 
-/* ---------- Connector between pills ---------- */
-.pl-connector {
-  flex: 1 0 20px;
-  display: flex;
-  align-items: center;
-  min-width: 20px;
-  margin-top: 72px;
-  padding: 0 6px;
-}
+/* =========================================================
+   TABLET RESPONSIVE
+   ========================================================= */
 
-.pl-line {
-  flex: 1;
-  height: 1px;
-  background: repeating-linear-gradient(
-    to right,
-    var(--gold-deep) 0,
-    var(--gold-deep) 4px,
-    transparent 4px,
-    transparent 9px
-  );
-}
-
-.pl-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--gold-deep);
-  flex: 0 0 auto;
-  margin: 0 3px;
-}
-
-/* ---------- Responsive ---------- */
-@media (max-width: 900px) {
-  .pl-wrap {
-    padding: 0 22px;
+@media (max-width: 1000px) {
+  .production-layer {
+    padding: 70px 0;
   }
+
+  .pl-heading-area {
+    width: min(900px, 90%);
+    gap: 24px;
+    margin-bottom: 45px;
+  }
+
   .pl-heading {
-    font-size: 30px;
+    font-size: clamp(30px, 4.5vw, 42px);
   }
-  .pl-sub {
-    margin-top: 16px;
-    border-left: none;
-    padding-left: 0;
-  }
-  .pl-track {
-    flex-wrap: wrap;
-    row-gap: 16px;
-  }
-  .pl-pill {
-    flex: 1 1 calc(25% - 12px);
-    min-width: 130px;
-    min-height: 160px;
-    border-radius: 56px;
-  }
-  .pl-connector {
-    display: none;
+
+  .pl-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 25px 18px;
+    padding: 0 15px; /* Thoda aur width side py */
   }
 }
 
-@media (max-width: 560px) {
-  .pl-pill {
-    flex: 1 1 calc(50% - 12px);
+/* =========================================================
+   MOBILE RESPONSIVE
+   ========================================================= */
+
+@media (max-width: 650px) {
+  .production-layer {
+    padding: 50px 0;
+  }
+
+  .pl-wrap {
+    width: 100%; /* Mobile par bhi full-width */
+  }
+
+  .pl-heading-area {
+    display: block;
+    width: 100%;
+    margin-bottom: 35px;
+  }
+
+  .pl-heading-content {
+    max-width: 100%;
+  }
+
+  .pl-heading-line {
+    width: 55px;
+    height: 1px;
+    margin: 0 auto 20px;
+  }
+
+  .pl-tag {
+    margin-bottom: 10px;
+    font-size: 10px;
+    letter-spacing: 0.14em;
+  }
+
+  .pl-heading {
+    font-size: clamp(26px, 7vw, 34px);
+    line-height: 1.15;
+    letter-spacing: -1.2px;
+  }
+
+  .pl-intro {
+    max-width: 430px;
+    margin-top: 14px;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  .pl-grid {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    gap: 24px;
+    padding: 0 10px; /* Mobile width adjustment */
+  }
+
+  .pl-image-wrap {
+    aspect-ratio: 1 / 0.65;
+    border-radius: 0; /* Mobile rounded corners bhi hata diye hain */
+  }
+
+  .pl-card-info {
+    padding-top: 10px;
+  }
+
+  .pl-card-info h3 {
+    font-size: 13.5px;
   }
 }

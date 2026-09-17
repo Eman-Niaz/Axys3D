@@ -1,10 +1,13 @@
 ---
+// src/pages/work/[slug].astro
+// Case Study / Project detail page with luxury architectural layout, video section & animations
+
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import "../../styles/token.css";
 import "../../styles/global.css";
 import "../../styles/Navbar.css";
-import "../../styles/work.css";
+import "../../styles/work-detail.css";
 import "../../styles/footer.css";
 import { getCollection, render } from "astro:content";
 
@@ -18,6 +21,14 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
+const projectData = project.data as typeof project.data & {
+  video1?: string;
+  videoUrl1?: string;
+  video2?: string;
+  videoUrl2?: string;
+  video3?: string;
+  videoUrl3?: string;
+};
 const {
   title,
   badgeText,
@@ -27,10 +38,30 @@ const {
   deliveryType,
   services,
   publicationStatus,
-} = project.data;
+  // Video fields (Extracting video 1, video 2, video 3)
+  video1 = projectData.video1 || projectData.videoUrl1 || null,
+  video2 = projectData.video2 || projectData.videoUrl2 || null,
+  video3 = projectData.video3 || projectData.videoUrl3 || null,
+} = projectData;
+
 const { Content } = await render(project);
 
 const servicesLabel = Array.isArray(services) ? services.join(", ") : services;
+
+// Filter active videos into an array
+const projectVideos = [
+  { id: 1, title: "01 // Dynamic Walkthrough", url: video1 },
+  { id: 2, title: "02 // Technical Breakdown", url: video2 },
+  { id: 3, title: "03 // Spatial Flythrough", url: video3 },
+].filter(
+  (v): v is { id: number; title: string; url: string } =>
+    typeof v.url === "string" && v.url !== "",
+);
+ 
+
+// Fallback background image
+const heroBackgroundImage =
+  "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2400&q=85";
 ---
 
 <!doctype html>
@@ -43,48 +74,120 @@ const servicesLabel = Array.isArray(services) ? services.join(", ") : services;
   </head>
 
   <body class="page-work-detail">
-    <Navbar variant="solid" />
+    <Navbar variant="transparent" />
 
     <main class="wrk-page">
-      <div class="wrk-wrap">
-        <a
-          class="wrk-back"
-          href="/work"
-          style="display: inline-block; margin-bottom: 24px; color: var(--gold-deep); text-decoration: none; font-weight: 700;"
-        >
-          ← Back to all case studies
-        </a>
+      <!-- HERO SECTION -->
+      <section class="wrk-hero-section">
+        <div class="wrk-hero-bg">
+          <img
+            src={heroBackgroundImage}
+            alt={title}
+            class="wrk-hero-img"
+          />
+          <div class="wrk-hero-overlay"></div>
+        </div>
 
-        <header class="wrk-hero">
+        <div class="wrk-wrap wrk-hero-content">
+          <div class="wrk-top-meta">
+            <a class="wrk-back" href="/work">
+              <span class="back-arrow">←</span>
+              <span>ALL CASE STUDIES</span>
+            </a>
+            <span class="wrk-category-badge">CASE STUDY // SPEC</span>
+          </div>
+
           <p class="wrk-eyebrow">
             {badgeText} · {sector}
           </p>
+
           <h1 class="wrk-h1">{title}</h1>
           <p class="wrk-lead">{summary}</p>
-        </header>
 
-        <section
-          class="wrk-meta-bar"
-          style="display: flex; gap: 16px; margin-bottom: 40px; flex-wrap: wrap;"
-        >
-          <span style="background: rgba(0,0,0,0.05); padding: 6px 14px; border-radius: 6px; font-weight: 600;">
-            Stage: {projectStage}
-          </span>
-          <span style="background: rgba(0,0,0,0.05); padding: 6px 14px; border-radius: 6px; font-weight: 600;">
-            Delivery: {deliveryType}
-          </span>
-          <span style="background: rgba(0,0,0,0.05); padding: 6px 14px; border-radius: 6px; font-weight: 600;">
-            Services: {servicesLabel}
-          </span>
-          <span style="background: rgba(0,0,0,0.05); padding: 6px 14px; border-radius: 6px; font-weight: 600;">
-            Status: {publicationStatus}
-          </span>
-        </section>
+          <!-- META CARDS GRID -->
+          <div class="wrk-meta-grid">
+            <div class="wrk-meta-card">
+              <span class="wrk-meta-label">PROJECT STAGE</span>
+              <span class="wrk-meta-val">{projectStage}</span>
+            </div>
 
-        <article class="wrk-content-body" style="line-height: 1.7; font-size: 16px;">
-          <Content />
-        </article>
-      </div>
+            <div class="wrk-meta-card">
+              <span class="wrk-meta-label">DELIVERY TYPE</span>
+              <span class="wrk-meta-val">{deliveryType}</span>
+            </div>
+
+            <div class="wrk-meta-card">
+              <span class="wrk-meta-label">CAPABILITIES</span>
+              <span class="wrk-meta-val">{servicesLabel}</span>
+            </div>
+
+            <div class="wrk-meta-card">
+              <span class="wrk-meta-label">STATUS</span>
+              <span class="wrk-meta-val">{publicationStatus}</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CONTENT BODY / ARTICLE -->
+      <section class="wrk-body-section">
+        <div class="wrk-wrap">
+          <article class="wrk-content-body">
+            <Content />
+          </article>
+
+          <!-- DYNAMIC VIDEO SHOWCASE SECTION (Video 1, Video 2, Video 3) -->
+          {projectVideos.length > 0 && (
+            <div class="wrk-videos-section">
+              <div class="wrk-video-head">
+                <span class="wrk-video-eyebrow">VISUAL PRODUCTIONS</span>
+                <h2 class="wrk-video-title">Project Motion & Video Showcases</h2>
+              </div>
+
+              <div class="wrk-video-grid">
+                {projectVideos.map((vid) => (
+                  <div class="wrk-video-card">
+                    <div class="wrk-video-header">
+                      <span class="wrk-video-tag">{vid.title}</span>
+                    </div>
+                    <div class="wrk-video-wrapper">
+                      {vid.url.includes("youtube") || vid.url.includes("vimeo") ? (
+                        <iframe
+                          src={vid.url}
+                          title={vid.title}
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowfullscreen
+                          loading="lazy"
+                        ></iframe>
+                      ) : (
+                        <video controls preload="metadata">
+                          <source src={vid.url} type="video/mp4" />
+                          Your browser does not support the video tag.
+                        </video>
+                      )}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          <!-- BOTTOM CTA BANNER -->
+          <div class="wrk-cta-card">
+            <div class="wrk-cta-info">
+              <span class="wrk-cta-eyebrow">COMMISSION A CASE STUDY WORKFLOW</span>
+              <h2 class="wrk-cta-heading">Need similar architectural execution for your project?</h2>
+              <p class="wrk-cta-subtext">Let's align your production schedules and technical BIM deliverables.</p>
+            </div>
+            <div class="wrk-cta-actions">
+              <a href="/Contact/" class="wrk-btn wrk-btn-primary">
+                Configure Project Scope
+                <span>→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <Footer />

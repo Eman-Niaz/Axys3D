@@ -1,334 +1,1168 @@
 /* ==========================================================================
-   WORK / GOVERNED EVIDENCE PAGE STYLING (MATCHED TO SERVICES SYSTEM)
+   WORK / CASE STUDIES
+   PREMIUM VISUAL PORTFOLIO SYSTEM
+   (rebuilt to match the Industries page system — same background
+   technique, navbar depth, hero grid, section-heading pattern,
+   full-bleed final CTA and responsive breakpoints)
+
+   UPDATE: navbar ko absolute/overlay banaya gaya hai taake background
+   image navbar ke peeche se continue ho aur ek hard seam na dikhe.
+   Hero ka top padding badha diya gaya hai taake content navbar ke
+   neeche na chupe.
    ========================================================================== */
 
 .work-page {
-  --ink: #1b1712;
-  --cream: #faf6ee;
-  --gold: #c08a3e;
-  --gold-deep: #8c6528;
-  --line: rgba(27, 23, 18, 0.1);
-  --muted: #6e675c;
+  --wrk-blue: #071522;
+  --wrk-blue-soft: #0b1d2c;
+  --wrk-blue-panel: #102637;
+  --wrk-blue-light: #16364d;
 
-  background: var(--cream);
-  color: var(--ink);
+  --wrk-brown: #b38b5a;
+  --wrk-brown-light: #d2b487;
+  --wrk-brown-soft: rgba(179, 139, 90, 0.14);
+
+  --wrk-white: #ffffff;
+  --wrk-text: #d8dde0;
+  --wrk-muted: #8997a1;
+
+  --wrk-line: rgba(255, 255, 255, 0.1);
+
+  position: relative;
+  z-index: 1;
+  background: var(--wrk-blue);
+  color: var(--wrk-white);
+  overflow: hidden;
 }
+
+
+/* ==========================================================================
+   PAGE BACKGROUND
+   (self-contained CSS background-image -- your markup only has
+   <div class="wrk-page-bg"><div class="wrk-page-bg-overlay"></div></div>,
+   no <img> tag, so the image must be set here directly)
+   ========================================================================== */
+
+.page-work {
+  position: relative; /* navbar ka absolute positioning isi ke against hoga */
+  background: var(--wrk-blue);
+}
+
+.wrk-page-bg {
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: min(1250px, 125vh);
+
+  z-index: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  background-image: url("https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=2400&q=85");
+  background-size: cover;
+  background-position: center;
+
+  opacity: 0.42;
+
+  filter:
+    grayscale(0.30)
+    saturate(0.80)
+    contrast(1.02)
+    blur(1px);
+
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 45%,
+      rgba(0, 0, 0, 0.55) 72%,
+      rgba(0, 0, 0, 0.18) 88%,
+      transparent 100%
+    );
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 45%,
+      rgba(0, 0, 0, 0.55) 72%,
+      rgba(0, 0, 0, 0.18) 88%,
+      transparent 100%
+    );
+}
+
+.wrk-page-bg-overlay {
+
+  position: absolute;
+
+  inset: 0;
+
+  background: rgba(7, 21, 34, 0.77);
+}
+
+
+
+/* ==========================================================================
+   WRAPPER
+   ========================================================================== */
 
 .wrk-wrap {
-  max-width: 1040px;
+  position: relative;
+  z-index: 2;
+  width: min(1320px, calc(100% - 100px));
   margin: 0 auto;
-  padding: 0 40px;
 }
 
-/* ---------- Hero ---------- */
-.wrk-hero {
-  padding: 96px 0 36px;
-}
 
-.wrk-eyebrow {
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin: 0 0 18px;
-}
+/* ==========================================================================
+   NAVBAR
+   UPDATE: ab navbar page ke top par "float" karta hai (absolute),
+   isliye background image iske peeche se seedha guzarti hai aur
+   koi hard cut line nahi banti — sab ek hi continuous surface
+   lagta hai.
+   ========================================================================== */
 
-.wrk-h1 {
-  font-family: "Manrope", sans-serif;
-  font-weight: 700;
-  font-size: 44px;
-  line-height: 1.15;
-  color: var(--ink);
-  max-width: 680px;
-  margin: 0 0 20px;
-}
-
-.wrk-lead {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.65;
-  color: var(--muted);
-  max-width: 560px;
-  margin: 0;
-}
-
-/* ---------- Public Query Boundary Notice Box ---------- */
-.wrk-notice-box {
-  background: #ffffff;
-  border: 1px solid var(--line);
-  border-left: 3px solid var(--gold);
-  border-radius: 12px;
-  padding: 20px 24px;
-  margin-bottom: 48px;
-}
-
-.wrk-notice-title {
-  font-family: "Manrope", sans-serif;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--ink);
-  margin: 0 0 6px;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.wrk-notice-text {
-  font-size: 13.5px;
-  font-weight: 500;
-  line-height: 1.55;
-  color: var(--muted);
-  margin: 0;
-}
-
-/* ---------- Interactive Filter Bar ---------- */
-.wrk-filter-bar {
-  background: #ffffff;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 24px;
-  margin-bottom: 48px;
-  box-shadow: 0 4px 16px -8px rgba(27, 23, 18, 0.06);
-}
-
-.wrk-filter-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
-  gap: 14px;
-  border-bottom: 1px solid var(--line);
-  padding-bottom: 20px;
-}
-
-.wrk-filter-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.wrk-filter-group label {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: var(--gold-deep);
-}
-
-.wrk-select {
-  width: 100%;
-  background: var(--cream);
-  border: 1px solid var(--line);
-  border-radius: 8px;
-  padding: 10px 12px;
-  font-size: 12.5px;
-  font-weight: 600;
-  color: var(--ink);
-  outline: none;
-  cursor: pointer;
-  transition:
-    border-color 0.2s ease,
-    box-shadow 0.2s ease;
-  appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%201b1712' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 12px center;
-}
-
-.wrk-select:hover,
-.wrk-select:focus {
-  border-color: rgba(192, 138, 62, 0.5);
-}
-
-/* Results counter & clear filter button */
-.wrk-results-bar {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-top: 16px;
-}
-
-.wrk-count {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--gold-deep);
-}
-
-.wrk-clear-btn {
-  background: transparent;
-  border: none;
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--muted);
-  cursor: pointer;
-  text-decoration: underline;
-  transition: color 0.2s ease;
-}
-
-.wrk-clear-btn:hover {
-  color: var(--ink);
-}
-
-/* ---------- Projects Cards Section ---------- */
-.wrk-projects-section {
-  padding-bottom: 100px;
-}
-
-.wrk-projects-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-  gap: 20px;
-}
-
-.wrk-card {
-  background: #ffffff;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 24px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  transition:
-    border-color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
-}
-
-.wrk-card:hover {
-  border-color: rgba(192, 138, 62, 0.4);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px -12px rgba(27, 23, 18, 0.18);
-}
-
-.wrk-card-header {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  margin-bottom: 14px;
-}
-
-.wrk-badge-tag {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--gold-deep);
-  letter-spacing: 0.02em;
-}
-
-.wrk-meta-sub {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--muted);
-}
-
-.wrk-card-title {
-  font-family: "Manrope", sans-serif;
-  font-weight: 700;
-  font-size: 20px;
-  line-height: 1.35;
-  color: var(--ink);
-  margin: 0 0 12px;
-}
-
-.wrk-card-summary {
-  font-size: 14px;
-  font-weight: 500;
-  font-weight: 1.6;
-  color: var(--muted);
-  margin: 0 0 20px;
-  flex-grow: 1;
-}
-
-/* Footer details inside card */
-.wrk-card-footer {
-  border-top: 1px solid var(--line);
-  padding-top: 16px;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-
-.wrk-delivery-tag {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--ink);
-}
-
-.wrk-pills-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 6px;
-}
-
-.wrk-pill {
-  font-size: 11px;
-  font-weight: 600;
-  background: var(--cream);
-  border: 1px solid var(--line);
-  color: var(--ink);
-  padding: 3px 8px;
-  border-radius: 4px;
-}
-
-.wrk-status-indicator {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11.5px;
-  font-weight: 600;
-  color: var(--muted);
-}
-
-.wrk-dot {
-  width: 6px;
-  height: 6px;
-  background-color: var(--gold);
-  border-radius: 50%;
-  display: inline-block;
-}
-
-/* Empty State */
-.wrk-no-results {
-  text-align: center;
-  padding: 60px 0;
-  color: var(--muted);
-  font-size: 15px;
-  font-weight: 500;
-}
-
-/* ---------- Shared Navbar Overrides ---------- */
 .page-work .navbar {
-  background: #ffffff;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: 1px solid rgba(27, 23, 18, 0.08);
-  position: static;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+
+  background: transparent !important;
+
+  border-bottom: none !important;
+
+  backdrop-filter: none !important;
+
+  -webkit-backdrop-filter: none !important;
+
+  box-shadow: none !important;
+
+  z-index: 50;
 }
 
 .page-work .logo,
 .page-work .nav-links a {
-  color: #1b1712;
+
+  color: var(--wrk-white);
+}
+
+.page-work .nav-links a {
+
+  opacity: 0.72;
+
+  transition:
+    opacity 0.25s ease,
+    color 0.25s ease;
+}
+
+.page-work .nav-links a:hover {
+
+  color: var(--wrk-brown-light);
+
+  opacity: 1;
 }
 
 .page-work .nav-button {
-  color: #1b1712;
-  border-color: rgba(27, 23, 18, 0.15);
-  background: rgba(27, 23, 18, 0.04);
+
+  color: #eee9df;
+
+  border-color:
+    rgba(210, 180, 135, 0.35);
+
+  background:
+    rgba(179, 139, 90, 0.08);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
 }
 
 .page-work .nav-button:hover {
-  background: rgba(27, 23, 18, 0.08);
+
+  background:
+    rgba(179, 139, 90, 0.18);
+
+  border-color:
+    rgba(210, 180, 135, 0.6);
+
+  transform:
+    translateY(-1px);
 }
 
-/* ---------- Responsive ---------- */
-@media (max-width: 860px) {
+
+/* ==========================================================================
+   HERO
+   (flex layout — label column + content column, matching your
+   actual markup: <header class="wrk-hero"> > .wrk-hero-label +
+   .wrk-hero-content, no extra grid wrapper needed)
+
+   UPDATE: top padding badha diya hai kyunke navbar ab document
+   flow se nikal ke absolute ho gaya hai — is extra space ke bina
+   hero content navbar ke neeche chup jayega. Apni navbar ki
+   asal height check karke ye value fine-tune kar lena
+   (formula: navbar-height + purana 120px).
+   ========================================================================== */
+
+.wrk-hero {
+
+  position: relative;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 40px;
+
+  padding:
+    190px 0 100px;
+
+  background: transparent;
+}
+
+.wrk-hero-label {
+
+  flex: 0 0 160px;
+
+  padding-top: 10px;
+
+  color: #8997a1;
+
+  font-size: 9px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.18em;
+
+  text-transform: uppercase;
+}
+
+.wrk-hero-label span {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.wrk-hero-label span::before {
+
+  content: "";
+
+  display: inline-block;
+
+  width: 14px;
+
+  height: 1px;
+
+  background: var(--wrk-brown);
+}
+
+.wrk-hero-content {
+
+  flex: 1;
+
+  max-width: 900px;
+
+  animation:
+    wrkHeroReveal
+    0.9s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+@keyframes wrkHeroReveal {
+
+  from {
+
+    opacity: 0;
+
+    transform:
+      translateY(30px);
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+.wrk-eyebrow {
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 25px;
+
+  color: var(--wrk-brown-light);
+
+  font-size: 10px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.17em;
+
+  text-transform: uppercase;
+}
+
+.wrk-eyebrow::before {
+
+  content: "";
+
+  width: 6px;
+
+  height: 6px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: var(--wrk-brown);
+
+  box-shadow:
+    0 0 0 5px
+    rgba(179, 139, 90, 0.10);
+
+  animation:
+    wrkDotPulse
+    2s
+    ease-in-out
+    infinite;
+}
+
+@keyframes wrkDotPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.25);
+  }
+}
+
+.wrk-h1 {
+
+  max-width: 900px;
+
+  margin: 0 0 30px;
+
+  color: var(--wrk-white);
+
+  font-family: "Manrope", sans-serif;
+
+  font-size: clamp(42px, 5.5vw, 76px);
+
+  font-weight: 650;
+
+  letter-spacing: -0.055em;
+
+  line-height: 1.02;
+}
+
+.wrk-section-title {
+
+  color: var(--wrk-muted);
+
+}
+
+.wrk-final-title {
+  
+  color: var(--wrk-brown-light);
+}
+
+.wrk-lead {
+
+  max-width: 650px;
+
+  margin: 0;
+
+  color: var(--wrk-text);
+
+  font-size: 16px;
+
+  font-weight: 450;
+
+  line-height: 1.8;
+}
+
+
+/* ==========================================================================
+   SECTION HEADING (projects intro)
+   (your markup has no separate .wrk-section-heading wrapper —
+   .wrk-intro itself is the flex row with the border-bottom)
+   ========================================================================== */
+
+.wrk-intro {
+
+  position: relative;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-end;
+
+  gap: 40px;
+
+  padding: 105px 0 45px;
+
+  margin-bottom: 45px;
+
+  border-bottom: 1px solid var(--wrk-line);
+
+  background: transparent;
+}
+
+.wrk-section-label {
+
+  display: block;
+
+  margin-bottom: 18px;
+
+  font-size: 11px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.18em;
+
+  color: var(--wrk-brown);
+}
+
+.wrk-intro h2 {
+
+  margin: 0;
+
+  color: var(--wrk-white);
+
+  font-family: "Manrope", sans-serif;
+
+  font-size: clamp(30px, 3.5vw, 48px);
+
+  font-weight: 600;
+
+  letter-spacing: -0.045em;
+
+  line-height: 1.08;
+}
+
+.wrk-intro h2 span {
+
+  color: #8997a1;
+}
+
+.wrk-intro p {
+
+  max-width: 450px;
+
+  margin: 16px 0 0;
+
+  color: #8997a1;
+
+  font-size: 14px;
+
+  line-height: 1.75;
+}
+
+.wrk-intro-meta {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  padding-bottom: 5px;
+}
+
+.wrk-count {
+
+  color: var(--wrk-brown-light);
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.16em;
+}
+
+.wrk-intro-line {
+
+  width: 60px;
+
+  height: 1px;
+
+  background: var(--wrk-brown);
+}
+
+
+/* ==========================================================================
+   PROJECT GRID
+   ========================================================================== */
+
+.wrk-projects-section {
+  position: relative;
+  padding-bottom: 120px;
+}
+
+.wrk-projects-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 28px;
+  row-gap: 75px;
+}
+
+
+/* ==========================================================================
+   CARD
+   ========================================================================== */
+
+.wrk-card {
+  min-width: 0;
+  background: transparent;
+  border: none;
+
+  opacity: 0;
+  transform: translateY(35px);
+  transition:
+    opacity 0.7s var(--wrk-delay, 0s) ease,
+    transform 0.7s var(--wrk-delay, 0s) cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.wrk-card.wrk-card-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.wrk-card-media {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 430px;
+  overflow: hidden;
+  background: var(--wrk-blue-panel);
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.10);
+  isolation: isolate;
+  transition:
+    transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease,
+    box-shadow 0.4s ease;
+}
+
+.wrk-card:hover .wrk-card-media {
+
+  transform: translateY(-8px);
+
+  border-color: rgba(179, 139, 90, 0.55);
+
+  box-shadow: 0 32px 75px rgba(0, 0, 0, 0.30);
+}
+
+.wrk-card-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.01);
+  transition:
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    filter 0.5s ease;
+}
+
+.wrk-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(7, 21, 34, 0.12) 0%,
+    rgba(7, 21, 34, 0.05) 40%,
+    rgba(7, 21, 34, 0.72) 100%
+  );
+  z-index: 1;
+  transition: opacity 0.4s ease;
+}
+
+.wrk-card:hover .wrk-card-video {
+  transform: scale(1.07);
+  filter: saturate(1.05);
+}
+
+.wrk-card:hover .wrk-card-overlay {
+  opacity: 0.88;
+}
+
+/* corner accents — pure CSS pseudo-elements, no extra markup needed
+   (your .wrk-card-media only contains video/overlay/number/arrow/label,
+   no corner spans) */
+
+.wrk-card-media::before,
+.wrk-card-media::after {
+
+  content: "";
+
+  position: absolute;
+
+  width: 27px;
+  height: 27px;
+
+  z-index: 3;
+
+  border-color: rgba(210, 180, 135, 0.72);
+
+  transition:
+    width 0.4s ease,
+    height 0.4s ease;
+
+  pointer-events: none;
+}
+
+.wrk-card-media::before {
+
+  top: 15px;
+  left: 15px;
+
+  border-top: 1px solid;
+  border-left: 1px solid;
+}
+
+.wrk-card-media::after {
+
+  right: 15px;
+  bottom: 15px;
+
+  border-right: 1px solid;
+  border-bottom: 1px solid;
+}
+
+.wrk-card:hover .wrk-card-media::before,
+.wrk-card:hover .wrk-card-media::after {
+
+  width: 36px;
+  height: 36px;
+}
+
+.wrk-card-number {
+  position: absolute;
+  top: 22px;
+  left: 24px;
+  z-index: 3;
+  font-family: "Manrope", sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--wrk-white);
+}
+
+.wrk-card-arrow {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  z-index: 3;
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background: rgba(7, 21, 34, 0.28);
+  backdrop-filter: blur(8px);
+  font-size: 20px;
+  color: var(--wrk-white);
+  transition:
+    background 0.3s ease,
+    border-color 0.3s ease,
+    transform 0.3s ease;
+}
+
+.wrk-card:hover .wrk-card-arrow {
+  background: var(--wrk-brown);
+  border-color: var(--wrk-brown);
+  transform: translate(2px, -2px);
+}
+
+.wrk-card-media-label {
+  position: absolute;
+  left: 24px;
+  bottom: 22px;
+  z-index: 3;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: rgba(255, 255, 255, 0.75);
+}
+
+.wrk-card-content {
+  padding: 22px 4px 0;
+}
+
+.wrk-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.wrk-card-category {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.13em;
+  text-transform: uppercase;
+  color: var(--wrk-brown-light);
+}
+
+.wrk-card-index {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: var(--wrk-muted);
+}
+
+.wrk-card-title {
+  margin: 0 0 11px;
+  font-family: "Manrope", sans-serif;
+  font-size: 25px;
+  line-height: 1.2;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.wrk-card-title a {
+  color: var(--wrk-white);
+  text-decoration: none;
+  transition: color 0.25s ease;
+}
+
+.wrk-card-title a:hover {
+  color: var(--wrk-brown-light);
+}
+
+.wrk-card-summary {
+  max-width: 560px;
+  margin: 0 0 20px;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: var(--wrk-muted);
+}
+
+.wrk-view-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding-bottom: 7px;
+  border-bottom: 1px solid rgba(179, 139, 90, 0.5);
+  color: var(--wrk-white);
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition:
+    color 0.25s ease,
+    border-color 0.25s ease;
+}
+
+.wrk-view-arrow {
+  font-size: 16px;
+  transition: transform 0.25s ease;
+}
+
+.wrk-view-link:hover {
+  color: var(--wrk-brown-light);
+  border-color: var(--wrk-brown);
+}
+
+.wrk-view-link:hover .wrk-view-arrow {
+  transform: translate(3px, -3px);
+}
+
+
+/* ==========================================================================
+   FINAL CTA
+   (full-bleed, technical grid-line pattern — matches ind-final-cta,
+   no more boxed/bordered card)
+   ========================================================================== */
+
+.wrk-final-cta {
+
+  position: relative;
+
+  z-index: 1;
+
+  padding: 135px 0;
+
+  overflow: hidden;
+
+  text-align: center;
+
+  background: #06111c;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.wrk-final-cta::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: 0.30;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 70px 70px;
+
+  mask-image:
+    radial-gradient(
+      circle at center,
+      black,
+      transparent 72%
+    );
+}
+
+.wrk-final-inner {
+
+  position: relative;
+
+  max-width: 800px;
+
+  margin: 0 auto;
+
+  text-align: center;
+}
+
+.wrk-cta-kicker {
+
+  display: block;
+
+  margin-bottom: 23px;
+
+  color: var(--wrk-brown-light);
+
+  font-size: 9px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.20em;
+}
+
+.wrk-final-cta h2 {
+
+  margin: 0 auto 23px;
+
+  max-width: 700px;
+
+  color: var(--wrk-white);
+
+  font-family: "Manrope", sans-serif;
+
+  font-size: clamp(40px, 5.8vw, 72px);
+
+  font-weight: 600;
+
+  letter-spacing: -0.06em;
+
+  line-height: 1;
+}
+
+.wrk-final-cta h2 span {
+
+  color: var(--wrk-brown-light);
+}
+
+.wrk-final-cta p {
+
+  max-width: 540px;
+
+  margin: 0 auto;
+
+  color: #8997a1;
+
+  font-size: 14px;
+
+  line-height: 1.8;
+}
+
+.wrk-cta-button {
+
+  display: inline-flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 35px;
+
+  margin-top: 38px;
+
+  padding: 17px 21px;
+
+  color: var(--wrk-blue);
+
+  background: var(--wrk-brown-light);
+
+  text-decoration: none;
+
+  font-size: 11px;
+
+  font-weight: 800;
+
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
+}
+
+.wrk-cta-button:hover {
+
+  background: #dfc39a;
+
+  transform: translateY(-4px);
+
+  box-shadow: 0 22px 55px rgba(179, 139, 90, 0.20);
+}
+
+.wrk-cta-button span:last-child {
+
+  font-size: 17px;
+}
+
+
+/* ==========================================================================
+   FOCUS
+   ========================================================================== */
+
+.wrk-card-title a:focus-visible,
+.wrk-view-link:focus-visible,
+.wrk-cta-button:focus-visible {
+
+  outline: 2px solid var(--wrk-brown-light);
+
+  outline-offset: 5px;
+}
+
+
+/* ==========================================================================
+   TABLET
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+
   .wrk-wrap {
-    padding: 0 22px;
+
+    width: min(100% - 60px, 900px);
   }
-  .wrk-h1 {
-    font-size: 32px;
+
+  .wrk-hero {
+
+    gap: 50px;
   }
-  .wrk-filter-grid {
-    grid-template-columns: repeat(2, 1fr);
+
+  .wrk-hero-label {
+
+    flex-basis: 120px;
   }
+
   .wrk-projects-grid {
+
+    column-gap: 22px;
+
+    row-gap: 60px;
+  }
+
+  .wrk-card-media {
+
+    height: 380px;
+  }
+}
+
+
+/* ==========================================================================
+   MOBILE
+   ========================================================================== */
+
+@media (max-width: 760px) {
+
+  .wrk-page-bg {
+
+    height: min(1100px, 110vh);
+
+    opacity: 0.30;
+
+    filter:
+      grayscale(0.45)
+      saturate(0.70)
+      blur(1px);
+  }
+
+  .wrk-wrap {
+
+    width: min(100% - 34px, 560px);
+  }
+
+  .wrk-hero {
+
+    flex-direction: column;
+
+    gap: 20px;
+
+    padding: 130px 0 60px;
+  }
+
+  .wrk-hero-label {
+
+    flex: initial;
+  }
+
+  .wrk-h1 {
+
+    font-size: clamp(40px, 12vw, 60px);
+  }
+
+  .wrk-lead {
+
+    font-size: 14px;
+  }
+
+  .wrk-intro {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 18px;
+
+    padding: 60px 0 35px;
+  }
+
+  .wrk-projects-grid {
+
     grid-template-columns: 1fr;
+
+    row-gap: 55px;
+  }
+
+  .wrk-card-media {
+
+    height: 320px;
+  }
+
+  .wrk-card-title {
+
+    font-size: 21px;
+  }
+
+  .wrk-final-cta {
+
+    padding: 100px 0;
+  }
+}
+
+
+/* ==========================================================================
+   SMALL MOBILE
+   ========================================================================== */
+
+@media (max-width: 420px) {
+
+  .wrk-h1 {
+
+    font-size: 40px;
+  }
+
+  .wrk-card-media {
+
+    height: 260px;
+  }
+
+  .wrk-card-title {
+
+    font-size: 19px;
+  }
+
+  .wrk-final-cta h2 {
+
+    font-size: 42px;
+  }
+
+  .wrk-cta-button {
+
+    width: 100%;
+
+    justify-content: space-between;
+  }
+}
+
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+
+    scroll-behavior: auto !important;
+
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+  }
+
+  .wrk-hero-content {
+
+    animation: none;
+
+    opacity: 1;
+
+    transform: none;
+  }
+
+  .wrk-eyebrow::before {
+
+    animation: none;
+  }
+
+  .wrk-card {
+
+    opacity: 1;
+
+    transform: none;
   }
 }

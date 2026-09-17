@@ -1,68 +1,65 @@
+---
+import "../styles/footer.css";
+---
+
 <footer class="site-footer">
   <div class="footer-inner">
-    <div class="footer-brand">
-      <a href="/" class="footer-logo">
-        Axys<span>3D</span>
-      </a>
+    <!-- Top Main Grid -->
+    <div class="footer-top">
+      <!-- Brand Column -->
+      <div class="footer-brand">
+        <a href="/" class="footer-logo">AXYS<span>3D</span></a>
+        <p>
+          Governed production capacity across BIM, Revit modeling, coordination support, and high-end visual outputs for AEC delivery teams.
+        </p>
+        <a href="mailto:info@axys3d.com" class="footer-contact">info@axys3d.com</a>
+      </div>
 
-      <p>
-        Integrated production support across BIM, Revit, coordination, visualization, animation and
-        real-time workflows.
-      </p>
+      <!-- Navigation Columns -->
+      <nav class="footer-navigation">
+        <div class="footer-column">
+          <span class="footer-label">NAVIGATION</span>
+          <a href="/">Home</a>
+          <a href="/#services">Services</a>
+          <a href="/#process">Process</a>
+          <a href="/#faqs">FAQs</a>
+        </div>
 
-      <a href="/contact" class="footer-contact">
-        Start a conversation ↗
-      </a>
+        <div class="footer-column">
+          <span class="footer-label">CAPABILITIES</span>
+          <a href="#">BIM Execution</a>
+          <a href="#">Revit Production</a>
+          <a href="#">MEP Coordination</a>
+          <a href="#">3D Visualization</a>
+        </div>
+
+        <div class="footer-column">
+          <span class="footer-label">OFFICE</span>
+          <span>London, UK</span>
+          <span>Mon — Fri</span>
+          <span>09:00 — 18:00 GMT</span>
+        </div>
+      </nav>
     </div>
 
-    <div class="footer-navigation">
-      <div class="footer-column">
-        <span class="footer-label">COMPANY</span>
-
-        <a href="/services">Services</a>
-        <a href="/industries">Industries</a>
-        <a href="/work">Work</a>
-        <a href="/process">Process</a>
-        <a href="/about">About</a>
-      </div>
-
-      <div class="footer-column">
-        <span class="footer-label">EDITORIAL</span>
-
-        <a href="/insights">Insights</a>
-        <a href="/contact">Contact</a>
-      </div>
-
-      <div class="footer-column">
-        <span class="footer-label">CONTACT</span>
-
-        <span>Production enquiries</span>
-        <span>Technical briefs</span>
-        <span>Project collaboration</span>
-      </div>
-    </div>
-
+    <!-- Middle Disclaimer -->
     <div class="footer-disclaimer">
       <p>
-        Axys3D provides production and coordination support. It is not presented as architect or
-        engineer of record and does not provide statutory or professional sign-off.
+        Axys3D provides production and technical support. Design authority, statutory sign-offs, and compliance decisions remain under the ownership of client-appointed professionals.
       </p>
-
       <p>
-        Public records require explicit approval. NDA, withdrawn and review-expired work is excluded
-        from the static website.
+        All project materials, assets, and documentation are handled under strict confidentiality and non-disclosure standards.
       </p>
     </div>
 
+    <!-- Bottom Bar -->
     <div class="footer-bottom">
-      <span>© 2026 Axys3D</span>
-
-      <div>
-        <a href="/privacy">Privacy</a>
-        <a href="/contact">Contact</a>
+      <span>© {new Date().getFullYear()} AXYS3D. ALL RIGHTS RESERVED.</span>
+      <div class="footer-legal">
+        <a href="#">PRIVACY POLICY</a>
+        <a href="#">TERMS OF ENGAGEMENT</a>
       </div>
-
-      <span>AEC PRODUCTION</span>
+      <span>AEC PRODUCTION PARTNER</span>
     </div>
   </div>
 </footer>

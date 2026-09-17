@@ -1,129 +1,398 @@
 /* ==========================================================================
-   CONTACT PAGE STYLES (src/styles/contact.css)
-   Theme: Warm Cream & Ink (Matches Services Page Design System)
+   CONTACT PAGE STYLING
+   PREMIUM VISUAL SYSTEM — MATCHED WITH WORK / PROCESS PAGES
    ========================================================================== */
 
-.page-contact {
-  --ink: #1b1712;
-  --cream: #faf6ee;
-  --gold: #c08a3e;
-  --gold-deep: #8c6528;
-  --line: rgba(27, 23, 18, 0.1);
-  --muted: #6e675c;
-  --white: #ffffff;
+.contact-page {
+  --cnt-blue: #071522; 
+  --cnt-blue-soft: #0b1d2c;
+  --cnt-blue-panel: #102637;
+  --cnt-blue-light: #16364d;
 
-  background: var(--cream);
-  color: var(--ink);
+  --cnt-brown: #b38b5a;
+  --cnt-brown-light: #d2b487;
+  --cnt-brown-soft: rgba(179, 139, 90, 0.14);
+
+  --cnt-white: #ffffff;
+  --cnt-text: #d8dde0;
+  --cnt-muted: #8997a1;
+
+  --cnt-line: rgba(255, 255, 255, 0.1);
+
+  position: relative;
+  z-index: 1;
+  background: --cnt-blue;
+  color: var(--cnt-white);
+  overflow: hidden;
+
   font-family:
     "Manrope",
     system-ui,
     -apple-system,
     sans-serif;
-  margin: 0;
-  padding: 0;
+
   line-height: 1.6;
+  padding-bottom: 130px;
 }
 
-/* Base Wrapper */
-.contact-page {
-  padding-bottom: 100px;
-  min-height: 100vh;
+
+/* ==========================================================================
+   PAGE BACKGROUND
+   Required markup right after <body class="page-contact">:
+   <div class="cnt-page-bg"><div class="cnt-page-bg-overlay"></div></div>
+   ========================================================================== */
+
+.page-contact {
+  position: relative;
+  background: var(--cnt-blue);
 }
+
+.cnt-page-bg {
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: min(950px, 100vh);
+
+  z-index: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  background-image: url("https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2400&q=85");
+  background-size: cover;
+  background-position: center;
+
+  opacity: 0.34;
+
+  filter:
+    grayscale(0.30)
+    saturate(0.80)
+    contrast(1.02)
+    blur(1px);
+
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 34%,
+      rgba(0, 0, 0, 0.50) 60%,
+      rgba(0, 0, 0, 0.15) 82%,
+      transparent 100%
+    );
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 34%,
+      rgba(0, 0, 0, 0.50) 60%,
+      rgba(0, 0, 0, 0.15) 82%,
+      transparent 100%
+    );
+}
+
+.cnt-page-bg-overlay {
+
+  position: absolute;
+
+  inset: 0;
+
+  background: rgba(7, 21, 34, 0.80);
+}
+
+
+/* ==========================================================================
+   WRAPPER
+   ========================================================================== */
 
 .cnt-wrap {
+  position: relative;
+  z-index: 2;
   max-width: 1040px;
   margin: 0 auto;
   padding: 0 40px;
 }
 
-/* Navbar Theme Integration */
+
+/* ==========================================================================
+   NAVBAR
+   ========================================================================== */
+
 .page-contact .navbar {
-  background: var(--white);
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: 1px solid var(--line);
-  position: static;
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+
+  background: transparent !important;
+
+  border-bottom: none !important;
+
+  backdrop-filter: none !important;
+
+  -webkit-backdrop-filter: none !important;
+
+  box-shadow: none !important;
+
+  z-index: 50;
 }
 
 .page-contact .logo,
 .page-contact .nav-links a {
-  color: var(--ink);
+
+  color: var(--cnt-white);
+}
+
+.page-contact .nav-links a {
+
+  opacity: 0.72;
+
+  transition:
+    opacity 0.25s ease,
+    color 0.25s ease;
+}
+
+.page-contact .nav-links a:hover {
+
+  color: var(--cnt-brown-light);
+
+  opacity: 1;
 }
 
 .page-contact .nav-button {
-  color: var(--ink);
-  border-color: rgba(27, 23, 18, 0.15);
-  background: rgba(27, 23, 18, 0.04);
+
+  color: #eee9df;
+
+  border-color: rgba(210, 180, 135, 0.35);
+
+  background: rgba(179, 139, 90, 0.08);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
 }
 
 .page-contact .nav-button:hover {
-  background: rgba(27, 23, 18, 0.08);
+
+  background: rgba(179, 139, 90, 0.18);
+
+  border-color: rgba(210, 180, 135, 0.6);
+
+  transform: translateY(-1px);
 }
+
 
 /* ==========================================================================
    1. HERO SECTION
    ========================================================================== */
 .cnt-hero {
-  padding: 96px 0 56px;
-  max-width: 680px;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 40px;
+
+  max-width: none;
+
+  padding: 190px 0 90px;
+}
+
+.cnt-hero-label {
+
+  flex: 0 0 160px;
+
+  padding-top: 10px;
+
+  color: var(--cnt-muted);
+
+  font-size: 9px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.18em;
+
+  text-transform: uppercase;
+}
+
+.cnt-hero-label span {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.cnt-hero-label span::before {
+
+  content: "";
+
+  display: inline-block;
+
+  width: 14px;
+
+  height: 1px;
+
+  background: var(--cnt-brown);
+}
+
+.cnt-hero-content {
+
+  flex: 1;
+
+  max-width: 700px;
+
+  animation:
+    cntHeroReveal
+    0.9s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+@keyframes cntHeroReveal {
+
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .cnt-eyebrow {
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 0 0 25px;
+
+  color: var(--cnt-brown-light);
+
+  font-size: 10px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.17em;
+
   text-transform: uppercase;
-  color: var(--gold);
-  margin: 0 0 18px;
+}
+
+.cnt-eyebrow::before {
+
+  content: "";
+
+  width: 6px;
+
+  height: 6px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: var(--cnt-brown);
+
+  box-shadow: 0 0 0 5px rgba(179, 139, 90, 0.10);
+
+  animation:
+    cntDotPulse
+    2s
+    ease-in-out
+    infinite;
+}
+
+@keyframes cntDotPulse {
+
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.25); }
 }
 
 .cnt-h1 {
+
+  max-width: 700px;
+
+  margin: 0 0 30px;
+
+  color: var(--cnt-white);
+
   font-family: "Manrope", sans-serif;
-  font-weight: 700;
-  font-size: 44px;
-  line-height: 1.15;
-  color: var(--ink);
-  margin: 0 0 20px;
+
+  font-size: clamp(36px, 4.6vw, 60px);
+
+  font-weight: 650;
+
+  letter-spacing: -0.05em;
+
+  line-height: 1.08;
 }
 
 .cnt-lead {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.65;
-  color: var(--muted);
+
+  max-width: 560px;
+
   margin: 0;
+
+  color: var(--cnt-text);
+
+  font-size: 16px;
+
+  font-weight: 450;
+
+  line-height: 1.8;
 }
+
 
 /* ==========================================================================
    2. SECTIONS & HEADERS
    ========================================================================== */
 .cnt-section {
-  background: var(--white);
-  border: 1px solid var(--line);
-  border-radius: 16px;
-  padding: 48px;
-  margin-bottom: 48px;
-  box-shadow: 0 4px 20px -10px rgba(27, 23, 18, 0.05);
+  position: relative;
+  background: var(--cnt-blue-panel);
+  border: 1px solid var(--cnt-line);
+  padding: 44px;
+  margin-bottom: 30px;
+
+  opacity: 0;
+  transform: translateY(30px);
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.cnt-section.cnt-reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .cnt-header-group {
-  margin-bottom: 32px;
+  margin-bottom: 30px;
   padding-bottom: 20px;
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--cnt-line);
 }
 
 .cnt-section-title {
   font-family: "Manrope", sans-serif;
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
-  color: var(--ink);
+  letter-spacing: -0.02em;
+  color: var(--cnt-white);
   margin: 0 0 8px 0;
-  letter-spacing: -0.01em;
 }
 
 .cnt-section-sub {
-  font-size: 14.5px;
-  color: var(--muted);
+  font-size: 14px;
+  color: var(--cnt-muted);
   margin: 0;
 }
 
@@ -133,27 +402,44 @@
 .cnt-checklist {
   list-style: none;
   padding: 0;
-  margin: 0 0 28px 0;
+  margin: 0 0 26px 0;
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 16px;
+  gap: 14px;
 }
 
 .cnt-check-item {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  font-size: 14.5px;
+  font-size: 14px;
   font-weight: 500;
-  color: var(--ink);
-  background: var(--cream);
-  padding: 16px;
-  border-radius: 10px;
-  border: 1px solid var(--line);
+  color: var(--cnt-text);
+  background: var(--cnt-blue-soft);
+  padding: 15px 16px;
+  border: 1px solid var(--cnt-line);
+
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.5s var(--cnt-delay, 0s) ease,
+    transform 0.5s var(--cnt-delay, 0s) cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.cnt-check-item.cnt-reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cnt-check-item:hover {
+  border-color: rgba(179, 139, 90, 0.4);
+  background: var(--cnt-blue-light);
 }
 
 .cnt-check-icon {
-  color: var(--gold-deep);
+  color: var(--cnt-brown-light);
   font-weight: 700;
   flex-shrink: 0;
   line-height: 1;
@@ -161,17 +447,16 @@
 }
 
 .cnt-disclaimer-box {
-  background: rgba(192, 138, 62, 0.08);
-  border-left: 3px solid var(--gold);
+  background: var(--cnt-brown-soft);
+  border-left: 3px solid var(--cnt-brown);
   padding: 16px 20px;
-  border-radius: 0 8px 8px 0;
 }
 
 .cnt-disclaimer-box p {
   margin: 0;
   font-size: 13.5px;
   font-weight: 500;
-  color: var(--gold-deep);
+  color: var(--cnt-brown-light);
 }
 
 /* ==========================================================================
@@ -180,7 +465,7 @@
 .cnt-form {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
+  gap: 22px;
 }
 
 .cnt-field {
@@ -194,14 +479,15 @@
 }
 
 .cnt-field label {
-  font-size: 13px;
+  font-size: 12.5px;
   font-weight: 700;
-  color: var(--ink);
-  letter-spacing: 0.01em;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  color: var(--cnt-text);
 }
 
 .cnt-field label span {
-  color: #b3462c;
+  color: var(--cnt-brown-light);
 }
 
 /* Inputs, Selects & Textareas */
@@ -209,13 +495,13 @@
 .cnt-field select,
 .cnt-field textarea {
   width: 100%;
-  background: var(--cream);
-  border: 1px solid var(--line);
-  border-radius: 8px;
+  background: var(--cnt-blue-soft);
+  border: 1px solid var(--cnt-line);
+  border-radius: 4px;
   padding: 12px 16px;
   font-size: 14px;
   font-weight: 500;
-  color: var(--ink);
+  color: var(--cnt-white);
   font-family: inherit;
   box-sizing: border-box;
   transition:
@@ -226,7 +512,7 @@
 
 .cnt-field select {
   appearance: none;
-  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%238c6528' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23d2b487' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
   background-repeat: no-repeat;
   background-position: right 16px center;
   background-size: 16px;
@@ -234,13 +520,13 @@
 }
 
 .cnt-field select option {
-  background-color: var(--cream);
-  color: var(--ink);
+  background-color: var(--cnt-blue-soft);
+  color: var(--cnt-white);
 }
 
 .cnt-field input::placeholder,
 .cnt-field textarea::placeholder {
-  color: var(--muted);
+  color: var(--cnt-muted);
   opacity: 0.8;
 }
 
@@ -248,9 +534,9 @@
 .cnt-field select:focus,
 .cnt-field textarea:focus {
   outline: none;
-  border-color: var(--gold);
-  background: var(--white);
-  box-shadow: 0 0 0 3px rgba(192, 138, 62, 0.15);
+  border-color: var(--cnt-brown);
+  background: var(--cnt-blue-light);
+  box-shadow: 0 0 0 3px rgba(179, 139, 90, 0.18);
 }
 
 .cnt-field textarea {
@@ -258,9 +544,14 @@
   min-height: 120px;
 }
 
+.cnt-field input[type="date"] {
+  color-scheme: dark;
+}
+
 .cnt-field input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
-  opacity: 0.6;
+  opacity: 0.7;
+  filter: invert(1);
 }
 
 /* ==========================================================================
@@ -278,35 +569,38 @@
 
 .cnt-required-note {
   font-size: 12.5px;
-  color: var(--muted);
+  color: var(--cnt-muted);
   margin: 0;
 }
 
 .cnt-required-note span {
-  color: #b3462c;
+  color: var(--cnt-brown-light);
 }
 
 .cnt-submit {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
-  background: var(--ink);
-  color: var(--cream);
-  font-weight: 700;
-  font-size: 14px;
-  padding: 14px 28px;
-  border-radius: 8px;
+  gap: 10px;
+  background: var(--cnt-brown-light);
+  color: var(--cnt-blue);
+  font-weight: 800;
+  font-size: 12px;
+  letter-spacing: 0.02em;
+  padding: 16px 28px;
+  border-radius: 0;
   border: none;
   cursor: pointer;
   transition:
     background-color 0.2s ease,
-    transform 0.2s ease;
+    transform 0.2s ease,
+    box-shadow 0.3s ease;
 }
 
 .cnt-submit:hover:not(:disabled) {
-  background: var(--gold-deep);
-  transform: translateY(-1px);
+  background: #dfc39a;
+  transform: translateY(-3px);
+  box-shadow: 0 22px 55px rgba(179, 139, 90, 0.20);
 }
 
 .cnt-submit:active:not(:disabled) {
@@ -330,22 +624,21 @@
    6. CONTACT CHANNEL SECTION
    ========================================================================== */
 .cnt-channel-box {
-  background: var(--cream);
-  border: 1px dashed var(--line);
-  border-radius: 12px;
-  padding: 24px;
+  background: var(--cnt-blue-soft);
+  border: 1px dashed var(--cnt-line);
+  padding: 26px;
 }
 
 .cnt-channel-desc {
   font-size: 14.5px;
   font-weight: 600;
-  color: var(--ink);
+  color: var(--cnt-white);
   margin: 0 0 8px 0;
 }
 
 .cnt-channel-note {
   font-size: 13.5px;
-  color: var(--muted);
+  color: var(--cnt-muted);
   margin: 0;
 }
 
@@ -366,7 +659,7 @@
   font-size: 14px;
   font-weight: 600;
   padding: 12px 16px;
-  border-radius: 8px;
+  border-radius: 4px;
   margin-top: 8px;
   display: none;
 }
@@ -376,31 +669,54 @@
 }
 
 .cnt-form-message--success {
-  background: rgba(47, 122, 77, 0.1);
-  border: 1px solid #2f7a4d;
-  color: #1e5233;
+  background: rgba(90, 179, 130, 0.12);
+  border: 1px solid #5ab382;
+  color: #a9e2c2;
 }
 
 .cnt-form-message--error {
-  background: rgba(179, 70, 44, 0.1);
-  border: 1px solid #b3462c;
-  color: #832b17;
+  background: rgba(214, 108, 78, 0.12);
+  border: 1px solid #d66c4e;
+  color: #f2b4a0;
 }
 
 /* ==========================================================================
    8. RESPONSIVE DESIGN
    ========================================================================== */
+@media (max-width: 1100px) {
+
+  .cnt-wrap {
+    padding: 0 30px;
+  }
+}
+
 @media (max-width: 860px) {
+
+  .cnt-page-bg {
+    height: min(800px, 95vh);
+    opacity: 0.24;
+  }
+
   .cnt-wrap {
     padding: 0 22px;
   }
 
+  .cnt-hero {
+    flex-direction: column;
+    gap: 20px;
+    padding: 130px 0 60px;
+  }
+
+  .cnt-hero-label {
+    flex: initial;
+  }
+
   .cnt-h1 {
-    font-size: 32px;
+    font-size: clamp(30px, 9vw, 42px);
   }
 
   .cnt-section {
-    padding: 28px 20px;
+    padding: 28px 22px;
   }
 
   .cnt-form {
@@ -418,5 +734,34 @@
 
   .cnt-checklist {
     grid-template-columns: 1fr;
+  }
+}
+
+
+/* ---------- Reduced Motion ---------- */
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .cnt-hero-content {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+
+  .cnt-eyebrow::before {
+    animation: none;
+  }
+
+  .cnt-section,
+  .cnt-check-item {
+    opacity: 1;
+    transform: none;
   }
 }

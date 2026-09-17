@@ -1,4 +1,7 @@
 ---
+// src/pages/industries/[slug].astro
+// Single industry workflow page with active hero background image & animations
+
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import "../../styles/token.css";
@@ -45,11 +48,11 @@ if (!entry && slug) {
 const data = entry?.data || ({} as Partial<CollectionEntry<"industries">["data"]>);
 
 // Safe type extraction with fallbacks
-const title: string = data.title || "Industry Workflow";
-const serviceLabel: string = data.serviceLabel || "Design-team production capacity";
+const title: string = data.title || "Architecture & Design Practices";
+const serviceLabel: string = data.serviceLabel || "ARCHITECTURE-DESIGN-PRACTICES";
 const description: string =
   data.description ||
-  "Extend BIM, Revit, modeling and visual communication capacity while the appointed practice retains design authorship.";
+  "Extend BIM, Revit, modeling and visual communication capacity while the appointed practice retains design authorship, client leadership and professional issue.";
 const operatingContext: string =
   data.operatingContext || "Production pressure needs a governed response.";
 
@@ -90,38 +93,60 @@ const typicalServices: string[] = data.typicalServices || [
 const responsibilityBoundary: string =
   data.responsibilityBoundary ||
   "The appointed practice retains design authorship, statutory responsibility and professional sign-off.";
+
+// Hero Background Image URL
+const heroBackgroundImage =
+  "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=2400&q=85";
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title} — Axys3D</title>
   </head>
 
   <body class="page-industries">
-    <Navbar variant="solid" />
+    <Navbar variant="transparent" />
 
     <main class="ind-single-page">
-      <!-- HERO -->
+      <!-- HERO SECTION -->
       <section class="ind-single-hero">
+        <!-- Cinematic Background Image Overlay -->
+        <div class="ind-hero-bg">
+          <img
+            src={heroBackgroundImage}
+            alt="Industry Workflow Background"
+            class="ind-hero-img"
+          />
+          <div class="ind-hero-overlay"></div>
+        </div>
+
         <div class="ind-single-wrap">
-          <p class="ind-single-eyebrow">Industry Workflow / {serviceLabel}</p>
+          <div class="ind-top-meta">
+            <a class="ind-back" href="/industries/">
+              <span class="back-arrow">←</span>
+              <span>ALL INDUSTRIES</span>
+            </a>
+            <span class="ind-category-badge">AEC WORKFLOW SPEC</span>
+          </div>
+
+          <p class="ind-single-eyebrow">INDUSTRY WORKFLOW // {serviceLabel}</p>
           <h1 class="ind-single-title">{title}</h1>
           <p class="ind-single-lead">{description}</p>
         </div>
       </section>
 
-      <!-- OPERATING CONTEXT (PRESSURES VS REQUIREMENTS) -->
+      <!-- OPERATING CONTEXT -->
       <section class="ind-single-section">
         <div class="ind-single-wrap">
-          <p class="ind-single-section-title">Operating context</p>
+          <p class="ind-single-section-title">OPERATING CONTEXT</p>
           <h2 class="ind-single-subtitle">{operatingContext}</h2>
 
           <div class="ind-grid-2">
-            <!-- Typical Buyer Pressures -->
+            <!-- Buyer Pressures -->
             <div class="ind-box">
               <h3 class="ind-box-title">Typical buyer pressures</h3>
               <ul class="ind-list">
@@ -144,10 +169,10 @@ const responsibilityBoundary: string =
         </div>
       </section>
 
-      <!-- ENGAGEMENT MODEL (01 - 04 STEPS) -->
+      <!-- ENGAGEMENT MODEL -->
       <section class="ind-single-section">
         <div class="ind-single-wrap">
-          <p class="ind-single-section-title">Engagement model</p>
+          <p class="ind-single-section-title">ENGAGEMENT MODEL</p>
           <h2 class="ind-single-subtitle">One brief, named approvals, structured handoff.</h2>
 
           <div class="ind-steps-grid">
@@ -164,7 +189,7 @@ const responsibilityBoundary: string =
       <!-- RELEVANT CAPABILITIES & BOUNDARY -->
       <section class="ind-single-section">
         <div class="ind-single-wrap">
-          <p class="ind-single-section-title">Relevant capabilities</p>
+          <p class="ind-single-section-title">RELEVANT CAPABILITIES</p>
           <h2 class="ind-single-subtitle">Connected service packages.</h2>
 
           <!-- Services Chips -->
@@ -181,10 +206,17 @@ const responsibilityBoundary: string =
             </p>
           </div>
 
-          <!-- CTA Button -->
-          <a href="/Contact/" class="ind-cta-btn">
-            Define the production package <span>→</span>
-          </a>
+          <!-- Dynamic Animated CTA Card -->
+          <div class="ind-cta-card">
+            <div>
+              <h3 class="ind-cta-heading">Ready to configure this production workflow?</h3>
+              <p class="ind-cta-sub">Align model authoring and deliverable standards with our studio team.</p>
+            </div>
+            <a href="/Contact/" class="ind-cta-btn">
+              Define Production Package <span>→</span>
+            </a>
+          </div>
+
         </div>
       </section>
     </main>

@@ -1,87 +1,50 @@
+---
+import "../styles/faq.css";
+
+const faqs = [
+  {
+    question: "Where does Axys3D fit in an AEC delivery team?",
+    answer: "Axys3D adds governed production capacity across BIM, Revit, coordination support and visual outputs. Client-appointed professionals retain design authority, compliance decisions and statutory sign-off."
+  },
+  {
+    question: "Can one engagement combine BIM and visualization outputs?",
+    answer: "Yes, when the authoritative inputs, intended uses, review owners and information-freeze points are defined. Each downstream output keeps its own approval and handoff requirements."
+  },
+  {
+    question: "How is confidential project information handled?",
+    answer: "Work defaults to private. Project identity, media, outcomes and credits require explicit publication approval. NDA, withdrawn and review-expired records remain outside public builds."
+  },
+  {
+    question: "What is needed to scope a first production package?",
+    answer: "A useful starting brief names the project stage, source files, standards, disciplines, intended deliverables, review milestones, approval owners and required handoff formats."
+  }
+];
+---
+
 <section class="faq-section" id="faqs">
   <div class="faq-inner">
+    <!-- Left Column: Heading Area -->
     <div class="faq-heading">
       <span class="faq-eyebrow">TECHNICAL FIT</span>
-
       <h2>
         Common questions <br />
         <span>before scope is fixed.</span>
       </h2>
     </div>
 
+    <!-- Right Column: Accordion List -->
     <div class="faq-list">
-      <details class="faq-item" open>
-        <summary>
-          <span class="faq-number">01</span>
-
-          <span class="faq-question">Where does Axys3D fit in an AEC delivery team?</span>
-
-          <span class="faq-plus">+</span>
-        </summary>
-
-        <div class="faq-answer">
-          <p>
-            Axys3D adds governed production capacity across BIM, Revit, coordination support and
-            visual outputs. Client-appointed professionals retain design authority, compliance
-            decisions and statutory sign-off.
-          </p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary>
-          <span class="faq-number">02</span>
-
-          <span class="faq-question">
-            Can one engagement combine BIM and visualization outputs?
-          </span>
-
-          <span class="faq-plus">+</span>
-        </summary>
-
-        <div class="faq-answer">
-          <p>
-            Yes, when the authoritative inputs, intended uses, review owners and information-freeze
-            points are defined. Each downstream output keeps its own approval and handoff
-            requirements.
-          </p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary>
-          <span class="faq-number">03</span>
-
-          <span class="faq-question">How is confidential project information handled?</span>
-
-          <span class="faq-plus">+</span>
-        </summary>
-
-        <div class="faq-answer">
-          <p>
-            Work defaults to private. Project identity, media, outcomes and credits require explicit
-            publication approval. NDA, withdrawn and review-expired records remain outside public
-            builds.
-          </p>
-        </div>
-      </details>
-
-      <details class="faq-item">
-        <summary>
-          <span class="faq-number">04</span>
-
-          <span class="faq-question">What is needed to scope a first production package?</span>
-
-          <span class="faq-plus">+</span>
-        </summary>
-
-        <div class="faq-answer">
-          <p>
-            A useful starting brief names the project stage, source files, standards, disciplines,
-            intended deliverables, review milestones, approval owners and required handoff formats.
-          </p>
-        </div>
-      </details>
+      {faqs.map((faq) => (
+        <details class="faq-item">
+          <summary>
+            <span class="faq-question">{faq.question}</span>
+            <span class="faq-plus">+</span>
+          </summary>
+          <div class="faq-answer">
+            <p>{faq.answer}</p>
+          </div>
+        </details>
+      ))}
     </div>
   </div>
 </section>

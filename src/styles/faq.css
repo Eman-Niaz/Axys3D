@@ -1,92 +1,83 @@
 /* =========================================================
-   FAQ
-========================================================= */
+   FAQ SECTION (Image-Matched Design)
+   ========================================================= */
 
 .faq-section {
-  --ink: #3f3b36;
-  --gold: #b38b4c;
-  --gold-deep: #8c6528;
-  --line: rgba(63, 59, 54, 0.1);
-  --muted: #6e675c;
-  --ghost: rgba(63, 59, 54, 0.06);
+  --bg-beige: #e3ddd3;
+  --ink: #111111;
+  --blue-accent: #3b597b; /* Heading me dark blue accent */
+  --eyebrow-color: #a88358;
+  --muted: #4a4640;
+  --line-color: rgba(0, 0, 0, 0.08);
 
   width: 100%;
-  background: #ffffff;
+  background: var(--bg-beige);
   color: var(--ink);
-  padding: 30px 0;
+  padding: 100px 0;
+  font-family: "Manrope", sans-serif;
 }
 
 .faq-inner {
-  max-width: 1180px;
+  max-width: 1240px;
   margin: 0 auto;
   padding: 0 40px;
+  display: grid;
+  grid-template-columns: 0.9fr 1.1fr; /* Image wala 2-column layout */
+  gap: 60px;
+  align-items: start;
 }
 
 /* =========================================================
-   HEADER
-========================================================= */
+   LEFT HEADING COLUMN
+   ========================================================= */
 
 .faq-heading {
-  max-width: 640px;
-  margin: 0 auto 60px;
-
-  text-align: center;
+  text-align: left;
 }
 
 .faq-eyebrow {
   display: block;
-
-  margin: 0 0 14px;
-
-  color: var(--gold);
-
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 13px;
+  margin-bottom: 20px;
+  color: var(--eyebrow-color);
+  font-family: "Manrope", sans-serif;
+  font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
   text-transform: uppercase;
 }
 
 .faq-heading h2 {
-  margin: 0 0 16px;
-
+  margin: 0;
   color: var(--ink);
-
-  font-family: "Manrope", sans-serif;
-  font-size: 37px;
+  font-size: clamp(32px, 4vw, 52px);
   font-weight: 700;
-  line-height: 1.25;
-  letter-spacing: -0.8px;
+  line-height: 1.12;
+  letter-spacing: -1.5px;
 }
 
+/* Aadha text dark blue kar diya gaya hai */
 .faq-heading h2 span {
-  color: var(--gold);
+  color: var(--blue-accent);
 }
 
 /* =========================================================
-   FAQ LIST
-========================================================= */
+   RIGHT FAQ LIST COLUMN
+   ========================================================= */
 
 .faq-list {
-  border-top: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
 }
 
-/* =========================================================
-   ITEM
-========================================================= */
-
 .faq-item {
-  border-bottom: 1px solid var(--line);
+  border-bottom: 1px solid var(--line-color);
 }
 
 .faq-item summary {
-  display: grid;
-  grid-template-columns: 55px 1fr 35px;
+  display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 20px;
-
-  min-height: 82px;
-
+  padding: 28px 0;
   cursor: pointer;
   list-style: none;
 }
@@ -95,118 +86,78 @@
   display: none;
 }
 
-/* NUMBER */
-
-.faq-number {
-  color: var(--gold);
-
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-/* QUESTION */
-
 .faq-question {
   color: var(--ink);
-
-  font-family: "Manrope", sans-serif;
-  font-size: 15.5px;
-  font-weight: 700;
+  font-size: 18px;
+  font-weight: 500;
   line-height: 1.4;
+  padding-right: 20px;
+  transition: color 0.2s ease;
 }
 
-/* PLUS */
+.faq-item:hover .faq-question {
+  color: var(--blue-accent);
+}
 
 .faq-plus {
-  width: 28px;
-  height: 28px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  border: 1px solid rgba(63, 59, 54, 0.14);
-  border-radius: 50%;
-
-  color: var(--gold-deep);
-
-  font-size: 18px;
-  font-weight: 400;
-
-  transition:
-    transform 0.2s ease,
-    background 0.2s ease,
-    color 0.2s ease;
+  flex-shrink: 0;
+  color: #7a7368;
+  font-size: 20px;
+  font-weight: 300;
+  transition: transform 0.3s ease, color 0.2s ease;
 }
 
 .faq-item[open] .faq-plus {
   transform: rotate(45deg);
-
-  background: #f4f1eb;
-  color: var(--gold);
+  color: var(--ink);
 }
 
 /* =========================================================
-   ANSWER
-========================================================= */
+   ANSWER AREA
+   ========================================================= */
 
 .faq-answer {
-  padding: 0 70px 28px 75px;
+  padding: 0 40px 28px 0;
 }
 
 .faq-answer p {
-  max-width: 680px;
-
   margin: 0;
-
   color: var(--muted);
-
-  font-family: Arial, Helvetica, sans-serif;
-  font-size: 13.5px;
-  font-weight: 500;
-  line-height: 1.65;
+  font-size: 14.5px;
+  font-weight: 400;
+  line-height: 1.7;
 }
 
 /* =========================================================
-   RESPONSIVE
-========================================================= */
+   RESPONSIVE DESIGN
+   ========================================================= */
 
-@media (max-width: 900px) {
+@media (max-width: 992px) {
   .faq-inner {
-    padding: 0 22px;
+    grid-template-columns: 1fr;
+    gap: 40px;
+    padding: 0 30px;
+  }
+
+  .faq-section {
+    padding: 70px 0;
   }
 }
 
 @media (max-width: 560px) {
-  .faq-section {
-    padding: 75px 0 80px;
-  }
-
-  .faq-heading {
-    margin-bottom: 45px;
+  .faq-inner {
+    padding: 0 20px;
   }
 
   .faq-heading h2 {
-    font-size: 28px;
-  }
-
-  .faq-item summary {
-    grid-template-columns: 35px 1fr 30px;
-    gap: 12px;
-    min-height: 75px;
+    font-size: 32px;
   }
 
   .faq-question {
-    font-size: 14px;
+    font-size: 16px;
   }
 
-  .faq-answer {
-    padding: 0 40px 25px 47px;
-  }
-
-  .faq-answer p {
-    font-size: 13px;
+  .faq-item summary {
+    padding: 20px 0;
   }
 }

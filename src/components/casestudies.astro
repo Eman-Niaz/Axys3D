@@ -3,48 +3,21 @@ import "../styles/case-studies.css";
 
 const studies = [
   {
-    badge: "Demonstration only · AEC study 01",
-    category: "Mixed-use development · Design development",
+    num: "01",
     title: "Federated delivery study",
-    desc: "A fictional delivery scenario joining BIM execution support, Revit documentation and MEP coordination review without transferring design authority.",
-    tags: [
-      "Integrated model-production package",
-      "BIM production",
-      "Revit production",
-      "MEP coordination support",
-    ],
-    status: "Demonstration only",
-    href: "/work/aec-study-01/",   // ← changed
+    href: "/work/aec-study-01/",
     video: "/videos/video1.mp4",
   },
   {
-    badge: "Demonstration only · AEC study 02",
-    category: "Education · Stakeholder engagement",
+    num: "02",
     title: "Real-time campus study",
-    desc: "A fictional Unreal Engine workflow translating approved BIM information into an optimized interactive review environment.",
-    tags: [
-      "Real-time communication prototype",
-      "3D modeling",
-      "Visualization",
-      "Real-time / Unreal",
-    ],
-    status: "Demonstration only",
-    href: "/work/aec-study-02/",   // ← changed
+    href: "/work/aec-study-02/",
     video: "/videos/video2.mp4",
   },
   {
-    badge: "Anonymous / demonstration · AEC study 03",
-    category: "Commercial development · Technical design",
+    num: "03",
     title: "Anonymous production-package study",
-    desc: "A fictional, identity-free case-study format demonstrating how production scope and evidence can be communicated without exposing a client, location, project identity or protected media.",
-    tags: [
-      "White-label production support",
-      "Revit production",
-      "3ds Max production",
-      "Visualization",
-    ],
-    status: "Anonymous / demonstration",
-    href: "/work/aec-study-03/",   // ← changed
+    href: "/work/aec-study-03/",
     video: "/videos/video3.mp4",
   },
 ];
@@ -53,57 +26,23 @@ const studies = [
 <section class="case-studies">
   <div class="cs-wrap">
     <div class="cs-head">
-      <p class="cs-tag">Synthetic case-study system</p>
-      <h2 class="cs-heading">
-        Delivery evidence,
-        <br /> <span class="brown-text">not unverified claims.</span>
-      </h2>
-      <p class="cs-sub">
-        Case studies document inputs, LOD/LOI context, production scope, workflow, responsibility,
-        outputs and approved evidence.
-      </p>
+      <p class="cs-tag">SYNTHETIC CASE-STUDY SYSTEM</p>
+      <h2 class="cs-heading">Delivery evidence, not unverified claims.</h2>
     </div>
 
     <div class="cs-grid">
-      {studies.map((s, i) => (
-        <a class={`cs-card ${i === 2 ? "cs-card-wide" : ""}`} href={s.href}>
+      {studies.map((s) => (
+        <a class="cs-card" href={s.href}>
           <div class="cs-media">
             <video autoplay muted loop playsinline>
               <source src={s.video} type="video/mp4" />
             </video>
-
-            <span class="cs-badge">{s.badge}</span>
-
-            <span class="cs-play" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <circle cx="12" cy="12" r="11" stroke="rgba(255,255,255,0.55)" stroke-width="1.2" />
-                <path d="M10 8.5 16 12l-6 3.5v-7Z" fill="#fff" />
-              </svg>
-            </span>
-
-            <div class="cs-overlay">
-              <span class="cs-category">{s.category}</span>
-              <h3 class="cs-title">{s.title}</h3>
-            </div>
           </div>
 
-          <div class="cs-body">
-            <p class="cs-desc">{s.desc}</p>
+          <span class="cs-number">{s.num}</span>
 
-            <div class="cs-tags">
-              {s.tags.map((t) => (
-                <span class="cs-tag-pill">{t}</span>
-              ))}
-            </div>
-
-            <div class="cs-foot">
-              <span class="cs-status">{s.status}</span>
-
-              <span class="cs-link">
-                Review case study
-                <span class="cs-arrow">→</span>
-              </span>
-            </div>
+          <div class="cs-content">
+            <h3 class="cs-title">{s.title}</h3>
           </div>
         </a>
       ))}

@@ -23,12 +23,33 @@ if (!pageEntry) {
   throw new Error("Could not find index.md in src/content/industriesPage/");
 }
 
-const { heroTitle, heroSubtitle, heroDescription, industrySections } = pageEntry.data as {
+const {
+  heroTitle,
+  heroSubtitle,
+  heroDescription,
+  industrySections,
+} = pageEntry.data as {
   heroTitle: string;
   heroSubtitle: string;
   heroDescription: string;
   industrySections: IndustrySection[];
 };
+
+/* Temporary page background */
+const pageBackground =
+  "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=2400&q=85";
+
+/* Temporary industry images */
+const industryImages = [
+  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=85",
+  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85",
+  "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1600&q=85",
+  "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1600&q=85",
+  "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1600&q=85",
+  "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1600&q=85",
+  "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=85",
+  "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=85",
+];
 ---
 
 <!doctype html>
@@ -37,62 +58,384 @@ const { heroTitle, heroSubtitle, heroDescription, industrySections } = pageEntry
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width" />
     <meta name="description" content={heroDescription} />
-    <title>Industries & Workflows — Axys3D</title>
+    <title>Industries & Workflows Axys3D</title>
   </head>
 
   <body class="page-industries">
+
+    <!-- PAGE BACKGROUND -->
+    <div class="ind-page-bg" aria-hidden="true">
+      <img
+        class="ind-page-bg-img"
+        src={pageBackground}
+        alt=""
+        loading="eager"
+        decoding="async"
+      />
+      <div class="ind-page-bg-overlay"></div>
+    </div>
+
     <Navbar variant="solid" />
 
     <main class="industries-page">
+
       <!-- HERO -->
       <section class="ind-hero">
         <div class="ind-wrap">
-          <p class="ind-eyebrow">{heroTitle}</p>
-          <h1 class="ind-h1">{heroSubtitle}</h1>
-          <p class="ind-lead">{heroDescription}</p>
+
+          <div class="ind-hero-grid">
+
+            <div class="ind-hero-label">
+              <span class="ind-line"></span>
+              {heroTitle}
+            </div>
+
+            <div class="ind-hero-content">
+
+              <div class="ind-kicker">
+                <span class="ind-kicker-dot"></span>
+                AEC INDUSTRIES & WORKFLOWS
+              </div>
+
+              <h1 class="ind-h1">
+                {heroSubtitle}
+              </h1>
+
+              <p class="ind-lead">
+                {heroDescription}
+              </p>
+
+            </div>
+
+          </div>
+
         </div>
       </section>
 
-      <!-- OVERVIEW CHIP STRIP -->
+
+      <!-- INDUSTRY OVERVIEW -->
       <section class="ind-overview">
         <div class="ind-wrap">
-          <div class="ind-chip-row">
-            {industrySections?.map((item: IndustrySection) => (
-              <a class="ind-chip" href={`#industry-${item.id}`}>
-                <span class="ind-chip-num">{item.id}</span>
-                <span class="ind-chip-title">{item.title}</span>
-              </a>
-            ))}
-          </div>
-        </div>
-      </section>
 
-      <!-- DETAILED INDUSTRY ROWS -->
-      <section class="ind-detail">
-        <div class="ind-wrap">
-          {industrySections?.map((item: IndustrySection, i: number) => (
-            <div class={`ind-row ${i === 0 ? "ind-row-first" : ""}`} id={`industry-${item.id}`}>
-              <div class="ind-left">
-                <span class="ind-ghost-num">{item.id}</span>
-                <!-- Small Buyer Tagline -->
-                <span class="ind-eyebrow-small">{item.targetBuyer}</span>
-              </div>
+          <div class="ind-section-heading">
 
-              <div class="ind-right">
-                <!-- Main Heading Title -->
-                <h2 class="ind-title">{item.title}</h2>
-                <p class="ind-desc">{item.description}</p>
+            <div>
+              <span class="ind-section-kicker">
+                WHERE WE WORK
+              </span>
 
-                <a class="ind-link" href={item.ctaLink}>
-                  {item.ctaLabel} <span class="ind-arrow">→</span>
-                </a>
-              </div>
+              <h2>
+                Built around
+                <span> your workflow.</span>
+              </h2>
+
+              <p>
+                Production support shaped around the requirements,
+                information and delivery standards of each industry.
+              </p>
             </div>
-          ))}
+
+            <span class="ind-count">
+              {industrySections?.length.toString().padStart(2, "0")} INDUSTRIES
+            </span>
+
+          </div>
+
+
+          <!-- IMAGE CARDS -->
+          <div class="ind-chip-grid">
+
+            {industrySections?.map((item: IndustrySection, i: number) => (
+
+              <a
+                class="ind-chip"
+                href={`#industry-${item.id}`}
+                data-reveal
+                style={`--ind-delay: ${i * 60}ms`}
+              >
+
+                <span class="ind-chip-num">
+                  {item.id}
+                </span>
+
+                <div class="ind-chip-image">
+
+                  <img
+                    src={industryImages[i % industryImages.length]}
+                    alt=""
+                    loading="lazy"
+                    decoding="async"
+                  />
+
+                  <div class="ind-chip-overlay"></div>
+
+                  <span class="ind-chip-arrow">↗</span>
+
+                </div>
+
+                <div class="ind-chip-bottom">
+
+                  <span class="ind-chip-title">
+                    {item.title}
+                  </span>
+
+                  <span class="ind-chip-buyer">
+                    {item.targetBuyer}
+                  </span>
+
+                </div>
+
+              </a>
+
+            ))}
+
+          </div>
+
         </div>
       </section>
+
+
+      <!-- DETAILED INDUSTRIES -->
+      <section class="ind-detail">
+
+        <div class="ind-wrap">
+
+          {industrySections?.map((item: IndustrySection, i: number) => (
+
+            <article
+              class:list={{
+                "ind-row": true,
+                "ind-row-reverse": i % 2 === 1,
+                "ind-row-first": i === 0,
+              }}
+              id={`industry-${item.id}`}
+              data-industry
+              style={`--industry-delay: ${i * 50}ms`}
+            >
+
+              <!-- IMAGE -->
+              <div class="ind-visual">
+
+                <img
+                  src={industryImages[i % industryImages.length]}
+                  alt={item.title}
+                  loading={i === 0 ? "eager" : "lazy"}
+                  decoding="async"
+                />
+
+                <div class="ind-visual-overlay"></div>
+
+                <div class="ind-visual-top">
+                  <span>AXYS3D</span>
+                  <span>
+                    {item.id} / {industrySections.length.toString().padStart(2, "0")}
+                  </span>
+                </div>
+
+                <div class="ind-corner ind-corner-tl"></div>
+                <div class="ind-corner ind-corner-br"></div>
+
+                <div class="ind-visual-bottom">
+                  <span>AEC PRODUCTION</span>
+                  <span>DIGITAL DELIVERY</span>
+                </div>
+
+              </div>
+
+
+              <!-- CONTENT -->
+              <div class="ind-content">
+
+                <div class="ind-number-wrap">
+
+                  <span class="ind-ghost-num">
+                    {item.id}
+                  </span>
+
+                  <span class="ind-index-line"></span>
+
+                </div>
+
+                <div class="ind-status">
+                  <span></span>
+                  INDUSTRY WORKFLOW
+                </div>
+
+                <p class="ind-target">
+                  {item.targetBuyer}
+                </p>
+
+                <h2 class="ind-title">
+                  {item.title}
+                </h2>
+
+                <p class="ind-desc">
+                  {item.description}
+                </p>
+
+                <a
+                  class="ind-link"
+                  href={item.ctaLink}
+                >
+                  <span>{item.ctaLabel}</span>
+                  <span class="ind-arrow">↗</span>
+                </a>
+
+              </div>
+
+            </article>
+
+          ))}
+
+        </div>
+
+      </section>
+
+
+      <!-- FINAL CTA -->
+      <section class="ind-final-cta">
+
+        <div class="ind-wrap">
+
+          <div class="ind-final-inner">
+
+            <span class="ind-final-kicker">
+              THE RIGHT PRODUCTION PARTNER
+            </span>
+
+            <h2>
+              Your industry. <br>
+              <span>Our production layer.</span>
+            </h2>
+
+            <p>
+              Tell us what you're building, where you are in the
+              workflow, and what needs to move next.
+            </p>
+
+            <a
+              href="/contact"
+              class="ind-final-button"
+            >
+              <span>Discuss a production package</span>
+              <span>↗</span>
+            </a>
+
+          </div>
+
+        </div>
+
+      </section>
+
     </main>
 
     <Footer />
+
+
+    <!-- INTERACTIONS -->
+    <script>
+      const revealItems =
+        document.querySelectorAll("[data-reveal]");
+
+      const industryRows =
+        document.querySelectorAll("[data-industry]");
+
+
+      /* CARD REVEAL */
+      const revealObserver =
+        new IntersectionObserver(
+          (entries) => {
+
+            entries.forEach((entry) => {
+
+              if (entry.isIntersecting) {
+
+                entry.target.classList.add("is-visible");
+
+                revealObserver.unobserve(entry.target);
+
+              }
+
+            });
+
+          },
+          {
+            threshold: 0.12,
+          }
+        );
+
+      revealItems.forEach((item) => {
+        revealObserver.observe(item);
+      });
+
+
+      /* INDUSTRY REVEAL */
+      const industryObserver =
+        new IntersectionObserver(
+          (entries) => {
+
+            entries.forEach((entry) => {
+
+              if (entry.isIntersecting) {
+
+                entry.target.classList.add("industry-visible");
+
+                industryObserver.unobserve(entry.target);
+
+              }
+
+            });
+
+          },
+          {
+            threshold: 0.10,
+          }
+        );
+
+      industryRows.forEach((row) => {
+        industryObserver.observe(row);
+      });
+
+
+      /* IMAGE PARALLAX */
+      industryRows.forEach((row) => {
+
+        const image =
+          row.querySelector<HTMLImageElement>(".ind-visual img");
+
+        if (!image) return;
+
+        row.addEventListener("mousemove", (event) => {
+
+          const mouseEvent = event as MouseEvent;
+
+          const rect =
+            row.getBoundingClientRect();
+
+          const x =
+            (mouseEvent.clientX - rect.left) /
+              rect.width -
+            0.5;
+
+          const y =
+            (mouseEvent.clientY - rect.top) /
+              rect.height -
+            0.5;
+
+          image.style.transform =
+            `scale(1.07) translate(${x * 8}px, ${y * 8}px)`;
+
+        });
+
+        row.addEventListener("mouseleave", () => {
+
+          image.style.transform =
+            "scale(1) translate(0, 0)";
+
+        });
+
+      });
+    </script>
+
   </body>
 </html>

@@ -28,6 +28,8 @@ const {
   ctaLabel,
   ctaLink,
 } = processEntry.data;
+
+const stepsCount = steps.length.toString().padStart(2, "0");
 ---
 
 <!doctype html>
@@ -40,27 +42,46 @@ const {
   </head>
 
   <body class="page-process">
+    <!-- BACKGROUND LAYER -->
+    <div class="prc-page-bg"><div class="prc-page-bg-overlay"></div></div>
+
     <Navbar variant="solid" />
 
     <main class="process-page">
       <!-- HERO SECTION -->
-      <section class="prc-hero">
+      <header class="prc-hero">
         <div class="prc-wrap">
-          <p class="prc-eyebrow">{heroTitle}</p>
-          <h1 class="prc-h1">{heroSubtitle}</h1>
-          <p class="prc-lead">{heroDescription}</p>
+          <div class="prc-hero-label">
+            <span>Methodology</span>
+          </div>
+          <div class="prc-hero-content">
+            <p class="prc-eyebrow">{heroTitle}</p>
+            <h1 class="prc-h1">{heroSubtitle}</h1>
+            <p class="prc-lead">{heroDescription}</p>
+          </div>
         </div>
-      </section>
+      </header>
 
       <!-- STEPS LIST SECTION (01 - 06) -->
       <section class="prc-steps-section">
         <div class="prc-wrap">
+          <div class="prc-intro">
+            <div>
+              <span class="prc-section-label">The Workflow</span>
+              <h2>A Structured <span>Delivery Process</span></h2>
+            </div>
+            <div class="prc-intro-meta">
+              <span class="prc-count">{stepsCount} STEPS</span>
+              <span class="prc-intro-line"></span>
+            </div>
+          </div>
+
           <div class="prc-steps-grid">
             {steps.map((step) => (
               <div class="prc-step-card">
                 <div class="prc-step-header">
                   <span class="prc-step-num">{step.id}</span>
-                  <h2 class="prc-step-title">{step.title}</h2>
+                  <h3 class="prc-step-title">{step.title}</h3>
                 </div>
                 <p class="prc-step-desc">{step.description}</p>
               </div>
@@ -98,24 +119,46 @@ const {
 
       <!-- CTA / TECHNICAL BRIEF SECTION -->
       {ctaTitle && (
-        <section class="prc-cta-section">
-          <div class="prc-wrap">
-            <div class="prc-cta-box">
-              <div class="prc-cta-content">
-                <p class="prc-eyebrow-small">{ctaTitle}</p>
-                {ctaSubtitle && <h3 class="prc-cta-h3">{ctaSubtitle}</h3>}
-              </div>
-              {ctaLabel && (
-                <a href={ctaLink || "/Contact/"} class="prc-cta-btn">
-                  {ctaLabel} <span class="prc-arrow">→</span>
-                </a>
-              )}
-            </div>
+        <section class="prc-final-cta">
+          <div class="prc-wrap prc-final-inner">
+            {ctaTitle && <span class="prc-cta-kicker">{ctaTitle}</span>}
+            {ctaSubtitle && <h3 class="prc-cta-h3">{ctaSubtitle}</h3>}
+            {ctaLabel && (
+              <a href={ctaLink || "/Contact/"} class="prc-cta-btn">
+                <span>{ctaLabel}</span> <span class="prc-arrow">→</span>
+              </a>
+            )}
           </div>
         </section>
       )}
     </main>
 
     <Footer />
+
+    <script>
+      // Scroll-reveal: step cards aur control items ko andar aate waqt
+      // fade-up karta hai, Work page ke card-reveal animation ki tarah.
+      const revealTargets = document.querySelectorAll<HTMLElement>(
+        ".prc-step-card, .prc-control-item"
+      );
+
+      revealTargets.forEach((el, i) => {
+        el.style.setProperty("--prc-delay", `${(i % 6) * 0.08}s`);
+      });
+
+      const revealObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("prc-reveal-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+      );
+
+      revealTargets.forEach((el) => revealObserver.observe(el));
+    </script>
   </body>
 </html>

@@ -1,4 +1,7 @@
 ---
+// src/pages/insights/[slug].astro
+// Single Insights / Article page with dark architectural hero overlay & smooth typography
+
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import "../../styles/token.css";
@@ -11,13 +14,17 @@ import { getCollection, render } from "astro:content";
 export async function getStaticPaths() {
   const articles = await getCollection("insights");
   return articles.map((article) => ({
-    params: { slug: article.id }, // Astro v5 glob loader me `id` hi slug ka kaam karti hai
+    params: { slug: article.id },
     props: { article },
   }));
 }
 
 const { article } = Astro.props;
 const { Content } = await render(article);
+
+// Hero Background Image URL
+const heroBackgroundImage =
+  "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=2400&q=85";
 ---
 
 <!doctype html>
@@ -28,32 +35,92 @@ const { Content } = await render(article);
     <title>{article.data.title} — Axys3D Insights</title>
   </head>
 
-  <body class="page-insights">
-    <Navbar variant="solid" />
+  <body class="page-insights ins-detail-page">
+    <Navbar variant="transparent" />
 
-    <main class="insights-page ins-detail-page">
-      <article class="ins-wrap ins-detail-wrap">
-        <!-- Back Navigation -->
-        <a href="/Insights" class="ins-back-link">
-          ← Back to Insights
-        </a>
-
-        <!-- Header -->
-        <header class="ins-detail-header">
-          <p class="ins-category">
-            {article.data.category} / {article.data.readTime}
-          </p>
-          <h1 class="ins-detail-title">{article.data.title}</h1>
-          <p class="ins-detail-lead">{article.data.summary}</p>
-        </header>
-
-        <!-- Dynamic Markdown Body -->
-        <div class="ins-markdown-body">
-          <Content />
+    <main class="ins-main-content">
+      <!-- HERO SECTION -->
+      <section class="ins-hero-section">
+        <div class="ins-hero-bg">
+          <img
+            src={heroBackgroundImage}
+            alt={article.data.title}
+            class="ins-hero-img"
+          />
+          <div class="ins-hero-overlay"></div>
         </div>
-      </article>
+
+        <div class="ins-wrap ins-hero-wrap">
+          <!-- Back Link -->
+          <div class="ins-top-meta">
+            <a href="/Insights" class="ins-back-link">
+              <span class="back-arrow">←</span>
+              <span>BACK TO INSIGHTS</span>
+            </a>
+            <span class="ins-meta-tag">TECHNICAL BRIEF</span>
+          </div>
+
+          <div class="ins-hero-row">
+            <div class="ins-hero-label">
+              <span>Article</span>
+            </div>
+
+            <!-- Header Content -->
+            <header class="ins-detail-header ins-hero-content">
+              <p class="ins-eyebrow">
+                {article.data.category} <span class="ins-dot-sep">/</span> {article.data.readTime}
+              </p>
+              <h1 class="ins-detail-title">{article.data.title}</h1>
+              <p class="ins-detail-lead">{article.data.summary}</p>
+            </header>
+          </div>
+        </div>
+      </section>
+
+      <!-- BODY CONTENT SECTION -->
+      <section class="ins-body-section">
+        <div class="ins-wrap">
+          <!-- Dynamic Markdown Body -->
+          <article class="ins-markdown-body">
+            <Content />
+          </article>
+
+          <!-- BOTTOM CTA BANNER -->
+          <div class="ins-cta-card ins-card">
+            <div class="ins-cta-info">
+              <span class="ins-cta-eyebrow">AXYS3D KNOWLEDGE BASE</span>
+              <h2 class="ins-cta-heading">Want to implement these workflows in your firm?</h2>
+              <p class="ins-cta-subtext">Schedule a workflow review session with our technical leads.</p>
+            </div>
+            <div class="ins-cta-actions">
+              <a href="/Contact/" class="ins-btn ins-btn-primary">
+                Book Technical Session <span>→</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
 
     <Footer />
+
+    <script>
+      // Scroll-reveal for the bottom CTA card, matching Work/Process/Insights pages
+      const revealTargets = document.querySelectorAll(".ins-card");
+
+      const revealObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("ins-reveal-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+      );
+
+      revealTargets.forEach((el) => revealObserver.observe(el));
+    </script>
   </body>
 </html>

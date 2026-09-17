@@ -30,15 +30,23 @@ const articles = await getCollection("insights");
   </head>
 
   <body class="page-insights">
+    <!-- BACKGROUND LAYER -->
+    <div class="ins-page-bg"><div class="ins-page-bg-overlay"></div></div>
+
     <Navbar variant="solid" />
 
     <main class="insights-page">
       <div class="ins-wrap">
         <!-- HERO SECTION -->
         <header class="ins-hero">
-          <p class="ins-eyebrow">{pageData.heroTitle}</p>
-          <h1 class="ins-h1">{pageData.heroSubtitle}</h1>
-          <p class="ins-lead">{pageData.heroDescription}</p>
+          <div class="ins-hero-label">
+            <span>Reading</span>
+          </div>
+          <div class="ins-hero-content">
+            <p class="ins-eyebrow">{pageData.heroTitle}</p>
+            <h1 class="ins-h1">{pageData.heroSubtitle}</h1>
+            <p class="ins-lead">{pageData.heroDescription}</p>
+          </div>
         </header>
 
         <!-- ARTICLES LIST GRID -->
@@ -64,12 +72,35 @@ const articles = await getCollection("insights");
               </article>
             ))
           ) : (
-            <p style="color: #6e675c;">No articles found in src/content/insights/</p>
+            <p style="color: #8997a1;">No articles found in src/content/insights/</p>
           )}
         </section>
       </div>
     </main>
 
     <Footer />
+
+    <script>
+      // Scroll-reveal for article cards, matching Work/Process pages
+      const revealTargets = document.querySelectorAll(".ins-card");
+
+      revealTargets.forEach((el, i) => {
+        (el as HTMLElement).style.setProperty("--ins-delay", `${(i % 6) * 0.08}s`);
+      });
+
+      const revealObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("ins-reveal-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+      );
+
+      revealTargets.forEach((el) => revealObserver.observe(el));
+    </script>
   </body>
 </html>

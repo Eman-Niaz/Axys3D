@@ -1,21 +1,33 @@
 /* ==========================================================================
-   PROCESS PAGE STYLING (MATCHED WITH INDUSTRIES THEME)
+   PROCESS PAGE STYLING
+   PREMIUM VISUAL SYSTEM — MATCHED WITH WORK PAGE
+   (same background technique, navbar-overlay depth, hero grid,
+   section-heading pattern, full-bleed final CTA and responsive
+   breakpoints as work-page.css)
    ========================================================================== */
-/* PROCESS PAGE STYLING */
-.page-process {
-  --ink: #1b1712;
-  --cream: #faf6ee;
-  --gold: #c08a3e;
-  --gold-deep: #8c6528;
-  --line: rgba(27, 23, 18, 0.1);
-  --muted: #6e675c;
 
-  background: var(--cream);
-  color: var(--ink);
-}
-
-/* Base font scope sirf main area ke liye rakhein, navbar ke liye nahi */
 .process-page {
+  --prc-blue: #071522;
+  --prc-blue-soft: #0b1d2c;
+  --prc-blue-panel: #102637;
+  --prc-blue-light: #16364d;
+
+  --prc-brown: #b38b5a;
+  --prc-brown-light: #d2b487;
+  --prc-brown-soft: rgba(179, 139, 90, 0.14);
+
+  --prc-white: #ffffff;
+  --prc-text: #d8dde0;
+  --prc-muted: #8997a1;
+
+  --prc-line: rgba(255, 255, 255, 0.1);
+
+  position: relative;
+  z-index: 1;
+  background: transparent;
+  color: var(--prc-blue);
+  overflow: hidden;
+
   font-family:
     "Manrope",
     system-ui,
@@ -23,109 +35,591 @@
     sans-serif;
 }
 
-.prc-wrap {
-  max-width: 1040px;
-  margin: 0 auto;
-  padding: 0 40px;
+
+/* ==========================================================================
+   PAGE BACKGROUND
+   Required markup right after <body class="page-process">:
+   <div class="prc-page-bg"><div class="prc-page-bg-overlay"></div></div>
+   ========================================================================== */
+
+.page-process {
+  position: relative;
+  background: var(--prc-blue);
 }
 
-/* ---------- Hero ---------- */
+.prc-page-bg {
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+  right: 0;
+
+  height: min(1000px, 105vh);
+
+  z-index: 0;
+
+  overflow: hidden;
+
+  pointer-events: none;
+
+  background-image: url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2400&q=85");
+  background-size: cover;
+  background-position: center;
+
+  opacity: 0.38;
+
+  filter:
+    grayscale(0.30)
+    saturate(0.80)
+    contrast(1.02)
+    blur(1px);
+
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 40%,
+      rgba(0, 0, 0, 0.50) 68%,
+      rgba(0, 0, 0, 0.15) 86%,
+      transparent 100%
+    );
+
+  mask-image:
+    linear-gradient(
+      to bottom,
+      #000 0%,
+      #000 40%,
+      rgba(0, 0, 0, 0.50) 68%,
+      rgba(0, 0, 0, 0.15) 86%,
+      transparent 100%
+    );
+}
+
+.prc-page-bg-overlay {
+
+  position: absolute;
+
+  inset: 0;
+
+  background: rgba(7, 21, 34, 0.78);
+}
+
+
+/* ==========================================================================
+   WRAPPER
+   ========================================================================== */
+
+.prc-wrap {
+  position: relative;
+  z-index: 2;
+  width: min(1320px, calc(100% - 100px));
+  margin: 0 auto;
+  max-width: none;
+  padding: 0;
+}
+
+
+/* ==========================================================================
+   NAVBAR — floats above the background image, same as Work page
+   ========================================================================== */
+
+.page-process .navbar {
+
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+
+  background: transparent !important;
+
+  border-bottom: none !important;
+
+  backdrop-filter: none !important;
+
+  -webkit-backdrop-filter: none !important;
+
+  box-shadow: none !important;
+
+  z-index: 50;
+}
+
+.page-process .logo,
+.page-process .nav-links a {
+
+  color: var(--prc-white);
+}
+
+.page-process .nav-links a {
+
+  opacity: 0.72;
+
+  transition:
+    opacity 0.25s ease,
+    color 0.25s ease;
+}
+
+.page-process .nav-links a:hover {
+
+  color: var(--prc-brown-light);
+
+  opacity: 1;
+}
+
+.page-process .nav-button {
+
+  color: #eee9df;
+
+  border-color: rgba(210, 180, 135, 0.35);
+
+  background: rgba(179, 139, 90, 0.08);
+
+  transition:
+    background 0.25s ease,
+    border-color 0.25s ease,
+    transform 0.25s ease;
+}
+
+.page-process .nav-button:hover {
+
+  background: rgba(179, 139, 90, 0.18);
+
+  border-color: rgba(210, 180, 135, 0.6);
+
+  transform: translateY(-1px);
+}
+
+
+/* ==========================================================================
+   HERO
+   Markup: <header class="prc-hero"> > .prc-wrap > .prc-hero-label +
+   .prc-hero-content
+   ========================================================================== */
+
 .prc-hero {
-  padding: 96px 0 56px;
-  border-bottom: 1px solid var(--line);
+
+  position: relative;
+
+  background: transparent;
+}
+
+.prc-hero .prc-wrap {
+
+  display: flex;
+
+  align-items: flex-start;
+
+  gap: 40px;
+
+  padding: 190px 0 90px;
+}
+
+.prc-hero-label {
+
+  flex: 0 0 160px;
+
+  padding-top: 10px;
+
+  color: var(--prc-muted);
+
+  font-size: 9px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.18em;
+
+  text-transform: uppercase;
+}
+
+.prc-hero-label span {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+}
+
+.prc-hero-label span::before {
+
+  content: "";
+
+  display: inline-block;
+
+  width: 14px;
+
+  height: 1px;
+
+  background: var(--prc-brown);
+}
+
+.prc-hero-content {
+
+  flex: 1;
+
+  max-width: 900px;
+
+  animation:
+    prcHeroReveal
+    0.9s
+    cubic-bezier(0.22, 1, 0.36, 1)
+    both;
+}
+
+@keyframes prcHeroReveal {
+
+  from {
+
+    opacity: 0;
+
+    transform: translateY(30px);
+  }
+
+  to {
+
+    opacity: 1;
+
+    transform: translateY(0);
+  }
 }
 
 .prc-eyebrow {
-  font-size: 12.5px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+
+  position: relative;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  margin: 0 0 25px;
+
+  color: var(--prc-brown-light);
+
+  font-size: 10px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.17em;
+
   text-transform: uppercase;
-  color: var(--gold);
-  margin: 0 0 18px;
+}
+
+.prc-eyebrow::before {
+
+  content: "";
+
+  width: 6px;
+
+  height: 6px;
+
+  flex-shrink: 0;
+
+  border-radius: 50%;
+
+  background: var(--prc-brown);
+
+  box-shadow: 0 0 0 5px rgba(179, 139, 90, 0.10);
+
+  animation:
+    prcDotPulse
+    2s
+    ease-in-out
+    infinite;
+}
+
+@keyframes prcDotPulse {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.25);
+  }
 }
 
 .prc-h1 {
+
+  max-width: 900px;
+
+  margin: 0 0 30px;
+
+  color: var(--prc-white);
+
   font-family: "Manrope", sans-serif;
-  font-weight: 700;
-  font-size: 44px;
-  line-height: 1.15;
-  color: var(--ink);
-  max-width: 680px;
-  margin: 0 0 20px;
+
+  font-size: clamp(38px, 5vw, 68px);
+
+  font-weight: 650;
+
+  letter-spacing: -0.05em;
+
+  line-height: 1.05;
 }
 
 .prc-lead {
-  font-size: 16px;
-  font-weight: 500;
-  line-height: 1.65;
-  color: var(--muted);
-  max-width: 560px;
+
+  max-width: 620px;
+
   margin: 0;
+
+  color: var(--prc-text);
+
+  font-size: 16px;
+
+  font-weight: 450;
+
+  line-height: 1.8;
 }
 
-/* ---------- Steps List (01 - 06 Grid) ---------- */
+
+/* ==========================================================================
+   SECTION HEADING (shared by steps + controls intros)
+   Markup: .prc-intro (flex row, border-bottom) with a left block and
+   .prc-intro-meta on the right (count + line)
+   ========================================================================== */
+
+.prc-intro {
+
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  justify-content: space-between;
+
+  align-items: flex-end;
+
+  gap: 40px;
+
+  padding: 90px 0 40px;
+
+  margin-bottom: 45px;
+
+  border-bottom: 1px solid var(--prc-line);
+}
+
+.prc-section-label {
+
+  display: block;
+
+  margin-bottom: 18px;
+
+  font-size: 11px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.18em;
+
+  text-transform: uppercase;
+
+  color: var(--prc-brown);
+}
+
+.prc-intro h2 {
+
+  margin: 0;
+
+  color: var(--prc-white);
+
+  font-family: "Manrope", sans-serif;
+
+  font-size: clamp(28px, 3.2vw, 42px);
+
+  font-weight: 600;
+
+  letter-spacing: -0.04em;
+
+  line-height: 1.1;
+}
+
+.prc-intro h2 span {
+
+  color: var(--prc-muted);
+}
+
+.prc-intro p {
+
+  max-width: 440px;
+
+  margin: 16px 0 0;
+
+  color: var(--prc-muted);
+
+  font-size: 14px;
+
+  line-height: 1.75;
+}
+
+.prc-intro-meta {
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  padding-bottom: 5px;
+
+  flex-shrink: 0;
+}
+
+.prc-count {
+
+  color: var(--prc-brown-light);
+
+  font-size: 9px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.16em;
+
+  white-space: nowrap;
+}
+
+.prc-intro-line {
+
+  width: 60px;
+
+  height: 1px;
+
+  background: var(--prc-brown);
+}
+
+
+/* ==========================================================================
+   STEPS LIST (01 – 06 grid)
+   ========================================================================== */
+
 .prc-steps-section {
-  padding: 72px 0;
+  position: relative;
+  z-index: 2;
+  padding: 0 0 130px;
 }
 
 .prc-steps-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: 28px;
+  row-gap: 28px;
 }
 
 .prc-step-card {
-  background: #ffffff;
-  border: 1px solid var(--line);
-  border-radius: 12px;
-  padding: 28px;
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+  background: var(--prc-blue-panel);
+  border: 1px solid var(--prc-line);
+  padding: 34px 30px 30px;
+  isolation: isolate;
+
+  opacity: 0;
+  transform: translateY(35px);
   transition:
-    border-color 0.2s ease,
-    transform 0.2s ease,
-    box-shadow 0.2s ease;
+    opacity 0.7s var(--prc-delay, 0s) ease,
+    transform 0.7s var(--prc-delay, 0s) cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.35s ease,
+    box-shadow 0.4s ease,
+    background 0.35s ease;
+}
+
+.prc-step-card.prc-reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.prc-step-card::before {
+
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 0;
+
+  width: 100%;
+
+  height: 2px;
+
+  background: linear-gradient(
+    90deg,
+    var(--prc-brown) 0%,
+    transparent 70%
+  );
+
+  opacity: 0.6;
+
+  transition: opacity 0.35s ease;
 }
 
 .prc-step-card:hover {
-  border-color: rgba(192, 138, 62, 0.4);
-  transform: translateY(-2px);
-  box-shadow: 0 10px 20px -12px rgba(27, 23, 18, 0.12);
+
+  transform: translateY(-6px);
+
+  border-color: rgba(179, 139, 90, 0.5);
+
+  background: var(--prc-blue-light);
+
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.28);
+}
+
+.prc-step-card:hover::before {
+
+  opacity: 1;
 }
 
 .prc-step-header {
+  position: relative;
   display: flex;
-  align-items: baseline;
-  gap: 14px;
-  margin-bottom: 12px;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 14px;
 }
 
 .prc-step-num {
   font-family: "Manrope", sans-serif;
-  font-size: 20px;
+  font-size: 34px;
   font-weight: 800;
-  color: var(--gold-deep);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(210, 180, 135, 0.55);
+  flex-shrink: 0;
 }
 
 .prc-step-title {
   font-family: "Manrope", sans-serif;
-  font-size: 18px;
+  font-size: 19px;
   font-weight: 700;
-  color: var(--ink);
-  line-height: 1.35;
+  color: var(--prc-white);
+  line-height: 1.3;
+  padding-top: 6px;
 }
 
 .prc-step-desc {
-  font-size: 14.5px;
-  font-weight: 500;
-  line-height: 1.65;
-  color: var(--muted);
+  position: relative;
+  font-size: 13.5px;
+  font-weight: 450;
+  line-height: 1.7;
+  color: var(--prc-muted);
   margin: 0;
 }
 
-/* ---------- Control Points Section ---------- */
+
+/* ==========================================================================
+   CONTROL POINTS SECTION
+   ========================================================================== */
+
 .prc-controls-section {
-  padding: 72px 0;
-  border-top: 1px solid var(--line);
-  border-bottom: 1px solid var(--line);
+  position: relative;
+  z-index: 2;
+  padding: 100px 0;
+  border-top: 1px solid var(--prc-line);
 }
 
 .prc-controls-grid {
@@ -136,19 +630,20 @@
 
 .prc-eyebrow-small {
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.05em;
+  font-weight: 750;
+  letter-spacing: 0.16em;
   text-transform: uppercase;
-  color: var(--gold-deep);
-  margin-bottom: 12px;
+  color: var(--prc-brown);
+  margin: 0 0 14px;
 }
 
 .prc-controls-subtitle {
   font-family: "Manrope", sans-serif;
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 26px;
+  font-weight: 650;
+  letter-spacing: -0.03em;
   line-height: 1.3;
-  color: var(--ink);
+  color: var(--prc-white);
   margin: 0;
 }
 
@@ -158,121 +653,420 @@
   margin: 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  gap: 14px;
 }
 
 .prc-control-item {
   display: flex;
   align-items: flex-start;
-  gap: 10px;
-  font-size: 14.5px;
-  font-weight: 600;
-  color: var(--ink);
-  background: #ffffff;
-  border: 1px solid var(--line);
-  padding: 14px 16px;
-  border-radius: 8px;
+  gap: 12px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--prc-text);
+  background: var(--prc-blue-panel);
+  border: 1px solid var(--prc-line);
+  padding: 16px 18px;
+
+  opacity: 0;
+  transform: translateY(25px);
+  transition:
+    opacity 0.6s var(--prc-delay, 0s) ease,
+    transform 0.6s var(--prc-delay, 0s) cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.prc-control-item.prc-reveal-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.prc-control-item:hover {
+  border-color: rgba(179, 139, 90, 0.45);
+  background: var(--prc-blue-light);
+  transform: translateY(-2px);
+}
+
+.prc-control-item.prc-reveal-visible:hover {
+  transform: translateY(-2px);
 }
 
 .prc-check-icon {
-  color: var(--gold);
-  font-weight: 700;
-}
-
-/* ---------- CTA Section ---------- */
-.prc-cta-section {
-  padding: 80px 0 100px;
-}
-
-.prc-cta-box {
-  background: #ffffff;
-  border: 1px solid var(--line);
-  padding: 36px 40px;
-  border-radius: 16px;
-  display: flex;
+  flex-shrink: 0;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 24px;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--prc-brown-soft);
+  color: var(--prc-brown-light);
+  font-size: 11px;
+  font-weight: 800;
+}
+
+
+/* ==========================================================================
+   FINAL CTA
+   (full-bleed, technical grid-line pattern — matches wrk-final-cta)
+   ========================================================================== */
+
+.prc-final-cta {
+
+  position: relative;
+
+  z-index: 1;
+
+  padding: 135px 0;
+
+  overflow: hidden;
+
+  text-align: center;
+
+  background: #06111c;
+
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.prc-final-cta::before {
+
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  pointer-events: none;
+
+  opacity: 0.30;
+
+  background-image:
+    linear-gradient(
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(255, 255, 255, 0.035) 1px,
+      transparent 1px
+    );
+
+  background-size: 70px 70px;
+
+  mask-image:
+    radial-gradient(
+      circle at center,
+      black,
+      transparent 72%
+    );
+}
+
+.prc-final-inner {
+
+  position: relative;
+
+  max-width: 720px;
+
+  margin: 0 auto;
+
+  text-align: center;
+}
+
+.prc-cta-kicker {
+
+  display: block;
+
+  margin-bottom: 20px;
+
+  color: var(--prc-brown-light);
+
+  font-size: 9px;
+
+  font-weight: 750;
+
+  letter-spacing: 0.20em;
+
+  text-transform: uppercase;
 }
 
 .prc-cta-h3 {
+
+  margin: 0 auto;
+
+  max-width: 640px;
+
+  color: var(--prc-white);
+
   font-family: "Manrope", sans-serif;
-  font-size: 22px;
-  font-weight: 700;
-  color: var(--ink);
-  margin: 4px 0 0;
+
+  font-size: clamp(30px, 4.2vw, 48px);
+
+  font-weight: 600;
+
+  letter-spacing: -0.045em;
+
+  line-height: 1.12;
 }
 
 .prc-cta-btn {
+
   display: inline-flex;
+
   align-items: center;
-  gap: 8px;
-  background-color: var(--ink);
-  color: var(--cream);
-  padding: 12px 24px;
-  border-radius: 8px;
-  font-size: 14px;
-  font-weight: 700;
+
+  justify-content: space-between;
+
+  gap: 30px;
+
+  margin-top: 38px;
+
+  padding: 17px 25px;
+
+  color: var(--prc-blue);
+
+  background: var(--prc-brown-light);
+
   text-decoration: none;
-  white-space: nowrap;
+
+  font-size: 12px;
+
+  font-weight: 800;
+
+  letter-spacing: 0.02em;
+
   transition:
-    opacity 0.2s ease,
-    transform 0.2s ease;
+    transform 0.3s ease,
+    box-shadow 0.3s ease,
+    background 0.3s ease;
 }
 
 .prc-cta-btn:hover {
-  opacity: 0.9;
-  transform: translateX(3px);
+
+  background: #dfc39a;
+
+  transform: translateY(-4px);
+
+  box-shadow: 0 22px 55px rgba(179, 139, 90, 0.20);
 }
 
 .prc-arrow {
+
   font-size: 16px;
+
+  transition: transform 0.25s ease;
 }
 
----------- Navbar Integration ---------- .page-process .navbar {
-  background: white;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-  border-bottom: 1px solid rgba(27, 23, 18, 0.08);
-  position: static;
+.prc-cta-btn:hover .prc-arrow {
+
+  transform: translate(3px, -3px);
 }
 
-.page-process .logo,
-.page-process .nav-links a {
-  color: #1b1712;
+
+/* ==========================================================================
+   FOCUS
+   ========================================================================== */
+
+.prc-cta-btn:focus-visible {
+
+  outline: 2px solid var(--prc-brown-light);
+
+  outline-offset: 5px;
 }
 
-.page-process .nav-button {
-  color: #1b1712;
-  border-color: rgba(27, 23, 18, 0.15);
-  background: rgba(27, 23, 18, 0.04);
-}
 
-.page-process .nav-button:hover {
-  background: rgba(27, 23, 18, 0.08);
-}
+/* ==========================================================================
+   TABLET
+   ========================================================================== */
 
-/* ---------- Responsive ---------- */
-@media (max-width: 860px) {
+@media (max-width: 1100px) {
+
   .prc-wrap {
-    padding: 0 22px;
+
+    width: min(100% - 60px, 900px);
   }
-  .prc-h1 {
-    font-size: 32px;
+
+  .prc-hero .prc-wrap {
+
+    gap: 50px;
   }
-  .prc-steps-grid {
-    grid-template-columns: 1fr;
+
+  .prc-hero-label {
+
+    flex-basis: 120px;
   }
+
   .prc-controls-grid {
+
+    grid-template-columns: 260px 1fr;
+
+    gap: 32px;
+  }
+}
+
+
+/* ==========================================================================
+   MOBILE
+   ========================================================================== */
+
+@media (max-width: 760px) {
+
+  .prc-page-bg {
+
+    height: min(900px, 100vh);
+
+    opacity: 0.28;
+
+    filter:
+      grayscale(0.45)
+      saturate(0.70)
+      blur(1px);
+  }
+
+  .prc-wrap {
+
+    width: min(100% - 34px, 560px);
+  }
+
+  .prc-hero .prc-wrap {
+
+    flex-direction: column;
+
+    gap: 20px;
+
+    padding: 130px 0 60px;
+  }
+
+  .prc-hero-label {
+
+    flex: initial;
+  }
+
+  .prc-h1 {
+
+    font-size: clamp(34px, 11vw, 50px);
+  }
+
+  .prc-lead {
+
+    font-size: 14px;
+  }
+
+  .prc-intro {
+
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 18px;
+
+    padding: 60px 0 35px;
+  }
+
+  .prc-steps-section {
+
+    padding-bottom: 90px;
+  }
+
+  .prc-steps-grid {
+
     grid-template-columns: 1fr;
+
+    row-gap: 20px;
+  }
+
+  .prc-controls-section {
+
+    padding: 70px 0;
+  }
+
+  .prc-controls-grid {
+
+    grid-template-columns: 1fr;
+
     gap: 24px;
   }
+
   .prc-controls-list {
+
     grid-template-columns: 1fr;
   }
-  .prc-cta-box {
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 28px;
+
+  .prc-final-cta {
+
+    padding: 100px 0;
+  }
+}
+
+
+/* ==========================================================================
+   SMALL MOBILE
+   ========================================================================== */
+
+@media (max-width: 420px) {
+
+  .prc-h1 {
+
+    font-size: 34px;
+  }
+
+  .prc-step-num {
+
+    font-size: 28px;
+  }
+
+  .prc-final-cta h3,
+  .prc-cta-h3 {
+
+    font-size: 30px;
+  }
+
+  .prc-cta-btn {
+
+    width: 100%;
+
+    justify-content: space-between;
+  }
+}
+
+
+/* ==========================================================================
+   REDUCED MOTION
+   ========================================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+
+  *,
+  *::before,
+  *::after {
+
+    scroll-behavior: auto !important;
+
+    animation-duration: 0.01ms !important;
+
+    animation-iteration-count: 1 !important;
+
+    transition-duration: 0.01ms !important;
+  }
+
+  .prc-hero-content {
+
+    animation: none;
+
+    opacity: 1;
+
+    transform: none;
+  }
+
+  .prc-eyebrow::before {
+
+    animation: none;
+  }
+
+  .prc-step-card,
+  .prc-control-item {
+
+    opacity: 1;
+
+    transform: none;
   }
 }

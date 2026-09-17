@@ -25,15 +25,23 @@ if (!pageData) {
   </head>
 
   <body class="page-contact">
+    <!-- BACKGROUND LAYER -->
+    <div class="cnt-page-bg"><div class="cnt-page-bg-overlay"></div></div>
+
     <Navbar variant="solid" />
 
     <main class="contact-page">
       <div class="cnt-wrap">
         <!-- HERO SECTION -->
         <header class="cnt-hero">
-          <p class="cnt-eyebrow">{pageData.heroEyebrow}</p>
-          <h1 class="cnt-h1">{pageData.heroTitle}</h1>
-          <p class="cnt-lead">{pageData.heroDescription}</p>
+          <div class="cnt-hero-label">
+            <span>Get in touch</span>
+          </div>
+          <div class="cnt-hero-content">
+            <p class="cnt-eyebrow">{pageData.heroEyebrow}</p>
+            <h1 class="cnt-h1">{pageData.heroTitle}</h1>
+            <p class="cnt-lead">{pageData.heroDescription}</p>
+          </div>
         </header>
 
         <!-- SCOPING CHECKLIST -->
@@ -258,6 +266,30 @@ if (!pageData) {
     <Footer />
 
     <script>
+      // Scroll-reveal for sections and checklist items, matching Work/Process pages
+      const sectionTargets = document.querySelectorAll(".cnt-section");
+      const checkTargets = document.querySelectorAll(".cnt-check-item");
+
+      checkTargets.forEach((el, i) => {
+        (el as HTMLElement).style.setProperty("--cnt-delay", `${(i % 6) * 0.06}s`);
+      });
+
+      const revealObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("cnt-reveal-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+      );
+
+      sectionTargets.forEach((el) => revealObserver.observe(el));
+      checkTargets.forEach((el) => revealObserver.observe(el));
+
+      // Contact form submission
       const form = document.getElementById("contact-form") as HTMLFormElement;
       const submitBtn = document.getElementById("cnt-submit-btn") as HTMLButtonElement;
       const messageBox = document.getElementById("cnt-form-message");

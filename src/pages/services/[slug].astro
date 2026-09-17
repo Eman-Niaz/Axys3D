@@ -1,12 +1,6 @@
 ---
 // src/pages/services/[slug].astro
-//
-// Dynamic detail page for a single service. One page is generated per
-// entry in the "services" content collection (01-bim-execution-model-production.md,
-// 02-revit-production.md, etc — the files you already have).
-//
-// The "Review technical scope" button on the services index page links to
-// `s.href`, which should point here, e.g. /services/bim-execution-model-production/
+// Dynamic detail page for individual architectural/AEC services
 
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
@@ -22,10 +16,6 @@ export async function getStaticPaths() {
   const services = await getCollection("services");
 
   return services.map((service) => {
-    // Strip a leading "01-" / "02-" style numeric prefix from the filename
-    // if present, so the URL slug stays clean regardless of how the files
-    // are named on disk. serviceNumber in the frontmatter is still the
-    // source of truth for display and ordering.
     const slug = service.id.replace(/^\d+-/, "");
 
     return {
@@ -36,6 +26,7 @@ export async function getStaticPaths() {
 }
 
 const { service } = Astro.props;
+
 const {
   title,
   serviceNumber,
@@ -47,37 +38,68 @@ const {
 } = service.data;
 
 const { Content } = await render(service);
+
+const heroBackgroundImage =
+  "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=2400&q=85";
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title} — Axys3D</title>
   </head>
 
   <body class="page-service-detail">
-    <Navbar variant="solid" />
 
-    <main class="svcd-page">
-      <!-- HERO -->
+    <!-- HERO WRAPPER WITH TRANSPARENT OVERLAY NAVBAR -->
+    <div class="svcd-hero-wrapper">
+      <Navbar variant="transparent" />
+
       <section class="svcd-hero">
-        <div class="svc-wrap">
-          <a class="svcd-back" href="/Services/">
-            ← All services
-          </a>
+
+        <!-- Background Image & Gradient Layer -->
+        <div class="svcd-hero-bg">
+          <img
+            src={heroBackgroundImage}
+            alt="Hero Background"
+            class="svcd-hero-img"
+          />
+          <div class="svcd-hero-overlay"></div>
+        </div>
+
+        <!-- Hero Primary Content -->
+        <div class="svc-wrap svcd-hero-content">
+
+          <div class="svcd-top-meta">
+            <a class="svcd-back" href="/services/">
+              <span class="back-arrow">←</span>
+              <span>ALL SERVICES</span>
+            </a>
+            <span class="svcd-category-badge">AEC / PRODUCTION SPEC</span>
+          </div>
 
           <p class="svc-eyebrow">
-            Service {serviceNumber} / {serviceLabel}
+            SERVICE {serviceNumber} // {serviceLabel}
           </p>
-          <h1 class="svcd-h1">{title}</h1>
-          <p class="svcd-lead">{description}</p>
 
+          <h1 class="svcd-h1">
+            {title}
+          </h1>
+
+          <p class="svcd-lead">
+            {description}
+          </p>
+
+          <!-- DYNAMIC ASYMMETRIC META CARDS -->
           <div class="svcd-meta-grid">
-            <div class="svcd-meta-col">
-              <p class="svcd-meta-label">Best-fit buyers</p>
+
+            <!-- Card Variant 01: Glassmorphism Glass Panel -->
+            <div class="svcd-meta-col svcd-card-variant-a">
+              <span class="svcd-meta-number">01</span>
+              <p class="svcd-meta-label">BEST-FIT BUYERS</p>
               <ul class="svcd-meta-list">
                 {bestFitBuyers.map((item) => (
                   <li>{item}</li>
@@ -85,8 +107,10 @@ const { Content } = await render(service);
               </ul>
             </div>
 
-            <div class="svcd-meta-col">
-              <p class="svcd-meta-label">Project stages</p>
+            <!-- Card Variant 02: Solid Dark Panel Accent -->
+            <div class="svcd-meta-col svcd-card-variant-b">
+              <span class="svcd-meta-number">02</span>
+              <p class="svcd-meta-label">PROJECT STAGES</p>
               <ul class="svcd-meta-list">
                 {projectStages.map((item) => (
                   <li>{item}</li>
@@ -94,26 +118,52 @@ const { Content } = await render(service);
               </ul>
             </div>
 
-            <div class="svcd-meta-col">
-              <p class="svcd-meta-label">Engagement context</p>
+            <!-- Card Variant 03: Left Border Inset Panel -->
+            <div class="svcd-meta-col svcd-card-variant-c">
+              <span class="svcd-meta-number">03</span>
+              <p class="svcd-meta-label">ENGAGEMENT CONTEXT</p>
               <ul class="svcd-meta-list">
                 {engagementContext.map((item) => (
                   <li>{item}</li>
                 ))}
               </ul>
             </div>
+
+          </div>
+
+        </div>
+
+      </section>
+    </div>
+
+    <!-- MAIN BODY & PROSE CONTAINER -->
+    <main class="svcd-body">
+      <div class="svc-wrap svcd-prose">
+        <Content />
+      </div>
+
+      <!-- CALL TO ACTION BLOCK -->
+      <div class="svc-wrap svcd-cta-wrapper">
+        <div class="svcd-cta-card">
+          <div class="svcd-cta-info">
+            <span class="svcd-cta-eyebrow">ENGAGE OUR STUDIO</span>
+            <h2 class="svcd-cta-heading">Ready to scale your BIM & visualization workflow?</h2>
+            <p class="svcd-cta-subtext">Let's discuss technical requirements, execution scope, and production schedules.</p>
+          </div>
+          <div class="svcd-cta-actions">
+            <a href="/contact" class="svcd-btn svcd-btn-primary">
+              Schedule Consultation
+              <span class="btn-icon">→</span>
+            </a>
+            <a href="/portfolio" class="svcd-btn svcd-btn-secondary">
+              Explore Portfolio
+            </a>
           </div>
         </div>
-      </section>
-
-      <!-- FULL SERVICE CONTENT (parsed from the markdown body) -->
-      <section class="svcd-body">
-        <div class="svc-wrap svcd-prose">
-          <Content />
-        </div>
-      </section>
+      </div>
     </main>
 
     <Footer />
+
   </body>
 </html>

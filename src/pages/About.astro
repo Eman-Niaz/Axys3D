@@ -25,15 +25,23 @@ if (!pageData) {
   </head>
 
   <body class="page-about">
+    <!-- BACKGROUND LAYER -->
+    <div class="abt-page-bg"><div class="abt-page-bg-overlay"></div></div>
+
     <Navbar variant="solid" />
 
     <main class="about-page">
       <div class="about-wrap">
         <!-- Hero Section -->
         <header class="about-hero">
-          <p class="about-eyebrow">{pageData.heroEyebrow}</p>
-          <h1 class="about-h1">{pageData.heroTitle}</h1>
-          <p class="about-lead">{pageData.heroDescription}</p>
+          <div class="about-hero-label">
+            <span>Studio</span>
+          </div>
+          <div class="about-hero-content">
+            <p class="about-eyebrow">{pageData.heroEyebrow}</p>
+            <h1 class="about-h1">{pageData.heroTitle}</h1>
+            <p class="about-lead">{pageData.heroDescription}</p>
+          </div>
         </header>
 
         <!-- Why Section -->
@@ -56,23 +64,46 @@ if (!pageData) {
             ))}
           </div>
         </section>
+      </div>
 
-        <!-- Delivery Controls -->
-        <!-- Delivery Controls -->
-        <section class="about-delivery">
-          <div class="about-delivery-content">
-            <h2 class="about-delivery-title">{pageData.deliveryTitle}</h2>
-            <p class="about-delivery-desc">{pageData.deliveryDescription}</p>
-          </div>
+      <!-- Delivery Controls — full-bleed final CTA -->
+      <section class="about-delivery">
+        <div class="about-delivery-content">
+          <h2 class="about-delivery-title">{pageData.deliveryTitle}</h2>
+          <p class="about-delivery-desc">{pageData.deliveryDescription}</p>
           <div class="about-delivery-action">
             <a href="/Process" class="about-cta-btn">
-              {pageData.ctaLabel || "See the six-stage process"} →
+              <span>{pageData.ctaLabel || "See the six-stage process"}</span>
+              <span>→</span>
             </a>
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
     </main>
 
     <Footer />
+
+    <script>
+      // Scroll-reveal for principle cards, matching Work/Process pages
+      const revealTargets = document.querySelectorAll(".principle-card");
+
+      revealTargets.forEach((el, i) => {
+        (el as HTMLElement).style.setProperty("--abt-delay", `${(i % 6) * 0.08}s`);
+      });
+
+      const revealObserver = new IntersectionObserver(
+        (entries, observer) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("abt-reveal-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+      );
+
+      revealTargets.forEach((el) => revealObserver.observe(el));
+    </script>
   </body>
 </html>
