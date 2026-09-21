@@ -20,6 +20,7 @@ import "../styles/process.css";
 import "../styles/faq.css";
 import "../styles/cta.css";
 import "../styles/footer.css";
+import "../styles/index.css";
 ---
 
 <!doctype html>
@@ -34,23 +35,67 @@ import "../styles/footer.css";
       content="Axys3D is an integrated AEC production partner delivering BIM, Revit production, MEP coordination support, 3D modeling, architectural visualization, animation and real-time experiences."
     />
 
-    <title>Axys3D — AEC Production Partner</title>
+    <title>Axys3D</title>
   </head>
 
   <body>
     <main>
-      <Hero />
-      <ProductionLayer />
-      <Service />
-      <Buyersegments />
-      <CaseStudies />
+      <div class="reveal reveal-zoom">
+        <Hero />
+      </div>
 
-      <ProcessSection />
+      <div class="reveal reveal-up">
+        <ProductionLayer />
+      </div>
 
-      <FAQSection />
+      <div class="reveal reveal-left">
+        <Service />
+      </div>
 
-      <CTASection />
+      <div class="reveal reveal-right">
+        <Buyersegments />
+      </div>
+
+      <div class="reveal reveal-blur">
+        <CaseStudies />
+      </div>
+
+      <div class="reveal reveal-up">
+        <ProcessSection />
+      </div>
+
+      <div class="reveal reveal-fade">
+        <FAQSection />
+      </div>
+
+      <div class="reveal reveal-pop">
+        <CTASection />
+      </div>
     </main>
-    <Footer />
+
+    <div class="reveal reveal-fade">
+      <Footer />
+    </div>
+
+    <script>
+      const revealEls = document.querySelectorAll(".reveal");
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        {
+          threshold: 0.15,
+          rootMargin: "0px 0px -8% 0px",
+        }
+      );
+
+      revealEls.forEach((el) => observer.observe(el));
+    </script>
   </body>
 </html>

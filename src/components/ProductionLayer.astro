@@ -4,15 +4,15 @@ import "../styles/production-layer.css";
 const steps = [
   {
     num: "01",
-    label: "BIM execution",
+   // label: "BIM execution",
     detail: "Model setup, standards and information input.",
-    slug: "bim-execution",
+    slug: "bim-production",
     image:
       "https://tewbhv.vtexassets.com/arquivos/ids/158339/DN%7C547%7C401%7C935%7C118%7C399.png?v=638007725075500000",
   },
   {
     num: "02",
-    label: "Revit production",
+   // label: "Revit production",
     detail: "Architectural, structural and documentation models.",
     slug: "revit-production",
     image:
@@ -20,7 +20,7 @@ const steps = [
   },
   {
     num: "03",
-    label: "MEP support",
+   // label: "MEP support",
     detail: "Coordinated MEP models and clash resolution.",
     slug: "mep-coordination",
     image:
@@ -28,7 +28,7 @@ const steps = [
   },
   {
     num: "04",
-    label: "3D modeling + animation",
+    //label: "3D modeling + animation",
     detail: "Clean geometry and motion where needed.",
     slug: "3d-modeling",
     image:
@@ -36,15 +36,15 @@ const steps = [
   },
   {
     num: "05",
-    label: "Visualization + animation",
+   // label: "Visualization + animation",
     detail: "High-quality renders, views and narratives.",
-    slug: "visualization",
+    slug: "architectural-visualization",
     image:
-      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85",
+    "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "06",
-    label: "Real-time + handoff",
+   // label: "Real-time + handoff",
     detail: "Interactive models and real-time experiences.",
     slug: "real-time",
     image:
@@ -52,102 +52,68 @@ const steps = [
   },
   {
     num: "07",
-    label: "Technical documentation",
+    //label: "Technical documentation",
     detail: "Drawings, schedules and supporting documents.",
-    slug: "handoff",
+    slug: "3ds-max-production",
     image:
       "https://tewbhv.vtexassets.com/arquivos/ids/158339/DN%7C547%7C401%7C935%7C118%7C399.png?v=638007725075500000",
   },
   {
     num: "08",
-    label: "Handoff + delivery",
+   // label: "Handoff + delivery",
     detail: "Organized deliverables and final handover.",
-    slug: "handoff",
+    slug: "animation-motion",
     image:
       "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85",
   },
 ];
 ---
 
-<style>
-  /* Reset default <a> styling so the card keeps its original block layout */
-  a.prod-card {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-  }
+<div class="px-services-wrapper">
+  <div class="px-sketch-bg" aria-hidden="true"></div>
 
-  /* Let clicks pass through decorative inner layers straight to the link,
-     without touching their original position/layout */
-  a.prod-card .pl-image-wrap,
-  a.prod-card .pl-image,
-  a.prod-card .pl-image-overlay,
-  a.prod-card .pl-detail,
-  a.prod-card .pl-card-info {
-    pointer-events: none;
-  }
-</style>
+  <div class="px-container">
+    <!-- Header with Left and Right Lines -->
+    <div class="px-header-row">
+      <div class="px-line"></div>
+      
+      <div class="px-header">
+        <span class="px-eyebrow">ONE PRODUCTION LAYER</span>
+        <h2>
+          From model information to <br />
+          <span class="px-highlight">stake-holder ready output</span>
+        </h2>
+        <p class="px-subtext">
+          Clear inputs, controlled production and defined approval routes keep every package aligned <br /> from start to handoff.
+        </p>
+      </div>
 
-<section class="production-layer">
-
-  <div class="pl-wrap">
-
-   <div class="pl-heading-area">
-
-  <div class="pl-heading-line"></div>
-
-  <div class="pl-heading-content">
-    <p class="pl-tag">Production pipeline</p>
-
-    <h2 class="pl-heading">
-      From model information to
-      <span>stakeholder-ready output.</span>
-    </h2>
-
-    <p class="pl-intro">
-      A controlled production workflow connecting approved design information
-      to coordinated, presentation-ready and handoff-ready outputs.
-    </p>
-  </div>
-
-  <div class="pl-heading-line"></div>
-
-</div>
-
-    <div class="pl-grid">
-
-      {steps.map((step) => (
-        <a class="prod-card" href={`/Services/${step.slug}`}>
-
-          <div class="pl-image-wrap">
-
-            <img
-              src={step.image}
-              alt={step.label}
-              class="pl-image"
-              loading="lazy"
-            />
-
-            <div class="pl-image-overlay"></div>
-
-            <div class="pl-detail">
-              {step.detail}
-            </div>
-
-          </div>
-
-          <div class="pl-card-info">
-            <span class="pl-num">{step.num}</span>
-
-            <h3>{step.label}</h3>
-          </div>
-
-        </a>
-      ))}
-
+      <div class="px-line"></div>
     </div>
 
-  </div>
+    <!-- Horizontal Slider with Cards Track -->
+    <div class="px-slider-wrap">
+      <div class="px-slider-track">
+        {steps.map((step) => (
+          <a href={`/services/${step.slug}`} class="px-card">
+            <div class="px-card-img">
+              <img src={step.image} alt={step.detail} loading="lazy" />
+              <span class="px-card-num">{step.num}</span>
+            </div>
 
-</section>
+            <div class="px-card-content">
+              {/* <h3>{step.label}</h3> */}
+              <p>{step.detail}</p>
+            </div>
+
+            <div class="px-card-footer">
+              <span class="px-scope-link">
+                Review technical scope <span class="arrow">↗</span>
+              </span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</div>

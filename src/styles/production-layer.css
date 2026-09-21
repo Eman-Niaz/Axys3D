@@ -1,300 +1,242 @@
 /* =========================================================
-   PRODUCTION LAYER / PROCESS SECTION
-   ========================================================= */
+   AXYS3D — PRODUCTION LAYER (EXACT MATCH)
+========================================================= */
 
-.production-layer {
-  width: 100%;
-  padding: 80px 0;
-  background: #f7f5ef;
-  font-family: "Manrope", sans-serif;
-  overflow: hidden;
-}
-
-/* Yeh ab full-width hai, safaid spaces hata di gayi hain */
-.pl-wrap {
-  width: 100%; /* Full container width */
-  /* margin: 0; */
-}
-
-/* =========================================================
-   HEADING AREA
-   ========================================================= */
-
-.pl-heading-area {
-  display: flex;
-  align-items: center;
-  gap: 32px;
-  width: min(1080px, 90%); /* Heading ko thoda padding dein */
-  margin: 0 auto 55px;
-}
-
-.pl-heading-content {
-  flex: 0 1 720px;
-  text-align: center;
-}
-
-.pl-heading-line {
-  flex: 1;
-  height: 1px;
-  background: #132131;
-  opacity: 0.18;
-}
-
-.pl-tag {
-  margin: 0 0 12px;
-  color: #13173f;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
-.pl-heading {
-  margin: 0;
-  color: #132131;
-  font-size: clamp(30px, 4vw, 48px);
-  font-weight: 650;
-  line-height: 1.12;
-  letter-spacing: -1.8px;
-}
-
-.pl-heading span {
-  display: block;
-  color: #8eafc9;
-}
-
-.pl-intro {
-  max-width: 610px;
-  margin: 18px auto 0;
-  color: #495158;
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 1.7;
-}
-
-/* =========================================================
-   CARDS GRID (Ab Full-Width Images ka Grid hai)
-   ========================================================= */
-
-.pl-grid {
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 30px 20px;
-  padding: 0 20px; /* Thoda gap dein total width par */
-}
-
-/* =========================================================
-   CARD
-   ========================================================= */
-
-.prod-card {
-  min-width: 0;
-  transition: transform 0.4s ease, opacity 0.4s ease;
-  display: flex; /* Text placement ke liye naya column flex */
-  flex-direction: column;
-}
-
-.pl-card:hover {
-  transform: translateY(-6px);
-}
-
-/* =========================================================
-   IMAGE CONTAINER & HOVER ANIMATION (No more rounded edges)
-   ========================================================= */
-
-.pl-image-wrap {
-  position: relative;
-  width: 100%;
-  aspect-ratio: 1 / 0.70; 
-  overflow: hidden;
-  /* background: #dfe3e5; */ /* Background hata diya hai */
-  border-radius: 0; /* Rounded corners hata diye hain */
-}
-
-.pl-image {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transform: scale(1);
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1), filter 0.5s ease;
-}
-
-.pl-card:hover .pl-image {
-  transform: scale(1.07);
-  filter: saturate(0.92);
-}
-
-/* =========================================================
-   IMAGE OVERLAY
-   ========================================================= */
-
-.pl-image-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(8, 17, 27, 0.82) 0%,
-    rgba(8, 17, 27, 0.35) 42%,
-    rgba(8, 17, 27, 0) 75%
-  );
-  opacity: 0;
-  transition: opacity 0.45s ease;
-}
-
-.prod-card:hover .pl-image-overlay {
-  opacity: 1;
-}
-
-/* =========================================================
-   HOVER DETAIL TEXT
-   ========================================================= */
-
-.pl-detail {
-  position: absolute;
-  left: 16px;
-  right: 16px;
-  bottom: 16px;
-  color: #ffffff;
-  font-size: 12px;
-  font-weight: 500;
-  line-height: 1.55;
-  opacity: 0;
-  transform: translateY(12px);
-  transition: opacity 0.4s ease, transform 0.4s ease;
-  z-index: 2;
-}
-
-.prod-card:hover .pl-detail {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* =========================================================
-   CARD INFORMATION (Ab seedha image ke nechy display hota hai)
-   ========================================================= */
-
-.pl-card-info {
-  display: flex;
-  align-items: center; /* Number aur Title ko vertically align karein */
-  gap: 10px;
-  padding: 12px 2px 0;
-  margin-top: 5px; /* Thoda gap image ke nechy */
-}
-
-.pl-num {
-  flex-shrink: 0;
-  color: #405a77;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-}
-
-.pl-card-info h3 {
-  margin: 0;
-  color: #132131;
-  font-size: 14px;
-  font-weight: 650;
-  line-height: 1.35;
-  letter-spacing: -0.2px;
-  transition: color 0.3s ease;
-}
-
-.prod-card:hover .pl-card-info h3 {
-  color: #5478a1;
-}
-
-/* =========================================================
-   TABLET RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 1000px) {
-  .production-layer {
-    padding: 70px 0;
-  }
-
-  .pl-heading-area {
-    width: min(900px, 90%);
-    gap: 24px;
-    margin-bottom: 45px;
-  }
-
-  .pl-heading {
-    font-size: clamp(30px, 4.5vw, 42px);
-  }
-
-  .pl-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 25px 18px;
-    padding: 0 15px; /* Thoda aur width side py */
-  }
-}
-
-/* =========================================================
-   MOBILE RESPONSIVE
-   ========================================================= */
-
-@media (max-width: 650px) {
-  .production-layer {
-    padding: 50px 0;
-  }
-
-  .pl-wrap {
-    width: 100%; /* Mobile par bhi full-width */
-  }
-
-  .pl-heading-area {
-    display: block;
+.px-services-wrapper {
+    position: relative;
     width: 100%;
-    margin-bottom: 35px;
-  }
+    background: #f7f5ef;
+    padding: 70px 0  30px;
+    overflow: hidden;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
 
-  .pl-heading-content {
-    max-width: 100%;
-  }
+.px-sketch-bg {
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    transform: translate(-50%, -50%);
+    background-image: url('/images/sketch-bg.jpg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 1100px auto;
+    opacity: 0.18;
+    mix-blend-mode: multiply;
+    pointer-events: none;
+    z-index: 0;
+}
 
-  .pl-heading-line {
-    width: 55px;
+.px-container {
+    position: relative;
+    z-index: 2;
+    width: 100%;
+}
+
+/* =========================================================
+   HEADER WITH LEFT & RIGHT DIVIDER LINES (CENTERED & 2-LINES)
+========================================================= */
+
+.px-header-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 0 40px;
+    margin-bottom: 40px;
+    box-sizing: border-box;
+}
+
+.px-line {
+    flex: 1;
+    max-width: 90px;
     height: 1px;
-    margin: 0 auto 20px;
-  }
+    background-color: rgba(180, 190, 195, 0.6);
+}
 
-  .pl-tag {
-    margin-bottom: 10px;
-    font-size: 10px;
-    letter-spacing: 0.14em;
-  }
+.px-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 0 40px;
+    max-width: 750px;
+}
 
-  .pl-heading {
-    font-size: clamp(26px, 7vw, 34px);
+.px-eyebrow {
+    display: block;
+    margin-bottom: 14px;
+    color: #0b1928;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+}
+
+.px-header h2 {
+    margin: 0 0 16px 0;
+    color: #0b1928;
+    font-family: 'Manrope', -apple-system, sans-serif;
+    font-size: clamp(34px, 4vw, 52px);
+    font-weight: 700;
     line-height: 1.15;
     letter-spacing: -1.2px;
-  }
+    text-align: center;
+}
 
-  .pl-intro {
-    max-width: 430px;
-    margin-top: 14px;
-    font-size: 13px;
-    line-height: 1.6;
-  }
+.px-header h2 .px-highlight {
+    color: #8daec5;
+}
 
-  .pl-grid {
-    display: grid;
-    grid-template-columns: repeat(1, minmax(0, 1fr));
-    gap: 24px;
-    padding: 0 10px; /* Mobile width adjustment */
-  }
+.px-subtext {
+    margin: 0;
+    font-size: 14px;
+    color: #4a5c6a;
+    line-height: 1.55;
+    text-align: center;
+}
 
-  .pl-image-wrap {
-    aspect-ratio: 1 / 0.65;
-    border-radius: 0; /* Mobile rounded corners bhi hata diye hain */
-  }
+/* =========================================================
+   HORIZONTAL SLIDER & ZIG-ZAG CARDS
+========================================================= */
 
-  .pl-card-info {
-    padding-top: 10px;
-  }
+.px-slider-wrap {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: visible;
+    padding: 40px 0 50px;
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+}
 
-  .pl-card-info h3 {
-    font-size: 13.5px;
-  }
+.px-slider-wrap::-webkit-scrollbar {
+    display: none;
+}
+
+.px-slider-track {
+    display: flex;
+    gap: 20px;
+    width: max-content;
+    padding: 0 40px;
+}
+
+/* Card Base Style */
+.px-card {
+    width: 290px;
+    height: 300px;
+    flex: 0 0 290px;
+    background: #fcfdfe;
+    border: 1px solid rgba(210, 220, 225, 0.8);
+    border-radius: 16px;
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    box-sizing: border-box;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.03);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1), box-shadow 0.4s ease;
+}
+
+/* Alternate Height Offset (Zig-Zag Floating) */
+.px-card:nth-child(odd) {
+    transform: translateY(-16px);
+}
+
+.px-card:nth-child(even) {
+    transform: translateY(20px);
+}
+
+.px-card:nth-child(odd):hover {
+    transform: translateY(-24px);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.08);
+}
+
+.px-card:nth-child(even):hover {
+    transform: translateY(12px);
+    box-shadow: 0 18px 35px rgba(0, 0, 0, 0.08);
+}
+
+/* Image Section */
+.px-card-img {
+    position: relative;
+    width: 100%;
+    height: 180px;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #e8eff3;
+}
+
+.px-card-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.px-card-num {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.92);
+    color: #1a2b3c;
+    font-size: 11px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Content Area */
+.px-card-content {
+    padding: 14px 2px 0 2px;
+    flex: 0 0 auto;
+}
+
+.px-card-content h3 {
+    margin: 0 0 6px 0;
+    color: #12283a;
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.px-card:first-child .px-card-content h3 {
+    color: #2b6cb0;
+}
+
+.px-card-content p {
+    margin: 0;
+    font-size: 12.5px;
+    color: #5a6e7f;
+    line-height: 1.45;
+}
+
+/* Footer Link Area */
+.px-card-footer {
+    padding-top: 12px;
+    padding-left: 2px;
+}
+
+.px-scope-link {
+    font-size: 12px;
+    font-weight: 700;
+    color: #12283a;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.px-scope-link .arrow {
+    font-size: 11px;
+}
+
+@media (max-width: 768px) {
+    .px-line {
+        display: none;
+    }
+    .px-header-row {
+        padding: 0 20px;
+    }
 }

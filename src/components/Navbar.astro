@@ -1,11 +1,15 @@
+
 <nav class="navbar" aria-label="Main navigation">
 
   <div class="navbar-inner">
 
+    <!-- LOGO -->
     <a href="/" class="logo" aria-label="Axys3D Home">
       Axys<span class="brown-text">3D</span>
     </a>
 
+
+    <!-- DESKTOP NAVIGATION -->
     <div class="nav-links">
 
       <a href="/Services/">Services</a>
@@ -18,11 +22,98 @@
 
     </div>
 
+
+    <!-- DESKTOP CTA -->
     <a href="/Contact" class="nav-button">
       <span>Discuss a production package</span>
       <span class="nav-arrow">↗</span>
     </a>
 
+
+    <!-- MOBILE MENU BUTTON -->
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-label="Open navigation menu"
+      aria-expanded="false"
+      aria-controls="mobile-menu"
+    >
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+
+  </div>
+
+
+  <!-- MOBILE MENU -->
+  <div class="mobile-menu" id="mobile-menu">
+
+    <div class="mobile-menu-inner">
+
+      <a href="/Services/">Services</a>
+      <a href="/Industries/">Industries</a>
+      <a href="/Work/">Work</a>
+      <a href="/Process/">Process</a>
+      <a href="/Insights/">Insights</a>
+      <a href="/Visuals/">Visuals</a>
+      <a href="/About/">About</a>
+
+      <a href="/Contact" class="mobile-menu-button">
+        <span>Discuss a production package</span>
+        <span>↗</span>
+      </a>
+
+    </div>
+
   </div>
 
 </nav>
+
+
+<script>
+  const menuToggle = document.querySelector(".menu-toggle");
+  const mobileMenu = document.querySelector(".mobile-menu");
+
+  if (menuToggle && mobileMenu) {
+
+    menuToggle.addEventListener("click", () => {
+
+      const isOpen = menuToggle.classList.toggle("is-open");
+
+      mobileMenu.classList.toggle("is-open", isOpen);
+
+      menuToggle.setAttribute(
+        "aria-expanded",
+        String(isOpen)
+      );
+
+      menuToggle.setAttribute(
+        "aria-label",
+        isOpen ? "Close navigation menu" : "Open navigation menu"
+      );
+
+      document.body.classList.toggle("menu-open", isOpen);
+
+    });
+
+
+    /* Close menu after clicking a link */
+    mobileMenu.querySelectorAll("a").forEach((link) => {
+
+      link.addEventListener("click", () => {
+
+        menuToggle.classList.remove("is-open");
+        mobileMenu.classList.remove("is-open");
+
+        menuToggle.setAttribute("aria-expanded", "false");
+        menuToggle.setAttribute("aria-label", "Open navigation menu");
+
+        document.body.classList.remove("menu-open");
+
+      });
+
+    });
+
+  }
+</script>

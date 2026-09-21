@@ -156,9 +156,9 @@ Shows the publication gate for project identity, assets, credits and channels.
 
 ### Buyer-specific routes
 
-- [Architecture teams](/Industries/architecture-design-practices/)
-- [Developers and asset teams](/Industries/developers-asset-teams/)
-- [Agencies and production partners](/Industries/agencies-production-partners/)
+- [Architecture teams](/industries/architecture-design-practices/)
+- [Developers and asset teams](/industries/developers-asset-teams/)
+- [Agencies and production partners](/industries/agencies-production-partners/)
 
 ## Technical FAQ
 

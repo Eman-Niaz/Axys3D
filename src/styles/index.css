@@ -1,0 +1,661 @@
+/* =========================================================
+   AXYS3D — SCROLL REVEAL ANIMATIONS
+
+   Pure animation utility classes.
+   No desktop layout/color changes here.
+========================================================= */
+
+.reveal {
+  opacity: 0;
+
+  will-change: opacity, transform, filter;
+
+  transition:
+    opacity 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.9s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+  filter: none;
+}
+
+
+/* =========================================================
+   FADE + RISE
+========================================================= */
+
+.reveal-up {
+  transform: translateY(56px);
+}
+
+
+/* =========================================================
+   FADE + LEFT
+========================================================= */
+
+.reveal-left {
+  transform: translateX(-64px);
+}
+
+
+/* =========================================================
+   FADE + RIGHT
+========================================================= */
+
+.reveal-right {
+  transform: translateX(64px);
+}
+
+
+/* =========================================================
+   GENTLE ZOOM
+========================================================= */
+
+.reveal-zoom {
+  transform: scale(0.92);
+}
+
+
+/* =========================================================
+   BLUR → SHARP
+========================================================= */
+
+.reveal-blur {
+  transform: translateY(24px);
+  filter: blur(14px);
+}
+
+
+/* =========================================================
+   SIMPLE FADE
+========================================================= */
+
+.reveal-fade {
+  transform: none;
+}
+
+
+/* =========================================================
+   CTA POP
+========================================================= */
+
+.reveal-pop {
+  transform: translateY(40px) scale(0.94);
+
+  transition:
+    opacity 0.7s cubic-bezier(0.34, 1.56, 0.64, 1),
+    transform 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+
+/* =========================================================
+   STAGGER
+========================================================= */
+
+.reveal-stagger > * {
+  opacity: 0;
+
+  transform: translateY(28px);
+
+  transition:
+    opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.reveal-stagger.is-visible > * {
+  opacity: 1;
+  transform: none;
+}
+
+.reveal-stagger > *:nth-child(1) {
+  transition-delay: 0.05s;
+}
+
+.reveal-stagger > *:nth-child(2) {
+  transition-delay: 0.15s;
+}
+
+.reveal-stagger > *:nth-child(3) {
+  transition-delay: 0.25s;
+}
+
+.reveal-stagger > *:nth-child(4) {
+  transition-delay: 0.35s;
+}
+
+.reveal-stagger > *:nth-child(5) {
+  transition-delay: 0.45s;
+}
+
+.reveal-stagger > *:nth-child(6) {
+  transition-delay: 0.55s;
+}
+
+.reveal-stagger > *:nth-child(n + 7) {
+  transition-delay: 0.65s;
+}
+
+
+/* =========================================================
+   RESPONSIVE HERO — TABLET
+========================================================= */
+
+@media (max-width: 900px) {
+
+  /*
+     Keep hero content inside the viewport.
+     svh handles mobile browser address-bar changes better.
+  */
+
+  .hero {
+    min-height: 100svh;
+  }
+
+
+  /*
+     Hero content gets breathing room because
+     navbar becomes 72px.
+  */
+
+  .hero-content {
+    min-height: 100svh;
+    box-sizing: border-box;
+  }
+
+
+  /*
+     Main hero should not become too wide.
+  */
+
+  .hero-main {
+    max-width: 760px;
+  }
+
+
+  /*
+     Delivery box should stop fighting with
+     the hero content on tablet.
+  */
+
+  .delivery-box {
+    max-width: min(520px, 90vw);
+  }
+
+
+  /*
+     Bottom information becomes a clean grid.
+  */
+
+  .hero-bottom {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+
+    gap: 36px;
+
+    box-sizing: border-box;
+  }
+
+  .hero-description-wrap,
+  .hero-description.second {
+    min-width: 0;
+  }
+
+  .hero-description {
+    max-width: none;
+  }
+
+}
+
+
+/* =========================================================
+   TABLET — SMALLER
+========================================================= */
+
+@media (max-width: 768px) {
+
+  .hero-content {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+
+  /*
+     Prevent giant desktop heading from
+     overflowing on tablets.
+  */
+
+  .hero-main h1 {
+    max-width: 700px;
+
+    font-size: clamp(42px, 7vw, 64px);
+    line-height: 0.98;
+  }
+
+
+  .hero-eyebrow {
+    font-size: 9px;
+  }
+
+
+  /*
+     Buttons can wrap naturally.
+  */
+
+  .hero-buttons {
+    flex-wrap: wrap;
+  }
+
+
+  /*
+     Workflow badges wrap instead of
+     going outside viewport.
+  */
+
+  .tech-stack {
+    max-width: 100%;
+  }
+
+  .tech-items {
+    flex-wrap: wrap;
+  }
+
+
+  /*
+     Delivery box stays readable.
+  */
+
+  .delivery-box {
+    width: min(90vw, 500px);
+  }
+
+
+  /*
+     Bottom copy becomes vertical.
+  */
+
+  .hero-bottom {
+    grid-template-columns: 1fr;
+
+    gap: 18px;
+  }
+
+  .hero-description-wrap {
+    display: flex;
+    align-items: flex-start;
+
+    gap: 12px;
+  }
+
+  .hero-description.second {
+    margin-left: 0;
+  }
+
+}
+
+
+/* =========================================================
+   MOBILE
+========================================================= */
+
+@media (max-width: 600px) {
+
+  /*
+     Main hero fills mobile screen properly.
+  */
+
+  .hero {
+    min-height: 100svh;
+    height: auto;
+  }
+
+  .hero-content {
+    min-height: 100svh;
+    height: auto;
+
+    padding-top: 88px;
+    padding-bottom: 28px;
+
+    box-sizing: border-box;
+  }
+
+
+  /* -------------------------
+     HERO MAIN
+  ------------------------- */
+
+  .hero-main {
+    width: 100%;
+    max-width: 100%;
+  }
+
+
+  .hero-eyebrow {
+    font-size: 8px;
+    letter-spacing: 0.08em;
+  }
+
+
+  .hero-main h1 {
+    width: 100%;
+    max-width: 100%;
+
+    font-size: clamp(38px, 11vw, 54px);
+    line-height: 0.96;
+    letter-spacing: -0.045em;
+
+    overflow-wrap: normal;
+  }
+
+
+  /*
+     Buttons stack nicely when necessary.
+  */
+
+  .hero-buttons {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+
+    gap: 9px;
+  }
+
+  .hero-buttons a {
+    width: 100%;
+    min-height: 44px;
+
+    box-sizing: border-box;
+  }
+
+
+  /* -------------------------
+     WORKFLOW
+  ------------------------- */
+
+  .tech-stack {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    align-items: flex-start;
+
+    gap: 10px;
+  }
+
+  .tech-label {
+    font-size: 8px;
+  }
+
+  .tech-items {
+    width: 100%;
+
+    display: flex;
+    flex-wrap: wrap;
+
+    gap: 7px;
+  }
+
+  .tech-badge {
+    flex-shrink: 0;
+  }
+
+
+  /* -------------------------
+     DELIVERY BOX
+  ------------------------- */
+
+  .delivery-box {
+    width: 100%;
+    max-width: 100%;
+
+    box-sizing: border-box;
+
+    margin-top: 24px;
+  }
+
+  .delivery-header {
+    font-size: 7px;
+  }
+
+  .delivery-item {
+    min-height: 45px;
+  }
+
+  .item-content {
+    min-width: 0;
+  }
+
+  .item-content > span:first-child {
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+
+  /* -------------------------
+     BOTTOM INFORMATION
+  ------------------------- */
+
+  .hero-bottom {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 20px;
+
+    margin-top: 28px;
+    padding-top: 18px;
+
+    box-sizing: border-box;
+  }
+
+
+  /*
+     First paragraph
+  */
+
+  .hero-description-wrap {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 16px minmax(0, 1fr);
+
+    align-items: start;
+
+    gap: 9px;
+
+    box-sizing: border-box;
+  }
+
+
+  .hero-description {
+    width: 100%;
+    max-width: none;
+
+    margin: 0;
+
+    font-size: 11px;
+    line-height: 1.65;
+
+    overflow-wrap: break-word;
+  }
+
+
+  .hero-description.second {
+    width: 100%;
+    max-width: none;
+
+    margin: 0;
+    padding: 0 0 0 25px;
+
+    box-sizing: border-box;
+
+    font-size: 10.5px;
+    line-height: 1.65;
+
+    color: rgba(248, 245, 239, 0.58);
+  }
+
+
+  .plus {
+    font-size: 18px;
+    line-height: 1.1;
+  }
+
+}
+
+
+/* =========================================================
+   SMALL MOBILE
+========================================================= */
+
+@media (max-width: 480px) {
+
+  .hero-content {
+    padding-top: 84px;
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 24px;
+  }
+
+
+  .hero-main h1 {
+    font-size: clamp(36px, 11vw, 48px);
+  }
+
+
+  .hero-eyebrow {
+    font-size: 7.5px;
+  }
+
+
+  .hero-buttons a {
+    min-height: 43px;
+  }
+
+
+  .delivery-box {
+    border-radius: 18px;
+  }
+
+
+  .delivery-header {
+    padding: 12px 13px;
+  }
+
+
+  .delivery-item {
+    padding: 0 13px;
+
+    min-height: 44px;
+
+    gap: 9px;
+  }
+
+
+  .number {
+    font-size: 9px;
+  }
+
+
+  .item-content {
+    font-size: 9px;
+  }
+
+
+  .status {
+    font-size: 7px;
+  }
+
+
+  .hero-description {
+    font-size: 10.5px;
+    line-height: 1.62;
+  }
+
+
+  .hero-description.second {
+    padding-left: 25px;
+
+    font-size: 10px;
+    line-height: 1.62;
+  }
+
+}
+
+
+/* =========================================================
+   VERY SMALL PHONES
+========================================================= */
+
+@media (max-width: 360px) {
+
+  .hero-content {
+    padding-left: 4.5%;
+    padding-right: 4.5%;
+  }
+
+
+  .hero-main h1 {
+    font-size: 34px;
+  }
+
+
+  .hero-buttons a {
+    font-size: 9px;
+  }
+
+
+  .tech-items {
+    gap: 5px;
+  }
+
+
+  .delivery-item {
+    min-height: 42px;
+  }
+
+
+  .item-content {
+    font-size: 8px;
+  }
+
+
+  .hero-description {
+    font-size: 9.5px;
+  }
+
+  .hero-description.second {
+    font-size: 9.5px;
+  }
+
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .reveal,
+  .reveal-stagger > * {
+    transition: none !important;
+
+    opacity: 1 !important;
+
+    transform: none !important;
+
+    filter: none !important;
+  }
+
+}

@@ -155,9 +155,9 @@ Shows source revision, dependency, license and known-limitation fields.
 
 ### Buyer-specific routes
 
-- [Developers and asset teams](/Industries/developers-asset-teams/)
-- [Architecture teams](/Industries/architecture-design-practices/)
-- [Agencies and production partners](/Industries/agencies-production-partners/)
+- [Developers and asset teams](/industries/developers-asset-teams/)
+- [Architecture teams](/industries/architecture-design-practices/)
+- [Agencies and production partners](/industries/agencies-production-partners/)
 
 ## Technical FAQ
 
