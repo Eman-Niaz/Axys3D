@@ -6,95 +6,194 @@ import "../styles/global.css";
 import "../styles/Navbar.css";
 import "../styles/Services.css";
 import "../styles/footer.css";
-import { getEntry } from "astro:content";
 
-const page = await getEntry("servicesPage", "index");
-
-if (!page) {
-  throw new Error("Services page content not found in content collection.");
-}
-
-const { description } = page.data;
-const services = page.data.services;
-
-const serviceImages = [
-  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=80",
-  "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1000&q=80",
-  "https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?auto=format&fit=crop&w=1000&q=80",
-  "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1000&q=80",
-  "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?auto=format&fit=crop&w=1000&q=80",
-  "https://images.unsplash.com/photo-1600566752355-35792bedcfea?auto=format&fit=crop&w=1000&q=80",
+const services = [
+  {
+    num: "01",
+    title: "BIM Execution & Model Production",
+    blurb:
+      "Coordinated BIM models built to firm standards, from concept development through construction-ready detail.",
+    videos: [
+      { src: "/videos/BIM-Modeling.mp4", label: "BIM Modeling" },
+      { src: "/videos/ModelDevelopement.mp4", label: "Model Development" },
+      { src: "/videos/BIM-Model-Setup-Standards.mp4", label: "Model Setup & Standards" },
+    ],
+  },
+  {
+    num: "02",
+    title: "Revit Production & Documentation",
+    blurb:
+      "Production-ready Revit documentation and drawing sets, coordinated across disciplines and issued on schedule.",
+    videos: [
+      { src: "/videos/Construction-drawing.mp4", label: "Construction Drawings" },
+      { src: "/videos/revit-documentation.mp4", label: "Revit Documentation" },
+      { src: "/videos/drawing-coordination.mp4", label: "Drawing Coordination" },
+    ],
+  },
+  {
+    num: "03",
+    title: "MEP Coordination Support",
+    blurb:
+      "Clash-checked mechanical, electrical and plumbing coordination that keeps every system resolved before it hits site.",
+    videos: [
+      { src: "/videos/mechanical_coordination.mp4", label: "Mechanical" },
+      { src: "/videos/electrical_coordination.mp4", label: "Electrical" },
+      { src: "/videos/plumbing_coordination.mp4", label: "Plumbing" },
+    ],
+  },
+  {
+    num: "04",
+    title: "3D Modeling",
+    blurb:
+      "Accurate architectural, interior and object models built to support every downstream visualization need.",
+    videos: [
+      { src: "/videos/Architectural.mp4", label: "Architectural Modeling" },
+      { src: "/videos/interior.mp4", label: "Interior Modeling" },
+      { src: "/videos/furniture.mp4", label: "Furniture & Objects" },
+    ],
+  },
+  {
+    num: "05",
+    title: "3ds Max Production",
+    blurb: "Scene setup, materials and lighting built in 3ds Max to a consistent, production-grade pipeline.",
+    videos: [
+      { src: "/videos/scene.mp4", label: "Scene Setup" },
+      { src: "/videos/texture-material.mp4", label: "Materials & Texturing" },
+      { src: "/videos/lightening.mp4", label: "Lighting & Camera" },
+    ],
+  },
+  {
+    num: "06",
+    title: "Architectural Visualization",
+    blurb: "Exterior, interior and site visualizations that read as photography long before the building exists.",
+    videos: [
+      { src: "/videos/Exterior.mp4", label: "Exterior Visualization" },
+      { src: "/videos/interior_visualization.mp4", label: "Interior Visualization" },
+      { src: "/videos/site-visualization.mp4", label: "Site Visualization" },
+    ],
+  },
+  {
+    num: "07",
+    title: "Animation & Motion",
+    blurb: "Walkthroughs, fly-throughs and camera sequences that move a project through space with intent.",
+    videos: [
+      { src: "/videos/walkthrough.mp4", label: "Walkthroughs" },
+      { src: "/videos/Fly-through.mp4", label: "Fly-through Animations" },
+      { src: "/videos/Camera-Motion.mp4", label: "Camera & Motion" },
+    ],
+  },
+  {
+    num: "08",
+    title: "Real-time / Unreal Engine",
+    blurb:
+      "Real-time environments in Unreal Engine — interactive walkthroughs and virtual showrooms your clients can explore.",
+    videos: [
+      { src: "/videos/3D-Walkthroughs.mp4", label: "Interactive Walkthroughs" },
+      { src: "/videos/Architectural_visualization.mp4", label: "Real-time Visualization" },
+      { src: "/videos/Virtual_showroom.mp4", label: "Virtual Showrooms" },
+    ],
+  },
 ];
-
-const pageBackground = "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1920&q=80";
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Services — Axys3D</title>
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
 
   <body class="page-services">
-    <!-- PAGE BACKGROUND WITH DARK OVERLAY -->
-    <div class="svc-page-bg">
-      <img src={pageBackground} alt="Background" class="svc-page-bg-img" />
-      <div class="svc-page-bg-overlay"></div>
-    </div>
+    <!-- PAGE BACKGROUND — soft gradient with a drifting corner glow -->
+    <div class="svc-page-bg" aria-hidden="true"></div>
 
     <Navbar variant="solid" />
 
     <main class="services-page">
-      <!-- HERO / INTRO SECTION (LEFT ALIGNED HEADING & PARA) -->
+      <!-- ================= HERO ================= -->
       <section class="svc-intro">
         <div class="svc-wrap">
           <div class="svc-intro-header">
-            <span class="svc-badge">OUR SERVICES</span>
+            <span class="svc-kicker">Services</span>
             <h1 class="svc-h1">
-              Production systems built <br />
-              <span>for precision & scale.</span>
+              <span class="svc-h1-visual" aria-hidden="true">
+                <span class="svc-word" style="--i:0">AEC</span>
+                <span class="svc-word" style="--i:1">production</span>
+                <br />
+                <span class="svc-word svc-word--muted" style="--i:2">without</span>
+                <span class="svc-word svc-word--muted" style="--i:3">the</span>
+                <span class="svc-word svc-word--muted" style="--i:4">friction.</span>
+              </span>
+              <span class="sr-only">AEC production without the friction.</span>
             </h1>
-            <p class="svc-lead">{description}</p>
+            <p class="svc-lead">
+              Axys3D provides integrated AEC production support across BIM, Revit, coordination,
+              visualization, animation and real-time workflows.
+            </p>
           </div>
         </div>
       </section>
 
-      <!-- SERVICES LAYOUT (77 RENDER STUDIO STYLE VISUAL CARDS) -->
-      <section class="svc-detail">
-        <div class="svc-wrap">
-          <div class="svc-layout-grid">
-            {services.map((s, i) => (
-              <article class="svc-render-card" id={`service-${s.num}`} data-reveal style={`--delay: ${i * 70}ms`}>
-                <div class="svc-card-img-container">
-                  <img src={serviceImages[i % serviceImages.length]} alt={s.title} loading="lazy" decoding="async" />
-                  <div class="svc-card-img-overlay"></div>
-                  <span class="svc-card-number">0{i + 1}</span>
-                </div>
+      <!-- ================= SERVICE REEL (full-bleed panels) ================= -->
+      <section class="svc-reel">
+        {services.map((s) => (
+          <article class="svc-panel" data-reveal data-service>
+            <div class="svc-panel-media">
+              {s.videos.map((v, i) => (
+                <video
+                  class={`svc-panel-video${i === 0 ? " is-active" : ""}`}
+                  src={v.src}
+                  autoplay
+                  muted
+                  playsinline
+                  preload="metadata"
+                  onerror="this.closest('.svc-panel-media').classList.add('svc-media-fallback')"
+                ></video>
+              ))}
+              <div class="svc-panel-overlay"></div>
+            </div>
 
-                <div class="svc-card-content">
-                  <h3 class="svc-card-title">{s.title}</h3>
-                  <a href={s.href || "/contact"} class="svc-card-action">
-                    <span>Explore Scope</span>
-                    <span class="svc-arrow">↗</span>
-                  </a>
+            <div class="svc-panel-content">
+              <div class="svc-panel-text">
+                <span class="svc-panel-num">{s.num}</span>
+                <h2 class="svc-panel-title">{s.title}</h2>
+                <p class="svc-panel-blurb">{s.blurb}</p>
+                <div class="svc-panel-tabs" role="tablist">
+                  {s.videos.map((v, i) => (
+                    <button
+                      type="button"
+                      class={`svc-tab${i === 0 ? " is-active" : ""}`}
+                      data-tab-index={i}
+                      role="tab"
+                      aria-selected={i === 0 ? "true" : "false"}
+                    >
+                      {v.label}
+                    </button>
+                  ))}
                 </div>
-              </article>
-            ))}
-          </div>
-        </div>
+              </div>
+
+              <a href="/contact" class="svc-panel-cta">
+                <span>Discuss this scope</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </article>
+        ))}
       </section>
 
-      <!-- FINAL CTA SECTION -->
+      <!-- ================= FINAL CTA ================= -->
       <section class="svc-final-cta">
         <div class="svc-wrap">
           <div class="svc-final-inner" data-reveal>
-            <span class="final-kicker">READY WHEN YOU ARE</span>
             <h2>Bring us the <br /><span>production problem.</span></h2>
-            <p>Let's collaborate on your next digital or architectural build.</p>
+            <p>Tell us where the project stands and what needs to move next. We'll help define the right production package.</p>
             <a href="/contact" class="final-cta-button">
-              <span>Discuss a project</span>
+              <span>Discuss a production package</span>
               <span>↗</span>
             </a>
           </div>
@@ -104,18 +203,56 @@ const pageBackground = "https://images.unsplash.com/photo-1600585154340-be6161a5
 
     <Footer />
 
-    <script>
+    <script is:inline>
+      // Reveal on scroll
       const revealItems = document.querySelectorAll("[data-reveal]");
-      const observer = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("is-visible");
-            observer.unobserve(entry.target);
-          }
-        });
-      }, { threshold: 0.1 });
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      revealItems.forEach((item) => revealObserver.observe(item));
 
-      revealItems.forEach((item) => observer.observe(item));
+      // Tab-driven video switching within each service panel, with
+      // auto-advance to the next sub-service once a video finishes.
+      document.querySelectorAll("[data-service]").forEach((panel) => {
+        const videos = Array.from(panel.querySelectorAll(".svc-panel-video"));
+        const tabs = Array.from(panel.querySelectorAll(".svc-tab"));
+        let current = 0;
+
+        const showIndex = (i) => {
+          current = i;
+          videos.forEach((v, vi) => {
+            if (vi === i) {
+              v.classList.add("is-active");
+              v.currentTime = 0;
+              v.play?.().catch(() => {});
+            } else {
+              v.classList.remove("is-active");
+              v.pause();
+            }
+          });
+          tabs.forEach((t, ti) => {
+            t.classList.toggle("is-active", ti === i);
+            t.setAttribute("aria-selected", ti === i ? "true" : "false");
+          });
+        };
+
+        videos.forEach((v, i) => {
+          if (i !== 0) v.pause();
+          v.addEventListener("ended", () => showIndex((current + 1) % videos.length));
+        });
+
+        tabs.forEach((tab, i) => {
+          tab.addEventListener("click", () => showIndex(i));
+        });
+      });
     </script>
   </body>
 </html>
