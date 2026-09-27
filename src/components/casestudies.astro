@@ -1,51 +1,250 @@
 ---
 import "../styles/case-studies.css";
 
-const studies = [
+const caseStudies = [
   {
+    id: "cs1",
     num: "01",
-    title: "Federated delivery study",
-    href: "/work/aec-study-01/",
+    tagline: "FEDERATED WORKFLOW",
+    title: "Federated Delivery Study",
     video: "/videos/video1.mp4",
+    href: "/work/aec-study-01/",
+    cards: [
+      {
+        title: "24/7 Live Sync",
+        value: "99.8%",
+        desc: "Automated clash detection across structural & MEP layers."
+      },
+      {
+        title: "Unified Hub",
+        value: "1 Central Model",
+        desc: "Single source of truth for design teams."
+      },
+      {
+        title: "Multi-Format Compatibility",
+        value: "Revit + IFC",
+        desc: "Seamless data exchange across disparate BIM software platforms."
+      }
+    ]
   },
   {
+    id: "cs2",
     num: "02",
-    title: "Real-time campus study",
-    href: "/work/aec-study-02/",
+    tagline: "CAMPUS INTEGRATION",
+    title: "Real-Time Campus Study",
     video: "/videos/video2.mp4",
+    href: "/work/aec-study-02/",
+    cards: [
+      {
+        title: "High Performance",
+        value: "60 FPS",
+        desc: "Smooth real-time walkthroughs in Unreal Engine."
+      },
+      {
+        title: "Digital Twin",
+        value: "IoT Ready",
+        desc: "Live sensor data mapped on geometry."
+      },
+      {
+        title: "Cross-Platform Delivery",
+        value: "Web & VR",
+        desc: "Accessible from standard desktop browsers and immersive headsets."
+      }
+    ]
   },
   {
+    id: "cs3",
     num: "03",
-    title: "Anonymous production-package study",
-    href: "/work/aec-study-03/",
+    tagline: "PRODUCTION PACKAGE",
+    title: "Production Package Study",
     video: "/videos/video3.mp4",
-  },
+    href: "/work/aec-study-03/",
+    cards: [
+      {
+        title: "Fast Turnaround",
+        value: "40% Faster",
+        desc: "Standardized drafting templates."
+      },
+      {
+        title: "Quality Assurance",
+        value: "Zero Conflicts",
+        desc: "Pre-checked component library."
+      },
+      {
+        title: "Standardized Documentation",
+        value: "ISO 19650",
+        desc: "Compliant documentation for direct on-site execution."
+      }
+    ]
+  }
 ];
 ---
 
-<section class="case-studies">
-  <div class="cs-wrap">
-    <div class="cs-head">
-      <p class="cs-tag">SYNTHETIC CASE-STUDY SYSTEM</p>
-      <h2 class="cs-heading">Delivery evidence, not unverified claims.</h2>
+<section class="cs-carousel-wrapper" id="caseStudyWrapper">
+  <!-- SLOW ANIMATED LUXURY BACKGROUND GRADIENT -->
+  <div class="cs-ambient-gradient-bg"></div>
+
+  <div class="cs-carousel-container">
+    
+    <!-- Top Header -->
+    <div class="cs-carousel-head">
+      <div>
+        <span class="cs-tag">SYNTHETIC CASE-STUDY SYSTEM</span>
+        <h2 class="cs-heading">Delivery evidence, <span>not unverified claims.</span></h2>
+      </div>
+      <div class="cs-nav-controls">
+        <button id="csPrevBtn" aria-label="Previous Case Study">←</button>
+        <button id="csNextBtn" aria-label="Next Case Study">→</button>
+      </div>
     </div>
 
-    <div class="cs-grid">
-      {studies.map((s) => (
-        <a class="cs-card" href={s.href}>
-          <div class="cs-media">
-            <video autoplay muted loop playsinline>
-              <source src={s.video} type="video/mp4" />
-            </video>
-          </div>
+    <!-- Horizontal Track Viewport -->
+    <div class="cs-track-viewport">
+      <div class="cs-horizontal-track" id="csTrack">
+        
+        {caseStudies.map((cs, idx) => (
+          <div class={`cs-single-slide ${idx === 0 ? "active" : ""}`} data-slide-index={idx}>
+            
+            <!-- LEFT SIDE: Title + 3 Cards -->
+            <div class="cs-slide-left">
+              <div class="cs-slide-header">
+                <div class="cs-badge-row">
+                  <span class="cs-num-tag">{cs.num}</span>
+                  <span class="cs-tagline">{cs.tagline}</span>
+                </div>
+                <h3 class="cs-main-title">{cs.title}</h3>
+              </div>
 
-          <span class="cs-number">{s.num}</span>
+              <div class="cs-cards-bento">
+                <!-- Top 2 Parallel Cards -->
+                <div class="cs-detail-card card-top">
+                  <span class="cs-card-value">{cs.cards[0].value}</span>
+                  <h4 class="cs-card-title">{cs.cards[0].title}</h4>
+                  <p class="cs-card-desc">{cs.cards[0].desc}</p>
+                </div>
 
-          <div class="cs-content">
-            <h3 class="cs-title">{s.title}</h3>
+                <div class="cs-detail-card card-top">
+                  <span class="cs-card-value">{cs.cards[1].value}</span>
+                  <h4 class="cs-card-title">{cs.cards[1].title}</h4>
+                  <p class="cs-card-desc">{cs.cards[1].desc}</p>
+                </div>
+
+                <!-- Bottom Full-Width Card -->
+                <div class="cs-detail-card card-bottom">
+                  <span class="cs-card-value">{cs.cards[2].value}</span>
+                  <h4 class="cs-card-title">{cs.cards[2].title}</h4>
+                  <p class="cs-card-desc">{cs.cards[2].desc}</p>
+                </div>
+              </div>
+
+              <a href={cs.href} class="cs-case-link">
+                <span>EXPLORE CASE STUDY</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                  <path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </a>
+            </div>
+
+            <!-- RIGHT SIDE: Video Display -->
+            <div class="cs-slide-right">
+              <div class="cs-video-box">
+                <video id={`csVid-${idx}`} autoplay muted loop playsinline>
+                  <source src={cs.video} type="video/mp4" />
+                </video>
+                <div class="cs-video-gradient"></div>
+              </div>
+            </div>
+
           </div>
-        </a>
-      ))}
+        ))}
+
+      </div>
     </div>
+
   </div>
 </section>
+
+<script>
+  function setupCaseStudiesCarousel() {
+    const wrapper = document.getElementById("caseStudyWrapper");
+    const track = document.getElementById("csTrack");
+    const slides = document.querySelectorAll(".cs-single-slide");
+    const prevBtn = document.getElementById("csPrevBtn");
+    const nextBtn = document.getElementById("csNextBtn");
+
+    if (!wrapper || !track || slides.length === 0) return;
+
+    let currentIndex = 0;
+    const totalSlides = slides.length;
+    
+    // Slow Timer Speed: 5 seconds
+    const intervalDuration = 5000;
+    let timer: any = null;
+
+    function goToSlide(index: number) {
+      currentIndex = (index + totalSlides) % totalSlides;
+      track!.style.transform = `translateX(-${currentIndex * 100}%)`;
+
+      slides.forEach((slide, i) => {
+        const vid = slide.querySelector("video") as HTMLVideoElement;
+        if (i === currentIndex) {
+          slide.classList.add("active");
+          if (vid) {
+            vid.currentTime = 0;
+            vid.play().catch(() => {});
+          }
+        } else {
+          slide.classList.remove("active");
+        }
+      });
+    }
+
+    function startAutoScroll() {
+      stopAutoScroll();
+      goToSlide(currentIndex);
+      timer = setInterval(() => {
+        goToSlide(currentIndex + 1);
+      }, intervalDuration);
+    }
+
+    function stopAutoScroll() {
+      if (timer) clearInterval(timer);
+    }
+
+    prevBtn?.addEventListener("click", () => {
+      stopAutoScroll();
+      goToSlide(currentIndex - 1);
+      startAutoScroll();
+    });
+
+    nextBtn?.addEventListener("click", () => {
+      stopAutoScroll();
+      goToSlide(currentIndex + 1);
+      startAutoScroll();
+    });
+
+    let isWheeling = false;
+    wrapper.addEventListener("wheel", (e) => {
+      if (isWheeling) return;
+      if (Math.abs(e.deltaX) > 25 || Math.abs(e.deltaY) > 25) {
+        isWheeling = true;
+        stopAutoScroll();
+        if (e.deltaX > 0 || e.deltaY > 0) {
+          goToSlide(currentIndex + 1);
+        } else {
+          goToSlide(currentIndex - 1);
+        }
+        startAutoScroll();
+        setTimeout(() => { isWheeling = false; }, 1000);
+      }
+    }, { passive: true });
+
+    wrapper.addEventListener("mouseenter", stopAutoScroll);
+    wrapper.addEventListener("mouseleave", startAutoScroll);
+
+    startAutoScroll();
+  }
+
+  document.addEventListener("DOMContentLoaded", setupCaseStudiesCarousel);
+  document.addEventListener("astro:page-load", setupCaseStudiesCarousel);
+</script>

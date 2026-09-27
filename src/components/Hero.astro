@@ -1,201 +1,304 @@
 ---
-import Navbar from "./Navbar.astro";
+import "../styles/Hero.css";
 ---
 
-<section class="hero">
+<section class="hero" id="axysHero">
+  <!-- Google Fonts: Inter Direct Load -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet" />
 
   <!-- ================= BACKGROUND VIDEO ================= -->
-  <video class="hero-video" autoplay muted loop playsinline>
+  <video class="hero-video" id="heroVideo" autoplay muted loop playsinline>
     <source src="/videos/hero-video.mp4" type="video/mp4" />
   </video>
 
   <!-- ================= BLUE DARK OVERLAY ================= -->
   <div class="hero-overlay"></div>
 
-  <!-- ================= NAVBAR ================= -->
-  <Navbar />
+  <!-- ================= BRAND MASK INTRO ================= -->
+  <div class="brand-mask" aria-hidden="true">
+    <video autoplay muted loop playsinline>
+      <source src="/videos/hero-video.mp4" type="video/mp4" />
+    </video>
+  </div>
 
-  <!-- ================= HERO CONTENT ================= -->
-  <div class="hero-content">
+  <!-- ================= TOP BAR: logo + menu toggle only ================= -->
+  <div class="hero-topbar">
+    <a href="/" class="logo">AXYS<span class="brown-text">3D</span></a>
 
-    <!-- ================= MAIN HERO ================= -->
-    <div class="hero-main">
+    <button class="menu-toggle-btn" id="menuToggle" aria-label="Open menu" aria-expanded="false">
+      <span class="menu-toggle-label">Menu</span>
+      <span class="menu-toggle-lines"><i></i><i></i><i></i></span>
+    </button>
+  </div>
 
-      <div class="hero-eyebrow">
-        Full-service AEC production partner
-      </div>
+  <!-- ================= RIGHT SIDE NAV (hidden until opened) ================= -->
+  <div class="side-nav-scrim" id="sideNavScrim"></div>
 
-      <h1>
-        <span>AEC production</span>
-        <br />
-        without the production friction.
-      </h1>
+  <nav class="side-nav" id="sideNav" aria-hidden="true">
+    <div class="side-nav-preview" id="sideNavPreview">
+      <span class="side-nav-preview-index">00</span>
+      <p class="side-nav-preview-text">Hover a link to preview what's inside.</p>
+    </div>
 
-      <div class="hero-buttons">
+    <span class="side-nav-kicker">Navigation</span>
 
-        <a href="/Services" class="primary-button">
-          <span>Review the full pipeline</span>
-          <span class="arrow">↗</span>
-        </a>
+    <ul class="side-nav-links">
+      <li><a href="/" data-preview="Back to where it all begins — the Axys3D studio."><span class="side-nav-link-index">01</span><span class="side-nav-link-text">Home</span><span class="side-nav-link-arrow">↗</span></a></li>
+      <li><a href="/Services" data-preview="Every stage of the AEC production pipeline, laid out step by step."><span class="side-nav-link-index">02</span><span class="side-nav-link-text">Services</span><span class="side-nav-link-arrow">↗</span></a></li>
+      <li><a href="/Projects" data-preview="A curated look at the spaces we've brought to life."><span class="side-nav-link-index">03</span><span class="side-nav-link-text">Projects</span><span class="side-nav-link-arrow">↗</span></a></li>
+      <li><a href="/Visuals" data-preview="Renders, walkthroughs and stills from the studio's latest work."><span class="side-nav-link-index">04</span><span class="side-nav-link-text">Visuals</span><span class="side-nav-link-arrow">↗</span></a></li>
+      <li><a href="/Insights" data-preview="Notes on production workflow, tools and the AEC pipeline."><span class="side-nav-link-index">05</span><span class="side-nav-link-text">Insights</span><span class="side-nav-link-arrow">↗</span></a></li>
+      <li><a href="/Process" data-preview="How raw drawings become cinematic architectural visuals."><span class="side-nav-link-index">06</span><span class="side-nav-link-text">Process</span><span class="side-nav-link-arrow">↗</span></a></li>
+      <li><a href="/About" data-preview="The studio, the people, and the standard we work to."><span class="side-nav-link-index">07</span><span class="side-nav-link-text">About</span><span class="side-nav-link-arrow">↗</span></a></li>
+      <li><a href="/Contact" data-preview="Scope your next production package with us."><span class="side-nav-link-index">08</span><span class="side-nav-link-text">Contact</span><span class="side-nav-link-arrow">↗</span></a></li>
+    </ul>
 
-        <a href="/Contact" class="secondary-button">
-          <span>Scope a production package</span>
-          <span class="arrow">↗</span>
-        </a>
+    <a href="/Contact" class="side-nav-cta">
+      <span>Start a project</span>
+      <span class="arrow">↗</span>
+    </a>
+  </nav>
 
-      </div>
+  <!-- ================= SCROLL-DRIVEN SCENES ================= -->
+  <div class="hero-scenes" id="heroScenes">
+    <div class="hero-scenes-sticky">
 
+      <div class="hero-content">
+        <div class="hero-main">
 
-      <!-- ================= SOFTWARE STACK ================= -->
-      <div class="tech-stack">
+          <div class="hero-eyebrow" id="sceneEyebrow">Full-service AEC production partner</div>
 
-        <span class="tech-label">WORKFLOW /</span>
+          <h1 id="sceneHeadline">
+            <span class="line line-1">AEC production</span>
+            <span class="line line-2">without the production friction.</span>
+          </h1>
 
-        <div class="tech-items">
+          <div class="hero-buttons" id="heroButtons">
+            <a href="/Services" class="primary-button">
+              <span>Review the full pipeline</span>
+              <span class="arrow">↗</span>
+            </a>
 
-          <!-- REVIT -->
-          <div class="tech-badge" title="Autodesk Revit">
-            <div class="tech-icon revit-icon">
-              <span>R</span>
-            </div>
-            <span>Revit</span>
-          </div>
-
-          <!-- 3DS MAX -->
-          <div class="tech-badge" title="Autodesk 3ds Max">
-            <div class="tech-icon max-icon">
-              <span>3</span>
-            </div>
-            <span>3ds Max</span>
-          </div>
-
-          <!-- UNREAL ENGINE -->
-          <div class="tech-badge" title="Unreal Engine">
-            <div class="tech-icon unreal-icon">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path
-                  d="M17.8 6.2A8.5 8.5 0 0 0 12 3.5c-4.7 0-8.5 3.8-8.5 8.5s3.8 8.5 8.5 8.5c2.3 0 4.4-.9 6-2.5"
-                />
-                <path d="M15.5 8.5v7M19 8.5v7M15.5 8.5l3.5 2.5" />
-              </svg>
-            </div>
-            <span>Unreal</span>
-          </div>
-
-          <!-- RHINO -->
-          <div class="tech-badge" title="Rhinoceros 3D">
-            <div class="tech-icon rhino-icon">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M5 18.5 8 6h8l3 12.5" />
-                <path d="M8 10h8M7 14h10M6 18h12" />
-              </svg>
-            </div>
-            <span>Rhino</span>
-          </div>
-
-          <!-- BIM 360 -->
-          <div class="tech-badge" title="Autodesk BIM 360">
-            <div class="tech-icon bim-icon">
-              <span>B</span>
-            </div>
-            <span>BIM 360</span>
+            <a href="/Contact" class="secondary-button">
+              <span>Scope a production package</span>
+              <span class="arrow">↗</span>
+            </a>
           </div>
 
         </div>
+      </div>
 
+      <!-- ================= HOTSPOTS ================= -->
+      <!-- <div class="hero-hotspots" id="heroHotspots">
+        <button class="hotspot-btn active" data-key="pool" type="button">
+          <span class="hotspot-dot"></span> Pool
+        </button>
+        <button class="hotspot-btn" data-key="living" type="button">
+          <span class="hotspot-dot"></span> Living
+        </button>
+        <button class="hotspot-btn" data-key="dining" type="button">
+          <span class="hotspot-dot"></span> Dining
+        </button>
+        <button class="hotspot-btn" data-key="suite" type="button">
+          <span class="hotspot-dot"></span> Suite
+        </button>
+      </div> -->
+
+      <div class="hero-scroll-cue">
+        <span>Scroll</span>
+        <span class="scroll-line"></span>
       </div>
 
     </div>
-
-    <!-- ================= RIGHT DELIVERY BOX ================= -->
-    <div class="delivery-box">
-
-      <div class="delivery-header">
-        <span>AEC / INTEGRATED DELIVERY</span>
-        <span>CONTROLLED DELIVERY</span>
-      </div>
-
-      <div class="delivery-item">
-
-        <span class="number">01</span>
-
-        <div class="item-content">
-          <span>Information requirements received</span>
-          <span class="status ready">READY</span>
-        </div>
-
-      </div>
-
-      <div class="delivery-item">
-
-        <span class="number">02</span>
-
-        <div class="item-content">
-          <span>BIM production aligned</span>
-          <span class="status ready">READY</span>
-        </div>
-
-      </div>
-
-      <div class="delivery-item">
-
-        <span class="number">03</span>
-
-        <div class="item-content">
-          <span>Revit package in review</span>
-          <span class="status ready">READY</span>
-        </div>
-
-      </div>
-
-      <div class="delivery-item">
-
-        <span class="number">04</span>
-
-        <div class="item-content">
-          <span>Coordination issues routed</span>
-          <span class="status open">OPEN</span>
-        </div>
-
-      </div>
-
-      <div class="delivery-item">
-
-        <span class="number">05</span>
-
-        <div class="item-content">
-          <span>Client approval gate open</span>
-          <span class="status open">OPEN</span>
-        </div>
-
-      </div>
-
-    </div>
-
-
-    <!-- ================= BOTTOM INFORMATION ================= -->
-    <div class="hero-bottom">
-
-      <div class="hero-description-wrap">
-
-        <div class="plus">+</div>
-
-        <p class="hero-description">
-          <strong>Axys3D</strong> is an integrated AEC production partner delivering BIM, Revit
-          production, MEP coordination support, 3D modeling, architectural visualization, animation
-          and real-time experiences.
-        </p>
-
-      </div>
-
-
-      <p class="hero-description second">
-        We extend technically fluent architecture, engineering, developer and agency teams with
-        controlled production capacity, defined review gates and structured handoff.
-      </p>
-
-    </div>
-
   </div>
 
 </section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const heroSection = document.getElementById("axysHero") as HTMLElement;
+    const video = document.getElementById("heroVideo") as HTMLVideoElement;
+    const eyebrow = document.getElementById("sceneEyebrow") as HTMLElement;
+    const headline = document.getElementById("sceneHeadline") as HTMLElement;
+    const buttons = document.getElementById("heroButtons") as HTMLElement;
+    const hotspots = document.querySelectorAll<HTMLButtonElement>(".hotspot-btn");
+
+    const menuToggle = document.getElementById("menuToggle") as HTMLButtonElement;
+    const sideNav = document.getElementById("sideNav") as HTMLElement;
+    const scrim = document.getElementById("sideNavScrim") as HTMLElement;
+    const preview = document.getElementById("sideNavPreview") as HTMLElement;
+    const previewText = preview.querySelector(".side-nav-preview-text") as HTMLElement;
+    const previewIndex = preview.querySelector(".side-nav-preview-index") as HTMLElement;
+
+    if (
+      !heroSection || !video || !eyebrow || !headline || !buttons ||
+      !menuToggle || !sideNav || !scrim || !preview || !previewText || !previewIndex
+    ) {
+      return;
+    }
+
+    // 8 short scenes so the copy keeps pace with the footage. Only the very
+    // first one (the client's own brand line) shows the two CTA buttons —
+    // every scene after that is text-only. "mainKey" ties each in-between
+    // scene back to whichever hotspot (Pool / Living / Dining / Suite) it
+    // belongs under, so the right hotspot stays highlighted throughout.
+    type Scene = {
+      label: string;
+      lines: [string, string];
+      time: number;
+      mainKey: string;
+      showButtons?: boolean;
+    };
+
+    const scenes: Scene[] = [
+      {
+        label: "01 — ARRIVAL",
+        lines: ["AEC production", "without the production friction."],
+        time: 0.3,
+        mainKey: "pool",
+        showButtons: true,
+      },
+      {
+        label: "02 — POOL",
+        lines: ["Water, light and silence,", "composed to scale."],
+        time: 8,
+        mainKey: "pool",
+      },
+      {
+        label: "03 — LIVING",
+        lines: ["Space engineered", "to feel effortless."],
+        time: 16,
+        mainKey: "living",
+      },
+      {
+        label: "04 — DETAIL",
+        lines: ["Every material chosen", "to render true to touch."],
+        time: 24,
+        mainKey: "living",
+      },
+      {
+        label: "05 — DINING",
+        lines: ["A table built", "for the render, and the room."],
+        time: 32,
+        mainKey: "dining",
+      },
+      {
+        label: "06 — TABLESCAPE",
+        lines: ["Styling that holds up", "to the closest frame."],
+        time: 40,
+        mainKey: "dining",
+      },
+      {
+        label: "07 — PASSAGE",
+        lines: ["Circulation drawn", "as carefully as the facade."],
+        time: 46,
+        mainKey: "suite",
+      },
+      {
+        label: "08 — MASTER SUITE",
+        lines: ["Privacy, framed", "by the skyline."],
+        time: 52,
+        mainKey: "suite",
+      },
+    ];
+
+    let activeScene = -1;
+
+    function setScene(i: number, { seek = false }: { seek?: boolean } = {}) {
+      if (i === activeScene && !seek) return;
+      activeScene = i;
+      const s = scenes[i];
+      if (!s) return;
+
+      eyebrow.style.opacity = "0";
+      headline.style.opacity = "0";
+
+      window.setTimeout(() => {
+        eyebrow.textContent = s.label;
+        headline.innerHTML =
+          `<span class="line line-1">${s.lines[0]}</span>` +
+          `<span class="line line-2">${s.lines[1]}</span>`;
+        eyebrow.style.opacity = "1";
+        headline.style.opacity = "1";
+      }, 180);
+
+      buttons.style.opacity = s.showButtons ? "1" : "0";
+      buttons.style.pointerEvents = s.showButtons ? "auto" : "none";
+
+      hotspots.forEach((b: HTMLButtonElement) => {
+        b.classList.toggle("active", b.dataset.key === s.mainKey);
+      });
+
+      if (seek && video) {
+        try {
+          video.currentTime = s.time;
+          video.play();
+        } catch (e) {}
+      }
+    }
+
+    setScene(0);
+
+    hotspots.forEach((btn: HTMLButtonElement) => {
+      btn.addEventListener("click", () => {
+        // Jump to the first (earliest) scene that belongs to this hotspot's group.
+        const group = scenes
+          .map((sc, sIdx) => ({ sc, sIdx }))
+          .filter(({ sc }) => sc.mainKey === btn.dataset.key);
+        if (group.length === 0) return;
+        const target = group.reduce((a, b) => (a.sc.time < b.sc.time ? a : b));
+        setScene(target.sIdx, { seek: true });
+      });
+    });
+
+    // Automatic: as the video plays (and loops), the text switches on its own
+    // whenever playback crosses into the next scene's time range.
+    video.addEventListener("timeupdate", () => {
+      const t = video.currentTime;
+      let idx = 0;
+      for (let i = 0; i < scenes.length; i++) {
+        if (t >= scenes[i].time) idx = i;
+      }
+      setScene(idx);
+    });
+
+    // Right-side nav: opens from the right, dims + fades the video behind it.
+    function openNav() {
+      heroSection.classList.add("nav-open");
+      menuToggle.classList.add("is-open");
+      menuToggle.setAttribute("aria-expanded", "true");
+      sideNav.setAttribute("aria-hidden", "false");
+    }
+    function closeNav() {
+      heroSection.classList.remove("nav-open");
+      menuToggle.classList.remove("is-open");
+      menuToggle.setAttribute("aria-expanded", "false");
+      sideNav.setAttribute("aria-hidden", "true");
+      preview.classList.remove("is-visible");
+    }
+    menuToggle.addEventListener("click", () => {
+      heroSection.classList.contains("nav-open") ? closeNav() : openNav();
+    });
+    scrim.addEventListener("click", closeNav);
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape") closeNav();
+    });
+
+    // Hover a nav link → the parallel preview panel slides in level with
+    // that exact link (not a fixed center spot).
+    sideNav.querySelectorAll<HTMLAnchorElement>(".side-nav-links a").forEach((a: HTMLAnchorElement, idx: number) => {
+      a.addEventListener("mouseenter", () => {
+        const rect = a.getBoundingClientRect();
+        preview.style.top = `${rect.top + rect.height / 2}px`;
+        previewText.textContent = a.dataset.preview || "";
+        previewIndex.textContent = String(idx + 1).padStart(2, "0");
+        preview.classList.add("is-visible");
+      });
+      a.addEventListener("mouseleave", () => {
+        preview.classList.remove("is-visible");
+      });
+    });
+  });
+</script>

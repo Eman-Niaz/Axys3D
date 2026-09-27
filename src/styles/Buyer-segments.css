@@ -1,207 +1,861 @@
 /* =========================================================
-   DARK THEME ACCORDION LAYOUT
-========================================================= */
+   AXYS3D — BUYER SEGMENTS
+   PREMIUM NAVY / WARM WHITE / GOLD DESIGN SYSTEM
+   ========================================================= */
 
 .buyer-segments {
-  --bg-dark: #141d31;
-  --text-white: #ffffff;
-  --gold: #d4a373;
-  --gold-light: #e6c594;
-  --line-dark: rgba(255, 255, 255, 0.12);
-  --muted-text: #94a3b8;
+  /* =======================================================
+     AXYS3D COLOR TOKENS
+     ======================================================= */
 
-  background: var(--bg-dark);
+  --bg-color: #091d2f;
+
+  --card-white: #f8f5ef;
+  --card-navy: #10283b;
+
+  --text-dark: #0b1d2d;
+  --text-white: #ffffff;
+
+  --text-grey: rgba(255, 255, 255, 0.58);
+  --text-light-muted: rgba(255, 255, 255, 0.42);
+
+  --pill-bg: rgba(179, 139, 76, 0.12);
+
+  --gold-accent: #b38b4c;
+  --gold-bright: #e2cda5;
+
+  --indicator-blue: #6eb6d8;
+  --brown-accent: #8f6c38;
+
+  /* =======================================================
+     SECTION
+     ======================================================= */
+
+  background-color: var(--bg-color);
+
   color: var(--text-white);
-  padding: 100px 120px; /* Enhanced side spacing */
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+
+  padding: 90px 0;
+
+  position: relative;
+
+  overflow: hidden;
+}
+
+
+/* =========================================================
+   SUBTLE ARCHITECTURAL BACKGROUND GLOW (TOP RIGHT)
+   ========================================================= */
+
+.buyer-segments::before {
+  content: "";
+
+  position: absolute;
+
+  width: 650px;
+  height: 650px;
+
+  top: -300px;
+  right: -220px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(179, 139, 76, 0.08) 0%,
+      rgba(179, 139, 76, 0.025) 35%,
+      transparent 70%
+    );
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+
+/* =========================================================
+   BROWN GRADIENT & BLUE GLOW (BOTTOM RIGHT CORNER)
+   ========================================================= */
+
+.buyer-segments::after {
+  content: "";
+
+  position: absolute;
+
+  width: 650px;
+  height: 650px;
+
+  bottom: -30px;
+  right: -220px;
+
+  background:
+    radial-gradient(
+      circle,
+      rgba(143, 108, 56, 0.18) 0%,      /* Production layer brown gradient */
+      rgba(110, 182, 216, 0.12) 35%,     /* Light blue gradient effect */
+      transparent 70%
+    );
+
+  pointer-events: none;
+
+  z-index: 0;
+}
+
+
+/* =========================================================
+   INTER FONT
+   ========================================================= */
+
+.buyer-segments * {
+  font-family:
+    'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif !important;
+
   box-sizing: border-box;
 }
 
+
+/* =========================================================
+   MAIN WRAPPER
+   ========================================================= */
+
 .bs-wrap {
-  max-width: 1300px;
+  position: relative;
+
+  z-index: 2;
+
+  width: min(
+    1140px,
+    calc(100% - 40px)
+  );
+
   margin: 0 auto;
 }
 
-/* Two Column Layout */
-.bs-layout {
+
+/* =========================================================
+   TOP HEADER
+   ========================================================= */
+
+.bs-top-header {
   display: grid;
-  grid-template-columns: 1fr 1.1fr;
-  gap: 80px;
-  align-items: start;
+
+  grid-template-columns:
+    1.15fr
+    0.85fr;
+
+  gap: 48px;
+
+  align-items: end;
+
+  margin-bottom: 52px;
 }
 
-/* Left Heading Section */
-.bs-head {
-  text-align: left;
-}
 
-.bs-tag {
-  font-size: 12px;
+/* =========================================================
+   GOLD PILL / EYEBROW
+   ========================================================= */
+
+.bs-pill-tag {
+  display: inline-block;
+
+  font-size: 10px;
+
   font-weight: 700;
-  letter-spacing: 0.15em;
+
+  letter-spacing: 0.18em;
+
   text-transform: uppercase;
-  color: var(--gold);
-  margin: 0 0 16px;
+
+  background:
+    rgba(179, 139, 76, 0.12);
+
+  color:
+    var(--gold-accent);
+
+  padding:
+    5px 12px;
+
+  border-radius: 6px;
+
+  margin-bottom: 16px;
+
+  border:
+    1px solid
+    rgba(179, 139, 76, 0.16);
 }
+
+
+/* =========================================================
+   MAIN HEADING
+   ========================================================= */
 
 .bs-heading {
-  font-family: "Manrope", sans-serif;
   font-weight: 700;
-  font-size: clamp(34px, 3.5vw, 48px);
+
+  font-size:
+    clamp(
+      28px,
+      3.4vw,
+      44px
+    );
+
   line-height: 1.15;
-  color: var(--text-white);
-  margin: 0 0 24px;
-  letter-spacing: -1px;
+
+  color:
+    #ffffff;
+
+  margin: 0;
+
+  letter-spacing:
+    -0.025em;
 }
+
+
+/* =========================================================
+   MUTED HEADING TEXT
+   ========================================================= */
+
+.bs-heading .adapted-text {
+  font-weight: 700 !important;
+
+  color:
+    rgba(255, 255, 255, 0.38) !important;
+}
+
+
+/* =========================================================
+   HEADER DESCRIPTION
+   ========================================================= */
 
 .bs-sub {
-  font-size: 15px;
-  font-weight: 400;
-  line-height: 1.65;
-  color: var(--muted-text);
+  font-size: 14.5px;
+
+  line-height: 1.6;
+
+  color:
+    rgba(255, 255, 255, 0.56);
+
   margin: 0;
+
+  max-width: 470px;
 }
 
-/* Accordion Container (Right Side) */
-.bs-accordion {
-  border-top: 1px solid var(--line-dark);
+
+/* =========================================================
+   CARDS GRID
+   ========================================================= */
+
+.bs-cards-grid {
+  display: grid;
+
+  grid-template-columns:
+    1fr
+    1fr
+    1fr;
+
+  gap: 20px;
+
+  align-items: stretch;
+}
+
+
+/* =========================================================
+   CARD BASE
+   ========================================================= */
+
+.bs-card {
+  position: relative;
+
+  min-height: 370px;
+
+  border-radius: 18px;
+
+  padding:
+    28px 24px;
+
   display: flex;
+
   flex-direction: column;
-}
 
-/* Individual Accordion Item */
-.bs-item {
-  border-bottom: 1px solid var(--line-dark);
-  background: transparent;
-  transition: background-color 0.3s ease;
-}
-
-/* Clickable Header */
-.bs-item-header {
-  width: 100%;
-  display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 28px 12px;
-  background: none;
-  border: none;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
-  outline: none;
+
+  overflow: hidden;
+
+  transition:
+    transform 300ms ease,
+    box-shadow 300ms ease;
 }
 
-.bs-item-title-wrap {
-  display: flex;
-  align-items: center;
-  gap: 28px;
+
+/* =========================================================
+   SUBTLE CARD LIGHT
+   ========================================================= */
+
+.bs-card::before {
+  content: "";
+
+  position: absolute;
+
+  inset: 0;
+
+  border-radius: inherit;
+
+  pointer-events: none;
+
+  background:
+    linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.08),
+      transparent 35%,
+      transparent 70%,
+      rgba(179, 139, 76, 0.05)
+    );
+
+  opacity: 0.8;
 }
+
+
+/* =========================================================
+   CARD HOVER
+   ========================================================= */
+
+.bs-card:hover {
+  transform:
+    translateY(-5px);
+}
+
+
+/* =========================================================
+   WARM WHITE CARD
+   ========================================================= */
+
+.card-white {
+  background:
+    #f8f5ef;
+
+  color:
+    var(--text-dark);
+
+  box-shadow:
+    0 12px 35px
+    rgba(0, 0, 0, 0.14);
+}
+
+
+/* =========================================================
+   NAVY CARD
+   ========================================================= */
+
+.card-navy {
+  background:
+    linear-gradient(
+      145deg,
+      #10283b 0%,
+      #071824 100%
+    );
+
+  color:
+    #ffffff;
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.08);
+
+  box-shadow:
+    0 14px 40px
+    rgba(2, 12, 21, 0.35);
+}
+
+
+/* =========================================================
+   CARD HEADER
+   ========================================================= */
+
+.bs-card-top {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  margin-bottom: 24px;
+}
+
+
+/* =========================================================
+   CARD BADGE
+   ========================================================= */
+
+.bs-badge {
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 0.12em;
+
+  padding:
+    4px 10px;
+
+  border-radius: 4px;
+
+  text-transform: uppercase;
+}
+
+
+/* LIGHT BADGE */
+
+.badge-light {
+  background:
+    rgba(11, 29, 45, 0.07);
+
+  color:
+    #52606d;
+}
+
+
+/* DARK BADGE */
+
+.badge-dark {
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  color:
+    var(--gold-bright);
+
+  border:
+    1px solid
+    rgba(226, 205, 165, 0.12);
+}
+
+
+/* =========================================================
+   CARD NUMBER
+   ========================================================= */
 
 .bs-num {
-  font-size: 14px;
-  font-weight: 600;
-  color: var(--gold);
-  min-width: 24px;
+  font-size: 12px;
+
+  font-weight: 700;
 }
+
+
+/* GOLD NUMBER */
+
+.num-gold {
+  color:
+    var(--gold-accent);
+}
+
+
+/* =========================================================
+   CARD BODY
+   ========================================================= */
+
+.bs-card-body {
+  position: relative;
+
+  z-index: 2;
+
+  margin-bottom: 24px;
+}
+
+
+/* =========================================================
+   CARD TITLE
+   ========================================================= */
 
 .bs-title {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-white);
-  margin: 0;
-  transition: color 0.3s ease;
+  font-size: 19px;
+
+  font-weight: 700;
+
+  margin:
+    0 0 8px 0;
+
+  letter-spacing:
+    -0.01em;
 }
 
-.bs-icon-arrow {
-  color: var(--muted-text);
-  font-size: 18px;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), color 0.3s ease;
+
+/* DARK TITLE */
+
+.title-dark {
+  color:
+    var(--text-dark);
 }
 
-/* Hover Effects */
-.bs-item-header:hover .bs-title {
-  color: var(--gold-light);
+
+/* WHITE TITLE */
+
+.title-white {
+  color:
+    #ffffff;
 }
 
-.bs-item-header:hover .bs-icon-arrow {
-  color: var(--gold);
-}
 
-/* Active State (When Expanded) */
-.bs-item.active .bs-title {
-  color: var(--gold);
-}
-
-.bs-item.active .bs-icon-arrow {
-  transform: rotate(180deg);
-  color: var(--gold);
-}
-
-/* Expandable Content Panel */
-.bs-item-content {
-  max-height: 0;
-  overflow: hidden;
-  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), padding 0.3s ease;
-  padding: 0 12px 0 64px;
-}
-
-.bs-item.active .bs-item-content {
-  max-height: 280px; /* Holds open expanded details */
-  padding: 0 12px 28px 64px;
-}
+/* =========================================================
+   CARD DESCRIPTION
+   ========================================================= */
 
 .bs-desc {
-  font-size: 14.5px;
-  font-weight: 400;
-  color: var(--muted-text);
-  line-height: 1.6;
-  margin: 0 0 16px;
+  font-size: 13px;
+
+  line-height: 1.55;
+
+  margin: 0;
 }
 
-.bs-link {
-  display: inline-flex;
+
+/* WHITE CARD DESCRIPTION */
+
+.desc-muted {
+  color:
+    #66717d;
+}
+
+
+/* NAVY CARD DESCRIPTION */
+
+.desc-grey {
+  color:
+    rgba(255, 255, 255, 0.48);
+}
+
+
+/* =========================================================
+   STEPS LIST
+   ========================================================= */
+
+.bs-steps-list {
+  position: relative;
+
+  z-index: 2;
+
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 6px;
+
+  padding-top: 16px;
+}
+
+
+/* =========================================================
+   LIGHT CARD BORDER
+   ========================================================= */
+
+.steps-light-border {
+  border-top:
+    1px solid
+    rgba(11, 29, 45, 0.10);
+}
+
+
+/* =========================================================
+   DARK CARD BORDER
+   ========================================================= */
+
+.steps-dark-border {
+  border-top:
+    1px solid
+    rgba(255, 255, 255, 0.10);
+}
+
+
+/* =========================================================
+   STEP ITEM
+   ========================================================= */
+
+.bs-step-item {
+  display: flex;
+
   align-items: center;
-  gap: 8px;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: var(--gold);
-  text-decoration: none;
-  transition: gap 0.2s ease, color 0.2s ease;
+
+  gap: 10px;
+
+  padding:
+    8px 12px;
+
+  border-radius: 8px;
+
+  background:
+    transparent;
+
+  transition:
+    background 300ms ease,
+    transform 300ms ease;
 }
 
-.bs-link:hover {
-  gap: 12px;
-  color: var(--gold-light);
+
+/* =========================================================
+   STEP HOVER
+   ========================================================= */
+
+.bs-step-item:hover {
+  transform:
+    translateX(3px);
 }
 
-/* Responsive Design */
-@media (max-width: 1024px) {
+
+/* =========================================================
+   STEP INDICATOR
+   ========================================================= */
+
+.step-indicator {
+  width: 6px;
+
+  height: 6px;
+
+  border-radius: 50%;
+
+  flex-shrink: 0;
+
+  transition:
+    all 300ms ease;
+}
+
+
+/* =========================================================
+   BLUE INDICATOR
+   ========================================================= */
+
+.dot-blue {
+  background:
+    var(--indicator-blue);
+
+  box-shadow:
+    0 0 0
+    rgba(110, 182, 216, 0);
+}
+
+
+/* =========================================================
+   STEP TEXT
+   ========================================================= */
+
+.bs-step-item .step-text {
+  font-size: 12px;
+
+  font-weight: 500;
+
+  transition:
+    all 300ms ease;
+}
+
+
+/* LIGHT STEP */
+
+.step-light-item .step-text {
+  color:
+    var(--text-dark);
+}
+
+
+/* DARK STEP */
+
+.step-dark-item .step-text {
+  color:
+    rgba(255, 255, 255, 0.78);
+}
+
+
+/* =========================================================
+   ACTIVE LIGHT STEP
+   ========================================================= */
+
+.step-light-item.active {
+  background:
+    #10283b;
+
+  box-shadow:
+    0 5px 15px
+    rgba(7, 24, 36, 0.12);
+}
+
+
+.step-light-item.active .step-text {
+  color:
+    #ffffff !important;
+
+  font-weight:
+    600;
+}
+
+
+/* =========================================================
+   ACTIVE DARK STEP
+   ========================================================= */
+
+.step-dark-item.active {
+  background:
+    rgba(255, 255, 255, 0.09);
+
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.05);
+}
+
+
+.step-dark-item.active .step-text {
+  color:
+    #ffffff !important;
+
+  font-weight:
+    600;
+}
+
+
+/* =========================================================
+   ACTIVE INDICATOR
+   ========================================================= */
+
+.bs-step-item.active .step-indicator {
+  background:
+    var(--gold-bright);
+
+  box-shadow:
+    0 0 9px
+    rgba(226, 205, 165, 0.55);
+
+  transform:
+    scale(1.25);
+}
+
+
+/* =========================================================
+   CARD WHITE — ACTIVE HOVER FEEL
+   ========================================================= */
+
+.card-white:hover {
+  box-shadow:
+    0 18px 45px
+    rgba(0, 0, 0, 0.17);
+}
+
+
+/* =========================================================
+   CARD NAVY — ACTIVE HOVER FEEL
+   ========================================================= */
+
+.card-navy:hover {
+  box-shadow:
+    0 20px 48px
+    rgba(2, 12, 21, 0.45),
+    0 0 24px
+    rgba(179, 139, 76, 0.08);
+}
+
+
+/* =========================================================
+   TABLET
+   ========================================================= */
+
+@media (max-width: 960px) {
+
   .buyer-segments {
-    padding: 80px 40px;
+    padding:
+      75px 0;
   }
-  .bs-layout {
-    grid-template-columns: 1fr;
-    gap: 48px;
+
+  .bs-top-header {
+    grid-template-columns:
+      1fr;
+
+    gap: 20px;
+
+    align-items:
+      start;
+  }
+
+  .bs-sub {
+    max-width:
+      600px;
+  }
+
+  .bs-cards-grid {
+    grid-template-columns:
+      1fr;
+  }
+
+  .bs-card {
+    min-height:
+      330px;
   }
 }
+
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
 
 @media (max-width: 640px) {
+
   .buyer-segments {
-    padding: 60px 20px;
+    padding:
+      60px 0 55px;
   }
-  .bs-item-header {
-    padding: 20px 8px;
+
+  .bs-wrap {
+    width:
+      calc(100% - 32px);
   }
-  .bs-item-title-wrap {
-    gap: 16px;
+
+  .bs-top-header {
+    margin-bottom:
+      35px;
   }
-  .bs-title {
-    font-size: 17px;
+
+  .bs-heading {
+    font-size:
+      30px;
   }
-  .bs-item-content {
-    padding: 0 8px 0 40px;
+
+  .bs-sub {
+    font-size:
+      13.5px;
   }
-  .bs-item.active .bs-item-content {
-    padding: 0 8px 20px 40px;
+
+  .bs-card {
+    min-height:
+      320px;
+
+    padding:
+      24px 20px;
+
+    border-radius:
+      16px;
+  }
+
+  .bs-cards-grid {
+    gap:
+      16px;
+  }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+
+  .bs-card,
+  .bs-step-item,
+  .step-indicator {
+    transition:
+      none;
+  }
+
+  .bs-card:hover,
+  .bs-step-item:hover {
+    transform:
+      none;
   }
 }

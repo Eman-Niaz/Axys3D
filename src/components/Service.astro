@@ -6,308 +6,241 @@ const services = [
     number: "01",
     title: "BIM execution and model production",
     shortTitle: "BIM execution",
+    location: "AEC PRODUCTION • 01",
     description:
       "Disciplined BIM production from approved design information, with controlled model structure, geometry and documentation.",
     image:
-      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1000&q=85",
-    features: [
-      "BIM model production",
-      "Model setup and standards",
-      "Drawing-to-model workflows",
-      "Controlled revisions",
-    ],
+      "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85",
   },
   {
     number: "02",
     title: "Revit production",
     shortTitle: "Revit production",
+    location: "PARAMETRIC MODELING • 02",
     description:
       "Production-ready Revit modeling and documentation built around project standards, templates and approved design information.",
     image:
-      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=85",
-    features: [
-      "Revit model development",
-      "Families and components",
-      "Documentation support",
-      "Model cleanup",
-    ],
+      "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1800&q=85",
   },
   {
     number: "03",
     title: "MEP coordination support",
     shortTitle: "MEP coordination",
+    location: "CLASH REVIEW • 03",
     description:
       "Structured coordination support across architectural, structural and MEP information to reduce downstream production friction.",
     image:
-      "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1000&q=85",
-    features: [
-      "MEP model coordination",
-      "Clash review support",
-      "Coordination workflows",
-      "Issue tracking",
-    ],
+      "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1800&q=85",
   },
   {
     number: "04",
     title: "3D modeling and digital production",
     shortTitle: "3D modeling",
+    location: "DIGITAL ASSETS • 04",
     description:
       "Controlled geometry and asset production from approved drawings, BIM references, surveys and client-issued design information.",
     image:
-      "https://images.unsplash.com/photo-1542621334-a254cf47733d?auto=format&fit=crop&w=1000&q=85",
-    features: [
-      "Architectural modeling",
-      "Asset production",
-      "Geometry development",
-      "Digital production",
-    ],
+      "https://images.unsplash.com/photo-1542621334-a254cf47733d?auto=format&fit=crop&w=1800&q=85",
   },
   {
     number: "05",
     title: "Architectural visualization",
     shortTitle: "Visualization",
+    location: "CGI RENDERING • 05",
     description:
       "High-quality architectural visuals that translate approved design information into clear, presentation-ready imagery.",
     image:
-      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1000&q=85",
-    features: [
-      "Exterior visualization",
-      "Interior visualization",
-      "Material development",
-      "Presentation imagery",
-    ],
+      "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1800&q=85",
   },
   {
     number: "06",
     title: "Animation and walkthroughs",
     shortTitle: "Animation",
+    location: "SPATIAL MOTION • 06",
     description:
       "Production-focused animation and walkthroughs that communicate spatial intent, design progression and project experience.",
     image:
-      "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1000&q=85",
-    features: [
-      "Architectural animation",
-      "Camera development",
-      "Walkthrough production",
-      "Presentation sequences",
-    ],
+      "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1800&q=85",
   },
   {
     number: "07",
     title: "Real-time experiences",
     shortTitle: "Real-time",
+    location: "INTERACTIVE SCENES • 07",
     description:
       "Interactive real-time environments built from controlled project geometry for review, communication and visual exploration.",
     image:
-      "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=1000&q=85",
-    features: [
-      "Real-time environments",
-      "Interactive scenes",
-      "Design exploration",
-      "Experience development",
-    ],
+      "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=1800&q=85",
   },
   {
     number: "08",
     title: "Documentation and handoff",
     shortTitle: "Handoff",
+    location: "DRAWING PACKAGES • 08",
     description:
       "Organized documentation, exports and structured handoff packages designed to keep production information usable downstream.",
     image:
-      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1000&q=85",
-    features: [
-      "Drawing packages",
-      "Model exports",
-      "Documentation sets",
-      "Structured handoff",
-    ],
+      "https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=1800&q=85",
   },
 ];
+
+// Duplicate dataset to support a seamless continuous loop
+const loopedServices = [...services, ...services, ...services];
 ---
 
-<style>
-  /* Reset default <a> styling so the card keeps its original block layout */
-  a.service-card-item {
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    cursor: pointer;
-  }
-</style>
-
-<section class="services-section" id="services">
-  <div class="services-container">
-
+<section class="cinematic-services-root" id="services">
+  <!-- Horizontal Screen Slider Container -->
+  <div class="horizontal-screen-slider" id="horizontalScreenSlider">
+    
     <!-- =====================================================
-         SERVICES HEADER
+         SCREEN 1: CLEAN FULLSCREEN SERVICE SHOWCASE
          ===================================================== -->
-    <div class="services-header">
-
-      <div class="services-heading-wrap">
-        <span class="services-eyebrow">
-          EIGHT TECHNICAL SERVICES
-        </span>
-
-        <h2>
-          Production capability
-          <br />
-          <span>across the AEC pipeline.</span>
-        </h2>
+    <div class="screen-panel services-screen">
+      
+      <!-- Minimized Overlay Backgrounds -->
+      <div class="screen-bg-stack">
+        {services.map((item, idx) => (
+          <div class={`screen-bg-image ${idx === 0 ? "is-active" : ""}`} data-bg-index={idx}>
+            <img src={item.image} alt={item.title} />
+            <div class="screen-bg-darkener"></div>
+          </div>
+        ))}
       </div>
 
-      <a href="#review" class="services-header-cta">
-        <span>Scope a production package</span>
-        <span class="cta-arrow">↗</span>
-      </a>
-
-    </div>
-
-
-    <!-- =====================================================
-         SERVICES GRID
-         ===================================================== -->
-    <div class="services-grid">
-
-      {services.map((service) => (
-        <a
-          class="service-card-item"
-          href={`/Visuals?category=${encodeURIComponent(service.shortTitle)}`}
-        >
-
-          <div class="service-card-image">
-
-            <img
-              src={service.image}
-              alt={service.title}
-              loading="lazy"
-            />
-
-            <div class="service-card-shade"></div>
-
-            <div class="service-number">
-              {service.number}
+      <!-- Main Layout: Left Active Info & Right 3+ Card Carousel -->
+      <div class="services-main-layout">
+        
+        <!-- LEFT: Active Service Detailed Information -->
+        <div class="active-service-details">
+          {services.map((service, idx) => (
+            <div class={`service-info-pane ${idx === 0 ? "is-active" : ""}`} data-info-index={idx}>
+              <span class="service-category-tag">{service.shortTitle}</span>
+              <h1 class="service-primary-title">{service.title}</h1>
+              <p class="service-primary-desc">{service.description}</p>
+              
+              <a
+                class="service-discover-btn"
+                href={`/Visuals?category=${encodeURIComponent(service.shortTitle)}`}
+              >
+                <span>DISCOVER LOCATION</span>
+                <span class="btn-arrow">↗</span>
+              </a>
             </div>
+          ))}
+        </div>
 
-            <div class="service-card-content">
-
-              <div class="service-title-row">
-
-                <div>
-
-                  <span class="service-mini-label">
-                    {service.shortTitle}
-                  </span>
-
-                  <h3>
-                    {service.title}
-                  </h3>
-
+        <!-- RIGHT: Infinite Upcoming Cards Tray (Min 3 visible at all times) -->
+        <div class="upcoming-cards-viewport">
+          <div class="upcoming-cards-track" id="cardsTrack">
+            {loopedServices.map((service, idx) => (
+              <div
+                class="upcoming-card-item"
+                data-original-index={idx % services.length}
+                data-loop-index={idx}
+                tabindex="0"
+                role="button"
+                aria-label={`Switch to ${service.title}`}
+              >
+                <div class="upcoming-card-img">
+                  <img src={service.image} alt={service.title} loading="lazy" />
+                  <div class="upcoming-card-shade"></div>
                 </div>
 
-                <span class="service-card-arrow">
-                  ↗
-                </span>
-
+                <div class="upcoming-card-content">
+                  <span class="upcoming-card-mini">{service.shortTitle}</span>
+                  <h3 class="upcoming-card-title">{service.title}</h3>
+                </div>
               </div>
+            ))}
+          </div>
+        </div>
 
-              <div class="service-card-reveal">
+      </div>
 
-                <p>
-                  {service.description}
-                </p>
+      <!-- BOTTOM NAVIGATION: Arrows, Timeline, Slide Counter, and Compare Trigger -->
+      <div class="services-nav-bar">
+        <div class="nav-arrow-group">
+          <button class="nav-arrow-btn prev-btn" aria-label="Previous service">‹</button>
+          <button class="nav-arrow-btn next-btn" aria-label="Next service">›</button>
+        </div>
 
-                <span class="reveal-line"></span>
+        <div class="nav-timeline-bar">
+          <div class="nav-timeline-fill" id="timelineFill"></div>
+        </div>
 
-              </div>
-
-            </div>
-
+        <div class="nav-controls-right">
+          <div class="nav-counter">
+            <span id="currentNumber">01</span>
+            <span class="counter-divider">/</span>
+            <span class="total-number">08</span>
           </div>
 
-        </a>
-      ))}
+          <button class="go-to-compare-btn" id="goToCompareBtn">
+            <span>COMPARE MODEL</span>
+            <span class="btn-arrow">→</span>
+          </button>
+        </div>
+      </div>
 
     </div>
 
-
     <!-- =====================================================
-         FROM MODEL TO EXPERIENCE
+         SCREEN 2: SEPARATE FROM MODEL TO EXPERIENCE SECTION
          ===================================================== -->
-    <div class="model-experience">
-
-      <div class="model-experience-inner">
-
+    <div class="screen-panel model-experience-screen">
+      <div class="model-experience-container">
+        
         <!-- HEADING -->
         <div class="model-experience-heading">
-
           <div>
-
             <span class="section-eyebrow">
               FROM MODEL TO EXPERIENCE
             </span>
-
             <h2>
               See the production
               <span>layer in motion.</span>
             </h2>
-
           </div>
 
           <p>
-            Move the slider to compare the raw production model
-            with the final visual output.
+            Move the slider to compare the raw production model with the final visual output.
           </p>
-
         </div>
 
-
-        <!-- COMPARISON -->
+        <!-- COMPARISON WRAPPER -->
         <div class="comparison-wrapper">
-
           <!-- FINAL RENDER -->
           <div class="comparison-image comparison-final">
-
             <img
               src="https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1800&q=90"
               alt="Final architectural render"
             />
-
             <div class="comparison-label final-label">
               <span>02</span>
               FINAL RENDER
             </div>
-
           </div>
-
 
           <!-- RAW MODEL -->
           <div class="comparison-image comparison-before">
-
             <img
               src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=90"
               alt="Architectural production model"
             />
-
             <div class="comparison-label model-label">
               <span>01</span>
               RAW BIM / WIREFRAME
             </div>
-
           </div>
-
 
           <!-- DRAG HANDLE -->
           <div class="comparison-handle">
-
             <div class="handle-line"></div>
-
             <div class="handle-circle">
               <span>←</span>
               <span>→</span>
             </div>
-
           </div>
-
 
           <!-- INVISIBLE RANGE CONTROL -->
           <input
@@ -318,57 +251,144 @@ const services = [
             value="50"
             aria-label="Compare raw BIM model with final render"
           />
-
         </div>
-
 
         <!-- FOOTER -->
         <div class="comparison-footer">
-
-          <span>
-            RAW PRODUCTION MODEL
-          </span>
-
+          <span>RAW PRODUCTION MODEL</span>
           <div class="comparison-progress">
             <span></span>
             <span></span>
             <span></span>
           </div>
-
-          <span>
-            FINAL VISUAL OUTPUT
-          </span>
-
+          <span>FINAL VISUAL OUTPUT</span>
         </div>
 
       </div>
 
+      <!-- Back Button -->
+      <button class="back-to-services-btn" id="backToServicesBtn" aria-label="Back to Services">
+        <span>← Back to Services</span>
+      </button>
     </div>
 
   </div>
 </section>
 
-
 <script>
-  const comparisonRange =
-    document.querySelector(".comparison-range") as HTMLInputElement | null;
+  let activeIndex = 0;
+  const totalServices = 8;
+  let isViewingComparisonSection = false;
 
-  const comparisonBefore =
-    document.querySelector(".comparison-before") as HTMLElement | null;
+  const horizontalSlider = document.getElementById("horizontalScreenSlider");
+  const cardsTrack = document.getElementById("cardsTrack");
+  const bgImages = document.querySelectorAll(".screen-bg-image");
+  const infoPanes = document.querySelectorAll(".service-info-pane");
+  const cardItems = document.querySelectorAll(".upcoming-card-item");
+  const timelineFill = document.getElementById("timelineFill");
+  const currentNumberElem = document.getElementById("currentNumber");
+  const prevBtn = document.querySelector(".prev-btn");
+  const nextBtn = document.querySelector(".next-btn");
+  const goToCompareBtn = document.getElementById("goToCompareBtn");
+  const backBtn = document.getElementById("backToServicesBtn");
 
-  const comparisonHandle =
-    document.querySelector(".comparison-handle") as HTMLElement | null;
+  function renderSlide(index: number) {
+    if (isViewingComparisonSection) {
+      if (horizontalSlider) horizontalSlider.style.transform = "translateX(0vw)";
+      isViewingComparisonSection = false;
+    }
+
+    // Keep activeIndex cycling cleanly in loop [0 ... 7]
+    activeIndex = (index + totalServices) % totalServices;
+
+    // 1. Update Fullscreen Background
+    bgImages.forEach((bg, i) => {
+      bg.classList.toggle("is-active", i === activeIndex);
+    });
+
+    // 2. Update Left Info Text Pane
+    infoPanes.forEach((pane, i) => {
+      pane.classList.toggle("is-active", i === activeIndex);
+    });
+
+    // 3. Shift Horizontal Cards Track so next 3+ upcoming cards are always in view
+    // Position the track starting right after the active card
+    const cardStep = 250; // card width (230px) + gap (20px)
+    const offset = (index + 1) * cardStep;
+    if (cardsTrack) {
+      cardsTrack.style.transform = `translateX(-${offset}px)`;
+    }
+
+    // 4. Update Bottom Controls
+    if (timelineFill) {
+      const progressPercent = ((activeIndex + 1) / totalServices) * 100;
+      timelineFill.style.width = `${progressPercent}%`;
+    }
+
+    if (currentNumberElem) {
+      currentNumberElem.textContent = String(activeIndex + 1).padStart(2, "0");
+    }
+  }
+
+  function showComparisonScreen() {
+    isViewingComparisonSection = true;
+    if (horizontalSlider) {
+      horizontalSlider.style.transform = "translateX(-100vw)";
+    }
+  }
+
+  // Click on any card in the carousel to jump to it
+  cardItems.forEach((card) => {
+    card.addEventListener("click", () => {
+      const origIndex = Number(card.getAttribute("data-original-index"));
+      renderSlide(origIndex);
+    });
+  });
+
+  // Navigation Arrows
+  prevBtn?.addEventListener("click", () => renderSlide(activeIndex - 1));
+  nextBtn?.addEventListener("click", () => renderSlide(activeIndex + 1));
+  goToCompareBtn?.addEventListener("click", showComparisonScreen);
+  backBtn?.addEventListener("click", () => renderSlide(activeIndex));
+
+  // Horizontal Wheel Scroll listener
+  const rootSection = document.querySelector<HTMLElement>(".cinematic-services-root");
+  let isWheelLocked = false;
+
+  rootSection?.addEventListener("wheel", (e: WheelEvent) => {
+    if ((e.target as HTMLElement).classList.contains("comparison-range")) return;
+
+    if (Math.abs(e.deltaY) > 25 || Math.abs(e.deltaX) > 25) {
+      if (!isWheelLocked) {
+        if (e.deltaY > 0 || e.deltaX > 0) {
+          renderSlide(activeIndex + 1);
+        } else {
+          renderSlide(activeIndex - 1);
+        }
+
+        isWheelLocked = true;
+        setTimeout(() => {
+          isWheelLocked = false;
+        }, 500);
+      }
+    }
+  });
+
+  // Comparison slider interactive drag logic
+  const comparisonRange = document.querySelector(".comparison-range") as HTMLInputElement | null;
+  const comparisonBefore = document.querySelector(".comparison-before") as HTMLElement | null;
+  const comparisonHandle = document.querySelector(".comparison-handle") as HTMLElement | null;
 
   if (comparisonRange && comparisonBefore && comparisonHandle) {
     const updateComparison = () => {
       const value = Number(comparisonRange.value);
-
       comparisonBefore.style.width = `${value}%`;
       comparisonHandle.style.left = `${value}%`;
     };
-
     comparisonRange.addEventListener("input", updateComparison);
-
     updateComparison();
   }
+
+  // Initialize
+  renderSlide(0);
 </script>

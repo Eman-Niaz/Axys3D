@@ -3,18 +3,22 @@ import "../styles/faq.css";
 
 const faqs = [
   {
+    num: "1",
     question: "Where does Axys3D fit in an AEC delivery team?",
     answer: "Axys3D adds governed production capacity across BIM, Revit, coordination support and visual outputs. Client-appointed professionals retain design authority, compliance decisions and statutory sign-off."
   },
   {
+    num: "2",
     question: "Can one engagement combine BIM and visualization outputs?",
     answer: "Yes, when the authoritative inputs, intended uses, review owners and information-freeze points are defined. Each downstream output keeps its own approval and handoff requirements."
   },
   {
+    num: "3",
     question: "How is confidential project information handled?",
     answer: "Work defaults to private. Project identity, media, outcomes and credits require explicit publication approval. NDA, withdrawn and review-expired records remain outside public builds."
   },
   {
+    num: "4",
     question: "What is needed to scope a first production package?",
     answer: "A useful starting brief names the project stage, source files, standards, disciplines, intended deliverables, review milestones, approval owners and required handoff formats."
   }
@@ -23,28 +27,34 @@ const faqs = [
 
 <section class="faq-section" id="faqs">
   <div class="faq-inner">
-    <!-- Left Column: Heading Area -->
-    <div class="faq-heading">
-      <span class="faq-eyebrow">TECHNICAL FIT</span>
-      <h2>
-        Common questions <br />
-        <span>before scope is fixed.</span>
-      </h2>
+    
+    <!-- Top Pill Badge & Heading Area -->
+    <div class="faq-header">
+      <div class="faq-badge">
+        <span class="badge-num">TECHNICAL FIT</span>
+      </div>
+      <h2>Common questions <br><span>before scope is fixed.</span></h2>
     </div>
 
-    <!-- Right Column: Accordion List -->
-    <div class="faq-list">
+    <!-- Rounded Pill-Style Cards Accordion -->
+    <div class="faq-cards-container">
       {faqs.map((faq) => (
-        <details class="faq-item">
-          <summary>
-            <span class="faq-question">{faq.question}</span>
-            <span class="faq-plus">+</span>
+        <details class="faq-card">
+          <summary class="faq-summary">
+            <div class="faq-left">
+              <span class="faq-num-box">{faq.num}</span>
+              <span class="faq-question-text">{faq.question}</span>
+            </div>
+            <div class="faq-btn-circle">
+              <span class="btn-icon"></span>
+            </div>
           </summary>
-          <div class="faq-answer">
+          <div class="faq-content">
             <p>{faq.answer}</p>
           </div>
         </details>
       ))}
     </div>
+
   </div>
 </section>

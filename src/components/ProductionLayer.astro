@@ -4,116 +4,125 @@ import "../styles/production-layer.css";
 const steps = [
   {
     num: "01",
-   // label: "BIM execution",
-    detail: "Model setup, standards and information input.",
+    detail: "BIM Production",
     slug: "bim-production",
-    image:
-      "https://tewbhv.vtexassets.com/arquivos/ids/158339/DN%7C547%7C401%7C935%7C118%7C399.png?v=638007725075500000",
+    image: "https://tewbhv.vtexassets.com/arquivos/ids/158339/DN%7C547%7C401%7C935%7C118%7C399.png?v=638007725075500000",
   },
   {
     num: "02",
-   // label: "Revit production",
-    detail: "Architectural, structural and documentation models.",
+    detail: "Revit Production",
     slug: "revit-production",
-    image:
-      "https://fiverr-res.cloudinary.com/images/t_main1%2Cq_auto%2Cf_auto%2Cq_auto%2Cf_auto/gigs2/450084919/original/490fd759b0ef419af08efbe26f7acd7d9c79a822/build-complete-revit-bim-model-architecture-layout-and-3d-visualization.png",
+    image: "https://fiverr-res.cloudinary.com/images/t_main1%2Cq_auto%2Cf_auto%2Cq_auto%2Cf_auto/gigs2/450084919/original/490fd759b0ef419af08efbe26f7acd7d9c79a822/build-complete-revit-bim-model-architecture-layout-and-3d-visualization.png",
   },
   {
     num: "03",
-   // label: "MEP support",
-    detail: "Coordinated MEP models and clash resolution.",
+    detail: "MEP Coordination",
     slug: "mep-coordination",
-    image:
-      "https://www.teslacad.com.au/images/img2.webp",
+    image: "https://www.teslacad.com.au/images/img2.webp",
   },
   {
     num: "04",
-    //label: "3D modeling + animation",
-    detail: "Clean geometry and motion where needed.",
+    detail: "3DModeling",
     slug: "3d-modeling",
-    image:
-      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "05",
-   // label: "Visualization + animation",
-    detail: "High-quality renders, views and narratives.",
+    detail: "Architectural Visualization",
     slug: "architectural-visualization",
-    image:
-    "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "06",
-   // label: "Real-time + handoff",
-    detail: "Interactive models and real-time experiences.",
+    detail: "Real-time Experiences",
     slug: "real-time",
-    image:
-      "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "07",
-    //label: "Technical documentation",
-    detail: "Drawings, schedules and supporting documents.",
+    detail: "3D Max Production",
     slug: "3ds-max-production",
-    image:
-      "https://tewbhv.vtexassets.com/arquivos/ids/158339/DN%7C547%7C401%7C935%7C118%7C399.png?v=638007725075500000",
+    image: "https://tewbhv.vtexassets.com/arquivos/ids/158339/DN%7C547%7C401%7C935%7C118%7C399.png?v=638007725075500000",
   },
   {
     num: "08",
-   // label: "Handoff + delivery",
-    detail: "Organized deliverables and final handover.",
+    detail: "Animation & Motion",
     slug: "animation-motion",
-    image:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85",
   },
 ];
+
+const infiniteSteps = [...steps, ...steps];
 ---
 
-<div class="px-services-wrapper">
+<div class="px-services-wrapper" id="px-section">
   <div class="px-sketch-bg" aria-hidden="true"></div>
 
   <div class="px-container">
-    <!-- Header with Left and Right Lines -->
-    <div class="px-header-row">
-      <div class="px-line"></div>
-      
-      <div class="px-header">
-        <span class="px-eyebrow">ONE PRODUCTION LAYER</span>
-        <h2>
-          From model information to <br />
-          <span class="px-highlight">stake-holder ready output</span>
-        </h2>
-        <p class="px-subtext">
-          Clear inputs, controlled production and defined approval routes keep every package aligned <br /> from start to handoff.
-        </p>
-      </div>
+    <!-- Header -->
+   <div class="px-header">
+  <span class="px-eyebrow">ONE PRODUCTION LAYER</span>
+  <h2>
+    <span class="px-line">From model information to</span>
+    <span class="px-line px-highlight">stake-holder ready output</span>
+  </h2>
+  <p class="px-subtext">
+    <span class="px-line">Clear inputs, controlled production and defined approval routes keep every package aligned</span>
+    <span class="px-line">from start to handoff.</span>
+  </p>
+</div>
 
-      <div class="px-line"></div>
-    </div>
-
-    <!-- Horizontal Slider with Cards Track -->
+    <!-- Horizontal Auto-Scrolling Slider -->
     <div class="px-slider-wrap">
       <div class="px-slider-track">
-        {steps.map((step) => (
-          <a href={`/services/${step.slug}`} class="px-card">
-            <div class="px-card-img">
-              <img src={step.image} alt={step.detail} loading="lazy" />
-              <span class="px-card-num">{step.num}</span>
-            </div>
+        {infiniteSteps.map((step) => (
+          <div class="px-card">
+            <img class="px-card-bg" src={step.image} alt={step.detail} loading="lazy" />
+            <div class="px-card-overlay"></div>
+            <span class="px-card-num">{step.num}</span>
 
             <div class="px-card-content">
-              {/* <h3>{step.label}</h3> */}
-              <p>{step.detail}</p>
+              <p class="px-card-desc">{step.detail}</p>
+              
+              <a href={`/services/${step.slug}`} class="px-scope-btn">
+                <span>Review technical scope</span>
+                <span class="arrow">↗</span>
+              </a>
             </div>
-
-            <div class="px-card-footer">
-              <span class="px-scope-link">
-                Review technical scope <span class="arrow">↗</span>
-              </span>
-            </div>
-          </a>
+          </div>
         ))}
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  // Strict Scroll Trigger logic
+  const initObserver = () => {
+    const section = document.getElementById("px-section");
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          // Jab tak section sach me screen par nahi dikhta, animation trigger nahi hogi
+          if (entry.isIntersecting) {
+            section.classList.add("is-visible");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.15 // Section ka kam se kam 15% hissa screen par visible hona zaruri hai
+      }
+    );
+
+    observer.observe(section);
+  };
+
+  // Astro page transitions aur direct loads dono ko handle karta hai
+  document.addEventListener("DOMContentLoaded", initObserver);
+  document.addEventListener("astro:page-load", initObserver);
+</script>

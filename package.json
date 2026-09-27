@@ -18,7 +18,8 @@
     "verify": "astro check && eslint . && astro build"
   },
   "dependencies": {
-    "astro": "^7.3.1"
+    "astro": "^7.3.1",
+    "gsap": "^3.15.0"
   },
   "allowScripts": {
     "esbuild": true

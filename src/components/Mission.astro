@@ -1,0 +1,156 @@
+---
+import "../styles/Mission.css";
+---
+
+<section class="mission" id="missionSection">
+  <div class="mission-inner">
+
+    <div class="mission-top">
+      <div class="mission-heading">
+        <span class="mission-tag">Approach</span>
+        <h2>
+          <span class="mission-h-light">Our process is simple </span>
+          <span class="mission-h-bold">render before you build.</span>
+        </h2>
+      </div>
+
+      <p class="mission-promise">
+        We deliver architectural visuals that sell the space before it's built.
+      </p>
+    </div>
+
+    <div class="mission-grid">
+
+      <!-- COLUMN 1 -->
+      <div class="mission-col">
+        <!-- Card 1: Studio Partners -->
+        <div class="mission-card mission-card--avatars" data-reveal>
+          <p class="mission-card-copy">Collaborating with global leaders</p>
+          <div class="mission-card-row">
+            <div class="avatar-stack">
+              <span class="avatar-dot">A</span>
+              <span class="avatar-dot">S</span>
+              <span class="avatar-dot">M</span>
+              <span class="avatar-dot avatar-dot--more">+</span>
+            </div>
+            <span class="mission-card-label">
+              <span class="mission-stat-inline" data-count-to="40">0</span>+ Studio partners
+            </span>
+          </div>
+        </div>
+
+        <!-- Card 2: Turnaround Time -->
+        <div class="mission-card mission-card--stat" data-reveal>
+          <span class="mission-card-tag">Turnaround</span>
+          <div class="mission-stat">
+            <span class="mission-stat-value" data-count-to="7">0</span><span class="mission-stat-suffix"> days</span>
+          </div>
+          <p class="mission-card-copy">Average time from brief to first render</p>
+        </div>
+      </div>
+
+      <!-- COLUMN 2 (CENTER TALL / FEATURED) -->
+      <div class="mission-card mission-card--accent" data-reveal>
+        <div class="mission-accent-top">
+          <span class="mission-card-tag mission-card-tag--light">Deliveries</span>
+          <div class="mission-stat mission-stat--hero">
+            <span class="mission-stat-value" data-count-to="50">0</span><span class="mission-stat-suffix">+</span>
+          </div>
+          <h3 class="mission-hero-title">Projects delivered to date</h3>
+        </div>
+
+        <p class="mission-card-copy mission-card-copy--light">
+          Renders, walkthroughs, and stills crafted with precision to bring architectural visions to life seamlessly.
+        </p>
+
+        <!-- Availability Status Block (Replaced small badge) -->
+        <div class="mission-booking-card">
+          <span class="mission-badge-dot"></span>
+          <div>
+            <span class="mission-booking-label">Current Status</span>
+            <span class="mission-booking-val">Now booking — June</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- COLUMN 3 -->
+      <div class="mission-card mission-card--dark" data-reveal>
+        <div>
+          <span class="mission-card-tag mission-card-tag--gold">Impact</span>
+          <p class="mission-card-copy mission-card-copy--light">
+            We've helped studios and developers secure buy-in before a single brick is laid.
+          </p>
+        </div>
+
+        <svg class="mission-chart" viewBox="0 0 200 90" preserveAspectRatio="none" aria-hidden="true">
+          <path class="mission-chart-line" d="M4 72 C 40 76, 58 40, 92 46 S 152 12, 196 8" />
+          <path class="mission-chart-arrowhead" d="M196 8 l -15 -2 M196 8 l -4 15" />
+        </svg>
+
+        <div class="mission-dark-bottom">
+          <div class="mission-rating">
+            <span class="mission-stat-value" data-count-to="4.8" data-decimals="1">0</span><span class="mission-stat-suffix">/5</span>
+          </div>
+          <div class="mission-trust">
+            <span class="mission-stars" aria-hidden="true">★★★★★</span>
+            <span class="mission-trust-label">Trusted by studios worldwide</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const section = document.getElementById("missionSection");
+    if (!section) return;
+
+    const revealEls = section.querySelectorAll<HTMLElement>("[data-reveal]");
+    const countEls = section.querySelectorAll<HTMLElement>("[data-count-to]");
+
+    function animateCount(el: HTMLElement) {
+      const target = parseFloat(el.dataset.countTo || "0");
+      const decimals = parseInt(el.dataset.decimals || "0", 10);
+      const duration = 1200;
+      const start = performance.now();
+
+      function tick(now: number) {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = target * eased;
+        el.textContent = decimals > 0 ? value.toFixed(decimals) : String(Math.round(value));
+        if (progress < 1) requestAnimationFrame(tick);
+      }
+      requestAnimationFrame(tick);
+    }
+
+    const revealObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry, i) => {
+          if (entry.isIntersecting) {
+            const el = entry.target as HTMLElement;
+            window.setTimeout(() => el.classList.add("is-in"), i * 110);
+            revealObserver.unobserve(el);
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+    revealEls.forEach((el) => revealObserver.observe(el));
+
+    const countObserver = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            animateCount(entry.target as HTMLElement);
+            countObserver.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.6 }
+    );
+    countEls.forEach((el) => countObserver.observe(el));
+  });
+</script>

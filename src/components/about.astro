@@ -1,0 +1,46 @@
+---
+// About.astro
+// Place your video file at: public/videos/axys3d-about.mp4
+// Optionally add a poster image at: public/images/about-poster.jpg
+
+import "../styles/HomeAbout.css";
+
+const videoSrc = "/videos/axys3d-hero.mp4";
+const posterSrc = "/images/about-poster.jpg";
+---
+
+<section class="about">
+  <video
+    class="about__video"
+    src={videoSrc}
+    poster={posterSrc}
+    autoplay
+    muted
+    loop
+    playsinline
+    preload="auto"
+  >
+  </video>
+
+  <div class="about__overlay" aria-hidden="true"></div>
+
+  <div class="about-inner">
+    <span class="about-tag">About us</span>
+
+    <h2 class="about-heading">
+      <span class="about-h-light">Why</span>
+      <span class="about-h-bold">Axys3D</span>
+    </h2>
+
+    <p class="about-promise">
+      Capacity is useful only when information remains controlled.
+    </p>
+
+    <p class="about-copy">
+      Our role is to add dependable production capability without blurring
+      authorship, issue authority or the client's approval structure. Each
+      engagement starts with scope, inputs, responsibility and
+      handoff&mdash;not software or render style.
+    </p>
+  </div>
+</section>

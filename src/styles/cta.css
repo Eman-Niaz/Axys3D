@@ -2,6 +2,10 @@
    CTA SECTION (Real Background Image + Fade Overlay)
    ========================================================= */
 
+:root {
+  --font-heading: "Playfair Display", serif;
+}
+
 .cta-section {
   --bg-dark: #141d31;
   --gold: #c6a775;
@@ -62,6 +66,7 @@
 .cta-main h2 {
   margin: 0;
   color: var(--text-white);
+  font-family: var(--font-heading); /* Playfair Display font applied */
   font-size: clamp(34px, 4.2vw, 56px);
   font-weight: 650;
   line-height: 1.12;

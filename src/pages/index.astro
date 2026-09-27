@@ -16,11 +16,16 @@ import ProcessSection from "../components/ProcessSection.astro";
 import FAQSection from "../components/FAQSection.astro";
 import CTASection from "../components/CTASection.astro";
 import Footer from "../components/Footer.astro";
+import Mission from "../components/Mission.astro";
+import About from "../components/about.astro";
+import "../styles/Mission.css";
 import "../styles/process.css";
 import "../styles/faq.css";
 import "../styles/cta.css";
 import "../styles/footer.css";
 import "../styles/index.css";
+import "../styles/Mission.css";
+import "../styles/HomeAbout.css";
 ---
 
 <!doctype html>
@@ -44,37 +49,69 @@ import "../styles/index.css";
         <Hero />
       </div>
 
-      <div class="reveal reveal-up">
-        <ProductionLayer />
+      <!-- Mission — own gradient zone -->
+      <div class="grad-zone">
+        <div class="reveal reveal-fade">
+          <Mission />
+        </div>
+      </div>
+
+      <!-- Production Layer — own gradient zone -->
+      <div class="grad-zone">
+        <div class="reveal reveal-up">
+          <ProductionLayer />
+        </div>
       </div>
 
       <div class="reveal reveal-left">
         <Service />
       </div>
 
-      <div class="reveal reveal-right">
-        <Buyersegments />
+      <!-- Buyer segments gradient zone -->
+      <div class="grad-zone">
+        <div class="reveal reveal-right">
+          <Buyersegments />
+        </div>
       </div>
 
-      <div class="reveal reveal-blur">
-        <CaseStudies />
+      <!-- Case Studies gradient zone -->
+      <div class="grad-zone">
+        <div class="reveal reveal-blur">
+          <CaseStudies />
+        </div>
       </div>
 
-      <div class="reveal reveal-up">
-        <ProcessSection />
+      <!-- Process Section gradient zone -->
+      <div class="grad-zone">
+        <div class="reveal reveal-up">
+          <ProcessSection />
+        </div>
       </div>
 
       <div class="reveal reveal-fade">
-        <FAQSection />
+        <About /> 
       </div>
 
-      <div class="reveal reveal-pop">
-        <CTASection />
+      <!-- FAQ gradient zone -->
+      <div class="grad-zone">
+        <div class="reveal reveal-fade">
+          <FAQSection />
+        </div>
+      </div>
+
+      <!-- CTA gradient zone -->
+      <div class="grad-zone">
+        <div class="reveal reveal-pop">
+          <CTASection />
+        </div>
       </div>
     </main>
 
-    <div class="reveal reveal-fade">
-      <Footer />
+    <!-- Footer gradient zone -->
+    <div class="grad-zone">
+      <div class="reveal reveal-fade">
+        <Footer />
+      </div>
     </div>
 
     <script>
@@ -96,6 +133,8 @@ import "../styles/index.css";
       );
 
       revealEls.forEach((el) => observer.observe(el));
+
+      
     </script>
   </body>
 </html>
