@@ -21,15 +21,16 @@
   --card-navy-soft: rgba(14, 30, 54, 0.55);
   --card-navy-active: rgba(26, 56, 92, 0.9);
 
-  /* Top-left (0%) se gradient hata kar Card 1 ke piche (12% 65%) shift kiya gaya hai */
+  /* Glows section ke beech (mid-left / mid-right) mein hain — upar ya neeche
+     ke edge ko nahi chhoote, is liye koi partition line nahi banti */
   background:
     radial-gradient(
-      850px 520px at 12% 65%,
+      720px 420px at 8% 50%,
       rgba(143,108,56,.24),
       transparent 65%
     ),
     radial-gradient(
-      900px 480px at 90% 100%,
+      720px 420px at 92% 50%,
       rgba(90,169,230,.14),
       transparent 65%
     ),
@@ -51,28 +52,28 @@
 .pl-glow-orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(110px);
+  filter: blur(100px);
   pointer-events: none;
   z-index: 0;
   animation: floatOrb 14s ease-in-out infinite alternate;
 }
 
-/* Card 1 ke peeche shift kiya gaya animated glow */
+/* Mid-left animated glow (vertical centre) */
 .orb-1 {
-  top: 50%;
-  left: -4%;
-  width: 420px;
-  height: 420px;
+  top: calc(50% - 170px);
+  left: -6%;
+  width: 340px;
+  height: 340px;
   background: var(--brown);
   opacity: .24;
 }
 
-/* Bottom-right blue glow */
+/* Mid-right animated glow (vertical centre) */
 .orb-2 {
-  bottom: -12%;
-  right: 6%;
-  width: 420px;
-  height: 420px;
+  top: calc(50% - 170px);
+  right: -6%;
+  width: 340px;
+  height: 340px;
   background: var(--blue);
   opacity: .16;
   animation-delay: -6s;

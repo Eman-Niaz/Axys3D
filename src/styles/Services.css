@@ -3,7 +3,7 @@
    ========================================================= */
 
 .services-page {
-  --svc-blue: #091d2f;
+  --svc-blue: #072540;
   --svc-blue-soft: #0b1d2c;
   --svc-blue-panel: #102637;
 
@@ -26,7 +26,10 @@
 .page-services {
   background: var(--svc-blue);
   color: var(--svc-white);
-  font-family:'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: 'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif !important;
 }
 
 /* =========================================================
@@ -47,7 +50,34 @@
   mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
 }
 
-/* drifting glow, kept confined to the top-right corner */
+/* =========================================================
+   HERO ROW — text parallel to a content-sized video box
+   ========================================================= */
+
+.svc-intro-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(24px, 3vw, 40px);
+}
+
+.svc-intro-media {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 780px;
+  aspect-ratio: 16 / 10;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(155deg, var(--svc-blue-panel) 0%, var(--svc-blue-soft) 60%, var(--svc-blue) 100%);
+}
+
+.svc-hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* drifting glow, kept confined to the top-right corner (painted above the video) */
 .svc-page-bg::before {
   content: "";
   position: absolute;
@@ -59,6 +89,7 @@
   background: radial-gradient(circle, rgba(179, 139, 90, 0.28) 0%, rgba(179, 139, 90, 0.1) 45%, transparent 72%);
   filter: blur(6px);
   animation: svcGlowDrift 16s ease-in-out infinite alternate;
+  z-index: 1;
 }
 
 .svc-page-bg::after {
@@ -71,6 +102,7 @@
   border-radius: 50%;
   background: radial-gradient(circle, rgba(16, 38, 55, 0.55) 0%, rgba(16, 38, 55, 0.2) 50%, transparent 75%);
   animation: svcGlowDrift 16s ease-in-out infinite alternate-reverse;
+  z-index: 1;
 }
 
 @keyframes svcGlowDrift {
@@ -86,56 +118,9 @@
 
 @media (prefers-reduced-motion: reduce) {
   .svc-page-bg::before,
-  .svc-page-bg::after {
-    animation: none;
-  }
-}
-
-/* ============ LEFT SIDE GRADIENT GLOW ============ */
-
-.services-page::before {
-  content: "";
-  position: absolute;
-  top: 40px;
-  left: -220px;
-  width: 640px;
-  height: 640px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(179, 139, 90, 0.22) 0%, rgba(179, 139, 90, 0.08) 45%, transparent 72%);
-  filter: blur(6px);
-  pointer-events: none;
-  z-index: 0;
-  animation: svcGlowDriftLeft 16s ease-in-out infinite alternate;
-}
-
-.services-page::after {
-  content: "";
-  position: absolute;
-  top: 260px;
-  left: 40px;
-  width: 380px;
-  height: 380px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(16, 38, 55, 0.5) 0%, rgba(16, 38, 55, 0.18) 50%, transparent 75%);
-  pointer-events: none;
-  z-index: 0;
-  animation: svcGlowDriftLeft 16s ease-in-out infinite alternate-reverse;
-}
-
-@keyframes svcGlowDriftLeft {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.8;
-  }
-  100% {
-    transform: translate(24px, -20px) scale(1.08);
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .services-page::before,
-  .services-page::after {
+  .svc-page-bg::after,
+  .svc-intro::before,
+  .svc-intro::after {
     animation: none;
   }
 }
@@ -156,13 +141,55 @@
    ========================================================= */
 
 .svc-intro {
-  padding: 110px 0 250px;
+  padding: 64px 0 70px;
   position: relative;
   z-index: 2;
 }
 
+/* blue drifting glow — left corner (right wale brown glow ka jorra) */
+.svc-intro::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: -200px;
+  width: 620px;
+  height: 620px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(64, 140, 224, 0.30) 0%, rgba(64, 140, 224, 0.11) 45%, transparent 72%);
+  filter: blur(6px);
+  animation: svcGlowDriftLeft 16s ease-in-out infinite alternate;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.svc-intro::after {
+  content: "";
+  position: absolute;
+  top: 180px;
+  left: 40px;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(30, 90, 170, 0.40) 0%, rgba(30, 90, 170, 0.14) 50%, transparent 75%);
+  animation: svcGlowDriftLeft 16s ease-in-out infinite alternate-reverse;
+  z-index: -1;
+  pointer-events: none;
+}
+
+@keyframes svcGlowDriftLeft {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(26px, 24px) scale(1.08);
+    opacity: 1;
+  }
+}
+
 .svc-intro-header {
-  max-width: 740px;
+  flex: 0 1 520px;
+  max-width: 520px;
   text-align: left;
 }
 
@@ -176,11 +203,14 @@
 }
 
 .svc-h1 {
-  margin: 0 0 20px;
-  font-size: clamp(38px, 5vw, 66px);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.1;
+  max-width: 820px;
+  margin: 0;
+  /* color: #ffffff !important; */
+  font-size: clamp(35px, 6vw, 80px);
+  line-height: 0.92 !important;
+  letter-spacing: -0.05em !important;
+  transition: opacity 0.2s ease;
+  margin-bottom: 20px;
 }
 
 .svc-h1-visual {
@@ -478,6 +508,74 @@ html {
 }
 
 /* =========================================================
+   CTA + FOOTER — left blue / right brown drifting glow
+   ========================================================= */
+
+.svc-final-cta,
+.site-footer {            /* <- apne footer ki class yahan likhein */
+  position: relative;
+  overflow: hidden;       /* glow andar hi rahe, koi line na aye */
+  isolation: isolate;
+}
+
+.svc-final-cta::before,
+.site-footer::before,
+.svc-final-cta::after,
+.site-footer::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(6px);
+}
+
+/* left — blue */
+.svc-final-cta::before,
+.site-footer::before {
+  left: -220px;
+  background: radial-gradient(circle,
+    rgba(64, 140, 224, 0.30) 0%,
+    rgba(64, 140, 224, 0.11) 45%,
+    transparent 72%);
+  animation: glowLeft 16s ease-in-out infinite alternate;
+}
+
+/* right — brown */
+.svc-final-cta::after,
+.site-footer::after {
+  right: -220px;
+  background: radial-gradient(circle,
+    rgba(179, 139, 90, 0.28) 0%,
+    rgba(179, 139, 90, 0.10) 45%,
+    transparent 72%);
+  animation: glowRight 16s ease-in-out infinite alternate;
+}
+
+@keyframes glowLeft {
+  0%   { transform: translate(0, -50%) scale(1);      opacity: 0.85; }
+  100% { transform: translate(28px, -46%) scale(1.08); opacity: 1; }
+}
+
+@keyframes glowRight {
+  0%   { transform: translate(0, -50%) scale(1);       opacity: 0.85; }
+  100% { transform: translate(-28px, -54%) scale(1.08); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-final-cta::before, .svc-final-cta::after,
+  .site-footer::before,  .site-footer::after { animation: none; }
+}
+
+@media (max-width: 680px) {
+  .svc-final-cta::before, .svc-final-cta::after,
+  .site-footer::before,  .site-footer::after { width: 340px; height: 340px; }
+}
+
+/* =========================================================
    RESPONSIVE DESIGN
    ========================================================= */
 
@@ -503,7 +601,25 @@ html {
   }
 
   .svc-intro {
-    padding: 80px 0 40px;
+    padding: 48px 0 40px;
+  }
+
+  .svc-intro-row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 32px;
+  }
+
+  .svc-intro-media {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 16 / 10;
+  }
+
+  .svc-intro-header {
+    flex: 0 0 auto;
+    max-width: 100%;
   }
 
   .svc-panel {

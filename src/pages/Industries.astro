@@ -35,11 +35,7 @@ const {
   industrySections: IndustrySection[];
 };
 
-/* Temporary page background */
-const pageBackground =
-  "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=2400&q=85";
-
-/* Temporary industry images */
+/* Temporary industry images (hero + slider cards) */
 const industryImages = [
   "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=85",
   "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85",
@@ -50,392 +46,244 @@ const industryImages = [
   "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=85",
   "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=85",
 ];
+
+/*
+ * Trusted-across-borders stats — yahan se numbers / labels badal sakte hain.
+ * value = final number, from = count-up jahan se shuru ho (optional), plus = "+" dikhana hai ya nahi.
+ */
+const icon = (paths: string) =>
+  `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths}</svg>`;
+
+const stats = [
+  {
+    label: "Founded in",
+    value: 2012,
+    from: 1990,
+    plus: false,
+    icon: icon('<path d="M4 20l4-11 7 7-11 4z"/><path d="M14 4v2M19 9h2M17 6l1.5-1.5M9 3.5l.5 1.5M20 14l-1.5-.5"/>'),
+  },
+  {
+    label: "Network clients",
+    value: 100,
+    plus: true,
+    icon: icon('<path d="M3 12l4-4 4 1 3-2 5 4-5 6-3-1-2 2-3-1z"/><path d="M8 8l-2 2M11 9l2 2"/>'),
+  },
+  {
+    label: "Markets served",
+    value: 10,
+    plus: true,
+    icon: icon('<path d="M4 9l1.5-5h13L20 9"/><path d="M4 9h16v2a2.5 2.5 0 01-5 0 2.5 2.5 0 01-5 0 2.5 2.5 0 01-5 0z"/><path d="M5.5 13.5V20h13v-6.5"/><path d="M10 20v-4h4v4"/>'),
+  },
+  {
+    label: "Certification marks",
+    value: 4,
+    plus: true,
+    icon: icon('<circle cx="12" cy="9" r="5.5"/><path d="M9 14l-1.5 7L12 18.5 16.5 21 15 14"/>'),
+  },
+];
+
+/* Hero title: pehla aadha white, doosra aadha muted (Services jaisa) */
+const heroWords = heroSubtitle.trim().split(/\s+/);
+const mutedFrom = Math.ceil(heroWords.length / 2);
+
+const total = industrySections.length;
+const pad = (n: number) => String(n).padStart(2, "0");
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={heroDescription} />
-    <title>Industries & Workflows Axys3D</title>
+    <title>Industries & Workflows — Axys3D</title>
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
 
   <body class="page-industries">
-
-    <!-- PAGE BACKGROUND -->
-    <div class="ind-page-bg" aria-hidden="true">
-      <img
-        class="ind-page-bg-img"
-        src={pageBackground}
-        alt=""
-        loading="eager"
-        decoding="async"
-      />
-      <div class="ind-page-bg-overlay"></div>
-    </div>
+    <!-- PAGE BACKGROUND — soft gradient with a drifting corner glow -->
+    <div class="ind-page-bg" aria-hidden="true"></div>
 
     <Navbar variant="solid" />
 
     <main class="industries-page">
-
-      <!-- HERO -->
-      <section class="ind-hero">
+      <!-- ================= HERO ================= -->
+      <section class="ind-intro">
         <div class="ind-wrap">
-
-          <div class="ind-hero-grid">
-
-            <div class="ind-hero-label">
-              <span class="ind-line"></span>
-              {heroTitle}
-            </div>
-
-            <div class="ind-hero-content">
-
-              <div class="ind-kicker">
-                <span class="ind-kicker-dot"></span>
-                AEC INDUSTRIES & WORKFLOWS
-              </div>
-
+          <div class="ind-intro-row">
+            <div class="ind-intro-header">
+              <span class="ind-kicker">{heroTitle}</span>
               <h1 class="ind-h1">
-                {heroSubtitle}
-              </h1>
-
-              <p class="ind-lead">
-                {heroDescription}
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
-      </section>
-
-
-      <!-- INDUSTRY OVERVIEW -->
-      <section class="ind-overview">
-        <div class="ind-wrap">
-
-          <div class="ind-section-heading">
-
-            <div>
-              <span class="ind-section-kicker">
-                WHERE WE WORK
-              </span>
-
-              <h2>
-                Built around
-                <span> your workflow.</span>
-              </h2>
-
-              <p>
-                Production support shaped around the requirements,
-                information and delivery standards of each industry.
-              </p>
-            </div>
-
-            <span class="ind-count">
-              {industrySections?.length.toString().padStart(2, "0")} INDUSTRIES
-            </span>
-
-          </div>
-
-
-          <!-- IMAGE CARDS -->
-          <div class="ind-chip-grid">
-
-            {industrySections?.map((item: IndustrySection, i: number) => (
-
-              <a
-                class="ind-chip"
-                href={`#industry-${item.id}`}
-                data-reveal
-                style={`--ind-delay: ${i * 60}ms`}
-              >
-
-                <span class="ind-chip-num">
-                  {item.id}
+                <span class="ind-h1-visual" aria-hidden="true">
+                  {heroWords.map((w, i) => (
+                    <Fragment>
+                      <span
+                        class:list={["ind-word", { "ind-word--muted": i >= mutedFrom }]}
+                        style={`--i:${i}`}
+                      >{w}</span>
+                      {i === mutedFrom - 1 && <br />}
+                    </Fragment>
+                  ))}
                 </span>
+                <span class="sr-only">{heroSubtitle}</span>
+              </h1>
+              <p class="ind-lead">{heroDescription}</p>
+            </div>
 
-                <div class="ind-chip-image">
-
-                  <img
-                    src={industryImages[i % industryImages.length]}
-                    alt=""
-                    loading="lazy"
-                    decoding="async"
-                  />
-
-                  <div class="ind-chip-overlay"></div>
-
-                  <span class="ind-chip-arrow">↗</span>
-
-                </div>
-
-                <div class="ind-chip-bottom">
-
-                  <span class="ind-chip-title">
-                    {item.title}
-                  </span>
-
-                  <span class="ind-chip-buyer">
-                    {item.targetBuyer}
-                  </span>
-
-                </div>
-
-              </a>
-
-            ))}
-
+            <div class="ind-intro-media">
+              <video
+                class="ind-hero-video"
+                src="/videos/service-hero.mp4"
+                poster={industryImages[0]}
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+              ></video>
+            </div>
           </div>
-
         </div>
       </section>
 
-
-      <!-- DETAILED INDUSTRIES -->
-      <section class="ind-detail">
-
+      <!-- ================= TRUSTED ACROSS BORDERS ================= -->
+      <section class="ind-trust">
         <div class="ind-wrap">
+          <div class="ind-sec-head" data-reveal>
+            <h2 class="ind-sec-h2">Trusted <br /><span>across borders</span></h2>
+          </div>
 
-          {industrySections?.map((item: IndustrySection, i: number) => (
+          <div class="ind-stats">
+            {stats.map((s, i) => (
+              <article class="ind-stat" data-reveal data-stat style={`--d: ${i * 100}ms`}>
+                <div class="ind-stat-top">
+                  <span class="ind-stat-label">{s.label}</span>
+                  <span class="ind-stat-icon" set:html={s.icon} />
+                </div>
+                <div class="ind-stat-value">
+                  <span
+                    class="ind-stat-num"
+                    data-count={s.value}
+                    data-from={s.from ?? 0}
+                  >{s.value}</span>
+                  {s.plus && <sup class="ind-stat-plus">+</sup>}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <article
-              class:list={{
-                "ind-row": true,
-                "ind-row-reverse": i % 2 === 1,
-                "ind-row-first": i === 0,
-              }}
-              id={`industry-${item.id}`}
-              data-industry
-              style={`--industry-delay: ${i * 50}ms`}
-            >
+      <!-- ================= INDUSTRIES (2 x 2 CARDS) ================= -->
+      <section class="ind-cards-sec" id="industries">
+        <div class="ind-wrap">
+          <div class="ind-sec-head" data-reveal>
+            <span class="ind-kicker">INDUSTRIES</span>
+            <h2 class="ind-sec-h2">Built for every <br /><span>production workflow.</span></h2>
+          </div>
 
-              <!-- IMAGE -->
-              <div class="ind-visual">
-
+          <div class="ind-cards-grid">
+            {industrySections.map((item, i) => (
+              <a
+                class="ind-card"
+                id={`industry-${item.id}`}
+                href={item.ctaLink}
+                data-reveal
+                style={`--d: ${(i % 2) * 120}ms`}
+                aria-label={`${item.title} — ${item.ctaLabel}`}
+              >
                 <img
                   src={industryImages[i % industryImages.length]}
-                  alt={item.title}
-                  loading={i === 0 ? "eager" : "lazy"}
+                  alt=""
+                  loading="lazy"
                   decoding="async"
+                  draggable="false"
                 />
+                <div class="ind-card-overlay"></div>
+                <div class="ind-card-shine"></div>
 
-                <div class="ind-visual-overlay"></div>
-
-                <div class="ind-visual-top">
-                  <span>AXYS3D</span>
-                  <span>
-                    {item.id} / {industrySections.length.toString().padStart(2, "0")}
+                <div class="ind-card-body">
+                  <span class="ind-card-num">{pad(i + 1)}</span>
+                  <span class="ind-card-target">{item.targetBuyer}</span>
+                  <h3 class="ind-card-title">{item.title}</h3>
+                  <p class="ind-card-desc">{item.description}</p>
+                  <span class="ind-card-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
                   </span>
                 </div>
-
-                <div class="ind-corner ind-corner-tl"></div>
-                <div class="ind-corner ind-corner-br"></div>
-
-                <div class="ind-visual-bottom">
-                  <span>AEC PRODUCTION</span>
-                  <span>DIGITAL DELIVERY</span>
-                </div>
-
-              </div>
-
-
-              <!-- CONTENT -->
-              <div class="ind-content">
-
-                <div class="ind-number-wrap">
-
-                  <span class="ind-ghost-num">
-                    {item.id}
-                  </span>
-
-                  <span class="ind-index-line"></span>
-
-                </div>
-
-                <div class="ind-status">
-                  <span></span>
-                  INDUSTRY WORKFLOW
-                </div>
-
-                <p class="ind-target">
-                  {item.targetBuyer}
-                </p>
-
-                <h2 class="ind-title">
-                  {item.title}
-                </h2>
-
-                <p class="ind-desc">
-                  {item.description}
-                </p>
-
-                <a
-                  class="ind-link"
-                  href={item.ctaLink}
-                >
-                  <span>{item.ctaLabel}</span>
-                  <span class="ind-arrow">↗</span>
-                </a>
-
-              </div>
-
-            </article>
-
-          ))}
-
+              </a>
+            ))}
+          </div>
         </div>
-
       </section>
 
-
-      <!-- FINAL CTA -->
+      <!-- ================= FINAL CTA ================= -->
       <section class="ind-final-cta">
-
         <div class="ind-wrap">
-
-          <div class="ind-final-inner">
-
-            <span class="ind-final-kicker">
-              THE RIGHT PRODUCTION PARTNER
-            </span>
-
-            <h2>
-              Your industry. <br>
-              <span>Our production layer.</span>
-            </h2>
-
-            <p>
-              Tell us what you're building, where you are in the
-              workflow, and what needs to move next.
-            </p>
-
-            <a
-              href="/contact"
-              class="ind-final-button"
-            >
+          <div class="ind-final-inner" data-reveal>
+            <h2>Your industry. <br /><span>Our production layer.</span></h2>
+            <p>Tell us what you're building, where you are in the workflow, and what needs to move next.</p>
+            <a href="/contact" class="ind-final-button">
               <span>Discuss a production package</span>
               <span>↗</span>
             </a>
-
           </div>
-
         </div>
-
       </section>
-
     </main>
 
     <Footer />
 
+    <script is:inline>
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    <!-- INTERACTIONS -->
-    <script>
-      const revealItems =
-        document.querySelectorAll("[data-reveal]");
+      // Count-up for the stat numbers
+      const countUp = (card) => {
+        const el = card.querySelector("[data-count]");
+        if (!el || reduceMotion) return;
+        const to = Number(el.dataset.count);
+        const from = Number(el.dataset.from || 0);
+        const dur = 1600;
+        const t0 = performance.now();
+        const tick = (now) => {
+          const p = Math.min((now - t0) / dur, 1);
+          const eased = 1 - Math.pow(1 - p, 4);
+          el.textContent = Math.round(from + (to - from) * eased);
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        el.textContent = from;
+        requestAnimationFrame(tick);
+      };
 
-      const industryRows =
-        document.querySelectorAll("[data-industry]");
-
-
-      /* CARD REVEAL */
-      const revealObserver =
-        new IntersectionObserver(
-          (entries) => {
-
-            entries.forEach((entry) => {
-
-              if (entry.isIntersecting) {
-
-                entry.target.classList.add("is-visible");
-
-                revealObserver.unobserve(entry.target);
-
+      // Reveal on scroll
+      const revealItems = document.querySelectorAll("[data-reveal]");
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              if (entry.target.hasAttribute("data-stat")) {
+                const d = parseInt(entry.target.style.getPropertyValue("--d")) || 0;
+                setTimeout(() => countUp(entry.target), d + 200);
               }
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      revealItems.forEach((item) => revealObserver.observe(item));
 
-            });
-
-          },
-          {
-            threshold: 0.12,
-          }
-        );
-
-      revealItems.forEach((item) => {
-        revealObserver.observe(item);
-      });
-
-
-      /* INDUSTRY REVEAL */
-      const industryObserver =
-        new IntersectionObserver(
-          (entries) => {
-
-            entries.forEach((entry) => {
-
-              if (entry.isIntersecting) {
-
-                entry.target.classList.add("industry-visible");
-
-                industryObserver.unobserve(entry.target);
-
-              }
-
-            });
-
-          },
-          {
-            threshold: 0.10,
-          }
-        );
-
-      industryRows.forEach((row) => {
-        industryObserver.observe(row);
-      });
-
-
-      /* IMAGE PARALLAX */
-      industryRows.forEach((row) => {
-
-        const image =
-          row.querySelector<HTMLImageElement>(".ind-visual img");
-
-        if (!image) return;
-
-        row.addEventListener("mousemove", (event) => {
-
-          const mouseEvent = event as MouseEvent;
-
-          const rect =
-            row.getBoundingClientRect();
-
-          const x =
-            (mouseEvent.clientX - rect.left) /
-              rect.width -
-            0.5;
-
-          const y =
-            (mouseEvent.clientY - rect.top) /
-              rect.height -
-            0.5;
-
-          image.style.transform =
-            `scale(1.07) translate(${x * 8}px, ${y * 8}px)`;
-
+      // Card spotlight: light follows the cursor
+      document.querySelectorAll(".ind-card").forEach((card) => {
+        card.addEventListener("pointermove", (e) => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+          card.style.setProperty("--my", `${e.clientY - r.top}px`);
         });
-
-        row.addEventListener("mouseleave", () => {
-
-          image.style.transform =
-            "scale(1) translate(0, 0)";
-
-        });
-
       });
     </script>
-
   </body>
 </html>

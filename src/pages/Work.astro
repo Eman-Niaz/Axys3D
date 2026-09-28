@@ -23,219 +23,168 @@ const projects = rawProjects.map((item, index) => ({
   ...item.data,
   video: `/videos/video${(index % 3) + 1}.mp4`,
 }));
+
+const heroPoster =
+  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=85";
+
+/* Hero title: pehla aadha white, doosra aadha muted (Industries jaisa) */
+const heroWords = pageData.heroSubtitle.trim().split(/\s+/);
+const mutedFrom = Math.ceil(heroWords.length / 2);
+
+const pad = (n: number) => String(n).padStart(2, "0");
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content={pageData.heroDescription}
-    />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={pageData.heroDescription} />
     <title>{pageData.heroTitle} — Axys3D</title>
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
-  <script>
-  const cards = document.querySelectorAll<HTMLElement>('.wrk-card');
-  cards.forEach((card, i) => {
-    card.style.setProperty('--wrk-delay', (i % 2) * 0.12 + 's');
-  });
-  const cardObserver = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('wrk-card-visible');
-        cardObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
-  cards.forEach((card) => cardObserver.observe(card));
-</script>
+
   <body class="page-work">
+    <!-- PAGE BACKGROUND — soft gradient with a drifting corner glow -->
+    <div class="wrk-page-bg" aria-hidden="true"></div>
 
     <Navbar variant="solid" />
 
     <main class="work-page">
+      <!-- ================= HERO ================= -->
+      <section class="wrk-intro">
+        <div class="wrk-wrap">
+          <div class="wrk-intro-row">
+            <div class="wrk-intro-header">
+              <span class="wrk-kicker">{pageData.heroTitle}</span>
+              <h1 class="wrk-h1">
+                <span class="wrk-h1-visual" aria-hidden="true">
+                  {heroWords.map((w, i) => (
+                    <Fragment>
+                      <span
+                        class:list={["wrk-word", { "wrk-word--muted": i >= mutedFrom }]}
+                        style={`--i:${i}`}
+                      >{w}</span>
+                      {i === mutedFrom - 1 && <br />}
+                    </Fragment>
+                  ))}
+                </span>
+                <span class="sr-only">{pageData.heroSubtitle}</span>
+              </h1>
+              <p class="wrk-lead">{pageData.heroDescription}</p>
+            </div>
 
-      <!-- BACKGROUND -->
-      <div class="wrk-page-bg" aria-hidden="true">
-        <div class="wrk-page-bg-overlay"></div>
-      </div>
+            <div class="wrk-intro-media">
+              <video
+                class="wrk-hero-video"
+                src="/videos/service-hero.mp4"
+                poster={heroPoster}
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+              ></video>
+            </div>
+          </div>
+        </div>
+      </section>
 
-      <div class="wrk-wrap">
-
-        <!-- HERO -->
-       <!-- HERO SECTION -->
-<header class="wrk-hero">
-
-  <div class="wrk-hero-label">
-    <span>WORK</span>
-  </div>
-
-  <div class="wrk-hero-content">
-    <p class="wrk-eyebrow">{pageData.heroTitle}</p>
-
-    <h1 class="wrk-h1">
-      {pageData.heroSubtitle}
-    </h1>
-
-    <p class="wrk-lead">
-      {pageData.heroDescription}
-    </p>
-  </div>
-
-</header>
-
-
-        <!-- CASE STUDIES INTRO -->
-        <section class="wrk-intro">
-
-          <div>
-            <span class="wrk-section-label">CASE STUDIES</span>
-
-            <h2>
-              A closer look at<br />
-              <span class ="wrk-section-title">our selected work. </span>
-            </h2>
+      <!-- ================= CASE STUDIES (2 x 2 CARDS) ================= -->
+      <section class="wrk-cards-sec" id="case-studies">
+        <div class="wrk-wrap">
+          <div class="wrk-sec-head wrk-sec-head--row" data-reveal>
+            <div>
+              <span class="wrk-kicker">CASE STUDIES</span>
+              <h2 class="wrk-sec-h2">A closer look at <br /><span>our selected work.</span></h2>
+            </div>
+            <span class="wrk-count">{pad(projects.length)} PROJECTS</span>
           </div>
 
-          <div class="wrk-intro-meta">
-            <span class="wrk-count">
-              {projects.length} PROJECTS
-            </span>
-
-            <span class="wrk-intro-line"></span>
-          </div>
-
-        </section>
-
-
-        <!-- PROJECT GRID -->
-        <section class="wrk-projects-section">
-
-          <div class="wrk-projects-grid">
-
+          <div class="wrk-cards-grid">
             {projects.map((project, index) => (
+              <a
+                class="wrk-card"
+                href={`/work/${project.id}`}
+                data-reveal
+                style={`--d: ${(index % 2) * 120}ms`}
+                aria-label={`View ${project.title} case study`}
+              >
+                <video
+                  src={project.video}
+                  autoplay
+                  muted
+                  loop
+                  playsinline
+                  preload="metadata"
+                ></video>
+                <div class="wrk-card-overlay"></div>
+                <div class="wrk-card-shine"></div>
 
-              <article class="wrk-card">
-
-                <!-- VIDEO -->
-                <a
-                  href={`/work/${project.id}`}
-                  class="wrk-card-media"
-                  aria-label={`View ${project.title} case study`}
-                >
-
-                  <video
-                    class="wrk-card-video"
-                    src={project.video}
-                    autoplay
-                    muted
-                    loop
-                    playsinline
-                    preload="metadata"
-                  ></video>
-
-                  <div class="wrk-card-overlay"></div>
-
-                  <div class="wrk-card-number">
-                    {String(index + 1).padStart(2, "0")}
-                  </div>
-
-                  <div class="wrk-card-arrow">
-                    ↗
-                  </div>
-
-                  <div class="wrk-card-media-label">
-                    CASE STUDY
-                  </div>
-
-                </a>
-
-
-                <!-- CONTENT -->
-                <div class="wrk-card-content">
-
-                  <div class="wrk-card-top">
-
-                    <span class="wrk-card-category">
-                      {project.badgeText}
-                    </span>
-
-                    <span class="wrk-card-index">
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-
-                  </div>
-
-
-                  <h3 class="wrk-card-title">
-                    <a href={`/work/${project.id}`}>
-                      {project.title}
-                    </a>
-                  </h3>
-
-
-                  <p class="wrk-card-summary">
-                    {project.summary}
-                  </p>
-
-
-                  <a
-                    href={`/work/${project.id}`}
-                    class="wrk-view-link"
-                  >
-                    <span>View case study</span>
-                    <span class="wrk-view-arrow">↗</span>
-                  </a>
-
+                <div class="wrk-card-body">
+                  <span class="wrk-card-num">{pad(index + 1)}</span>
+                  <span class="wrk-card-target">{project.badgeText}</span>
+                  <h3 class="wrk-card-title">{project.title}</h3>
+                  <p class="wrk-card-desc">{project.summary}</p>
+                  <span class="wrk-card-arrow" aria-hidden="true">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                  </span>
                 </div>
-
-              </article>
-
+              </a>
             ))}
-
           </div>
-
 
           {projects.length === 0 && (
             <div class="wrk-no-results">
               <p>No case studies available yet.</p>
             </div>
           )}
+        </div>
+      </section>
 
-        </section>
-
-
-        <!-- CTA -->
-        <section class="wrk-final-cta">
-
-          <div class="wrk-cta-kicker">
-            HAVE A PROJECT IN MIND?
+      <!-- ================= FINAL CTA ================= -->
+      <section class="wrk-final-cta">
+        <div class="wrk-wrap">
+          <div class="wrk-final-inner" data-reveal>
+            <h2>Let's turn your project <br /><span>into something visual.</span></h2>
+            <p>Tell us what you're building and we'll help you define the right visual production approach.</p>
+            <a href="/contact" class="wrk-final-button">
+              <span>Discuss a project</span>
+              <span>↗</span>
+            </a>
           </div>
-
-          <h2>
-            Let's turn your project<br />
-           <span class = "wrk-final-title"> into something visual. </span>
-          </h2>
-
-          <p>
-            Tell us what you're building and we'll help you define
-            the right visual production approach.
-          </p>
-
-          <a href="/contact" class="wrk-cta-button">
-            Discuss a project
-            <span>↗</span>
-          </a>
-
-        </section>
-
-      </div>
-
+        </div>
+      </section>
     </main>
 
     <Footer />
 
+    <script is:inline>
+      // Reveal on scroll
+      const revealItems = document.querySelectorAll("[data-reveal]");
+      const revealObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.12 }
+      );
+      revealItems.forEach((item) => revealObserver.observe(item));
+
+      // Card spotlight: light follows the cursor
+      document.querySelectorAll(".wrk-card").forEach((card) => {
+        card.addEventListener("pointermove", (e) => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+          card.style.setProperty("--my", `${e.clientY - r.top}px`);
+        });
+      });
+    </script>
   </body>
 </html>

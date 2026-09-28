@@ -14,67 +14,139 @@ const pageData = aboutEntries[0]?.data;
 if (!pageData) {
   throw new Error("Could not find index.md in src/content/aboutPage/");
 }
+
+const pad = (n: number) => String(n).padStart(2, "0");
+
+const heroPoster =
+  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=85";
+
+/* Hero title: pehla aadha white, doosra aadha muted (baaki pages jaisa) */
+const heroWords = pageData.heroTitle.trim().split(/\s+/);
+const mutedFrom = Math.ceil(heroWords.length / 2);
+
+/* Text ko do hisson mein todta hai: pehla white, doosra muted */
+const splitHalf = (text: string = "") => {
+  const w = text.trim().split(/\s+/);
+  const m = Math.ceil(w.length / 2);
+  return [w.slice(0, m).join(" "), w.slice(m).join(" ")];
+};
+
+const [whyA, whyB] = splitHalf(pageData.whySubtitle);
+const [delA, delB] = splitHalf(pageData.deliveryTitle);
+const principles = pageData.principles ?? [];
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={pageData.heroDescription} />
     <title>About Us — Axys3D</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet" />
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
 
   <body class="page-about">
-    <!-- BACKGROUND LAYER -->
-    <div class="abt-page-bg"><div class="abt-page-bg-overlay"></div></div>
+    <!-- PAGE BACKGROUND — soft gradient with a drifting corner glow -->
+    <div class="abt-page-bg" aria-hidden="true"></div>
 
     <Navbar variant="solid" />
 
     <main class="about-page">
-      <div class="about-wrap">
-        <!-- Hero Section -->
-        <header class="about-hero">
-          <div class="about-hero-label">
-            <span>Studio</span>
-          </div>
-          <div class="about-hero-content">
-            <p class="about-eyebrow">{pageData.heroEyebrow}</p>
-            <h1 class="about-h1">{pageData.heroTitle}</h1>
-            <p class="about-lead">{pageData.heroDescription}</p>
-          </div>
-        </header>
+      <!-- ================= HERO ================= -->
+      <section class="abt-intro">
+        <div class="abt-wrap">
+          <div class="abt-intro-row">
+            <div class="abt-intro-header">
+              <span class="abt-kicker">{pageData.heroEyebrow}</span>
+              <h1 class="abt-h1">
+                <span class="abt-h1-visual" aria-hidden="true">
+                  {heroWords.map((w, i) => (
+                    <Fragment>
+                      <span
+                        class:list={["abt-word", { "abt-word--muted": i >= mutedFrom }]}
+                        style={`--i:${i}`}
+                      >{w}</span>
+                      {i === mutedFrom - 1 && <br />}
+                    </Fragment>
+                  ))}
+                </span>
+                <span class="sr-only">{pageData.heroTitle}</span>
+              </h1>
+              <p class="abt-lead">{pageData.heroDescription}</p>
+            </div>
 
-        <!-- Why Section -->
-        <section class="about-why">
-          <h2 class="about-why-title">{pageData.whyTitle}</h2>
-          <p class="about-why-sub">{pageData.whySubtitle}</p>
-          <p class="about-why-desc">{pageData.whyDescription}</p>
-        </section>
+            <div class="abt-intro-media">
+              <video
+                class="abt-hero-video"
+                src="/videos/service-hero.mp4"
+                poster={heroPoster}
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+              ></video>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        <!-- Operating Principles -->
-        <section class="about-principles">
-          <h2 class="about-sec-title">Operating principles</h2>
-          <div class="principles-grid">
-            {pageData.principles.map((p) => (
-              <div class="principle-card">
-                <span class="principle-num">{p.num}</span>
-                <h3 class="principle-title">{p.title}</h3>
-                <p class="principle-desc">{p.description}</p>
-              </div>
+      <!-- ================= WHY ================= -->
+      <section class="abt-why">
+        <div class="abt-wrap">
+          <div class="abt-why-panel" data-reveal>
+            <div>
+              <span class="abt-kicker">{pageData.whyTitle}</span>
+              <h2 class="abt-why-h2">{whyA} <span>{whyB}</span></h2>
+            </div>
+            <p class="abt-why-desc">{pageData.whyDescription}</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= OPERATING PRINCIPLES ================= -->
+      <section class="abt-principles">
+        <div class="abt-wrap">
+          <div class="abt-sec-head abt-sec-head--row" data-reveal>
+            <div>
+              <span class="abt-kicker">HOW WE OPERATE</span>
+              <h2 class="abt-sec-h2">Operating <span>principles.</span></h2>
+            </div>
+            <span class="abt-count">{pad(principles.length)} PRINCIPLES</span>
+          </div>
+
+          <div class="abt-principles-grid">
+            {principles.map((p, i) => (
+              <article
+                class="abt-principle"
+                data-reveal
+                data-spot
+                style={`--d: ${(i % 2) * 120}ms`}
+              >
+                <span class="abt-principle-num">{p.num}</span>
+                <h3 class="abt-principle-title">{p.title}</h3>
+                <p class="abt-principle-desc">{p.description}</p>
+              </article>
             ))}
           </div>
-        </section>
-      </div>
+        </div>
+      </section>
 
-      <!-- Delivery Controls — full-bleed final CTA -->
-      <section class="about-delivery">
-        <div class="about-delivery-content">
-          <h2 class="about-delivery-title">{pageData.deliveryTitle}</h2>
-          <p class="about-delivery-desc">{pageData.deliveryDescription}</p>
-          <div class="about-delivery-action">
-            <a href="/Process" class="about-cta-btn">
+      <!-- ================= FINAL CTA ================= -->
+      <section class="abt-final-cta">
+        <div class="abt-wrap">
+          <div class="abt-final-inner" data-reveal>
+            <h2>{delA} <span>{delB}</span></h2>
+            <p>{pageData.deliveryDescription}</p>
+            <a href="/Process" class="abt-final-button">
               <span>{pageData.ctaLabel || "See the six-stage process"}</span>
-              <span>→</span>
+              <span>↗</span>
             </a>
           </div>
         </div>
@@ -83,27 +155,29 @@ if (!pageData) {
 
     <Footer />
 
-    <script>
-      // Scroll-reveal for principle cards, matching Work/Process pages
-      const revealTargets = document.querySelectorAll(".principle-card");
-
-      revealTargets.forEach((el, i) => {
-        (el as HTMLElement).style.setProperty("--abt-delay", `${(i % 6) * 0.08}s`);
-      });
-
+    <script is:inline>
+      // Reveal on scroll
       const revealObserver = new IntersectionObserver(
-        (entries, observer) => {
+        (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              entry.target.classList.add("abt-reveal-visible");
-              observer.unobserve(entry.target);
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
             }
           });
         },
-        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+        { threshold: 0.12 }
       );
+      document.querySelectorAll("[data-reveal]").forEach((el) => revealObserver.observe(el));
 
-      revealTargets.forEach((el) => revealObserver.observe(el));
+      // Card spotlight: light follows the cursor
+      document.querySelectorAll("[data-spot]").forEach((card) => {
+        card.addEventListener("pointermove", (e) => {
+          const r = card.getBoundingClientRect();
+          card.style.setProperty("--mx", `${e.clientX - r.left}px`);
+          card.style.setProperty("--my", `${e.clientY - r.top}px`);
+        });
+      });
     </script>
   </body>
 </html>

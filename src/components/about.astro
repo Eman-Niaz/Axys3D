@@ -1,46 +1,134 @@
 ---
 // About.astro
-// Place your video file at: public/videos/axys3d-about.mp4
-// Optionally add a poster image at: public/images/about-poster.jpg
+// Video hata di gayi — ab process-section jaisa glass theme + image layout.
+// Images: neeche wale URLs ko apni images (public/images/...) se badal sakte hain.
 
 import "../styles/HomeAbout.css";
 
-const videoSrc = "/videos/axys3d-hero.mp4";
-const posterSrc = "/images/about-poster.jpg";
+const mainImage =
+  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1000&q=85";
+const thumbA =
+  "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=500&q=80";
+const thumbB =
+  "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=500&q=80";
+
+// 2 x 2 tiles: text / image, image / text (links yahan se badlein)
+const tiles = [
+  { type: "text", label: "Explore", title: "Services", href: "/Services" },
+  { type: "image", label: "Industries", href: "/Industries", img: thumbA },
+  { type: "image", label: "Process", href: "/Process", img: thumbB },
+  { type: "text", label: "Start a", title: "Project", href: "/Contact" },
+];
 ---
 
-<section class="about">
-  <video
-    class="about__video"
-    src={videoSrc}
-    poster={posterSrc}
-    autoplay
-    muted
-    loop
-    playsinline
-    preload="auto"
-  >
-  </video>
+<section class="about" data-about>
+  <div class="about-orb about-orb--1" aria-hidden="true"></div>
+  <div class="about-orb about-orb--2" aria-hidden="true"></div>
 
-  <div class="about__overlay" aria-hidden="true"></div>
+  <div class="about-wrap">
+    <!-- ================= LEFT: TEXT + TILES ================= -->
+    <div class="about-content">
+      <span class="about-tag a-anim" style="--d:.1s">About us</span>
 
-  <div class="about-inner">
-    <span class="about-tag">About us</span>
+      <h2 class="about-heading">
+        <span class="about-h-light a-anim" style="--d:.25s">Why</span>
+        <span class="about-h-bold a-anim" style="--d:.4s">
+          <span class="about-mark">Axys3D</span>
+        </span>
+      </h2>
 
-    <h2 class="about-heading">
-      <span class="about-h-light">Why</span>
-      <span class="about-h-bold">Axys3D</span>
-    </h2>
+      <p class="about-promise a-anim" style="--d:.7s">
+        Capacity is useful only when information remains controlled.
+      </p>
 
-    <p class="about-promise">
-      Capacity is useful only when information remains controlled.
-    </p>
+      <p class="about-copy a-anim" style="--d:.85s">
+        Our role is to add dependable production capability without blurring
+        authorship, issue authority or the client's approval structure. Each
+        engagement starts with scope, inputs, responsibility and
+        handoff&mdash;not software or render style.
+      </p>
 
-    <p class="about-copy">
-      Our role is to add dependable production capability without blurring
-      authorship, issue authority or the client's approval structure. Each
-      engagement starts with scope, inputs, responsibility and
-      handoff&mdash;not software or render style.
-    </p>
+      <div class="about-tiles">
+        {tiles.map((t, i) => (
+          <a
+            class={`about-tile about-tile--${t.type} a-anim`}
+            href={t.href}
+            style={`--a:aPop; --t:.7s; --d:${1.2 + i * 0.15}s`}
+          >
+            {t.type === "text" ? (
+              <>
+                <span class="about-tile-text">
+                  <small>{t.label}</small>
+                  <strong>{t.title}</strong>
+                </span>
+                <span class="about-pill" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12h15M14 7l5 5-5 5" /></svg>
+                </span>
+              </>
+            ) : (
+              <>
+                <img src={t.img} alt="" loading="lazy" decoding="async" />
+                <span class="about-tile-shade"></span>
+                <span class="about-tile-label">{t.label}</span>
+                <span class="about-badge" aria-hidden="true">&#8599;</span>
+              </>
+            )}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- ================= RIGHT: IMAGE PANEL ================= -->
+    <div class="about-visual a-anim" style="--a:aFade; --t:.7s; --d:0s">
+      <div class="about-photo a-anim" style="--a:aReveal; --t:1.3s; --d:.3s">
+        <img src={mainImage} alt="Architectural production by Axys3D" loading="lazy" decoding="async" />
+        <span class="about-photo-shade"></span>
+      </div>
+
+      <div class="about-avatars">
+        <img class="about-avatar a-anim" style="--a:aPop; --t:.6s; --d:1.9s" src={thumbA} alt="" />
+        <img class="about-avatar a-anim" style="--a:aPop; --t:.6s; --d:2s" src={thumbB} alt="" />
+      </div>
+
+      <div class="about-card a-anim" style="--a:aCard; --t:.9s; --d:2.2s">
+        <span class="about-card-badge" aria-hidden="true">&#8599;</span>
+        <strong class="a-anim" style="--a:aUp; --t:.7s; --d:2.5s">Controlled handoff</strong>
+        <p class="a-anim" style="--a:aUp; --t:.7s; --d:2.65s">Scope, inputs and approvals stay with your team.</p>
+      </div>
+    </div>
   </div>
 </section>
+
+<noscript>
+  <style>
+    .about .a-anim,
+    .about .about-mark,
+    .about .about-photo img {
+      animation: none !important;
+      opacity: 1 !important;
+      clip-path: none !important;
+    }
+    .about .about-mark { background-size: 100% 100% !important; }
+  </style>
+</noscript>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-about]").forEach((section) => {
+    if (!("IntersectionObserver" in window)) {
+      section.classList.add("is-in");
+      return;
+    }
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            section.classList.add("is-in");
+            io.disconnect();
+          }
+        });
+      },
+      { threshold: 0.25 }
+    );
+    io.observe(section);
+  });
+</script>

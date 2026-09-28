@@ -23,7 +23,7 @@
 
   width: 100%;
   background:
-    radial-gradient(900px 420px at 12% 0%, rgba(179,139,76,.14), transparent 65%),
+    radial-gradient(720px 420px at 8% 50%, rgba(179,139,76,.14), transparent 65%),
     radial-gradient(900px 480px at 92% 100%, rgba(90,169,230,.12), transparent 65%),
     var(--bg-custom);
   color: var(--text-dark);

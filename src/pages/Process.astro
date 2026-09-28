@@ -8,7 +8,6 @@ import "../styles/processPage.css";
 import "../styles/footer.css";
 import { getEntry } from "astro:content";
 
-// Aap ke schema ke exact loader ke mutabiq entry fetch kar rahe hain
 const processEntry = await getEntry("process", "index");
 
 if (!processEntry) {
@@ -29,105 +28,177 @@ const {
   ctaLink,
 } = processEntry.data;
 
-const stepsCount = steps.length.toString().padStart(2, "0");
+const pad = (n: number) => String(n).padStart(2, "0");
+const stepsCount = pad(steps.length);
+
+const heroPoster =
+  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=85";
+
+/* Hero title: pehla aadha white, doosra aadha muted (Industries / Work jaisa) */
+const heroWords = heroSubtitle.trim().split(/\s+/);
+const mutedFrom = Math.ceil(heroWords.length / 2);
+
+/* Text ko do hisson mein todta hai: pehla white, doosra muted */
+const splitHalf = (text: string = "") => {
+  const w = text.trim().split(/\s+/);
+  const m = Math.ceil(w.length / 2);
+  return [w.slice(0, m).join(" "), w.slice(m).join(" ")];
+};
+
+const [ctrlA, ctrlB] = splitHalf(controlPointsSubtitle);
+const [ctaA, ctaB] = splitHalf(ctaSubtitle);
+
+/* Step icons (6 alag icons, steps zyada hon to dobara shuru) */
+const svg = (p: string) =>
+  `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
+const stepIcons = [
+  svg('<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/>'),
+  svg('<circle cx="12" cy="12" r="3.2"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8"/>'),
+  svg('<path d="M12 3l9 5-9 5-9-5z"/><path d="M3 13l9 5 9-5"/>'),
+  svg('<path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>'),
+  svg('<circle cx="12" cy="12" r="9"/><path d="M8 12.5l3 3 5-6"/>'),
+  svg('<path d="M12 3l8 4.5v9L12 21l-8-4.5v-9z"/><path d="M4 7.5l8 4.5 8-4.5M12 12v9"/>'),
+];
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={heroDescription} />
     <title>{heroSubtitle} — Axys3D</title>
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
 
   <body class="page-process">
-    <!-- BACKGROUND LAYER -->
-    <div class="prc-page-bg"><div class="prc-page-bg-overlay"></div></div>
+    <!-- PAGE BACKGROUND — soft gradient with a drifting corner glow -->
+    <div class="prc-page-bg" aria-hidden="true"></div>
 
     <Navbar variant="solid" />
 
     <main class="process-page">
-      <!-- HERO SECTION -->
-      <header class="prc-hero">
+      <!-- ================= HERO ================= -->
+      <section class="prc-intro">
         <div class="prc-wrap">
-          <div class="prc-hero-label">
-            <span>Methodology</span>
-          </div>
-          <div class="prc-hero-content">
-            <p class="prc-eyebrow">{heroTitle}</p>
-            <h1 class="prc-h1">{heroSubtitle}</h1>
-            <p class="prc-lead">{heroDescription}</p>
+          <div class="prc-intro-row">
+            <div class="prc-intro-header">
+              <span class="prc-kicker">{heroTitle}</span>
+              <h1 class="prc-h1">
+                <span class="prc-h1-visual" aria-hidden="true">
+                  {heroWords.map((w, i) => (
+                    <Fragment>
+                      <span
+                        class:list={["prc-word", { "prc-word--muted": i >= mutedFrom }]}
+                        style={`--i:${i}`}
+                      >{w}</span>
+                      {i === mutedFrom - 1 && <br />}
+                    </Fragment>
+                  ))}
+                </span>
+                <span class="sr-only">{heroSubtitle}</span>
+              </h1>
+              <p class="prc-lead">{heroDescription}</p>
+            </div>
+
+            <div class="prc-intro-media">
+              <video
+                class="prc-hero-video"
+                src="/videos/service-hero.mp4"
+                poster={heroPoster}
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+              ></video>
+            </div>
           </div>
         </div>
-      </header>
+      </section>
 
-      <!-- STEPS LIST SECTION (01 - 06) -->
-      <section class="prc-steps-section">
+      <!-- ================= WORKFLOW (3 + 3 STEP CARDS) ================= -->
+      <section class="prc-steps-sec" data-steps>
         <div class="prc-wrap">
-          <div class="prc-intro">
+          <div class="prc-sec-head prc-sec-head--row" data-reveal>
             <div>
-              <span class="prc-section-label">The Workflow</span>
-              <h2>A Structured <span>Delivery Process</span></h2>
+              <span class="prc-kicker">THE WORKFLOW</span>
+              <h2 class="prc-sec-h2">A Structured <br /><span>Delivery Process</span></h2>
             </div>
-            <div class="prc-intro-meta">
-              <span class="prc-count">{stepsCount} STEPS</span>
-              <span class="prc-intro-line"></span>
-            </div>
+            <span class="prc-count">{stepsCount} STEPS</span>
           </div>
 
           <div class="prc-steps-grid">
-            {steps.map((step) => (
-              <div class="prc-step-card">
-                <div class="prc-step-header">
+            {steps.map((step, i) => (
+              <article
+                class="prc-step"
+                data-step-card
+                data-reveal
+                style={`--d: ${(i % 3) * 120}ms`}
+              >
+                <div class="prc-step-top">
                   <span class="prc-step-num">{step.id}</span>
-                  <h3 class="prc-step-title">{step.title}</h3>
+                  <span class="prc-step-of">{pad(i + 1)} / {stepsCount}</span>
                 </div>
+                <span class="prc-step-icon" set:html={stepIcons[i % stepIcons.length]} />
+                <h3 class="prc-step-title">{step.title}</h3>
                 <p class="prc-step-desc">{step.description}</p>
-              </div>
+                <div class="prc-step-bar"><i></i></div>
+
+                {i % 3 !== 2 && i < steps.length - 1 && (
+                  <span class="prc-step-link" aria-hidden="true">
+                    <span class="prc-step-dot">
+                      <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+                    </span>
+                  </span>
+                )}
+              </article>
             ))}
           </div>
         </div>
       </section>
 
-      <!-- CONTROL POINTS SECTION -->
+      <!-- ================= CONTROL POINTS (ONE ROW) ================= -->
       {controlPoints.length > 0 && (
-        <section class="prc-controls-section">
+        <section class="prc-controls-sec">
           <div class="prc-wrap">
-            <div class="prc-controls-grid">
-              <div class="prc-controls-left">
-                {controlPointsTitle && <p class="prc-eyebrow-small">{controlPointsTitle}</p>}
-                {controlPointsSubtitle && (
-                  <h2 class="prc-controls-subtitle">{controlPointsSubtitle}</h2>
-                )}
-              </div>
-
-              <div class="prc-controls-right">
-                <ul class="prc-controls-list">
-                  {controlPoints.map((point) => (
-                    <li class="prc-control-item">
-                      <span class="prc-check-icon">✓</span>
-                      <span>{point}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+            <div class="prc-sec-head" data-reveal>
+              {controlPointsTitle && <span class="prc-kicker">{controlPointsTitle}</span>}
+              {controlPointsSubtitle && (
+                <h2 class="prc-sec-h2">{ctrlA} <br /><span>{ctrlB}</span></h2>
+              )}
             </div>
+
+            <ul class="prc-controls-row" style={`--n: ${controlPoints.length}`}>
+              {controlPoints.map((point, i) => (
+                <li class="prc-control" data-reveal style={`--d: ${i * 90}ms`}>
+                  <span class="prc-check">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg>
+                  </span>
+                  <span>{point}</span>
+                </li>
+              ))}
+            </ul>
           </div>
         </section>
       )}
 
-      <!-- CTA / TECHNICAL BRIEF SECTION -->
-      {ctaTitle && (
+      <!-- ================= FINAL CTA ================= -->
+      {ctaSubtitle && (
         <section class="prc-final-cta">
-          <div class="prc-wrap prc-final-inner">
-            {ctaTitle && <span class="prc-cta-kicker">{ctaTitle}</span>}
-            {ctaSubtitle && <h3 class="prc-cta-h3">{ctaSubtitle}</h3>}
-            {ctaLabel && (
-              <a href={ctaLink || "/Contact/"} class="prc-cta-btn">
-                <span>{ctaLabel}</span> <span class="prc-arrow">→</span>
-              </a>
-            )}
+          <div class="prc-wrap">
+            <div class="prc-final-inner" data-reveal>
+              {ctaTitle && <span class="prc-kicker">{ctaTitle}</span>}
+              <h2>{ctaA} <br /><span>{ctaB}</span></h2>
+              {ctaLabel && (
+                <a href={ctaLink || "/contact"} class="prc-final-button">
+                  <span>{ctaLabel}</span>
+                  <span>↗</span>
+                </a>
+              )}
+            </div>
           </div>
         </section>
       )}
@@ -135,30 +206,77 @@ const stepsCount = steps.length.toString().padStart(2, "0");
 
     <Footer />
 
-    <script>
-      // Scroll-reveal: step cards aur control items ko andar aate waqt
-      // fade-up karta hai, Work page ke card-reveal animation ki tarah.
-      const revealTargets = document.querySelectorAll<HTMLElement>(
-        ".prc-step-card, .prc-control-item"
-      );
+    <script is:inline>
+      const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-      revealTargets.forEach((el, i) => {
-        el.style.setProperty("--prc-delay", `${(i % 6) * 0.08}s`);
-      });
-
+      // Reveal on scroll
+      const revealItems = document.querySelectorAll("[data-reveal]");
       const revealObserver = new IntersectionObserver(
-        (entries, observer) => {
+        (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              entry.target.classList.add("prc-reveal-visible");
-              observer.unobserve(entry.target);
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
             }
           });
         },
-        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+        { threshold: 0.12 }
       );
+      revealItems.forEach((item) => revealObserver.observe(item));
 
-      revealTargets.forEach((el) => revealObserver.observe(el));
+      // Workflow: cards light up one after another (loop). Hover = jump to that card.
+      const section = document.querySelector("[data-steps]");
+      const cards = Array.from(document.querySelectorAll("[data-step-card]"));
+
+      if (section && cards.length && !reduceMotion) {
+        const STEP_MS = 2800;
+        let idx = -1;
+        let timer = null;
+        let hovering = false;
+
+        const paint = (active) => {
+          cards.forEach((c, i) => {
+            c.classList.toggle("is-active", i === active);
+            c.classList.toggle("is-done", active >= 0 && i < active);
+          });
+        };
+
+        const tick = () => {
+          if (hovering) return;
+          idx = idx + 1 >= cards.length ? -1 : idx + 1;
+          // short pause with everything reset before the loop restarts
+          paint(idx);
+        };
+
+        const start = () => {
+          if (timer) return;
+          tick();
+          timer = setInterval(tick, STEP_MS);
+        };
+
+        const stop = () => {
+          clearInterval(timer);
+          timer = null;
+        };
+
+        cards.forEach((card, i) => {
+          card.addEventListener("pointerenter", () => {
+            hovering = true;
+            idx = i;
+            paint(i);
+          });
+          card.addEventListener("pointerleave", () => {
+            hovering = false;
+          });
+        });
+
+        new IntersectionObserver(
+          (entries) => {
+            entries[0].isIntersecting ? start() : stop();
+          },
+          { threshold: 0.25 }
+        ).observe(section);
+      }
     </script>
   </body>
 </html>

@@ -3,11 +3,14 @@ import "../styles/footer.css";
 ---
 
 <footer class="site-footer">
+  <div class="footer-glow footer-glow--left" aria-hidden="true"></div>
+  <div class="footer-glow footer-glow--right" aria-hidden="true"></div>
+
   <div class="footer-inner">
     <!-- Top Main Grid -->
     <div class="footer-top">
       <!-- Brand Column -->
-      <div class="footer-brand">
+      <div class="footer-brand" data-f="left">
         <a href="/" class="footer-logo">AXYS<span>3D</span></a>
         <p>
           Governed production capacity across BIM, Revit modeling, coordination support, and high-end visual outputs for AEC delivery teams.
@@ -17,7 +20,7 @@ import "../styles/footer.css";
 
       <!-- Navigation Columns -->
       <nav class="footer-navigation">
-        <div class="footer-column">
+        <div class="footer-column" data-f="right" style="--d: 0ms">
           <span class="footer-label">NAVIGATION</span>
           <a href="/">Home</a>
           <a href="/#services">Services</a>
@@ -25,7 +28,7 @@ import "../styles/footer.css";
           <a href="/#faqs">FAQs</a>
         </div>
 
-        <div class="footer-column">
+        <div class="footer-column" data-f="right" style="--d: 130ms">
           <span class="footer-label">CAPABILITIES</span>
           <a href="#">BIM Execution</a>
           <a href="#">Revit Production</a>
@@ -33,7 +36,7 @@ import "../styles/footer.css";
           <a href="#">3D Visualization</a>
         </div>
 
-        <div class="footer-column">
+        <div class="footer-column" data-f="right" style="--d: 260ms">
           <span class="footer-label">OFFICE</span>
           <span>London, UK</span>
           <span>Mon — Fri</span>
@@ -44,22 +47,51 @@ import "../styles/footer.css";
 
     <!-- Middle Disclaimer -->
     <div class="footer-disclaimer">
-      <p>
+      <p data-f="left">
         Axys3D provides production and technical support. Design authority, statutory sign-offs, and compliance decisions remain under the ownership of client-appointed professionals.
       </p>
-      <p>
+      <p data-f="right" style="--d: 150ms">
         All project materials, assets, and documentation are handled under strict confidentiality and non-disclosure standards.
       </p>
     </div>
 
     <!-- Bottom Bar -->
     <div class="footer-bottom">
-      <span>© {new Date().getFullYear()} AXYS3D. ALL RIGHTS RESERVED.</span>
-      <div class="footer-legal">
+      <span data-f="left">© {new Date().getFullYear()} AXYS3D. ALL RIGHTS RESERVED.</span>
+      <div class="footer-legal" data-f="up" style="--d: 120ms">
         <a href="#">PRIVACY POLICY</a>
         <a href="#">TERMS OF ENGAGEMENT</a>
       </div>
-      <span>AEC PRODUCTION PARTNER</span>
+      <span data-f="right" style="--d: 240ms">AEC PRODUCTION PARTNER</span>
     </div>
   </div>
 </footer>
+
+<script is:inline>
+  (function () {
+    const items = document.querySelectorAll(".site-footer [data-f]");
+    if (!items.length) return;
+
+    const footer = document.querySelector(".site-footer");
+    footer.classList.add("f-anim");
+
+    if (!("IntersectionObserver" in window)) {
+      items.forEach((el) => el.classList.add("is-in"));
+      return;
+    }
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("is-in");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.15, rootMargin: "0px 0px -4% 0px" }
+    );
+
+    items.forEach((el) => io.observe(el));
+  })();
+</script>

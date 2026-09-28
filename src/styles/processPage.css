@@ -1,1072 +1,924 @@
-/* ==========================================================================
-   PROCESS PAGE STYLING
-   PREMIUM VISUAL SYSTEM — MATCHED WITH WORK PAGE
-   (same background technique, navbar-overlay depth, hero grid,
-   section-heading pattern, full-bleed final CTA and responsive
-   breakpoints as work-page.css)
-   ========================================================================== */
+/* =========================================================
+   AXYS3D — PROCESS PAGE (same system as Industries / Work)
+   ========================================================= */
 
 .process-page {
-  --prc-blue: #071522;
+  --prc-blue: #091d2f;
   --prc-blue-soft: #0b1d2c;
   --prc-blue-panel: #102637;
-  --prc-blue-light: #16364d;
 
   --prc-brown: #b38b5a;
   --prc-brown-light: #d2b487;
-  --prc-brown-soft: rgba(179, 139, 90, 0.14);
 
   --prc-white: #ffffff;
   --prc-text: #d8dde0;
   --prc-muted: #8997a1;
 
-  --prc-line: rgba(255, 255, 255, 0.1);
-
-  position: relative;
-  z-index: 1;
-  background: transparent;
-  color: var(--prc-blue);
-  overflow: hidden;
-
-  font-family:
-    "Manrope",
-    system-ui,
-    -apple-system,
-    sans-serif;
-}
-
-
-/* ==========================================================================
-   PAGE BACKGROUND
-   Required markup right after <body class="page-process">:
-   <div class="prc-page-bg"><div class="prc-page-bg-overlay"></div></div>
-   ========================================================================== */
-
-.page-process {
-  position: relative;
-  background: var(--prc-blue);
-}
-
-.prc-page-bg {
-
-  position: absolute;
-
-  top: 0;
-  left: 0;
-  right: 0;
-
-  height: min(1000px, 105vh);
-
-  z-index: 0;
-
-  overflow: hidden;
-
-  pointer-events: none;
-
-  background-image: url("https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?auto=format&fit=crop&w=2400&q=85");
-  background-size: cover;
-  background-position: center;
-
-  opacity: 0.38;
-
-  filter:
-    grayscale(0.30)
-    saturate(0.80)
-    contrast(1.02)
-    blur(1px);
-
-  -webkit-mask-image:
-    linear-gradient(
-      to bottom,
-      #000 0%,
-      #000 40%,
-      rgba(0, 0, 0, 0.50) 68%,
-      rgba(0, 0, 0, 0.15) 86%,
-      transparent 100%
-    );
-
-  mask-image:
-    linear-gradient(
-      to bottom,
-      #000 0%,
-      #000 40%,
-      rgba(0, 0, 0, 0.50) 68%,
-      rgba(0, 0, 0, 0.15) 86%,
-      transparent 100%
-    );
-}
-
-.prc-page-bg-overlay {
-
-  position: absolute;
-
-  inset: 0;
-
-  background: rgba(7, 21, 34, 0.78);
-}
-
-
-/* ==========================================================================
-   WRAPPER
-   ========================================================================== */
-
-.prc-wrap {
-  position: relative;
-  z-index: 2;
-  width: min(1320px, calc(100% - 100px));
-  margin: 0 auto;
-  max-width: none;
-  padding: 0;
-}
-
-
-/* ==========================================================================
-   NAVBAR — floats above the background image, same as Work page
-   ========================================================================== */
-
-.page-process .navbar {
-
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-
-  background: transparent !important;
-
-  border-bottom: none !important;
-
-  backdrop-filter: none !important;
-
-  -webkit-backdrop-filter: none !important;
-
-  box-shadow: none !important;
-
-  z-index: 50;
-}
-
-.page-process .logo,
-.page-process .nav-links a {
+  --prc-dark-line: rgba(255, 255, 255, 0.1);
 
   color: var(--prc-white);
-}
-
-.page-process .nav-links a {
-
-  opacity: 0.72;
-
-  transition:
-    opacity 0.25s ease,
-    color 0.25s ease;
-}
-
-.page-process .nav-links a:hover {
-
-  color: var(--prc-brown-light);
-
-  opacity: 1;
-}
-
-.page-process .nav-button {
-
-  color: #eee9df;
-
-  border-color: rgba(210, 180, 135, 0.35);
-
-  background: rgba(179, 139, 90, 0.08);
-
-  transition:
-    background 0.25s ease,
-    border-color 0.25s ease,
-    transform 0.25s ease;
-}
-
-.page-process .nav-button:hover {
-
-  background: rgba(179, 139, 90, 0.18);
-
-  border-color: rgba(210, 180, 135, 0.6);
-
-  transform: translateY(-1px);
-}
-
-
-/* ==========================================================================
-   HERO
-   Markup: <header class="prc-hero"> > .prc-wrap > .prc-hero-label +
-   .prc-hero-content
-   ========================================================================== */
-
-.prc-hero {
-
+  overflow: hidden;
   position: relative;
-
-  background: transparent;
+  margin-top: 150px;
+  z-index: 1;
 }
 
-.prc-hero .prc-wrap {
+.page-process {
+  background: var(--prc-blue);
+  color: var(--prc-white);
+   font-family: 'Inter',
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif !important;
+}
 
+/* =========================================================
+   BACKGROUND IMAGE OVERLAY (restored, as it was before)
+   ========================================================= */
+
+.prc-page-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: min(1300px, 130vh);
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: linear-gradient(160deg, var(--prc-blue-panel) 0%, var(--prc-blue-soft) 50%, var(--prc-blue) 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
+}
+
+/* =========================================================
+   HERO ROW — text parallel to a content-sized video box
+   ========================================================= */
+
+.prc-intro-row {
   display: flex;
-
-  align-items: flex-start;
-
-  gap: 40px;
-
-  padding: 190px 0 90px;
-}
-
-.prc-hero-label {
-
-  flex: 0 0 160px;
-
-  padding-top: 10px;
-
-  color: var(--prc-muted);
-
-  font-size: 9px;
-
-  font-weight: 750;
-
-  letter-spacing: 0.18em;
-
-  text-transform: uppercase;
-}
-
-.prc-hero-label span {
-
-  display: flex;
-
   align-items: center;
-
-  gap: 10px;
+  justify-content: flex-start;
+  gap: clamp(24px, 3vw, 40px);
 }
 
-.prc-hero-label span::before {
+.prc-intro-media {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 780px;
+  aspect-ratio: 16 / 10;
+  border-radius: 20px;
+  overflow: hidden;
+  background: linear-gradient(155deg, var(--prc-blue-panel) 0%, var(--prc-blue-soft) 60%, var(--prc-blue) 100%);
+}
 
+.prc-hero-img,
+.prc-hero-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+/* drifting glow, kept confined to the top-right corner (painted above the video) */
+.prc-page-bg::before {
   content: "";
-
-  display: inline-block;
-
-  width: 14px;
-
-  height: 1px;
-
-  background: var(--prc-brown);
+  position: absolute;
+  top: -180px;
+  right: -180px;
+  width: 620px;
+  height: 620px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(179, 139, 90, 0.28) 0%, rgba(179, 139, 90, 0.1) 45%, transparent 72%);
+  filter: blur(6px);
+  animation: prcGlowDrift 16s ease-in-out infinite alternate;
+  z-index: 1;
 }
 
-.prc-hero-content {
-
-  flex: 1;
-
-  max-width: 900px;
-
-  animation:
-    prcHeroReveal
-    0.9s
-    cubic-bezier(0.22, 1, 0.36, 1)
-    both;
+.prc-page-bg::after {
+  content: "";
+  position: absolute;
+  top: 120px;
+  right: 60px;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(16, 38, 55, 0.55) 0%, rgba(16, 38, 55, 0.2) 50%, transparent 75%);
+  animation: prcGlowDrift 16s ease-in-out infinite alternate-reverse;
+  z-index: 1;
 }
 
-@keyframes prcHeroReveal {
-
-  from {
-
-    opacity: 0;
-
-    transform: translateY(30px);
+@keyframes prcGlowDrift {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.85;
   }
-
-  to {
-
+  100% {
+    transform: translate(-26px, 24px) scale(1.08);
     opacity: 1;
+  }
+}
 
+@media (prefers-reduced-motion: reduce) {
+  .prc-page-bg::before,
+  .prc-page-bg::after,
+  .prc-intro::before,
+  .prc-intro::after {
+    animation: none;
+  }
+}
+
+/* =========================================================
+   GLOBAL WRAPPER
+   ========================================================= */
+
+.prc-wrap {
+  width: min(1320px, calc(100% - 80px));
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================================================
+   HERO
+   ========================================================= */
+
+.prc-intro {
+  padding: 64px 0 70px;
+  position: relative;
+  z-index: 2;
+}
+
+/* blue drifting glow — left corner (right wale brown glow ka jorra) */
+.prc-intro::before {
+  content: "";
+  position: absolute;
+  top: 24px;
+  left: -200px;
+  width: 620px;
+  height: 620px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(64, 140, 224, 0.30) 0%, rgba(64, 140, 224, 0.11) 45%, transparent 72%);
+  filter: blur(6px);
+  animation: prcGlowDriftLeft 16s ease-in-out infinite alternate;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.prc-intro::after {
+  content: "";
+  position: absolute;
+  top: 180px;
+  left: 40px;
+  width: 380px;
+  height: 380px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(30, 90, 170, 0.40) 0%, rgba(30, 90, 170, 0.14) 50%, transparent 75%);
+  animation: prcGlowDriftLeft 16s ease-in-out infinite alternate-reverse;
+  z-index: -1;
+  pointer-events: none;
+}
+
+@keyframes prcGlowDriftLeft {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 0.85;
+  }
+  100% {
+    transform: translate(26px, 24px) scale(1.08);
+    opacity: 1;
+  }
+}
+
+.prc-intro-header {
+  flex: 0 1 520px;
+  max-width: 520px;
+  text-align: left;
+}
+
+.prc-kicker {
+  display: block;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--prc-brown-light);
+  margin-bottom: 20px;
+}
+
+.prc-h1 {
+  max-width: 820px;
+  margin: 0 0 20px;
+  font-size: clamp(25px, 6vw, 70px);
+  line-height: 0.92 !important;
+  letter-spacing: -0.05em !important;
+  transition: opacity 0.2s ease;
+}
+
+.prc-h1-visual {
+  display: inline;
+}
+
+.prc-word {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(16px);
+  margin-right: 0.28em;
+  animation: prcWordIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  animation-delay: calc(var(--i) * 0.14s);
+}
+
+.prc-word--muted {
+  color: var(--prc-muted);
+}
+
+@keyframes prcWordIn {
+  to {
+    opacity: 1;
     transform: translateY(0);
   }
 }
 
-.prc-eyebrow {
-
-  position: relative;
-
-  display: flex;
-
-  align-items: center;
-
-  gap: 10px;
-
-  margin: 0 0 25px;
-
-  color: var(--prc-brown-light);
-
-  font-size: 10px;
-
-  font-weight: 750;
-
-  letter-spacing: 0.17em;
-
-  text-transform: uppercase;
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-.prc-eyebrow::before {
-
-  content: "";
-
-  width: 6px;
-
-  height: 6px;
-
-  flex-shrink: 0;
-
-  border-radius: 50%;
-
-  background: var(--prc-brown);
-
-  box-shadow: 0 0 0 5px rgba(179, 139, 90, 0.10);
-
-  animation:
-    prcDotPulse
-    2s
-    ease-in-out
-    infinite;
-}
-
-@keyframes prcDotPulse {
-
-  0%,
-  100% {
-    transform: scale(1);
+@media (prefers-reduced-motion: reduce) {
+  .prc-word {
+    animation: none;
+    opacity: 1;
+    transform: none;
   }
-
-  50% {
-    transform: scale(1.25);
-  }
-}
-
-.prc-h1 {
-
-  max-width: 900px;
-
-  margin: 0 0 30px;
-
-  color: var(--prc-white);
-
-  font-family: "Manrope", sans-serif;
-
-  font-size: clamp(38px, 5vw, 68px);
-
-  font-weight: 650;
-
-  letter-spacing: -0.05em;
-
-  line-height: 1.05;
 }
 
 .prc-lead {
-
-  max-width: 620px;
-
   margin: 0;
-
-  color: var(--prc-text);
-
   font-size: 16px;
-
-  font-weight: 450;
-
-  line-height: 1.8;
+  line-height: 1.7;
+  color: var(--prc-text);
+  max-width: 560px;
 }
 
 
-/* ==========================================================================
-   SECTION HEADING (shared by steps + controls intros)
-   Markup: .prc-intro (flex row, border-bottom) with a left block and
-   .prc-intro-meta on the right (count + line)
-   ========================================================================== */
-
-.prc-intro {
-
-  position: relative;
-
-  z-index: 2;
-
-  display: flex;
-
-  justify-content: space-between;
-
-  align-items: flex-end;
-
-  gap: 40px;
-
-  padding: 90px 0 40px;
-
-  margin-bottom: 45px;
-
-  border-bottom: 1px solid var(--prc-line);
+html {
+  scroll-behavior: smooth;
 }
 
-.prc-section-label {
+/* =========================================================
+   SHARED SECTION HEAD
+   ========================================================= */
 
-  display: block;
-
-  margin-bottom: 18px;
-
-  font-size: 11px;
-
-  font-weight: 750;
-
-  letter-spacing: 0.18em;
-
-  text-transform: uppercase;
-
-  color: var(--prc-brown);
+.prc-sec-head {
+  margin-bottom: 32px;
 }
 
-.prc-intro h2 {
-
+.prc-sec-h2 {
   margin: 0;
-
+  font-size: clamp(26px, 3.4vw, 44px);
+  font-weight: 700;
+  letter-spacing: -0.045em;
+  line-height: 1;
   color: var(--prc-white);
-
-  font-family: "Manrope", sans-serif;
-
-  font-size: clamp(28px, 3.2vw, 42px);
-
-  font-weight: 600;
-
-  letter-spacing: -0.04em;
-
-  line-height: 1.1;
 }
 
-.prc-intro h2 span {
-
+.prc-sec-h2 span {
   color: var(--prc-muted);
 }
 
-.prc-intro p {
-
-  max-width: 440px;
-
-  margin: 16px 0 0;
-
-  color: var(--prc-muted);
-
-  font-size: 14px;
-
-  line-height: 1.75;
+.js .prc-sec-head {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.prc-intro-meta {
+.js .prc-sec-head.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
 
+/* =========================================================
+   SHARED — count meta next to a section heading
+   ========================================================= */
+
+.prc-sec-head--row {
   display: flex;
-
-  align-items: center;
-
-  gap: 16px;
-
-  padding-bottom: 5px;
-
-  flex-shrink: 0;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
 }
 
 .prc-count {
-
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 8px;
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
   color: var(--prc-brown-light);
-
-  font-size: 9px;
-
-  font-weight: 800;
-
-  letter-spacing: 0.16em;
-
-  white-space: nowrap;
 }
 
-.prc-intro-line {
-
+.prc-count::after {
+  content: "";
   width: 60px;
-
   height: 1px;
-
   background: var(--prc-brown);
+  transform-origin: left;
+  animation: prcLineGrow 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
 }
 
+@keyframes prcLineGrow {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
 
-/* ==========================================================================
-   STEPS LIST (01 – 06 grid)
-   ========================================================================== */
+/* =========================================================
+   WORKFLOW — 3 + 3 step cards with connectors
+   ========================================================= */
 
-.prc-steps-section {
+.prc-steps-sec {
   position: relative;
   z-index: 2;
-  padding: 0 0 130px;
+  padding: 0 0 110px;
+  margin-top: 80px;
 }
 
 .prc-steps-grid {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  column-gap: 28px;
-  row-gap: 28px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  column-gap: 56px;
+  row-gap: 36px;
 }
 
-.prc-step-card {
-  position: relative;
-  min-width: 0;
-  overflow: hidden;
-  background: var(--prc-blue-panel);
-  border: 1px solid var(--prc-line);
-  padding: 34px 30px 30px;
-  isolation: isolate;
-
-  opacity: 0;
-  transform: translateY(35px);
-  transition:
-    opacity 0.7s var(--prc-delay, 0s) ease,
-    transform 0.7s var(--prc-delay, 0s) cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.35s ease,
-    box-shadow 0.4s ease,
-    background 0.35s ease;
-}
-
-.prc-step-card.prc-reveal-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.prc-step-card::before {
-
-  content: "";
-
-  position: absolute;
-
-  top: 0;
-  left: 0;
-
-  width: 100%;
-
-  height: 2px;
-
-  background: linear-gradient(
-    90deg,
-    var(--prc-brown) 0%,
-    transparent 70%
-  );
-
-  opacity: 0.6;
-
-  transition: opacity 0.35s ease;
-}
-
-.prc-step-card:hover {
-
-  transform: translateY(-6px);
-
-  border-color: rgba(179, 139, 90, 0.5);
-
-  background: var(--prc-blue-light);
-
-  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.28);
-}
-
-.prc-step-card:hover::before {
-
-  opacity: 1;
-}
-
-.prc-step-header {
+.prc-step {
   position: relative;
   display: flex;
-  align-items: flex-start;
-  gap: 16px;
-  margin-bottom: 14px;
+  flex-direction: column;
+  padding: 24px 24px 22px;
+  border-radius: 20px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  transition:
+    transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+    border-color 0.45s ease,
+    background 0.45s ease,
+    box-shadow 0.5s ease;
+}
+
+/* soft brown glow that lights up on the active card */
+.prc-step::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: radial-gradient(420px circle at 20% 0%, rgba(210, 180, 135, 0.18), transparent 65%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  pointer-events: none;
+}
+
+.prc-step-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 22px;
 }
 
 .prc-step-num {
-  font-family: "Manrope", sans-serif;
-  font-size: 34px;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.02em;
-  color: transparent;
-  -webkit-text-stroke: 1px rgba(210, 180, 135, 0.55);
-  flex-shrink: 0;
+  min-width: 38px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 10px;
+  border-radius: 20px;
+  background: rgba(193, 154, 91, 0.18);
+  color: var(--prc-brown-light);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  transition: background 0.4s ease, color 0.4s ease;
+}
+
+.prc-step-of {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--prc-muted);
+}
+
+.prc-step-icon {
+  width: 52px;
+  height: 52px;
+  display: grid;
+  place-items: center;
+  margin-bottom: 20px;
+  border-radius: 14px;
+  color: #8fb6e6;
+  background: rgba(64, 140, 224, 0.12);
+  border: 1px solid rgba(143, 182, 230, 0.22);
+  transition: color 0.4s ease, background 0.4s ease, border-color 0.4s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.5s ease;
 }
 
 .prc-step-title {
-  font-family: "Manrope", sans-serif;
+  margin: 0 0 10px;
   font-size: 19px;
   font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
   color: var(--prc-white);
-  line-height: 1.3;
-  padding-top: 6px;
+  transition: color 0.4s ease;
 }
 
 .prc-step-desc {
-  position: relative;
-  font-size: 13.5px;
-  font-weight: 450;
-  line-height: 1.7;
-  color: var(--prc-muted);
-  margin: 0;
+  flex: 1;
+  margin: 0 0 24px;
+  font-size: 14px;
+  line-height: 1.65;
+  color: var(--prc-text);
+  opacity: 0.85;
 }
 
+/* progress bar */
+.prc-step-bar {
+  height: 3px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+}
 
-/* ==========================================================================
-   CONTROL POINTS SECTION
-   ========================================================================== */
+.prc-step-bar i {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--prc-brown), var(--prc-brown-light));
+}
 
-.prc-controls-section {
+/* connector between cards (inside a row only) */
+.prc-step-link {
+  position: absolute;
+  top: 50%;
+  right: -56px;
+  width: 56px;
+  height: 0;
+  display: grid;
+  place-items: center;
+  pointer-events: none;
+}
+
+.prc-step-link::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  border-top: 1px dashed rgba(255, 255, 255, 0.22);
+}
+
+.prc-step-dot {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--prc-white);
+  background: #0f2437;
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  transform: translateY(-50%);
+  transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease, box-shadow 0.5s ease;
+}
+
+/* ---- active / done states ---- */
+
+.prc-step.is-active {
+  border-color: rgba(210, 180, 135, 0.6);
+  background: linear-gradient(160deg, rgba(210, 180, 135, 0.14), rgba(255, 255, 255, 0.04));
+  box-shadow: 0 28px 60px rgba(0, 0, 0, 0.32);
+}
+
+.prc-step.is-active::before {
+  opacity: 1;
+}
+
+.prc-step.is-active .prc-step-num {
+  background: var(--prc-brown-light);
+  color: var(--prc-blue);
+}
+
+.prc-step.is-active .prc-step-icon {
+  color: var(--prc-brown-light);
+  background: rgba(210, 180, 135, 0.16);
+  border-color: rgba(210, 180, 135, 0.5);
+  box-shadow: 0 0 26px rgba(210, 180, 135, 0.28);
+  transform: scale(1.08) rotate(-4deg);
+}
+
+.prc-step.is-active .prc-step-title {
+  color: var(--prc-brown-light);
+}
+
+.prc-step.is-active .prc-step-bar i {
+  animation: prcFill var(--dur, 2.8s) linear forwards;
+}
+
+.prc-step.is-done .prc-step-bar i {
+  width: 100%;
+  opacity: 0.55;
+}
+
+.prc-step.is-active .prc-step-dot,
+.prc-step.is-done .prc-step-dot {
+  background: var(--prc-brown-light);
+  border-color: var(--prc-brown-light);
+  color: var(--prc-blue);
+}
+
+.prc-step.is-active .prc-step-dot {
+  box-shadow: 0 0 0 6px rgba(210, 180, 135, 0.16), 0 0 26px rgba(210, 180, 135, 0.45);
+  animation: prcDotPulse 1.4s ease-in-out infinite;
+}
+
+@keyframes prcFill {
+  from { width: 0; }
+  to   { width: 100%; }
+}
+
+@keyframes prcDotPulse {
+  0%, 100% { transform: translateY(-50%) scale(1); }
+  50%      { transform: translateY(-50%) scale(1.12); }
+}
+
+/* staggered entrance */
+.js .prc-step {
+  opacity: 0;
+  transform: translateY(36px) scale(0.97);
+  transition:
+    opacity 0.8s ease var(--d, 0ms),
+    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms),
+    border-color 0.45s ease,
+    background 0.45s ease,
+    box-shadow 0.5s ease;
+}
+
+.js .prc-step.is-visible {
+  opacity: 1;
+  transform: translateY(0) scale(1);
+}
+
+.js .prc-step.is-visible.is-active,
+.js .prc-step.is-visible:hover {
+  transform: translateY(-8px);
+  transition-delay: 0ms;
+}
+
+.js .prc-step.is-visible:hover {
+  border-color: rgba(210, 180, 135, 0.45);
+}
+
+/* =========================================================
+   CONTROL POINTS — one compact row
+   ========================================================= */
+
+.prc-controls-sec {
   position: relative;
   z-index: 2;
-  padding: 100px 0;
-  border-top: 1px solid var(--prc-line);
+  padding: 0 0 110px;
 }
 
-.prc-controls-grid {
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 48px;
-}
-
-.prc-eyebrow-small {
-  font-size: 11px;
-  font-weight: 750;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-  color: var(--prc-brown);
-  margin: 0 0 14px;
-}
-
-.prc-controls-subtitle {
-  font-family: "Manrope", sans-serif;
-  font-size: 26px;
-  font-weight: 650;
-  letter-spacing: -0.03em;
-  line-height: 1.3;
-  color: var(--prc-white);
-  margin: 0;
-}
-
-.prc-controls-list {
+.prc-controls-row {
   list-style: none;
-  padding: 0;
   margin: 0;
+  padding: 0;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 14px;
-}
-
-.prc-control-item {
-  display: flex;
-  align-items: flex-start;
+  grid-template-columns: repeat(var(--n, 4), minmax(0, 1fr));
   gap: 12px;
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--prc-text);
-  background: var(--prc-blue-panel);
-  border: 1px solid var(--prc-line);
-  padding: 16px 18px;
-
-  opacity: 0;
-  transform: translateY(25px);
-  transition:
-    opacity 0.6s var(--prc-delay, 0s) ease,
-    transform 0.6s var(--prc-delay, 0s) cubic-bezier(0.22, 1, 0.36, 1),
-    border-color 0.25s ease,
-    background 0.25s ease;
 }
 
-.prc-control-item.prc-reveal-visible {
+.prc-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.025));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.4;
+  color: var(--prc-text);
+  overflow: hidden;
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.35s ease, color 0.35s ease, background 0.35s ease;
+}
+
+/* light sweep on hover */
+.prc-control::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(210, 180, 135, 0.18), transparent);
+  transform: skewX(-20deg);
+  transition: left 0.8s ease;
+  pointer-events: none;
+}
+
+.prc-control:hover {
+  transform: translateY(-4px);
+  border-color: rgba(210, 180, 135, 0.45);
+  color: var(--prc-white);
+}
+
+.prc-control:hover::after {
+  left: 130%;
+}
+
+.prc-check {
+  flex: 0 0 auto;
+  width: 26px;
+  height: 26px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--prc-blue);
+  background: var(--prc-brown-light);
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.prc-control:hover .prc-check {
+  transform: scale(1.18) rotate(-8deg);
+}
+
+.prc-check path {
+  stroke-dasharray: 24;
+  stroke-dashoffset: 0;
+}
+
+.js .prc-control {
+  opacity: 0;
+  transform: translateY(20px);
+  transition:
+    opacity 0.7s ease var(--d, 0ms),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms),
+    border-color 0.35s ease,
+    color 0.35s ease;
+}
+
+.js .prc-control.is-visible {
   opacity: 1;
   transform: translateY(0);
 }
 
-.prc-control-item:hover {
-  border-color: rgba(179, 139, 90, 0.45);
-  background: var(--prc-blue-light);
-  transform: translateY(-2px);
+.js .prc-control.is-visible:hover {
+  transform: translateY(-4px);
+  transition-delay: 0ms;
 }
 
-.prc-control-item.prc-reveal-visible:hover {
-  transform: translateY(-2px);
+/* check mark draws itself */
+.js .prc-control .prc-check {
+  transform: scale(0);
+  transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) calc(var(--d, 0ms) + 250ms);
 }
 
-.prc-check-icon {
-  flex-shrink: 0;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-  background: var(--prc-brown-soft);
-  color: var(--prc-brown-light);
-  font-size: 11px;
-  font-weight: 800;
+.js .prc-control .prc-check path {
+  stroke-dashoffset: 24;
+  transition: stroke-dashoffset 0.6s ease calc(var(--d, 0ms) + 550ms);
 }
 
+.js .prc-control.is-visible .prc-check {
+  transform: scale(1);
+}
 
-/* ==========================================================================
+.js .prc-control.is-visible .prc-check path {
+  stroke-dashoffset: 0;
+}
+
+.js .prc-control.is-visible:hover .prc-check {
+  transform: scale(1.18) rotate(-8deg);
+  transition-delay: 0ms;
+}
+
+/* ---- responsive ---- */
+
+@media (max-width: 1100px) {
+  .prc-steps-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 24px;
+  }
+
+  .prc-step-link {
+    display: none;
+  }
+
+  .prc-controls-row {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 760px) {
+  .prc-steps-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .prc-steps-sec,
+  .prc-controls-sec {
+    padding-bottom: 80px;
+  }
+}
+
+@media (max-width: 560px) {
+  .prc-sec-head--row {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 14px;
+  }
+
+  .prc-controls-row {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .prc-step,
+  .js .prc-control,
+  .js .prc-control .prc-check,
+  .js .prc-control .prc-check path {
+    opacity: 1 !important;
+    transform: none !important;
+    stroke-dashoffset: 0 !important;
+    transition: none !important;
+  }
+
+  .prc-step.is-active .prc-step-bar i,
+  .prc-step.is-active .prc-step-dot {
+    animation: none;
+  }
+
+  .prc-step.is-active .prc-step-bar i {
+    width: 100%;
+  }
+}
+
+/* =========================================================
    FINAL CTA
-   (full-bleed, technical grid-line pattern — matches wrk-final-cta)
-   ========================================================================== */
+   ========================================================= */
 
 .prc-final-cta {
-
+  padding: 120px 0 140px;
+  background: var(--prc-blue);
+  border-top: none !important;
   position: relative;
-
-  z-index: 1;
-
-  padding: 135px 0;
-
-  overflow: hidden;
-
-  text-align: center;
-
-  background: #06111c;
-
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.prc-final-cta::before {
-
-  content: "";
-
-  position: absolute;
-
-  inset: 0;
-
-  pointer-events: none;
-
-  opacity: 0.30;
-
-  background-image:
-    linear-gradient(
-      rgba(255, 255, 255, 0.035) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.035) 1px,
-      transparent 1px
-    );
-
-  background-size: 70px 70px;
-
-  mask-image:
-    radial-gradient(
-      circle at center,
-      black,
-      transparent 72%
-    );
+  z-index: 2;
 }
 
 .prc-final-inner {
-
-  position: relative;
-
-  max-width: 720px;
-
+  max-width: 800px;
   margin: 0 auto;
-
   text-align: center;
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.prc-cta-kicker {
-
-  display: block;
-
-  margin-bottom: 20px;
-
-  color: var(--prc-brown-light);
-
-  font-size: 9px;
-
-  font-weight: 750;
-
-  letter-spacing: 0.20em;
-
-  text-transform: uppercase;
+.js .prc-final-inner.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.prc-cta-h3 {
-
-  margin: 0 auto;
-
-  max-width: 640px;
-
-  color: var(--prc-white);
-
-  font-family: "Manrope", sans-serif;
-
-  font-size: clamp(30px, 4.2vw, 48px);
-
-  font-weight: 600;
-
-  letter-spacing: -0.045em;
-
-  line-height: 1.12;
+.prc-final-inner h2 {
+  margin: 0 0 20px;
+  font-size: clamp(38px, 5.5vw, 68px);
+  font-weight: 700;
+  letter-spacing: -0.05em;
+  line-height: 1.05;
 }
 
-.prc-cta-btn {
+.prc-final-inner h2 span {
+  color: var(--prc-muted);
+}
 
+.prc-final-inner p {
+  margin: 0 auto 32px;
+  color: var(--prc-muted);
+  font-size: 15px;
+  max-width: 500px;
+}
+
+.prc-final-button {
   display: inline-flex;
-
   align-items: center;
-
-  justify-content: space-between;
-
-  gap: 30px;
-
-  margin-top: 38px;
-
-  padding: 17px 25px;
-
+  gap: 20px;
+  padding: 16px 28px;
+  border-radius: 999px;
   color: var(--prc-blue);
-
   background: var(--prc-brown-light);
-
   text-decoration: none;
-
   font-size: 12px;
-
   font-weight: 800;
-
-  letter-spacing: 0.02em;
-
-  transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease,
-    background 0.3s ease;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
-.prc-cta-btn:hover {
-
+.prc-final-button:hover {
   background: #dfc39a;
-
-  transform: translateY(-4px);
-
-  box-shadow: 0 22px 55px rgba(179, 139, 90, 0.20);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 45px rgba(179, 139, 90, 0.25);
 }
 
-.prc-arrow {
-
-  font-size: 16px;
-
-  transition: transform 0.25s ease;
-}
-
-.prc-cta-btn:hover .prc-arrow {
-
-  transform: translate(3px, -3px);
+@media (prefers-reduced-motion: reduce) {
+  .prc-panel,
+  .prc-final-inner {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
 }
 
 
-/* ==========================================================================
-   FOCUS
-   ========================================================================== */
+/* CTA — left blue / right brown drifting glow */
+.prc-final-cta {
+  overflow: hidden;
+  isolation: isolate;
+}
 
-.prc-cta-btn:focus-visible {
+.prc-final-cta::before,
+.prc-final-cta::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: -1;
+  filter: blur(6px);
+}
 
-  outline: 2px solid var(--prc-brown-light);
+.prc-final-cta::before {
+  left: -220px;
+  background: radial-gradient(circle, rgba(64, 140, 224, 0.30) 0%, rgba(64, 140, 224, 0.11) 45%, transparent 72%);
+  animation: prcGlowLeft 16s ease-in-out infinite alternate;
+}
 
-  outline-offset: 5px;
+.prc-final-cta::after {
+  right: -220px;
+  background: radial-gradient(circle, rgba(179, 139, 90, 0.28) 0%, rgba(179, 139, 90, 0.10) 45%, transparent 72%);
+  animation: prcGlowRight 16s ease-in-out infinite alternate;
+}
+
+@keyframes prcGlowLeft {
+  0%   { transform: translate(0, -50%) scale(1); opacity: 0.85; }
+  100% { transform: translate(28px, -46%) scale(1.08); opacity: 1; }
+}
+
+@keyframes prcGlowRight {
+  0%   { transform: translate(0, -50%) scale(1); opacity: 0.85; }
+  100% { transform: translate(-28px, -54%) scale(1.08); opacity: 1; }
 }
 
 
-/* ==========================================================================
-   TABLET
-   ========================================================================== */
+/* =========================================================
+   RESPONSIVE DESIGN
+   ========================================================= */
 
-@media (max-width: 1100px) {
-
+@media (max-width: 680px) {
   .prc-wrap {
-
-    width: min(100% - 60px, 900px);
-  }
-
-  .prc-hero .prc-wrap {
-
-    gap: 50px;
-  }
-
-  .prc-hero-label {
-
-    flex-basis: 120px;
-  }
-
-  .prc-controls-grid {
-
-    grid-template-columns: 260px 1fr;
-
-    gap: 32px;
-  }
-}
-
-
-/* ==========================================================================
-   MOBILE
-   ========================================================================== */
-
-@media (max-width: 760px) {
-
-  .prc-page-bg {
-
-    height: min(900px, 100vh);
-
-    opacity: 0.28;
-
-    filter:
-      grayscale(0.45)
-      saturate(0.70)
-      blur(1px);
-  }
-
-  .prc-wrap {
-
-    width: min(100% - 34px, 560px);
-  }
-
-  .prc-hero .prc-wrap {
-
-    flex-direction: column;
-
-    gap: 20px;
-
-    padding: 130px 0 60px;
-  }
-
-  .prc-hero-label {
-
-    flex: initial;
-  }
-
-  .prc-h1 {
-
-    font-size: clamp(34px, 11vw, 50px);
-  }
-
-  .prc-lead {
-
-    font-size: 14px;
+    width: min(100% - 40px, 100%);
   }
 
   .prc-intro {
+    padding: 48px 0 40px;
+  }
 
+  .prc-intro-row {
     flex-direction: column;
-
     align-items: flex-start;
-
-    gap: 18px;
-
-    padding: 60px 0 35px;
+    gap: 32px;
   }
 
-  .prc-steps-section {
-
-    padding-bottom: 90px;
-  }
-
-  .prc-steps-grid {
-
-    grid-template-columns: 1fr;
-
-    row-gap: 20px;
-  }
-
-  .prc-controls-section {
-
-    padding: 70px 0;
-  }
-
-  .prc-controls-grid {
-
-    grid-template-columns: 1fr;
-
-    gap: 24px;
-  }
-
-  .prc-controls-list {
-
-    grid-template-columns: 1fr;
-  }
-
-  .prc-final-cta {
-
-    padding: 100px 0;
-  }
-}
-
-
-/* ==========================================================================
-   SMALL MOBILE
-   ========================================================================== */
-
-@media (max-width: 420px) {
-
-  .prc-h1 {
-
-    font-size: 34px;
-  }
-
-  .prc-step-num {
-
-    font-size: 28px;
-  }
-
-  .prc-final-cta h3,
-  .prc-cta-h3 {
-
-    font-size: 30px;
-  }
-
-  .prc-cta-btn {
-
+  .prc-intro-media {
+    flex: 0 0 auto;
     width: 100%;
-
-    justify-content: space-between;
-  }
-}
-
-
-/* ==========================================================================
-   REDUCED MOTION
-   ========================================================================== */
-
-@media (prefers-reduced-motion: reduce) {
-
-  *,
-  *::before,
-  *::after {
-
-    scroll-behavior: auto !important;
-
-    animation-duration: 0.01ms !important;
-
-    animation-iteration-count: 1 !important;
-
-    transition-duration: 0.01ms !important;
+    max-width: 100%;
+    aspect-ratio: 16 / 10;
   }
 
-  .prc-hero-content {
-
-    animation: none;
-
-    opacity: 1;
-
-    transform: none;
+  .prc-intro-header {
+    flex: 0 0 auto;
+    max-width: 100%;
   }
 
-  .prc-eyebrow::before {
-
-    animation: none;
-  }
-
-  .prc-step-card,
-  .prc-control-item {
-
-    opacity: 1;
-
-    transform: none;
+  .prc-final-cta::before,
+  .prc-final-cta::after {
+    width: 340px;
+    height: 340px;
   }
 }
