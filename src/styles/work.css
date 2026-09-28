@@ -464,6 +464,7 @@ html {
   line-height: 1.6;
   color: var(--wrk-text);
   display: -webkit-box;
+  line-clamp: 3;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
