@@ -15,16 +15,49 @@ if (!pageData) {
   throw new Error("Could not find index.md in src/content/aboutPage/");
 }
 
-const pad = (n: number) => String(n).padStart(2, "0");
+/* 3D Sphere Gallery Images */
+const sphereImages = [
+  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=320&q=70",
+  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=320&q=70",
+  "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=320&q=70",
+  "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=320&q=70",
+  "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=320&q=70",
+  "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=320&q=70",
+  "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=320&q=70",
+  "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=320&q=70",
+];
 
-const heroPoster =
-  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=85";
+const SPHERE_COLS = 30;
+const SPHERE_ROWS = 5;
+const SPHERE_ROW_STEP = 12;
 
-/* Hero title: pehla aadha white, doosra aadha muted (baaki pages jaisa) */
+const blobShapes = [
+  "52% 48% 55% 45% / 48% 54% 46% 52%",
+  "46% 54% 48% 52% / 55% 45% 55% 45%",
+  "58% 42% 50% 50% / 46% 52% 48% 54%",
+  "50% 50% 44% 56% / 54% 46% 54% 46%",
+  "44% 56% 52% 48% / 50% 58% 42% 50%",
+  "55% 45% 47% 53% / 44% 50% 50% 56%",
+];
+
+const sphereTiles: { yaw: number; pitch: number; src: string; shape: string; n: number }[] = [];
+for (let c = 0; c < SPHERE_COLS; c++) {
+  for (let r = 0; r < SPHERE_ROWS; r++) {
+    const stagger = c % 2 ? 0.25 : -0.25;
+    sphereTiles.push({
+      yaw: c * (360 / SPHERE_COLS),
+      pitch: (r - (SPHERE_ROWS - 1) / 2 + stagger) * SPHERE_ROW_STEP,
+      src: sphereImages[(c * 3 + r * 2) % sphereImages.length],
+      shape: blobShapes[(c * 5 + r * 7) % blobShapes.length],
+      n: c * SPHERE_ROWS + r,
+    });
+  }
+}
+
+/* Hero title formatting */
 const heroWords = pageData.heroTitle.trim().split(/\s+/);
 const mutedFrom = Math.ceil(heroWords.length / 2);
 
-/* Text ko do hisson mein todta hai: pehla white, doosra muted */
 const splitHalf = (text: string = "") => {
   const w = text.trim().split(/\s+/);
   const m = Math.ceil(w.length / 2);
@@ -33,7 +66,6 @@ const splitHalf = (text: string = "") => {
 
 const [whyA, whyB] = splitHalf(pageData.whySubtitle);
 const [delA, delB] = splitHalf(pageData.deliveryTitle);
-const principles = pageData.principles ?? [];
 ---
 
 <!doctype html>
@@ -52,7 +84,6 @@ const principles = pageData.principles ?? [];
   </head>
 
   <body class="page-about">
-    <!-- PAGE BACKGROUND — soft gradient with a drifting corner glow -->
     <div class="abt-page-bg" aria-hidden="true"></div>
 
     <Navbar variant="solid" />
@@ -81,17 +112,31 @@ const principles = pageData.principles ?? [];
               <p class="abt-lead">{pageData.heroDescription}</p>
             </div>
 
+            <!-- Interactive 3D sphere (video ki jagah) -->
             <div class="abt-intro-media">
-              <video
-                class="abt-hero-video"
-                src="/videos/service-hero.mp4"
-                poster={heroPoster}
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-              ></video>
+              <div
+                class="ind-sphere-stage"
+                data-sphere
+                role="img"
+                aria-label="Interactive rotating gallery"
+              >
+                <div class="ind-sphere">
+                  {sphereTiles.map((t) => (
+                    <span
+                      class="ind-tile"
+                      style={`--yaw:${t.yaw}deg;--pitch:${t.pitch}deg;--n:${t.n};border-radius:${t.shape}`}
+                    >
+                      <img
+                        src={t.src}
+                        alt=""
+                        loading="eager"
+                        decoding="async"
+                        draggable="false"
+                      />
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -110,30 +155,27 @@ const principles = pageData.principles ?? [];
         </div>
       </section>
 
-      <!-- ================= OPERATING PRINCIPLES ================= -->
+      <!-- ================= PRINCIPLES ================= -->
       <section class="abt-principles">
         <div class="abt-wrap">
-          <div class="abt-sec-head abt-sec-head--row" data-reveal>
-            <div>
-              <span class="abt-kicker">HOW WE OPERATE</span>
-              <h2 class="abt-sec-h2">Operating <span>principles.</span></h2>
+          <div class="abt-principles-header" data-reveal>
+            <div class="abt-principles-header-left">
+              <span class="abt-kicker">Principles</span>
+              <h2 class="abt-principles-h2">What guides <span>our work</span></h2>
             </div>
-            <span class="abt-count">{pad(principles.length)} PRINCIPLES</span>
           </div>
 
           <div class="abt-principles-grid">
-            {principles.map((p, i) => (
-              <article
-                class="abt-principle"
-                data-reveal
-                data-spot
-                style={`--d: ${(i % 2) * 120}ms`}
-              >
-                <span class="abt-principle-num">{p.num}</span>
-                <h3 class="abt-principle-title">{p.title}</h3>
-                <p class="abt-principle-desc">{p.description}</p>
-              </article>
-            ))}
+            {
+              pageData.principles &&
+                pageData.principles.map((item) => (
+                  <div class="abt-principle-card" data-reveal>
+                    <span class="abt-card-num">{item.num}</span>
+                    <h3 class="abt-card-title">{item.title}</h3>
+                    <p class="abt-card-desc">{item.description}</p>
+                  </div>
+                ))
+            }
           </div>
         </div>
       </section>
@@ -170,14 +212,109 @@ const principles = pageData.principles ?? [];
       );
       document.querySelectorAll("[data-reveal]").forEach((el) => revealObserver.observe(el));
 
-      // Card spotlight: light follows the cursor
-      document.querySelectorAll("[data-spot]").forEach((card) => {
+      // Principle cards: light follows the cursor
+      document.querySelectorAll(".abt-principle-card").forEach((card) => {
         card.addEventListener("pointermove", (e) => {
           const r = card.getBoundingClientRect();
           card.style.setProperty("--mx", `${e.clientX - r.left}px`);
           card.style.setProperty("--my", `${e.clientY - r.top}px`);
         });
       });
+
+      /* ===== Sphere gallery animation & controls ===== */
+      (() => {
+        const stage = document.querySelector("[data-sphere]");
+        if (!stage) return;
+        const sphere = stage.querySelector(".ind-sphere");
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        let R = 300;
+        const layout = () => {
+          const W = stage.clientWidth;
+          const H = stage.clientHeight;
+          if (!W || !H) return;
+          R = Math.min(W * 0.52, H * 0.9);
+          stage.style.perspective = `${R * 3}px`;
+          stage.style.setProperty("--R", `${R}px`);
+          stage.style.setProperty("--tw", `${R * 0.15}px`);
+          stage.style.setProperty("--tht", `${R * 0.16}px`);
+        };
+        layout();
+        new ResizeObserver(layout).observe(stage);
+
+        const BASE_PITCH = -6;
+        const AUTO_SPEED = reduce ? 0 : 0.07;
+        let yaw = 0, pitch = BASE_PITCH, vYaw = 0, vPitch = 0;
+        let dragging = false, inside = false;
+        let lastX = 0, lastY = 0, hoverX = 0, hoverY = 0;
+        let running = true, last = performance.now();
+        const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+        const render = () => {
+          sphere.style.transform = `translateZ(${-R}px) rotateX(${pitch}deg) rotateY(${yaw}deg)`;
+        };
+
+        const frame = (now) => {
+          const dt = Math.min((now - last) / 16.667, 3);
+          last = now;
+          if (running && !dragging) {
+            const hoverSpin = inside && !reduce ? hoverX * 0.16 : 0;
+            yaw = (yaw + (vYaw + AUTO_SPEED + hoverSpin) * dt) % 360;
+            pitch += vPitch * dt;
+            const target = BASE_PITCH + (inside && !reduce ? hoverY * 8 : 0);
+            pitch += (target - pitch) * 0.035 * dt;
+            pitch = clamp(pitch, -40, 40);
+            const decay = Math.pow(0.95, dt);
+            vYaw *= decay;
+            vPitch *= decay;
+          }
+          if (running) render();
+          requestAnimationFrame(frame);
+        };
+
+        stage.addEventListener("pointerdown", (e) => {
+          dragging = true;
+          lastX = e.clientX;
+          lastY = e.clientY;
+          vYaw = 0;
+          vPitch = 0;
+          stage.classList.add("is-dragging");
+          stage.setPointerCapture(e.pointerId);
+        });
+
+        stage.addEventListener("pointermove", (e) => {
+          const r = stage.getBoundingClientRect();
+          hoverX = ((e.clientX - r.left) / r.width - 0.5) * 2;
+          // FIX: pehle `e.clientY - r.height` tha (galat) — ab `r.top`
+          hoverY = ((e.clientY - r.top) / r.height - 0.5) * 2;
+          inside = true;
+          if (!dragging) return;
+          const dx = e.clientX - lastX;
+          const dy = e.clientY - lastY;
+          lastX = e.clientX;
+          lastY = e.clientY;
+          yaw += dx * 0.3;
+          pitch = clamp(pitch - dy * 0.2, -40, 40);
+          vYaw = clamp(dx * 0.3, -8, 8);
+          vPitch = clamp(-dy * 0.2, -5, 5);
+        });
+
+        const endDrag = () => {
+          dragging = false;
+          stage.classList.remove("is-dragging");
+        };
+        stage.addEventListener("pointerup", endDrag);
+        stage.addEventListener("pointercancel", endDrag);
+        stage.addEventListener("pointerleave", () => { inside = false; });
+
+        new IntersectionObserver(([entry]) => {
+          running = entry.isIntersecting;
+          last = performance.now();
+        }).observe(stage);
+
+        render();
+        requestAnimationFrame(frame);
+      })();
     </script>
   </body>
 </html>
