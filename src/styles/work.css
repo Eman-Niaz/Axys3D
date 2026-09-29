@@ -51,7 +51,7 @@
 }
 
 /* =========================================================
-   HERO ROW — text parallel to a content-sized video box
+   HERO ROW — text parallel to animation box
    ========================================================= */
 
 .wrk-intro-row {
@@ -66,9 +66,7 @@
   min-width: 0;
   max-width: 780px;
   aspect-ratio: 16 / 10;
-  border-radius: 20px;
-  overflow: hidden;
-  background: linear-gradient(155deg, var(--wrk-blue-panel) 0%, var(--wrk-blue-soft) 60%, var(--wrk-blue) 100%);
+  position: relative;
 }
 
 .wrk-hero-img,
@@ -78,7 +76,8 @@
   object-fit: cover;
   display: block;
 }
-/* drifting glow, kept confined to the top-right corner (painted above the video) */
+
+/* drifting glow, kept confined to the top-right corner */
 .wrk-page-bg::before {
   content: "";
   position: absolute;
@@ -147,7 +146,7 @@
   z-index: 2;
 }
 
-/* blue drifting glow — left corner (right wale brown glow ka jorra) */
+/* blue drifting glow — left corner */
 .wrk-intro::before {
   content: "";
   position: absolute;
@@ -263,7 +262,6 @@
   color: var(--wrk-text);
   max-width: 560px;
 }
-
 
 html {
   scroll-behavior: smooth;
@@ -545,10 +543,6 @@ html {
     min-height: 400px;
   }
 
-  .wrk-trust {
-    padding-bottom: 70px;
-  }
-
   .wrk-cards-sec {
     padding-bottom: 80px;
   }
@@ -649,7 +643,6 @@ html {
   }
 }
 
-
 /* CTA — left blue / right brown drifting glow */
 .wrk-final-cta {
   overflow: hidden;
@@ -691,7 +684,6 @@ html {
   100% { transform: translate(-28px, -54%) scale(1.08); opacity: 1; }
 }
 
-
 /* =========================================================
    RESPONSIVE DESIGN
    ========================================================= */
@@ -727,5 +719,308 @@ html {
   .wrk-final-cta::after {
     width: 340px;
     height: 340px;
+  }
+}
+
+/* ==========================================================================
+   HERO — REFINED AEC PRODUCTION PIPELINE ANIMATION (FROM INSIGHTS)
+   Loop = 12s. Smooth optical fiber transit with precision HUD states.
+========================================================================== */
+
+.isl-flow {
+  display: block;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+.isl-flow * {
+  box-sizing: border-box;
+}
+
+/* CAD Blueprint Grid */
+.isl-cad-grid {
+  pointer-events: none;
+}
+
+/* Technical datum line & tick marks */
+.isl-datum-rail {
+  stroke: rgba(210, 180, 135, 0.2);
+  stroke-width: 1.5;
+}
+
+.isl-datum-ticks {
+  stroke: rgba(255, 255, 255, 0.35);
+  stroke-width: 2.2;
+  stroke-dasharray: 2 12;
+  stroke-dashoffset: 0;
+  animation: islRailDrift 3s linear infinite;
+}
+
+@keyframes islRailDrift {
+  to {
+    stroke-dashoffset: -28;
+  }
+}
+
+/* Fiber-Optic Laser Tracking */
+.isl-laser-tail {
+  stroke: url(#isl-trace-grad);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 18 200;
+  stroke-dashoffset: 18;
+  opacity: 0;
+  animation: islLaserRun 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.isl-laser-beam {
+  stroke: #d2b487;
+  stroke-width: 3.8;
+  stroke-linecap: round;
+  stroke-dasharray: 8 200;
+  stroke-dashoffset: 8;
+  opacity: 0;
+  animation: islLaserRun 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.isl-laser-head {
+  stroke: #ffffff;
+  stroke-width: 4.8;
+  stroke-linecap: round;
+  stroke-dasharray: 1.5 200;
+  stroke-dashoffset: 1.5;
+  opacity: 0;
+  animation: islLaserHeadRun 12s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@keyframes islLaserRun {
+  0%, 4% { stroke-dashoffset: 18; opacity: 0; }
+  6% { opacity: 0.95; }
+  88% { stroke-dashoffset: -82; opacity: 0.95; }
+  92%, 100% { stroke-dashoffset: -82; opacity: 0; }
+}
+
+@keyframes islLaserHeadRun {
+  0%, 4% { stroke-dashoffset: 1.5; opacity: 0; }
+  6% { opacity: 1; }
+  88% { stroke-dashoffset: -98.5; opacity: 1; }
+  92%, 100% { stroke-dashoffset: -98.5; opacity: 0; }
+}
+
+/* Precision Anchor Nodes */
+.isl-anchor-dot {
+  fill: #48657c;
+  transition: fill 0.3s ease;
+}
+
+.isl-anchor-ring {
+  stroke: #d2b487;
+  stroke-width: 1.2;
+  opacity: 0;
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+}
+
+/* Professional Monospace Stage Labels */
+.isl-stage-tag {
+  text-anchor: middle;
+  pointer-events: none;
+  user-select: none;
+}
+
+.isl-tag-num {
+  fill: #d2b487;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 8px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  opacity: 0.75;
+}
+
+.isl-tag-title {
+  fill: #a2b7c7;
+  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-size: 8.5px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+}
+
+/* Organic Micro Hover Float */
+.isl-hover-float {
+  animation: islSubtleFloat 5s ease-in-out infinite;
+}
+
+@keyframes islSubtleFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-3.5px); }
+}
+
+/* Stage Modules: Opacity & Saturation */
+.isl-module {
+  opacity: 0.55;
+  filter: saturate(0.65);
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  transition: filter 0.4s ease, opacity 0.4s ease;
+}
+
+/* Synchronized Timings across 12-second cycle */
+/* Stage 1 */
+@keyframes islStage1Act {
+  0%, 6% { opacity: 0.55; filter: saturate(0.65); }
+  12%, 92% { opacity: 1; filter: saturate(1); }
+  96%, 100% { opacity: 0.55; filter: saturate(0.65); }
+}
+@keyframes islRing1Pulse {
+  0%, 7% { opacity: 0; transform: scale(0.6); }
+  9% { opacity: 0.8; transform: scale(0.9); }
+  16%, 100% { opacity: 0; transform: scale(1.6); }
+}
+@keyframes islNode1Act {
+  0%, 7% { fill: #48657c; }
+  9%, 92% { fill: #d2b487; }
+  96%, 100% { fill: #48657c; }
+}
+.isl-stage1 { animation: islStage1Act 12s ease-in-out infinite; }
+.isl-ring1  { animation: islRing1Pulse 12s ease-out infinite; }
+.isl-node1  { animation: islNode1Act 12s linear infinite; }
+
+/* Stage 2 */
+@keyframes islStage2Act {
+  0%, 23% { opacity: 0.55; filter: saturate(0.65); }
+  29%, 92% { opacity: 1; filter: saturate(1); }
+  96%, 100% { opacity: 0.55; filter: saturate(0.65); }
+}
+@keyframes islRing2Pulse {
+  0%, 24% { opacity: 0; transform: scale(0.6); }
+  26% { opacity: 0.8; transform: scale(0.9); }
+  33%, 100% { opacity: 0; transform: scale(1.6); }
+}
+@keyframes islNode2Act {
+  0%, 24% { fill: #48657c; }
+  26%, 92% { fill: #d2b487; }
+  96%, 100% { fill: #48657c; }
+}
+.isl-stage2 { animation: islStage2Act 12s ease-in-out infinite; }
+.isl-ring2  { animation: islRing2Pulse 12s ease-out infinite; }
+.isl-node2  { animation: islNode2Act 12s linear infinite; }
+
+/* Stage 3 */
+@keyframes islStage3Act {
+  0%, 41% { opacity: 0.55; filter: saturate(0.65); }
+  47%, 92% { opacity: 1; filter: saturate(1); }
+  96%, 100% { opacity: 0.55; filter: saturate(0.65); }
+}
+@keyframes islRing3Pulse {
+  0%, 42% { opacity: 0; transform: scale(0.6); }
+  44% { opacity: 0.8; transform: scale(0.9); }
+  51%, 100% { opacity: 0; transform: scale(1.6); }
+}
+@keyframes islNode3Act {
+  0%, 42% { fill: #48657c; }
+  44%, 92% { fill: #d2b487; }
+  96%, 100% { fill: #48657c; }
+}
+.isl-stage3 { animation: islStage3Act 12s ease-in-out infinite; }
+.isl-ring3  { animation: islRing3Pulse 12s ease-out infinite; }
+.isl-node3  { animation: islNode3Act 12s linear infinite; }
+
+/* Stage 4 */
+@keyframes islStage4Act {
+  0%, 59% { opacity: 0.55; filter: saturate(0.65); }
+  65%, 92% { opacity: 1; filter: saturate(1); }
+  96%, 100% { opacity: 0.55; filter: saturate(0.65); }
+}
+@keyframes islRing4Pulse {
+  0%, 60% { opacity: 0; transform: scale(0.6); }
+  62% { opacity: 0.8; transform: scale(0.9); }
+  69%, 100% { opacity: 0; transform: scale(1.6); }
+}
+@keyframes islNode4Act {
+  0%, 60% { fill: #48657c; }
+  62%, 92% { fill: #2ac288; }
+  96%, 100% { fill: #48657c; }
+}
+.isl-stage4 { animation: islStage4Act 12s ease-in-out infinite; }
+.isl-ring4  { animation: islRing4Pulse 12s ease-out infinite; }
+.isl-node4  { animation: islNode4Act 12s linear infinite; }
+
+/* Stage 5 */
+@keyframes islStage5Act {
+  0%, 77% { opacity: 0.55; filter: saturate(0.65); }
+  83%, 92% { opacity: 1; filter: saturate(1); }
+  96%, 100% { opacity: 0.55; filter: saturate(0.65); }
+}
+@keyframes islRing5Pulse {
+  0%, 78% { opacity: 0; transform: scale(0.6); }
+  80% { opacity: 0.8; transform: scale(0.9); }
+  87%, 100% { opacity: 0; transform: scale(1.6); }
+}
+@keyframes islNode5Act {
+  0%, 78% { fill: #48657c; }
+  80%, 92% { fill: #d2b487; }
+  96%, 100% { fill: #48657c; }
+}
+.isl-stage5 { animation: islStage5Act 12s ease-in-out infinite; }
+.isl-ring5  { animation: islRing5Pulse 12s ease-out infinite; }
+.isl-node5  { animation: islNode5Act 12s linear infinite; }
+
+/* Micro Elements */
+.isl-scan-line {
+  animation: islScanSweep 3.2s ease-in-out infinite alternate;
+}
+@keyframes islScanSweep {
+  0% { transform: translateY(-10px); opacity: 0.3; }
+  100% { transform: translateY(12px); opacity: 0.85; }
+}
+
+.isl-pulse-sensor {
+  animation: islSensorBreathe 2s ease-in-out infinite;
+}
+@keyframes islSensorBreathe {
+  0%, 100% { transform: scale(1); opacity: 0.4; }
+  50% { transform: scale(1.3); opacity: 0.9; }
+}
+
+.isl-check-mark {
+  stroke-dasharray: 18;
+  stroke-dashoffset: 18;
+  animation: islDrawCheck 3s ease-in-out infinite;
+}
+@keyframes islDrawCheck {
+  0%, 20% { stroke-dashoffset: 18; }
+  45%, 85% { stroke-dashoffset: 0; }
+  100% { stroke-dashoffset: 18; }
+}
+
+.isl-orbit-ring {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  animation: islOrbitSpin 14s linear infinite;
+}
+@keyframes islOrbitSpin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+/* User Hover Interaction */
+.wrk-intro-media:hover .isl-flow * {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .isl-flow * {
+    animation: none !important;
+  }
+  .isl-module {
+    opacity: 1;
+    filter: none;
+  }
+  .isl-laser-tail,
+  .isl-laser-beam,
+  .isl-laser-head,
+  .isl-anchor-ring {
+    display: none;
   }
 }

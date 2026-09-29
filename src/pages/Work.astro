@@ -77,16 +77,166 @@ const pad = (n: number) => String(n).padStart(2, "0");
             </div>
 
             <div class="wrk-intro-media">
-              <video
-                class="wrk-hero-video"
-                src="/videos/service-hero.mp4"
-                poster={heroPoster}
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-              ></video>
+              <svg class="isl-flow" viewBox="0 0 820 520" role="img" aria-label="AEC Technical Production Pipeline" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <!-- Gradients -->
+                  <linearGradient id="isl-trace-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#408ce0" stop-opacity="0.3"/>
+                    <stop offset="50%" stop-color="#d2b487" stop-opacity="0.9"/>
+                    <stop offset="100%" stop-color="#ffffff" stop-opacity="1"/>
+                  </linearGradient>
+
+                  <linearGradient id="glass-spec" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#ffffff" stop-opacity="0.18"/>
+                    <stop offset="100%" stop-color="#ffffff" stop-opacity="0.03"/>
+                  </linearGradient>
+
+                  <linearGradient id="slab-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#183652"/>
+                    <stop offset="100%" stop-color="#0a1926"/>
+                  </linearGradient>
+
+                  <radialGradient id="isl-coreGlow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#d2b487" stop-opacity="0.22"/>
+                    <stop offset="100%" stop-color="#d2b487" stop-opacity="0"/>
+                  </radialGradient>
+
+                  <filter id="isl-laserGlow" x="-30%" y="-30%" width="160%" height="160%">
+                    <feGaussianBlur stdDeviation="3.5" result="coloredBlur"/>
+                    <feMerge>
+                      <feMergeNode in="coloredBlur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+
+                <!-- Technical CAD Grid & Alignment Guides -->
+                <g class="isl-cad-grid" opacity="0.18" stroke="#5f86a8" stroke-width="0.7">
+                  <path d="M 40 120 H 780 M 40 220 H 780 M 40 320 H 780 M 40 420 H 780" stroke-dasharray="3 9"/>
+                  <path d="M 100 40 V 480 M 280 40 V 480 M 430 40 V 480 M 590 40 V 480 M 720 40 V 480" stroke-dasharray="3 9"/>
+                  <path d="M 275 220 h 10 M 280 215 v 10 M 425 320 h 10 M 430 315 v 10 M 585 120 h 10 M 590 115 v 10" stroke="#d2b487" stroke-width="1.2" stroke-dasharray="none"/>
+                </g>
+
+                <!-- Ambient Glows -->
+                <circle cx="280" cy="420" r="140" fill="url(#isl-coreGlow)"/>
+                <circle cx="590" cy="230" r="150" fill="url(#isl-coreGlow)"/>
+
+                <!-- Pipeline Datum Rails -->
+                <path class="isl-datum-rail" d="M40 395 C130 455, 250 470, 335 405 C420 340, 440 275, 520 262 C610 250, 670 190, 765 110" fill="none"/>
+                <path class="isl-datum-ticks" d="M40 395 C130 455, 250 470, 335 405 C420 340, 440 275, 520 262 C610 250, 670 190, 765 110" fill="none"/>
+
+                <!-- Precision Laser Pulse -->
+                <path class="isl-laser-tail" d="M40 395 C130 455, 250 470, 335 405 C420 340, 440 275, 520 262 C610 250, 670 190, 765 110" pathLength="100" fill="none"/>
+                <path class="isl-laser-beam" d="M40 395 C130 455, 250 470, 335 405 C420 340, 440 275, 520 262 C610 250, 670 190, 765 110" pathLength="100" fill="none" filter="url(#isl-laserGlow)"/>
+                <path class="isl-laser-head" d="M40 395 C130 455, 250 470, 335 405 C420 340, 440 275, 520 262 C610 250, 670 190, 765 110" pathLength="100" fill="none"/>
+
+                <!-- STAGE 01: 2D DRAFTING -->
+                <g transform="translate(97.1, 425.3)">
+                  <circle class="isl-anchor-ring isl-ring1" r="26" fill="none"/>
+                  <circle class="isl-anchor-dot isl-node1" r="3.5"/>
+                  <g class="isl-stage-tag" transform="translate(0, 24)">
+                    <text class="isl-tag-num" x="0" y="0">STAGE 01</text>
+                    <text class="isl-tag-title" x="0" y="11">2D SCHEMATIC</text>
+                  </g>
+                  <g class="isl-module isl-stage1" transform="translate(0, -42)">
+                    <g class="isl-hover-float">
+                      <rect x="-32" y="-36" width="64" height="50" rx="3" fill="url(#glass-spec)" stroke="rgba(210,180,135,0.45)" stroke-width="1.2"/>
+                      <line x1="-24" y1="-26" x2="24" y2="-26" stroke="#5f86a8" stroke-width="1.2" stroke-dasharray="2 2" opacity="0.8"/>
+                      <line x1="-24" y1="-10" x2="24" y2="-10" stroke="#5f86a8" stroke-width="1" opacity="0.6"/>
+                      <line x1="-24" y1="6" x2="8" y2="6" stroke="#5f86a8" stroke-width="1" opacity="0.6"/>
+                      <circle cx="16" cy="-2" r="5.5" fill="none" stroke="#d2b487" stroke-width="1"/>
+                      <line x1="16" y1="-9" x2="16" y2="5" stroke="#d2b487" stroke-width="0.8"/>
+                      <line x1="9" y1="-2" x2="23" y2="-2" stroke="#d2b487" stroke-width="0.8"/>
+                      <text x="-24" y="-2" fill="#8997a1" font-size="5" font-family="monospace" letter-spacing="0.5">SEC_A1</text>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- STAGE 02: 3D BIM MODEL -->
+                <g transform="translate(281.8, 434.2)">
+                  <circle class="isl-anchor-ring isl-ring2" r="28" fill="none"/>
+                  <circle class="isl-anchor-dot isl-node2" r="3.5"/>
+                  <g class="isl-stage-tag" transform="translate(0, 24)">
+                    <text class="isl-tag-num" x="0" y="0">STAGE 02</text>
+                    <text class="isl-tag-title" x="0" y="11">BIM MODEL (LOD 350)</text>
+                  </g>
+                  <g class="isl-module isl-stage2" transform="translate(0, -48)">
+                    <g class="isl-hover-float" style="animation-delay: -1.2s">
+                      <polygon points="0,-18 30,-4 0,10 -30,-4" fill="url(#slab-grad)" stroke="#d2b487" stroke-width="1.2" opacity="0.9"/>
+                      <polygon points="0,-34 30,-20 0,-6 -30,-20" fill="url(#slab-grad)" stroke="rgba(210,180,135,0.7)" stroke-width="1"/>
+                      <polygon points="0,-50 30,-36 0,-22 -30,-36" fill="url(#glass-spec)" stroke="#d2b487" stroke-width="1.2"/>
+                      <line x1="-30" y1="-4" x2="-30" y2="-36" stroke="#486d8e" stroke-width="1.2"/>
+                      <line x1="0" y1="10" x2="0" y2="-22" stroke="#d2b487" stroke-width="1.4"/>
+                      <line x1="30" y1="-4" x2="30" y2="-36" stroke="#486d8e" stroke-width="1.2"/>
+                      <line x1="-15" y1="3" x2="-15" y2="-29" stroke="rgba(64,140,224,0.6)" stroke-width="0.9" stroke-dasharray="2 2"/>
+                      <line x1="15" y1="3" x2="15" y2="-29" stroke="rgba(64,140,224,0.6)" stroke-width="0.9" stroke-dasharray="2 2"/>
+                      <line class="isl-scan-line" x1="-32" y1="-20" x2="32" y2="-20" stroke="#ffffff" stroke-width="1.2" opacity="0.7"/>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- STAGE 03: COORDINATION & MEP -->
+                <g transform="translate(425.5, 317.9)">
+                  <circle class="isl-anchor-ring isl-ring3" r="30" fill="none"/>
+                  <circle class="isl-anchor-dot isl-node3" r="3.5"/>
+                  <g class="isl-stage-tag" transform="translate(0, 24)">
+                    <text class="isl-tag-num" x="0" y="0">STAGE 03</text>
+                    <text class="isl-tag-title" x="0" y="11">COORDINATION &amp; MEP</text>
+                  </g>
+                  <g class="isl-module isl-stage3" transform="translate(0, -50)">
+                    <g class="isl-hover-float" style="animation-delay: -2.4s">
+                      <polygon points="0,-36 32,-19 0,-2 -32,-19" fill="url(#glass-spec)" stroke="rgba(255,255,255,0.25)" stroke-width="1"/>
+                      <polygon points="-32,-19 0,-2 0,32 -32,15" fill="#0d2133" stroke="rgba(255,255,255,0.15)" stroke-width="0.8" opacity="0.85"/>
+                      <polygon points="0,-2 32,-19 32,15 0,32" fill="#091826" stroke="rgba(255,255,255,0.15)" stroke-width="0.8" opacity="0.85"/>
+                      <path d="M-28 2 L0 15 L28 0" fill="none" stroke="#408ce0" stroke-width="2.6" stroke-linecap="round"/>
+                      <path d="M-24 -9 L5 5 L24 -5" fill="none" stroke="#d2b487" stroke-width="2.2" stroke-linecap="round"/>
+                      <path d="M-9 -26 L-9 24" fill="none" stroke="#2ac288" stroke-width="2" stroke-linecap="round"/>
+                      <circle cx="5" cy="5" r="5.5" fill="#d2b487" fill-opacity="0.25" stroke="#d2b487" stroke-width="1.2" class="isl-pulse-sensor"/>
+                      <circle cx="5" cy="5" r="1.5" fill="#ffffff"/>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- STAGE 04: QUALITY AUDIT -->
+                <g transform="translate(586.4, 242.9)">
+                  <circle class="isl-anchor-ring isl-ring4" r="28" fill="none"/>
+                  <circle class="isl-anchor-dot isl-node4" r="3.5"/>
+                  <g class="isl-stage-tag" transform="translate(0, 24)">
+                    <text class="isl-tag-num" x="0" y="0">STAGE 04</text>
+                    <text class="isl-tag-title" x="0" y="11">QUALITY AUDIT (PASS)</text>
+                  </g>
+                  <g class="isl-module isl-stage4" transform="translate(0, -46)">
+                    <g class="isl-hover-float" style="animation-delay: -0.8s">
+                      <rect x="-36" y="-26" width="72" height="52" rx="4" fill="#081827" stroke="rgba(210,180,135,0.45)" stroke-width="1.2"/>
+                      <rect x="-31" y="-21" width="62" height="42" rx="2" fill="#0b2034" opacity="0.85"/>
+                      <line x1="-23" y1="-12" x2="8" y2="-12" stroke="#2ac288" stroke-width="2" stroke-linecap="round"/>
+                      <line x1="-23" y1="-4" x2="16" y2="-4" stroke="#408ce0" stroke-width="2" stroke-linecap="round"/>
+                      <line x1="-23" y1="4" x2="4" y2="4" stroke="#d2b487" stroke-width="2" stroke-linecap="round"/>
+                      <circle cx="19" cy="8" r="9.5" fill="none" stroke="#2ac288" stroke-width="1.2" stroke-dasharray="3 1.5"/>
+                      <path class="isl-check-mark" d="M15.5 8 L18 10.5 L23 5.5" fill="none" stroke="#2ac288" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </g>
+                  </g>
+                </g>
+
+                <!-- STAGE 05: DIGITAL TWIN -->
+                <g transform="translate(720.5, 147.8)">
+                  <circle class="isl-anchor-ring isl-ring5" r="30" fill="none"/>
+                  <circle class="isl-anchor-dot isl-node5" r="3.5"/>
+                  <g class="isl-stage-tag" transform="translate(0, 24)">
+                    <text class="isl-tag-num" x="0" y="0">STAGE 05</text>
+                    <text class="isl-tag-title" x="0" y="11">DIGITAL TWIN HANDOFF</text>
+                  </g>
+                  <g class="isl-module isl-stage5" transform="translate(0, -48)">
+                    <g class="isl-hover-float" style="animation-delay: -1.8s">
+                      <polygon points="0,-30 28,-15 0,0 -28,-15" fill="url(#glass-spec)" stroke="#d2b487" stroke-width="1.4"/>
+                      <polygon points="-28,-15 0,0 0,28 -28,13" fill="#132c42" stroke="rgba(210,180,135,0.5)" stroke-width="1"/>
+                      <polygon points="0,0 28,-15 28,13 0,28" fill="#0c1f30" stroke="rgba(210,180,135,0.5)" stroke-width="1"/>
+                      <ellipse cx="0" cy="-2" rx="36" ry="13" fill="none" stroke="rgba(210,180,135,0.65)" stroke-width="1.1" stroke-dasharray="4 4" class="isl-orbit-ring"/>
+                      <circle cx="0" cy="-30" r="2.2" fill="#ffffff" filter="url(#isl-laserGlow)"/>
+                    </g>
+                  </g>
+                </g>
+              </svg>
             </div>
           </div>
         </div>
@@ -100,7 +250,6 @@ const pad = (n: number) => String(n).padStart(2, "0");
               <span class="wrk-kicker">CASE STUDIES</span>
               <h2 class="wrk-sec-h2">A closer look at <br /><span>our selected work.</span></h2>
             </div>
-            <!-- <span class="wrk-count">{pad(projects.length)} PROJECTS</span> -->
           </div>
 
           <div class="wrk-cards-grid">
