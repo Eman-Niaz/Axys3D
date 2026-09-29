@@ -55,29 +55,25 @@
    ========================================================= */
 
 .prc-intro-row {
+  /* ⬇⬇ DONO ALAG ALAG CONTROL ⬇⬇ */
+  --sphere-size: 640px;   /* sphere kitna bada (width = height) */
+  --hero-height: 520px;   /* hero row ki height (text + sphere isi ke andar beech mein) */
+
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: clamp(24px, 3vw, 40px);
+  height: var(--hero-height);   /* sphere isse bada ho to upar/neeche barabar bahar nikalta hai, hero nahi barhta */
 }
 
+/* Sphere box: size sirf --sphere-size se, hero ki height se bilkul alag */
 .prc-intro-media {
-  flex: 1 1 0;
+  flex: 0 1 var(--sphere-size);   /* jagah kam ho to shrink hota hai, warna exactly --sphere-size */
   min-width: 0;
-  max-width: 780px;
-  aspect-ratio: 16 / 10;
-  border-radius: 20px;
-  overflow: hidden;
-  background: linear-gradient(155deg, var(--prc-blue-panel) 0%, var(--prc-blue-soft) 60%, var(--prc-blue) 100%);
+  aspect-ratio: 1 / 1;
+  position: relative;
 }
 
-.prc-hero-img,
-.prc-hero-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
 /* drifting glow, kept confined to the top-right corner (painted above the video) */
 .prc-page-bg::before {
   content: "";
@@ -142,7 +138,7 @@
    ========================================================= */
 
 .prc-intro {
-  padding: 64px 0 70px;
+  padding: 24px 0 30px;
   position: relative;
   z-index: 2;
 }
@@ -345,7 +341,7 @@ html {
   position: relative;
   z-index: 2;
   padding: 0 0 110px;
-  margin-top: 80px;
+  margin-top: 120px;
 }
 
 .prc-steps-grid {
@@ -902,13 +898,15 @@ html {
     flex-direction: column;
     align-items: flex-start;
     gap: 32px;
+    height: auto;   /* mobile par content ke hisaab se */
   }
 
   .prc-intro-media {
     flex: 0 0 auto;
     width: 100%;
     max-width: 100%;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 1 / 1; /* mobile par sphere ko height chahiye */
+    margin-bottom: 0;
   }
 
   .prc-intro-header {
@@ -920,5 +918,80 @@ html {
   .prc-final-cta::after {
     width: 340px;
     height: 340px;
+  }
+}
+
+
+/* =========================================================
+   HERO — ROTATING SPHERE GALLERY (full sphere, top + bottom poles)
+========================================================= */
+
+.prc-sphere-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 700px; /* JS sets the real value (3 x radius) */
+  cursor: grab;
+  touch-action: pan-y; /* vertical swipe still scrolls the page */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.prc-sphere-stage.is-dragging {
+  cursor: grabbing;
+}
+
+.prc-sphere {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--R, 300px) * -1));
+  will-change: transform;
+}
+
+.prc-tile {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--tw, 60px);
+  height: var(--tht, 60px);
+  margin: calc(var(--tht, 60px) / -2) 0 0 calc(var(--tw, 60px) / -2);
+  overflow: hidden;
+  background: linear-gradient(155deg, var(--prc-blue-panel) 0%, var(--prc-blue) 100%);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(var(--R, 300px));
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: prcTileIn 0.9s ease both;
+  animation-delay: calc(var(--n, 0) * 7ms + 200ms);
+}
+
+.prc-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  transform: scale(1.04);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* hover: tile thoda bahar aata hai */
+.prc-tile:hover {
+  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(calc(var(--R, 300px) + 22px));
+}
+
+.prc-tile:hover img {
+  transform: scale(1.14);
+}
+
+@keyframes prcTileIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prc-tile {
+    animation: none;
   }
 }

@@ -40,7 +40,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={pageData.heroDescription} />
-    <title>{pageData.heroTitle} — Axys3D</title>
+    <title>{pageData.heroTitle}</title>
     <script is:inline>
       document.documentElement.classList.add("js");
     </script>
@@ -100,7 +100,7 @@ const pad = (n: number) => String(n).padStart(2, "0");
               <span class="wrk-kicker">CASE STUDIES</span>
               <h2 class="wrk-sec-h2">A closer look at <br /><span>our selected work.</span></h2>
             </div>
-            <span class="wrk-count">{pad(projects.length)} PROJECTS</span>
+            <!-- <span class="wrk-count">{pad(projects.length)} PROJECTS</span> -->
           </div>
 
           <div class="wrk-cards-grid">

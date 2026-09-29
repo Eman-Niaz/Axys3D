@@ -192,7 +192,7 @@ html {
    LARGE BACKGROUND CONTACT TEXT
    ========================================================= */
 
-.contact-page::before {
+/* .contact-page::before {
   content: "CONTACT";
 
   position: absolute;
@@ -217,7 +217,7 @@ html {
   pointer-events: none;
 
   z-index: 0;
-}
+} */
 
 /* =========================================================
    MAIN WRAPPER

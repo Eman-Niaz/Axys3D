@@ -19,7 +19,6 @@ import "../styles/Hero.css";
     id="heroVideo"
     autoplay
     muted
-    loop
     playsinline
   >
     <source
@@ -31,6 +30,10 @@ import "../styles/Hero.css";
 
   <!-- ================= BLUE DARK OVERLAY ================= -->
   <div class="hero-overlay"></div>
+
+
+  <!-- TEXT SCRIM (video end par fade-in) -->
+  <div class="hero-text-scrim"></div>
 
 
   <!-- ================= BRAND MASK INTRO ================= -->
@@ -56,261 +59,28 @@ import "../styles/Hero.css";
     </a>
 
 
-    <!-- MENU TOGGLE -->
-    <button
-      class="menu-toggle-btn"
-      id="menuToggle"
-      aria-label="Open menu"
-      aria-expanded="false"
-      type="button"
-    >
-      <span class="menu-toggle-label">
-        Menu
-      </span>
-
-      <span class="menu-toggle-lines">
-        <i></i>
-        <i></i>
-        <i></i>
-      </span>
-    </button>
-
-  </div>
+    <!-- FLOATING NAVBAR -->
+    <nav class="floating-nav" aria-label="Primary">
+      <ul>
+        <li><a href="/" class="is-active">Home</a></li>
+        <li><a href="/Services">Services</a></li>
+        <li><a href="/Industries">Industries</a></li>
+        <li><a href="/Work">Work</a></li>
+        <li><a href="/Process">Process</a></li>
+        <li><a href="/Insights">Insights</a></li>
+        <li><a href="/Visuals">Visuals</a></li>
+        <li><a href="/About">About</a></li>
+      </ul>
+    </nav>
 
 
-  <!-- =====================================================
-       NAVIGATION SCRIM
-       ===================================================== -->
-
-  <div
-    class="side-nav-scrim"
-    id="sideNavScrim"
-  ></div>
-
-
-  <!-- =====================================================
-       RIGHT SIDE NAVIGATION
-       ===================================================== -->
-
-  <nav
-    class="side-nav"
-    id="sideNav"
-    aria-hidden="true"
-  >
-
-    <!-- NAV PREVIEW -->
-    <div
-      class="side-nav-preview"
-      id="sideNavPreview"
-    >
-      <span class="side-nav-preview-index">
-        00
-      </span>
-
-      <p class="side-nav-preview-text">
-        Hover a link to preview what's inside.
-      </p>
-    </div>
-
-
-    <!-- KICKER -->
-    <span class="side-nav-kicker">
-      Navigation
-    </span>
-
-
-    <!-- NAV LINKS -->
-    <ul class="side-nav-links">
-
-      <!-- HOME -->
-      <li>
-        <a
-          href="/"
-          data-preview="Back to the Axys3D studio."
-        >
-          <span class="side-nav-link-index">
-            01
-          </span>
-
-          <span class="side-nav-link-text">
-            Home
-          </span>
-
-          <span class="side-nav-link-arrow">
-            ↗
-          </span>
-        </a>
-      </li>
-
-
-      <!-- SERVICES -->
-      <li>
-        <a
-          href="/Services"
-          data-preview="AEC production services across the pipeline."
-        >
-          <span class="side-nav-link-index">
-            02
-          </span>
-
-          <span class="side-nav-link-text">
-            Services
-          </span>
-
-          <span class="side-nav-link-arrow">
-            ↗
-          </span>
-        </a>
-      </li>
-
-
-      <!-- INDUSTRIES -->
-      <li>
-        <a
-          href="/Industries"
-          data-preview="Production support built around different AEC sectors."
-        >
-          <span class="side-nav-link-index">
-            03
-          </span>
-
-          <span class="side-nav-link-text">
-            Industries
-          </span>
-
-          <span class="side-nav-link-arrow">
-            ↗
-          </span>
-        </a>
-      </li>
-
-
-      <!-- WORK -->
-      <li>
-        <a
-          href="/Work"
-          data-preview="Selected projects and production work."
-        >
-          <span class="side-nav-link-index">
-            04
-          </span>
-
-          <span class="side-nav-link-text">
-            Work
-          </span>
-
-          <span class="side-nav-link-arrow">
-            ↗
-          </span>
-        </a>
-      </li>
-
-
-      <!-- PROCESS -->
-      <li>
-        <a
-          href="/Process"
-          data-preview="How a project moves from brief to final delivery."
-        >
-          <span class="side-nav-link-index">
-            05
-          </span>
-
-          <span class="side-nav-link-text">
-            Process
-          </span>
-
-          <span class="side-nav-link-arrow">
-            ↗
-          </span>
-        </a>
-      </li>
-
-
-      <!-- INSIGHTS -->
-      <li>
-        <a
-          href="/Insights"
-          data-preview="Notes on AEC production, workflow and technology."
-        >
-          <span class="side-nav-link-index">
-            06
-          </span>
-
-          <span class="side-nav-link-text">
-            Insights
-          </span>
-
-          <span class="side-nav-link-arrow">
-            ↗
-          </span>
-        </a>
-      </li>
-
-
-      <!-- VISUALS -->
-      <li>
-        <a
-          href="/Visuals"
-          data-preview="Renders, walkthroughs and visual production."
-        >
-          <span class="side-nav-link-index">
-            07
-          </span>
-
-          <span class="side-nav-link-text">
-            Visuals
-          </span>
-
-          <span class="side-nav-link-arrow">
-            ↗
-          </span>
-        </a>
-      </li>
-
-
-      <!-- ABOUT -->
-      <li>
-        <a
-          href="/About"
-          data-preview="The studio, people and production standard."
-        >
-          <span class="side-nav-link-index">
-            08
-          </span>
-
-          <span class="side-nav-link-text">
-            About
-          </span>
-
-          <span class="side-nav-link-arrow">
-            ↗
-          </span>
-        </a>
-      </li>
-
-
-    </ul>
-
-
-    <!-- =================================================
-         NAV CTA
-         ================================================= -->
-
-    <a
-      href="/Contact"
-      class="side-nav-cta"
-    >
-      <span>
-        Discuss a production package
-      </span>
-
-      <span class="arrow">
-        ↗
-      </span>
+    <!-- TOP RIGHT CTA -->
+    <a href="/Contact" class="topbar-cta">
+      <span>Discuss a production package</span>
+      <span class="arrow">↗</span>
     </a>
 
-  </nav>
+  </div>
 
 
   <!-- =====================================================
@@ -407,228 +177,45 @@ import "../styles/Hero.css";
 
 
 <!-- =====================================================
-     NAVIGATION SCRIPT
+     HERO VIDEO -> TEXT SCRIPT
+     video khatam -> text aata hai, 6 sec ruk kar video dobara chalti hai
      ===================================================== -->
 
 <script>
-  document.addEventListener("DOMContentLoaded", () => {
+  const hero = document.getElementById("axysHero") as HTMLElement | null;
+  const video = document.getElementById("heroVideo") as HTMLVideoElement | null;
 
-    const heroSection =
-      document.getElementById(
-        "axysHero"
-      ) as HTMLElement;
+  if (hero && video) {
+    const HOLD_MS = 6000; // text ke saath kitni der ruke
+    let holdTimer: number | undefined;
 
-    const menuToggle =
-      document.getElementById(
-        "menuToggle"
-      ) as HTMLButtonElement;
+    const restartVideo = () => {
+      hero.classList.remove("text-in");
+      video.currentTime = 0;
+      video.play().catch(() => {});
+    };
 
-    const sideNav =
-      document.getElementById(
-        "sideNav"
-      ) as HTMLElement;
+    const showText = (loopAgain = true) => {
+      if (hero.classList.contains("text-in")) return;
+      hero.classList.add("text-in");
+      window.clearTimeout(holdTimer);
+      if (loopAgain) holdTimer = window.setTimeout(restartVideo, HOLD_MS);
+    };
 
-    const scrim =
-      document.getElementById(
-        "sideNavScrim"
-      ) as HTMLElement;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    const preview =
-      document.getElementById(
-        "sideNavPreview"
-      ) as HTMLElement;
+    if (reduceMotion) {
+      video.pause();
+      showText(false);
+    } else {
+      video.addEventListener("ended", () => showText(true));
 
-    const previewText =
-      preview?.querySelector(
-        ".side-nav-preview-text"
-      ) as HTMLElement;
-
-    const previewIndex =
-      preview?.querySelector(
-        ".side-nav-preview-index"
-      ) as HTMLElement;
-
-
-    /* =====================================================
-       SAFETY CHECK
-       ===================================================== */
-
-    if (
-      !heroSection ||
-      !menuToggle ||
-      !sideNav ||
-      !scrim ||
-      !preview ||
-      !previewText ||
-      !previewIndex
-    ) {
-      return;
+      // fallback: video load / autoplay na ho to text phir bhi dikhe
+      video.querySelector("source")?.addEventListener("error", () => showText(false));
+      video.addEventListener("error", () => showText(false));
+      window.setTimeout(() => {
+        if (video.paused && video.currentTime === 0) showText(false);
+      }, 3000);
     }
-
-
-    /* =====================================================
-       OPEN NAV
-       ===================================================== */
-
-    function openNav() {
-
-      heroSection.classList.add(
-        "nav-open"
-      );
-
-      menuToggle.classList.add(
-        "is-open"
-      );
-
-      menuToggle.setAttribute(
-        "aria-expanded",
-        "true"
-      );
-
-      sideNav.setAttribute(
-        "aria-hidden",
-        "false"
-      );
-
-    }
-
-
-    /* =====================================================
-       CLOSE NAV
-       ===================================================== */
-
-    function closeNav() {
-
-      heroSection.classList.remove(
-        "nav-open"
-      );
-
-      menuToggle.classList.remove(
-        "is-open"
-      );
-
-      menuToggle.setAttribute(
-        "aria-expanded",
-        "false"
-      );
-
-      sideNav.setAttribute(
-        "aria-hidden",
-        "true"
-      );
-
-      preview.classList.remove(
-        "is-visible"
-      );
-
-    }
-
-
-    /* =====================================================
-       MENU BUTTON
-       ===================================================== */
-
-    menuToggle.addEventListener(
-      "click",
-      () => {
-
-        const isOpen =
-          heroSection.classList.contains(
-            "nav-open"
-          );
-
-        if (isOpen) {
-          closeNav();
-        } else {
-          openNav();
-        }
-
-      }
-    );
-
-
-    /* =====================================================
-       CLICK OUTSIDE
-       ===================================================== */
-
-    scrim.addEventListener(
-      "click",
-      closeNav
-    );
-
-
-    /* =====================================================
-       ESCAPE KEY
-       ===================================================== */
-
-    document.addEventListener(
-      "keydown",
-      (event) => {
-
-        if (
-          event.key === "Escape"
-        ) {
-          closeNav();
-        }
-
-      }
-    );
-
-
-    /* =====================================================
-       NAV LINK PREVIEW
-       ===================================================== */
-
-    sideNav
-      .querySelectorAll<HTMLAnchorElement>(
-        ".side-nav-links a"
-      )
-      .forEach(
-        (
-          link: HTMLAnchorElement,
-          index: number
-        ) => {
-
-          link.addEventListener(
-            "mouseenter",
-            () => {
-
-              const rect =
-                link.getBoundingClientRect();
-
-              preview.style.top =
-                `${rect.top + rect.height / 2}px`;
-
-              previewText.textContent =
-                link.dataset.preview || "";
-
-              previewIndex.textContent =
-                String(index + 1).padStart(
-                  2,
-                  "0"
-                );
-
-              preview.classList.add(
-                "is-visible"
-              );
-
-            }
-          );
-
-
-          link.addEventListener(
-            "mouseleave",
-            () => {
-
-              preview.classList.remove(
-                "is-visible"
-              );
-
-            }
-          );
-
-        }
-      );
-
-  });
+  }
 </script>

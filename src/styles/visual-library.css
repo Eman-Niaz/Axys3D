@@ -52,29 +52,25 @@
    ========================================================= */
 
 .lib-intro-row {
+  /* ⬇⬇ DONO ALAG ALAG CONTROL (sirf is page ke liye) ⬇⬇ */
+  --sphere-size: 640px;   /* sphere kitna bada (width = height) */
+  --hero-height: 520px;   /* hero row ki height (text + sphere isi ke andar beech mein) */
+
   display: flex;
   align-items: center;
   justify-content: flex-start;
   gap: clamp(24px, 3vw, 40px);
+  height: var(--hero-height);   /* sphere isse bada ho to upar/neeche barabar bahar nikalta hai, hero nahi barhta */
 }
 
+/* Sphere box: size sirf --sphere-size se, hero ki height se bilkul alag */
 .lib-intro-media {
-  flex: 1 1 0;
+  flex: 0 1 var(--sphere-size);   /* jagah kam ho to shrink hota hai, warna exactly --sphere-size */
   min-width: 0;
-  max-width: 780px;
-  aspect-ratio: 16 / 10;
-  border-radius: 20px;
-  overflow: hidden;
-  background: linear-gradient(155deg, var(--lib-blue-panel) 0%, var(--lib-blue-soft) 60%, var(--lib-blue) 100%);
+  aspect-ratio: 1 / 1;
+  position: relative;
 }
 
-.lib-hero-img,
-.lib-hero-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-}
 /* drifting glow, kept confined to the top-right corner (painted above the video) */
 .lib-page-bg::before {
   content: "";
@@ -868,13 +864,14 @@ html {
     flex-direction: column;
     align-items: flex-start;
     gap: 32px;
+    height: auto;   /* mobile par content ke hisaab se */
   }
 
   .lib-intro-media {
     flex: 0 0 auto;
     width: 100%;
     max-width: 100%;
-    aspect-ratio: 16 / 10;
+    aspect-ratio: 1 / 1; /* mobile par sphere ko height chahiye */
   }
 
   .lib-intro-header {
@@ -902,4 +899,79 @@ html {
 .lib-lightbox * {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
   font-weight: 700 !important;
+}
+
+
+/* =========================================================
+   HERO — ROTATING SPHERE GALLERY (full sphere, top + bottom poles)
+========================================================= */
+
+.lib-sphere-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 700px; /* JS sets the real value (3 x radius) */
+  cursor: grab;
+  touch-action: pan-y; /* vertical swipe still scrolls the page */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.lib-sphere-stage.is-dragging {
+  cursor: grabbing;
+}
+
+.lib-sphere {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--R, 300px) * -1));
+  will-change: transform;
+}
+
+.lib-tile {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--tw, 60px);
+  height: var(--tht, 60px);
+  margin: calc(var(--tht, 60px) / -2) 0 0 calc(var(--tw, 60px) / -2);
+  overflow: hidden;
+  background: linear-gradient(155deg, var(--lib-blue-panel) 0%, var(--lib-blue) 100%);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(var(--R, 300px));
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: libTileIn 0.9s ease both;
+  animation-delay: calc(var(--n, 0) * 7ms + 200ms);
+}
+
+.lib-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  transform: scale(1.04);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* hover: tile thoda bahar aata hai */
+.lib-tile:hover {
+  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(calc(var(--R, 300px) + 22px));
+}
+
+.lib-tile:hover img {
+  transform: scale(1.14);
+}
+
+@keyframes libTileIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lib-tile {
+    animation: none;
+  }
 }

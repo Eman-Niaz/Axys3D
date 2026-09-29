@@ -148,8 +148,47 @@ const heroSubtitle = "Explore production assets & renders.";
 const heroDescription =
   "A curated archive of photorealistic visual sets, BIM coordination models, and interactive real-time environments.";
 
-const heroPoster =
-  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=85";
+/*
+ * ROTATING SPHERE GALLERY (hero) — images assets array se aati hain (duplicate hata ke, chhota thumbnail).
+ * Alag images chahiye to sirf sphereImages array badal do, e.g. ["/images/sphere/01.jpg", ...]
+ */
+const sphereImages = [...new Set(assets.map((x) => x.image))].map((u) =>
+  u.replace("w=1200", "w=240").replace("q=80", "q=70")
+);
+
+const SPHERE_STEP_WANT = 14; // degrees — kam karoge to balls chhoti + zyada, barhaoge to balls bari + kam
+const SPHERE_ROWS = Math.round(180 / SPHERE_STEP_WANT) + 1; // -90° (bottom pole) se +90° (top pole) tak
+const SPHERE_STEP = 180 / (SPHERE_ROWS - 1); // exact step taake dono poles par row aaye
+const SPHERE_COLS_EQ = Math.round(360 / SPHERE_STEP); // equator par kitni balls
+const SPHERE_FILL = 0.78; // 1 = balls aapas me chipki hui, kam = zyada gap
+const SPHERE_TILE = ((SPHERE_STEP * Math.PI) / 180) * SPHERE_FILL; // ball size (sphere radius ka hissa)
+
+const blobShapes = [
+  "52% 48% 55% 45% / 48% 54% 46% 52%",
+  "46% 54% 48% 52% / 55% 45% 55% 45%",
+  "58% 42% 50% 50% / 46% 52% 48% 54%",
+  "50% 50% 44% 56% / 54% 46% 54% 46%",
+  "44% 56% 52% 48% / 50% 58% 42% 50%",
+  "55% 45% 47% 53% / 44% 50% 50% 56%",
+];
+
+// Poora sphere: har latitude row me cos(lat) ke hisaab se balls (poles par 1 ball, equator par sab se zyada)
+const sphereTiles: { yaw: number; pitch: number; src: string; shape: string; n: number }[] = [];
+let tileN = 0;
+for (let r = 0; r < SPHERE_ROWS; r++) {
+  const lat = -90 + r * SPHERE_STEP;
+  const cols = Math.max(1, Math.round(SPHERE_COLS_EQ * Math.cos((lat * Math.PI) / 180)));
+  const offset = r % 2 ? 0.5 : 0; // alternate rows half-step — brick jaisa pattern
+  for (let c = 0; c < cols; c++) {
+    sphereTiles.push({
+      yaw: (c + offset) * (360 / cols),
+      pitch: lat,
+      src: sphereImages[(c * 3 + r * 5) % sphereImages.length],
+      shape: blobShapes[(c * 5 + r * 7) % blobShapes.length],
+      n: tileN++,
+    });
+  }
+}
 
 /* Hero title: pehla aadha white, doosra aadha muted (baaki pages jaisa) */
 const heroWords = heroSubtitle.trim().split(/\s+/);
@@ -162,7 +201,7 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={heroDescription} />
-    <title>Visual Asset Library — Axys3D</title>
+    <title>Visual Asset Library</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet" />
@@ -202,16 +241,30 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
             </div>
 
             <div class="lib-intro-media">
-              <video
-                class="lib-hero-video"
-                src="/videos/service-hero.mp4"
-                poster={heroPoster}
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-              ></video>
+              <div
+                class="lib-sphere-stage"
+                data-sphere
+                data-tile={SPHERE_TILE}
+                role="img"
+                aria-label="Interactive rotating gallery of Axys3D visual assets. Drag to rotate."
+              >
+                <div class="lib-sphere">
+                  {sphereTiles.map((t) => (
+                    <span
+                      class="lib-tile"
+                      style={`--yaw:${t.yaw}deg;--pitch:${t.pitch}deg;--n:${t.n};border-radius:${t.shape}`}
+                    >
+                      <img
+                        src={t.src}
+                        alt=""
+                        loading="eager"
+                        decoding="async"
+                        draggable="false"
+                      />
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -225,7 +278,7 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
               <span class="lib-kicker">BROWSE THE ARCHIVE</span>
               <h2 class="lib-sec-h2">Every asset, <br /><span>organised by discipline.</span></h2>
             </div>
-            <span class="lib-count" id="libCount">{pad(assets.length)} ASSETS</span>
+            <!-- <span class="lib-count" id="libCount">{pad(assets.length)} ASSETS</span> -->
           </div>
 
           <!-- Filters -->
@@ -363,7 +416,7 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
         });
 
         const shown = cards.filter((c) => c.style.display !== "none").length;
-        countEl.textContent = `${pad(shown)} ${shown === 1 ? "ASSET" : "ASSETS"}`;
+        if (countEl) countEl.textContent = `${pad(shown)} ${shown === 1 ? "ASSET" : "ASSETS"}`;
         emptyEl.classList.toggle("is-shown", shown === 0);
         layout();
         if (animate) setTimeout(() => cards.forEach((c) => c.classList.remove("lib-pop")), 1400);
@@ -427,6 +480,104 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
       document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") closeBox();
       });
+
+      /* ===== Sphere gallery (hero): auto-rotate + drag + mouse-follow ===== */
+      (() => {
+        const stage = document.querySelector("[data-sphere]");
+        if (!stage) return;
+        const sphere = stage.querySelector(".lib-sphere");
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+        const TILE = Number(stage.dataset.tile) || 0.2;
+        let R = 300;
+        const layout = () => {
+          const W = stage.clientWidth;
+          const H = stage.clientHeight;
+          if (!W || !H) return;
+          R = Math.min(W, H) * 0.49; // poora sphere (top + bottom) box ke andar fit
+          const tile = R * TILE;
+          stage.style.perspective = `${R * 3}px`;
+          stage.style.setProperty("--R", `${R}px`);
+          stage.style.setProperty("--tw", `${tile}px`);
+          stage.style.setProperty("--tht", `${tile}px`);
+        };
+        layout();
+        new ResizeObserver(layout).observe(stage);
+
+        const BASE_PITCH = -8;
+        const MAX_PITCH = 80; // drag karke poles tak dekh sakte ho
+        const AUTO_SPEED = reduce ? 0 : 0.07; // degrees per frame
+        let yaw = 0, pitch = BASE_PITCH, vYaw = 0, vPitch = 0;
+        let dragging = false, inside = false;
+        let lastX = 0, lastY = 0, hoverX = 0, hoverY = 0;
+        let running = true, last = performance.now();
+        const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+
+        const render = () => {
+          sphere.style.transform = `translateZ(${-R}px) rotateX(${pitch}deg) rotateY(${yaw}deg)`;
+        };
+
+        const frame = (now) => {
+          const dt = Math.min((now - last) / 16.667, 3);
+          last = now;
+          if (running && !dragging) {
+            const hoverSpin = inside && !reduce ? hoverX * 0.16 : 0;
+            yaw = (yaw + (vYaw + AUTO_SPEED + hoverSpin) * dt) % 360;
+            pitch += vPitch * dt;
+            const target = BASE_PITCH + (inside && !reduce ? hoverY * 8 : 0);
+            pitch += (target - pitch) * 0.035 * dt;
+            pitch = clamp(pitch, -MAX_PITCH, MAX_PITCH);
+            const decay = Math.pow(0.95, dt);
+            vYaw *= decay;
+            vPitch *= decay;
+          }
+          if (running) render();
+          requestAnimationFrame(frame);
+        };
+
+        stage.addEventListener("pointerdown", (e) => {
+          dragging = true;
+          lastX = e.clientX;
+          lastY = e.clientY;
+          vYaw = 0;
+          vPitch = 0;
+          stage.classList.add("is-dragging");
+          stage.setPointerCapture(e.pointerId);
+        });
+
+        stage.addEventListener("pointermove", (e) => {
+          const r = stage.getBoundingClientRect();
+          hoverX = ((e.clientX - r.left) / r.width - 0.5) * 2;
+          hoverY = ((e.clientY - r.top) / r.height - 0.5) * 2;
+          inside = true;
+          if (!dragging) return;
+          const dx = e.clientX - lastX;
+          const dy = e.clientY - lastY;
+          lastX = e.clientX;
+          lastY = e.clientY;
+          yaw += dx * 0.3;
+          pitch = clamp(pitch - dy * 0.2, -MAX_PITCH, MAX_PITCH);
+          vYaw = clamp(dx * 0.3, -8, 8);
+          vPitch = clamp(-dy * 0.2, -5, 5);
+        });
+
+        const endDrag = () => {
+          dragging = false;
+          stage.classList.remove("is-dragging");
+        };
+        stage.addEventListener("pointerup", endDrag);
+        stage.addEventListener("pointercancel", endDrag);
+        stage.addEventListener("pointerleave", () => { inside = false; });
+
+        // screen se bahar ho to animation rok do
+        new IntersectionObserver(([entry]) => {
+          running = entry.isIntersecting;
+          last = performance.now();
+        }).observe(stage);
+
+        render();
+        requestAnimationFrame(frame);
+      })();
     </script>
   </body>
 </html>

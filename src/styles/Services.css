@@ -30,6 +30,8 @@
     -apple-system,
     BlinkMacSystemFont,
     sans-serif !important;
+  padding: 0 0 100px;
+  margin-bottom: -70px
 }
 
 /* =========================================================
@@ -59,23 +61,6 @@
   align-items: center;
   justify-content: flex-start;
   gap: clamp(24px, 3vw, 40px);
-}
-
-.svc-intro-media {
-  flex: 1 1 0;
-  min-width: 0;
-  max-width: 780px;
-  aspect-ratio: 16 / 10;
-  border-radius: 20px;
-  overflow: hidden;
-  background: linear-gradient(155deg, var(--svc-blue-panel) 0%, var(--svc-blue-soft) 60%, var(--svc-blue) 100%);
-}
-
-.svc-hero-video {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
 }
 /* drifting glow, kept confined to the top-right corner (painted above the video) */
 .svc-page-bg::before {
@@ -141,7 +126,7 @@
    ========================================================= */
 
 .svc-intro {
-  padding: 64px 0 70px;
+  padding: -50px 0 -70px;
   position: relative;
   z-index: 2;
 }
@@ -200,6 +185,7 @@
   letter-spacing: 0.14em;
   color: var(--svc-brown-light);
   margin-bottom: 20px;
+  margin-top: -100px;
 }
 
 .svc-h1 {
@@ -610,13 +596,6 @@ html {
     gap: 32px;
   }
 
-  .svc-intro-media {
-    flex: 0 0 auto;
-    width: 100%;
-    max-width: 100%;
-    aspect-ratio: 16 / 10;
-  }
-
   .svc-intro-header {
     flex: 0 0 auto;
     max-width: 100%;
@@ -641,5 +620,99 @@ html {
   .svc-tab {
     font-size: 11px;
     padding: 8px 13px;
+  }
+}
+
+
+/* =========================================================
+   HERO — ROTATING SPHERE GALLERY (full sphere, top + bottom poles)
+========================================================= */
+
+/* Industries jitna bada sphere: box 780px wide + utna hi lamba (poora sphere top/bottom ke saath) */
+.svc-intro-media {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 680px;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  margin-bottom: 70px;
+}
+
+.svc-sphere-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 700px; /* JS sets the real value (3 x radius) */
+  cursor: grab;
+  touch-action: pan-y; /* vertical swipe still scrolls the page */
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.svc-sphere-stage.is-dragging {
+  cursor: grabbing;
+}
+
+.svc-sphere {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--R, 300px) * -1));
+  will-change: transform;
+}
+
+.svc-tile {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--tw, 60px);
+  height: var(--tht, 60px);
+  margin: calc(var(--tht, 60px) / -2) 0 0 calc(var(--tw, 60px) / -2);
+  overflow: hidden;
+  background: linear-gradient(155deg, var(--svc-blue-panel) 0%, var(--svc-blue) 100%);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(var(--R, 300px));
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: svcTileIn 0.9s ease both;
+  animation-delay: calc(var(--n, 0) * 7ms + 200ms);
+}
+
+.svc-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  transform: scale(1.04);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+/* hover: tile thoda bahar aata hai */
+.svc-tile:hover {
+  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(calc(var(--R, 300px) + 22px));
+}
+
+.svc-tile:hover img {
+  transform: scale(1.14);
+}
+
+@keyframes svcTileIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svc-tile {
+    animation: none;
+  }
+}
+
+@media (max-width: 680px) {
+  .svc-intro-media {
+    flex: 0 0 auto;
+    width: 100%;
+    max-width: 100%;
+    aspect-ratio: 1 / 1; /* mobile par sphere ko height chahiye */
   }
 }
