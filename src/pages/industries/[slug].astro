@@ -94,9 +94,25 @@ const responsibilityBoundary: string =
   data.responsibilityBoundary ||
   "The appointed practice retains design authorship, statutory responsibility and professional sign-off.";
 
-// Hero Background Image URL
-const heroBackgroundImage =
-  "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=2400&q=85";
+// --- helpers for the new layout ---
+const prettyLabel: string = serviceLabel
+  .replace(/[-_]+/g, " ")
+  .toLowerCase()
+  .replace(/\b\w/g, (c: string) => c.toUpperCase());
+
+const titleWords: string[] = title.split(/\s+/).filter(Boolean);
+const titleSplit = Math.ceil(titleWords.length / 2);
+
+const ctxWords: string[] = operatingContext.split(/\s+/).filter(Boolean);
+const ctxSplit = Math.ceil(ctxWords.length / 2);
+
+const stageNames = ["Inputs", "Production", "Review", "Handoff"];
+const stageIcons = [
+  '<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/>',
+  '<circle cx="12" cy="12" r="3.2"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8"/>',
+  '<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/>',
+  '<path d="M12 2.8l8 4.5v9.4l-8 4.5-8-4.5V7.3z"/><path d="M4 7.3l8 4.5 8-4.5M12 11.8v9.4"/>',
+];
 ---
 
 <!doctype html>
@@ -106,121 +122,222 @@ const heroBackgroundImage =
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title} — Axys3D</title>
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
 
-  <body class="page-industries">
-    <Navbar variant="transparent" />
+  <body class="page-industry-single">
+    <!-- PAGE BACKGROUND — Top tak seamless gradient and glow -->
+    <div class="ind-page-bg" aria-hidden="true"></div>
 
-    <main class="ind-single-page">
-      <!-- HERO SECTION -->
-      <section class="ind-single-hero">
-        <!-- Cinematic Background Image Overlay -->
-        <div class="ind-hero-bg">
-          <img
-            src={heroBackgroundImage}
-            alt="Industry Workflow Background"
-            class="ind-hero-img"
-          />
-          <div class="ind-hero-overlay"></div>
-        </div>
+    <Navbar variant="solid" />
 
-        <div class="ind-single-wrap">
-          <div class="ind-top-meta">
-            <a class="ind-back" href="/Industries/">
-              <span class="back-arrow">←</span>
-              <span>ALL INDUSTRIES</span>
-            </a>
-            <span class="ind-category-badge">AEC WORKFLOW SPEC</span>
-          </div>
+    <main class="ind-page">
+      <!-- =========== HERO (text only, left) =========== -->
+      <section class="ind-hero">
+        <div class="ind-wrap">
+          <a class="ind-back" href="/Industries/">All industries</a>
+          <span class="ind-kicker">Industries / {prettyLabel}</span>
 
-          <p class="ind-single-eyebrow">INDUSTRY WORKFLOW // {serviceLabel}</p>
-          <h1 class="ind-single-title">{title}</h1>
-          <p class="ind-single-lead">{description}</p>
+          <h1 class="ind-h1">
+            <span class="ind-h1-visual" aria-hidden="true">
+              {titleWords.map((w: string, i: number) => (
+                <span class={`ind-word${i >= titleSplit ? " ind-word--muted" : ""}`} style={`--i:${i}`}>{w}</span>
+              ))}
+            </span>
+            <span class="sr-only">{title}</span>
+          </h1>
+
+          <p class="ind-lead">{description}</p>
         </div>
       </section>
 
-      <!-- OPERATING CONTEXT -->
-      <section class="ind-single-section">
-        <div class="ind-single-wrap">
-          <p class="ind-single-section-title">OPERATING CONTEXT</p>
-          <h2 class="ind-single-subtitle">{operatingContext}</h2>
-
-          <div class="ind-grid-2">
-            <!-- Buyer Pressures -->
-            <div class="ind-box">
-              <h3 class="ind-box-title">Typical buyer pressures</h3>
-              <ul class="ind-list">
-                {buyerPressures.map((item: string) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-
-            <!-- Production Requirements -->
-            <div class="ind-box">
-              <h3 class="ind-box-title">Production requirements</h3>
-              <ul class="ind-list">
-                {productionRequirements.map((item: string) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ENGAGEMENT MODEL -->
-      <section class="ind-single-section">
-        <div class="ind-single-wrap">
-          <p class="ind-single-section-title">ENGAGEMENT MODEL</p>
-          <h2 class="ind-single-subtitle">One brief, named approvals, structured handoff.</h2>
-
-          <div class="ind-steps-grid">
-            {engagementModel.map((item: { step: string; description: string }) => (
-              <div class="ind-step-card">
-                <span class="ind-step-num">{item.step}</span>
-                <p class="ind-step-desc">{item.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <!-- RELEVANT CAPABILITIES & BOUNDARY -->
-      <section class="ind-single-section">
-        <div class="ind-single-wrap">
-          <p class="ind-single-section-title">RELEVANT CAPABILITIES</p>
-          <h2 class="ind-single-subtitle">Connected service packages.</h2>
-
-          <!-- Services Chips -->
-          <div class="ind-chips-flex">
-            {typicalServices.map((svc: string) => (
-              <span class="ind-service-chip">{svc}</span>
-            ))}
-          </div>
-
-          <!-- Responsibility Boundary -->
-          <div class="ind-boundary-box">
-            <p>
-              <strong>Responsibility boundary:</strong> {responsibilityBoundary}
-            </p>
-          </div>
-
-          <!-- Dynamic Animated CTA Card -->
-          <div class="ind-cta-card">
+      <!-- =========== OPERATING CONTEXT (bento) =========== -->
+      <section class="ind-section ind-section--first">
+        <div class="ind-wrap">
+          <div class="ind-head ind-reveal">
             <div>
-              <h3 class="ind-cta-heading">Ready to configure this production workflow?</h3>
-              <p class="ind-cta-sub">Align model authoring and deliverable standards with our studio team.</p>
+              <span class="ind-kicker">Operating context</span>
+              <h2 class="ind-h2">
+                {ctxWords.slice(0, ctxSplit).join(" ")} <span>{ctxWords.slice(ctxSplit).join(" ")}</span>
+              </h2>
             </div>
-            <a href="/Contact/" class="ind-cta-btn">
-              Define Production Package <span>→</span>
-            </a>
+            <p class="ind-head-note">Where the pressure comes from, and what the production response has to cover.</p>
           </div>
 
+          <div class="ind-bento">
+            <article class="ind-card ind-card--cream ind-reveal" style="--d:0.05s">
+              <div class="ind-card-top">
+                <span class="ind-tag">Buyer pressures</span>
+                <span class="ind-card-num">01</span>
+              </div>
+              <h3 class="ind-card-title">Typical buyer pressures</h3>
+              <p class="ind-card-desc">{buyerPressures.length} constraints this workflow has to absorb.</p>
+              <ul class="ind-rows" data-rows>
+                {buyerPressures.map((t: string, i: number) => (
+                  <li class={`ind-row${i === 0 ? " is-active" : ""}`}>{t}</li>
+                ))}
+              </ul>
+            </article>
+
+            <article class="ind-card ind-card--dark ind-reveal" style="--d:0.12s">
+              <div class="ind-card-top">
+                <span class="ind-tag">Requirements</span>
+                <span class="ind-card-num">02</span>
+              </div>
+              <h3 class="ind-card-title">Production requirements</h3>
+              <p class="ind-card-desc">{productionRequirements.length} controls the package is built around.</p>
+              <ul class="ind-rows" data-rows>
+                {productionRequirements.map((t: string, i: number) => (
+                  <li class={`ind-row${i === 0 ? " is-active" : ""}`}>{t}</li>
+                ))}
+              </ul>
+            </article>
+
+            <div class="ind-stack">
+              <article class="ind-card ind-card--cream ind-stat ind-reveal" style="--d:0.19s">
+                <span class="ind-tag">Pressures mapped</span>
+                <div>
+                  <span class="ind-stat-num">{String(buyerPressures.length).padStart(2, "0")}</span>
+                  <p class="ind-stat-sub">Buyer-side constraints identified for this workflow.</p>
+                </div>
+              </article>
+              <article class="ind-card ind-card--dark ind-stat ind-reveal" style="--d:0.26s">
+                <span class="ind-tag">Governed steps</span>
+                <div>
+                  <span class="ind-stat-num">{String(engagementModel.length).padStart(2, "0")}</span>
+                  <p class="ind-stat-sub">Named approvals from first brief to handoff.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========== ENGAGEMENT MODEL (auto-cycling steps) =========== -->
+      <section class="ind-section">
+        <div class="ind-wrap">
+          <div class="ind-head ind-reveal">
+            <div>
+              <span class="ind-kicker">Engagement model</span>
+              <h2 class="ind-h2">One brief, named approvals, <span>structured handoff.</span></h2>
+            </div>
+            <p class="ind-head-note">The same governed sequence on every package, from first brief to structured handoff.</p>
+          </div>
+
+          <div class="ind-steps" data-steps>
+            {engagementModel.map((item: { step: string; description: string }, i: number) => (
+              <article class={`ind-step ind-reveal${i === 0 ? " is-active" : ""}`} data-step style={`--d:${i * 0.09}s`}>
+                <div class="ind-step-top">
+                  <span class="ind-step-pill">{item.step}</span>
+                  <span class="ind-step-count">{i + 1} / {engagementModel.length}</span>
+                </div>
+                <div class="ind-step-icon">
+                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={stageIcons[i % stageIcons.length]}></svg>
+                </div>
+                <h3 class="ind-step-title">{stageNames[i] ?? `Step ${item.step}`}</h3>
+                <p class="ind-step-desc">{item.description}</p>
+                <div class="ind-step-bar"><span></span></div>
+                {i < engagementModel.length - 1 && <span class="ind-step-link" aria-hidden="true">→</span>}
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- =========== CAPABILITIES + BOUNDARY =========== -->
+      <section class="ind-section">
+        <div class="ind-wrap">
+          <div class="ind-head ind-reveal">
+            <div>
+              <span class="ind-kicker">Relevant capabilities</span>
+              <h2 class="ind-h2">Connected <span>service packages.</span></h2>
+            </div>
+            <p class="ind-head-note">Service packages typically connected to this workflow.</p>
+          </div>
+
+          <div class="ind-duo">
+            <article class="ind-card ind-card--dark ind-reveal" style="--d:0.05s">
+              <div class="ind-card-top">
+                <span class="ind-tag">Capabilities</span>
+                <span class="ind-card-num">{String(typicalServices.length).padStart(2, "0")}</span>
+              </div>
+              <h3 class="ind-card-title">Where we plug in</h3>
+              <div class="ind-chips">
+                {typicalServices.map((svc: string) => (
+                  <span class="ind-chip">{svc}</span>
+                ))}
+              </div>
+            </article>
+
+            <article class="ind-card ind-card--cream ind-reveal" style="--d:0.12s">
+              <div class="ind-card-top">
+                <span class="ind-tag">Responsibility boundary</span>
+              </div>
+              <p class="ind-boundary">{responsibilityBoundary}</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========== FINAL CTA =========== -->
+      <section class="ind-final-cta">
+        <div class="ind-final-inner ind-reveal">
+          <h2>Ready to configure this <span>production workflow?</span></h2>
+          <p>Align model authoring and deliverable standards with our studio team.</p>
+          <a href="/Contact/" class="ind-final-btn">
+            <span>Define production package</span>
+            <span>↗</span>
+          </a>
         </div>
       </section>
     </main>
 
     <Footer />
+
+    <script is:inline>
+      // scroll reveal
+      const revealEls = document.querySelectorAll(".ind-reveal");
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => {
+            if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); }
+          }),
+          { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+        );
+        revealEls.forEach((el) => io.observe(el));
+      } else {
+        revealEls.forEach((el) => el.classList.add("is-visible"));
+      }
+
+      // list rows: highlight follows the mouse
+      document.querySelectorAll("[data-rows]").forEach((list) => {
+        const rows = list.querySelectorAll(".ind-row");
+        rows.forEach((row) => row.addEventListener("mouseenter", () => {
+          rows.forEach((r) => r.classList.remove("is-active"));
+          row.classList.add("is-active");
+        }));
+      });
+
+      // engagement steps: auto-cycle, hover to take control
+      (function () {
+        const wrap = document.querySelector("[data-steps]");
+        if (!wrap) return;
+        const steps = Array.from(wrap.querySelectorAll("[data-step]"));
+        if (!steps.length) return;
+        let cur = 0, timer;
+        const set = (n) => { cur = n; steps.forEach((s, k) => s.classList.toggle("is-active", k === n)); };
+        const stop = () => clearInterval(timer);
+        const start = () => { stop(); timer = setInterval(() => set((cur + 1) % steps.length), 3600); };
+        set(0);
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        start();
+        steps.forEach((s, k) => {
+          s.addEventListener("mouseenter", () => { stop(); set(k); });
+          s.addEventListener("mouseleave", start);
+        });
+      })();
+    </script>
   </body>
 </html>

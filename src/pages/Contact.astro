@@ -23,16 +23,15 @@ if (!pageData) {
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Contact & Scoping — Axys3D</title>
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
 
   <body class="page-contact">
 
-    <!-- =====================================================
-         BACKGROUND
-         ===================================================== -->
-
+    <!-- PAGE BACKGROUND -->
     <div class="cnt-page-bg"></div>
 
     <Navbar variant="solid" />
@@ -43,11 +42,8 @@ if (!pageData) {
 
         <div class="cnt-wrap">
 
-          <!-- =================================================
-               INTRO
-               ================================================= -->
-
-          <div class="cnt-intro">
+          <!-- ================= INTRO (FADE IN) ================= -->
+          <div class="cnt-intro" data-reveal>
 
             <span class="cnt-kicker">
               CONTACT
@@ -67,18 +63,12 @@ if (!pageData) {
           </div>
 
 
-          <!-- =================================================
-               MAIN CONTACT LAYOUT
-               ================================================= -->
-
+          <!-- ================= MAIN CONTACT LAYOUT ================= -->
           <div class="cnt-main-layout">
 
 
-            <!-- ===============================================
-                 LEFT PANEL
-                 =============================================== -->
-
-            <div class="cnt-left-panel">
+            <!-- ================= LEFT PANEL (SLIDE FROM LEFT) ================= -->
+            <div class="cnt-left-panel" data-reveal>
 
               <div class="cnt-left-panel-top">
 
@@ -100,61 +90,38 @@ if (!pageData) {
               </div>
 
 
-              <!-- CONTACT INFORMATION -->
-
+              <!-- CONTACT INFORMATION LIST -->
               <div class="cnt-info-list">
 
-
                 <!-- EMAIL -->
-
-                <div class="cnt-info-card">
+                <div class="cnt-info-card" style="--c: 1">
 
                   <div class="cnt-info-icon">
-
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
                       stroke-width="1.7"
                     >
-                      <rect
-                        x="3"
-                        y="5"
-                        width="18"
-                        height="14"
-                        rx="2"
-                      />
-
+                      <rect x="3" y="5" width="18" height="14" rx="2" />
                       <path d="M3 7l9 6 9-6" />
                     </svg>
-
                   </div>
 
                   <div class="cnt-info-content">
-
-                    <span class="cnt-info-label">
-                      Email us
-                    </span>
-
-                    <span class="cnt-info-value">
-                      Project enquiries
-                    </span>
-
+                    <span class="cnt-info-label">Email us</span>
+                    <span class="cnt-info-value">Project enquiries</span>
                   </div>
 
-                  <div class="cnt-info-arrow">
-                    ↗
-                  </div>
+                  <div class="cnt-info-arrow">↗</div>
 
                 </div>
 
 
                 <!-- RESPONSE -->
-
-                <div class="cnt-info-card">
+                <div class="cnt-info-card" style="--c: 2">
 
                   <div class="cnt-info-icon">
-
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
@@ -162,82 +129,42 @@ if (!pageData) {
                       stroke-width="1.7"
                     >
                       <path
-                        d="M21 15.5v3a2 2 0 0 1-2.18 2
-                        19.8 19.8 0 0 1-8.63-3.07
-                        19.5 19.5 0 0 1-6-6
-                        A19.8 19.8 0 0 1 1.12 2.8
-                        2 2 0 0 1 3.1.62h3a2 2 0 0 1 2
-                        1.72c.12.9.34 1.78.65 2.62
-                        a2 2 0 0 1-.45 2.11L7 8.33
-                        a16 16 0 0 0 6 6l1.26-1.3
-                        a2 2 0 0 1 2.11-.45
-                        c.84.31 1.72.53 2.62.65
-                        A2 2 0 0 1 21 15.5z"
+                        d="M21 15.5v3a2 2 0 0 1-2.18 2 19.8 19.8 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 A19.8 19.8 0 0 1 1.12 2.8 2 2 0 0 1 3.1.62h3a2 2 0 0 1 2 1.72c.12.9.34 1.78.65 2.62 a2 2 0 0 1-.45 2.11L7 8.33 a16 16 0 0 0 6 6l1.26-1.3 a2 2 0 0 1 2.11-.45 c.84.31 1.72.53 2.62.65 A2 2 0 0 1 21 15.5z"
                       />
                     </svg>
-
                   </div>
 
                   <div class="cnt-info-content">
-
-                    <span class="cnt-info-label">
-                      Project scope
-                    </span>
-
-                    <span class="cnt-info-value">
-                      Tell us what you need
-                    </span>
-
+                    <span class="cnt-info-label">Project scope</span>
+                    <span class="cnt-info-value">Tell us what you need</span>
                   </div>
 
-                  <div class="cnt-info-arrow">
-                    ↗
-                  </div>
+                  <div class="cnt-info-arrow">↗</div>
 
                 </div>
 
 
                 <!-- LOCATION / DELIVERY -->
-
-                <div class="cnt-info-card">
+                <div class="cnt-info-card" style="--c: 3">
 
                   <div class="cnt-info-icon">
-
                     <svg
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
                       stroke-width="1.7"
                     >
-                      <path
-                        d="M20 10c0 5-8 11-8 11S4 15 4 10
-                        a8 8 0 1 1 16 0z"
-                      />
-
-                      <circle
-                        cx="12"
-                        cy="10"
-                        r="2.5"
-                      />
+                      <path d="M20 10c0 5-8 11-8 11S4 15 4 10 a8 8 0 1 1 16 0z" />
+                      <circle cx="12" cy="10" r="2.5" />
                     </svg>
-
                   </div>
 
                   <div class="cnt-info-content">
-
-                    <span class="cnt-info-label">
-                      Delivery
-                    </span>
-
-                    <span class="cnt-info-value">
-                      Remote production support
-                    </span>
-
+                    <span class="cnt-info-label">Delivery</span>
+                    <span class="cnt-info-value">Remote production support</span>
                   </div>
 
-                  <div class="cnt-info-arrow">
-                    ↗
-                  </div>
+                  <div class="cnt-info-arrow">↗</div>
 
                 </div>
 
@@ -246,29 +173,16 @@ if (!pageData) {
             </div>
 
 
-            <!-- ===============================================
-                 RIGHT FORM PANEL
-                 =============================================== -->
-
-            <div class="cnt-right-panel">
+            <!-- ================= RIGHT FORM PANEL (SLIDE FROM RIGHT) ================= -->
+            <div class="cnt-right-panel" data-reveal>
 
               <div class="cnt-form-header">
-
-                <h2 class="cnt-form-title">
-                  Project enquiry
-                </h2>
-
-                <p class="cnt-form-sub">
-                  {pageData.formSubtitle}
-                </p>
-
+                <h2 class="cnt-form-title">Project enquiry</h2>
+                <p class="cnt-form-sub">{pageData.formSubtitle}</p>
               </div>
 
 
-              <!-- =============================================
-                   FORM
-                   ============================================= -->
-
+              <!-- ================= FORM WITH STAGGERED FIELDS ================= -->
               <form
                 class="cnt-form"
                 id="contact-form"
@@ -277,15 +191,8 @@ if (!pageData) {
               >
 
                 <!-- HONEYPOT -->
-
-                <div
-                  class="cnt-honeypot"
-                  aria-hidden="true"
-                >
-                  <label for="website">
-                    Website
-                  </label>
-
+                <div class="cnt-honeypot" aria-hidden="true">
+                  <label for="website">Website</label>
                   <input
                     type="text"
                     id="website"
@@ -296,15 +203,12 @@ if (!pageData) {
                 </div>
 
 
-                <!-- NAME -->
-
-                <div class="cnt-field">
-
+                <!-- 1. NAME -->
+                <div class="cnt-field" style="--f: 1">
                   <label for="name">
                     {pageData.formFields.name}
                     <span>*</span>
                   </label>
-
                   <input
                     type="text"
                     id="name"
@@ -312,19 +216,15 @@ if (!pageData) {
                     placeholder="Your name"
                     required
                   />
-
                 </div>
 
 
-                <!-- EMAIL -->
-
-                <div class="cnt-field">
-
+                <!-- 2. EMAIL -->
+                <div class="cnt-field" style="--f: 2">
                   <label for="workEmail">
                     {pageData.formFields.workEmail}
                     <span>*</span>
                   </label>
-
                   <input
                     type="email"
                     id="workEmail"
@@ -332,19 +232,15 @@ if (!pageData) {
                     placeholder="you@company.com"
                     required
                   />
-
                 </div>
 
 
-                <!-- COMPANY -->
-
-                <div class="cnt-field">
-
+                <!-- 3. COMPANY -->
+                <div class="cnt-field" style="--f: 3">
                   <label for="company">
                     {pageData.formFields.company}
                     <span>*</span>
                   </label>
-
                   <input
                     type="text"
                     id="company"
@@ -352,179 +248,100 @@ if (!pageData) {
                     placeholder="Company / organization"
                     required
                   />
-
                 </div>
 
 
-                <!-- PROJECT TYPE -->
-
-                <div class="cnt-field">
-
+                <!-- 4. PROJECT TYPE -->
+                <div class="cnt-field" style="--f: 4">
                   <label for="projectType">
                     {pageData.formFields.projectType}
                     <span>*</span>
                   </label>
-
-                  <select
-                    id="projectType"
-                    name="projectType"
-                    required
-                  >
-
-                    <option value="" disabled selected>
-                      Select project type
-                    </option>
-
+                  <select id="projectType" name="projectType" required>
+                    <option value="" disabled selected>Select project type</option>
                     {
                       pageData.projectTypes?.map((type) => (
-                        <option value={type}>
-                          {type}
-                        </option>
+                        <option value={type}>{type}</option>
                       ))
                     }
-
                   </select>
-
                 </div>
 
 
-                <!-- PROJECT STAGE -->
-
-                <div class="cnt-field">
-
+                <!-- 5. PROJECT STAGE -->
+                <div class="cnt-field" style="--f: 5">
                   <label for="projectStage">
                     {pageData.formFields.projectStage}
                     <span>*</span>
                   </label>
-
-                  <select
-                    id="projectStage"
-                    name="projectStage"
-                    required
-                  >
-
-                    <option value="" disabled selected>
-                      Select project stage
-                    </option>
-
+                  <select id="projectStage" name="projectStage" required>
+                    <option value="" disabled selected>Select project stage</option>
                     {
                       pageData.projectStages?.map((stage) => (
-                        <option value={stage}>
-                          {stage}
-                        </option>
+                        <option value={stage}>{stage}</option>
                       ))
                     }
-
                   </select>
-
                 </div>
 
 
-                <!-- DISCIPLINES -->
-
-                <div class="cnt-field">
-
+                <!-- 6. DISCIPLINES -->
+                <div class="cnt-field" style="--f: 6">
                   <label for="disciplines">
                     {pageData.formFields.disciplines}
                     <span>*</span>
                   </label>
-
-                  <select
-                    id="disciplines"
-                    name="disciplines"
-                    required
-                  >
-
-                    <option value="" disabled selected>
-                      Select primary discipline
-                    </option>
-
+                  <select id="disciplines" name="disciplines" required>
+                    <option value="" disabled selected>Select primary discipline</option>
                     {
                       pageData.disciplineOptions?.map((discipline) => (
-                        <option value={discipline}>
-                          {discipline}
-                        </option>
+                        <option value={discipline}>{discipline}</option>
                       ))
                     }
-
                   </select>
-
                 </div>
 
 
-                <!-- SOURCE -->
-
-                <div class="cnt-field">
-
+                <!-- 7. SOURCE -->
+                <div class="cnt-field" style="--f: 7">
                   <label for="sourceInformation">
                     {pageData.formFields.sourceInformation}
                     <span>*</span>
                   </label>
-
-                  <select
-                    id="sourceInformation"
-                    name="sourceInformation"
-                    required
-                  >
-
-                    <option value="" disabled selected>
-                      Select available source
-                    </option>
-
+                  <select id="sourceInformation" name="sourceInformation" required>
+                    <option value="" disabled selected>Select available source</option>
                     {
                       pageData.sourceOptions?.map((source) => (
-                        <option value={source}>
-                          {source}
-                        </option>
+                        <option value={source}>{source}</option>
                       ))
                     }
-
                   </select>
-
                 </div>
 
 
-                <!-- DELIVERABLES -->
-
-                <div class="cnt-field">
-
+                <!-- 8. DELIVERABLES -->
+                <div class="cnt-field" style="--f: 8">
                   <label for="deliverables">
                     {pageData.formFields.deliverables}
                     <span>*</span>
                   </label>
-
-                  <select
-                    id="deliverables"
-                    name="deliverables"
-                    required
-                  >
-
-                    <option value="" disabled selected>
-                      Select required deliverable
-                    </option>
-
+                  <select id="deliverables" name="deliverables" required>
+                    <option value="" disabled selected>Select required deliverable</option>
                     {
                       pageData.deliverableOptions?.map((deliverable) => (
-                        <option value={deliverable}>
-                          {deliverable}
-                        </option>
+                        <option value={deliverable}>{deliverable}</option>
                       ))
                     }
-
                   </select>
-
                 </div>
 
 
-                <!-- PROJECT BRIEF -->
-
-                <div class="cnt-field cnt-field-full">
-
+                <!-- 9. PROJECT BRIEF -->
+                <div class="cnt-field cnt-field-full" style="--f: 9">
                   <label for="projectBrief">
                     {pageData.formFields.projectBrief}
                     <span>*</span>
                   </label>
-
                   <textarea
                     id="projectBrief"
                     name="projectBrief"
@@ -532,70 +349,51 @@ if (!pageData) {
                     placeholder="Briefly describe the project, current scope, production requirements and important constraints."
                     required
                   ></textarea>
-
                 </div>
 
 
-                <!-- TARGET DATE -->
-
-                <div class="cnt-field">
-
+                <!-- 10. TARGET DATE -->
+                <div class="cnt-field" style="--f: 10">
                   <label for="targetDate">
                     {pageData.formFields.targetDate}
                     <span>*</span>
                   </label>
-
                   <input
                     type="date"
                     id="targetDate"
                     name="targetDate"
                     required
                   />
-
                 </div>
 
 
-                <!-- ADDITIONAL INFORMATION -->
-
-                <div class="cnt-field">
-
+                <!-- 11. ADDITIONAL INFORMATION -->
+                <div class="cnt-field" style="--f: 11">
                   <label for="additionalInformation">
                     {pageData.formFields.additionalInformation}
                   </label>
-
                   <input
                     type="text"
                     id="additionalInformation"
                     name="additionalInformation"
                     placeholder="Additional notes"
                   />
-
                 </div>
 
 
-                <!-- FORM FOOTER -->
-
-                <div class="cnt-form-footer">
-
+                <!-- 12. FORM FOOTER & SUBMIT BUTTON -->
+                <div class="cnt-form-footer" style="--f: 12">
                   <p class="cnt-required-note">
-                    <span>*</span>
-                    Required fields
+                    <span>*</span> Required fields
                   </p>
-
-                  <button
-                    type="submit"
-                    class="cnt-submit"
-                    id="cnt-submit-btn"
-                  >
+                  <button type="submit" class="cnt-submit" id="cnt-submit-btn">
                     Submit project enquiry
                     <span>→</span>
                   </button>
-
                 </div>
 
 
-                <!-- STATUS -->
-
+                <!-- STATUS MESSAGE -->
                 <div
                   id="cnt-form-message"
                   class="cnt-form-message"
@@ -618,136 +416,76 @@ if (!pageData) {
     <Footer />
 
 
-    <!-- =====================================================
-         FORM SCRIPT
-         ===================================================== -->
-
+    <!-- ================= SUBMISSION SCRIPT ================= -->
     <script>
-      const form =
-        document.getElementById("contact-form") as HTMLFormElement;
-
-      const submitBtn =
-        document.getElementById("cnt-submit-btn") as HTMLButtonElement;
-
-      const messageBox =
-        document.getElementById("cnt-form-message");
+      const form = document.getElementById("contact-form") as HTMLFormElement;
+      const submitBtn = document.getElementById("cnt-submit-btn") as HTMLButtonElement;
+      const messageBox = document.getElementById("cnt-form-message");
 
       form?.addEventListener("submit", async (e) => {
         e.preventDefault();
-
         submitBtn.disabled = true;
-
         submitBtn.innerHTML = "Sending…";
 
         if (messageBox) {
           messageBox.textContent = "";
-
-          messageBox.className =
-            "cnt-form-message";
+          messageBox.className = "cnt-form-message";
         }
 
         try {
           const formData = new FormData(form);
-
-          const response = await fetch(
-            form.action,
-            {
-              method: "POST",
-              body: formData,
-            }
-          );
+          const response = await fetch(form.action, {
+            method: "POST",
+            body: formData,
+          });
 
           const result = await response.json();
 
           if (messageBox) {
-            messageBox.textContent =
-              result.message;
-
-            messageBox.className =
-              result.success
-                ? "cnt-form-message cnt-form-message--success"
-                : "cnt-form-message cnt-form-message--error";
+            messageBox.textContent = result.message;
+            messageBox.className = result.success
+              ? "cnt-form-message cnt-form-message--success"
+              : "cnt-form-message cnt-form-message--error";
           }
 
           if (result.success) {
             form.reset();
           }
-
         } catch (err) {
-
-          console.error(
-            "Contact form submission failed:",
-            err
-          );
-
+          console.error("Contact form submission failed:", err);
           if (messageBox) {
             messageBox.textContent =
               "Something went wrong. Please try again or email us directly.";
-
-            messageBox.className =
-              "cnt-form-message cnt-form-message--error";
+            messageBox.className = "cnt-form-message cnt-form-message--error";
           }
-
         } finally {
-
           submitBtn.disabled = false;
-
-          submitBtn.innerHTML =
-            'Submit project enquiry <span>→</span>';
-
+          submitBtn.innerHTML = 'Submit project enquiry <span>→</span>';
         }
       });
     </script>
 
 
-    <!-- =====================================================
-         SIMPLE REVEAL OBSERVER
-         ===================================================== -->
-
+    <!-- ================= SMOOTH INTERSECTION REVEAL OBSERVER ================= -->
     <script>
-      const revealItems =
-        document.querySelectorAll(
-          ".cnt-left-panel, .cnt-right-panel"
-        );
+      const revealItems = document.querySelectorAll("[data-reveal]");
 
       if ("IntersectionObserver" in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target);
+              }
+            });
+          },
+          { threshold: 0.1 }
+        );
 
-        const observer =
-          new IntersectionObserver(
-            (entries) => {
-
-              entries.forEach((entry) => {
-
-                if (entry.isIntersecting) {
-
-                  entry.target.classList.add(
-                    "is-visible"
-                  );
-
-                  observer.unobserve(
-                    entry.target
-                  );
-
-                }
-
-              });
-
-            },
-            {
-              threshold: 0.12
-            }
-          );
-
-        revealItems.forEach((item) => {
-          observer.observe(item);
-        });
-
+        revealItems.forEach((item) => observer.observe(item));
       } else {
-
-        revealItems.forEach((item) => {
-          item.classList.add("is-visible");
-        });
-
+        revealItems.forEach((item) => item.classList.add("is-visible"));
       }
     </script>
 

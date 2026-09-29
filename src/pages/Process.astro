@@ -31,68 +31,11 @@ const {
 const pad = (n: number) => String(n).padStart(2, "0");
 const stepsCount = pad(steps.length);
 
-/*
- * ROTATING SPHERE GALLERY (hero) — images yahan se aati hain.
- * Sirf in links ko badlo (https://... ya /images/... dono chalte hain), sphere khud update ho jayega.
- */
-const sphereImages = [
-  "https://images.unsplash.com/photo-1627141234469-24711efb373c?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1721244654392-9c912a6eb236?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1765850262030-1ae93e474473?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1726471809607-b7f016a1696e?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1722421492323-eaf9c401befe?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1706808849780-7a04fbac83ef?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1706808849802-8f876ade0d1f?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1503387837-b154d5074bd2?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1532323544230-7191fd51bc1b?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1721244654394-36a7bc2da288?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1633109741715-59b57495bbdc?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1634114582073-c34f96202b65?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1617850687395-620757feb1f3?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1721244653757-b76cc4679dfb?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1678575326996-a1bf09b86158?auto=format&fit=crop&w=240&h=240&q=75",
-  "https://images.unsplash.com/photo-1776279876113-514976038186?auto=format&fit=crop&w=240&h=240&q=75",
-];
-
-const SPHERE_STEP_WANT = 14; // degrees — kam karoge to balls chhoti + zyada, barhaoge to balls bari + kam
-const SPHERE_ROWS = Math.round(180 / SPHERE_STEP_WANT) + 1; // -90° (bottom pole) se +90° (top pole) tak
-const SPHERE_STEP = 180 / (SPHERE_ROWS - 1); // exact step taake dono poles par row aaye
-const SPHERE_COLS_EQ = Math.round(360 / SPHERE_STEP); // equator par kitni balls
-const SPHERE_FILL = 0.78; // 1 = balls aapas me chipki hui, kam = zyada gap
-const SPHERE_TILE = ((SPHERE_STEP * Math.PI) / 180) * SPHERE_FILL; // ball size (sphere radius ka hissa)
-
-const blobShapes = [
-  "52% 48% 55% 45% / 48% 54% 46% 52%",
-  "46% 54% 48% 52% / 55% 45% 55% 45%",
-  "58% 42% 50% 50% / 46% 52% 48% 54%",
-  "50% 50% 44% 56% / 54% 46% 54% 46%",
-  "44% 56% 52% 48% / 50% 58% 42% 50%",
-  "55% 45% 47% 53% / 44% 50% 50% 56%",
-];
-
-// Poora sphere: har latitude row me cos(lat) ke hisaab se balls (poles par 1 ball, equator par sab se zyada)
-const sphereTiles: { yaw: number; pitch: number; src: string; shape: string; n: number }[] = [];
-let tileN = 0;
-for (let r = 0; r < SPHERE_ROWS; r++) {
-  const lat = -90 + r * SPHERE_STEP;
-  const cols = Math.max(1, Math.round(SPHERE_COLS_EQ * Math.cos((lat * Math.PI) / 180)));
-  const offset = r % 2 ? 0.5 : 0; // alternate rows half-step — brick jaisa pattern
-  for (let c = 0; c < cols; c++) {
-    sphereTiles.push({
-      yaw: (c + offset) * (360 / cols),
-      pitch: lat,
-      src: sphereImages[(c * 3 + r * 5) % sphereImages.length],
-      shape: blobShapes[(c * 5 + r * 7) % blobShapes.length],
-      n: tileN++,
-    });
-  }
-}
-
-/* Hero title: pehla aadha white, doosra aadha muted (Industries / Work jaisa) */
+/* Hero title: pehla aadha white, doosra aadha muted */
 const heroWords = heroSubtitle.trim().split(/\s+/);
 const mutedFrom = Math.ceil(heroWords.length / 2);
 
-/* Text ko do hisson mein todta hai: pehla white, doosra muted */
+/* Text split helper */
 const splitHalf = (text: string = "") => {
   const w = text.trim().split(/\s+/);
   const m = Math.ceil(w.length / 2);
@@ -102,7 +45,7 @@ const splitHalf = (text: string = "") => {
 const [ctrlA, ctrlB] = splitHalf(controlPointsSubtitle);
 const [ctaA, ctaB] = splitHalf(ctaSubtitle);
 
-/* Step icons (6 alag icons, steps zyada hon to dobara shuru) */
+/* Step icons */
 const svg = (p: string) =>
   `<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${p}</svg>`;
 const stepIcons = [
@@ -157,31 +100,224 @@ const stepIcons = [
               <p class="prc-lead">{heroDescription}</p>
             </div>
 
+            <!-- PROMINENT 3D S-CURVE PIPELINE VISUAL -->
             <div class="prc-intro-media">
-              <div
-                class="prc-sphere-stage"
-                data-sphere
-                data-tile={SPHERE_TILE}
-                role="img"
-                aria-label="Interactive rotating gallery of Axys3D project visuals. Drag to rotate."
-              >
-                <div class="prc-sphere">
-                  {sphereTiles.map((t) => (
-                    <span
-                      class="prc-tile"
-                      style={`--yaw:${t.yaw}deg;--pitch:${t.pitch}deg;--n:${t.n};border-radius:${t.shape}`}
-                    >
-                      <img
-                        src={t.src}
-                        alt=""
-                        loading="eager"
-                        decoding="async"
-                        draggable="false"
-                      />
-                    </span>
-                  ))}
-                </div>
-              </div>
+              <svg class="prc-pipe-svg" viewBox="0 0 960 560" role="img" aria-label="AEC 6-Stage Delivery Pipeline Flow" preserveAspectRatio="xMidYMid meet">
+                <defs>
+                  <!-- 3D Road Deck & Bevel Gradients -->
+                  <linearGradient id="prc-track-surface" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#0c2032" stop-opacity="0.95"/>
+                    <stop offset="40%" stop-color="#163852" stop-opacity="0.98"/>
+                    <stop offset="70%" stop-color="#102a3f" stop-opacity="0.98"/>
+                    <stop offset="100%" stop-color="#0c2236" stop-opacity="0.95"/>
+                  </linearGradient>
+
+                  <linearGradient id="prc-track-bevel" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#050e17"/>
+                    <stop offset="50%" stop-color="#0a1d2e"/>
+                    <stop offset="100%" stop-color="#040b12"/>
+                  </linearGradient>
+
+                  <linearGradient id="prc-gold-rim" x1="0%" y1="100%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#d2b487" stop-opacity="0.3"/>
+                    <stop offset="35%" stop-color="#f5e2c4" stop-opacity="1"/>
+                    <stop offset="70%" stop-color="#d2b487" stop-opacity="0.9"/>
+                    <stop offset="100%" stop-color="#ffffff" stop-opacity="1"/>
+                  </linearGradient>
+
+                  <linearGradient id="prc-gold-faint" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#d2b487" stop-opacity="0.15"/>
+                    <stop offset="50%" stop-color="#d2b487" stop-opacity="0.4"/>
+                    <stop offset="100%" stop-color="#d2b487" stop-opacity="0.2"/>
+                  </linearGradient>
+
+                  <radialGradient id="prc-ambient-glow" cx="50%" cy="50%" r="50%">
+                    <stop offset="0%" stop-color="#d2b487" stop-opacity="0.28"/>
+                    <stop offset="60%" stop-color="#408ce0" stop-opacity="0.08"/>
+                    <stop offset="100%" stop-color="#091d2f" stop-opacity="0"/>
+                  </radialGradient>
+
+                  <!-- Filter Bloom -->
+                  <filter id="prc-glow" x="-25%" y="-25%" width="150%" height="150%">
+                    <feGaussianBlur stdDeviation="3.5" result="blur"/>
+                    <feMerge>
+                      <feMergeNode in="blur"/>
+                      <feMergeNode in="SourceGraphic"/>
+                    </feMerge>
+                  </filter>
+                </defs>
+
+                <!-- ================= 1. BACKGROUND ISOMETRIC CAD GRID & ATMOSPHERE ================= -->
+                <!-- Ambient Illumination Halos -->
+                <circle cx="280" cy="420" r="180" fill="url(#prc-ambient-glow)"/>
+                <circle cx="700" cy="220" r="190" fill="url(#prc-ambient-glow)"/>
+
+                <!-- Blueprint Floor Grid -->
+                <g class="prc-cad-bg" opacity="0.18" stroke="#486d8e" stroke-width="0.8">
+                  <path d="M 40 140 H 920 M 40 240 H 920 M 40 340 H 920 M 40 440 H 920" stroke-dasharray="3 10"/>
+                  <path d="M 120 40 V 520 M 280 40 V 520 M 460 40 V 520 M 640 40 V 520 M 820 40 V 520" stroke-dasharray="3 10"/>
+                  <!-- Precision Crosshairs -->
+                  <path d="M 275 240 h 10 M 280 235 v 10 M 455 340 h 10 M 460 335 v 10 M 635 140 h 10 M 640 135 v 10" stroke="#d2b487" stroke-width="1.3" stroke-dasharray="none"/>
+                </g>
+
+                <!-- ================= 2. VOLUMETRIC 3D S-CURVE HIGHWAY ================= -->
+                <!-- Underside Thickness / Bevel Extrusion Wall -->
+                <path class="prc-track-bevel" d="M 45 375 C 130 460, 230 495, 335 465 C 445 435, 485 340, 580 305 C 675 270, 755 245, 845 160 C 880 125, 905 95, 915 75 L 915 90 C 905 110, 880 140, 845 175 C 755 260, 675 285, 580 320 C 485 355, 445 450, 335 480 C 230 510, 130 475, 45 390 Z" fill="url(#prc-track-bevel)"/>
+
+                <!-- Wide Road Surface Deck -->
+                <path class="prc-track-surface" d="M 35 345 C 120 430, 220 465, 325 435 C 435 405, 475 310, 570 275 C 665 240, 745 215, 835 130 C 875 95, 900 65, 908 45 C 922 65, 897 100, 857 135 C 767 220, 687 245, 592 280 C 497 315, 457 410, 347 440 C 242 470, 142 435, 57 350 Z" fill="url(#prc-track-surface)"/>
+
+                <!-- Golden Glowing Rim Lights on Edges -->
+                <path class="prc-track-rim-front" d="M 35 345 C 120 430, 220 465, 325 435 C 435 405, 475 310, 570 275 C 665 240, 745 215, 835 130 C 875 95, 900 65, 908 45" fill="none" stroke="url(#prc-gold-rim)" stroke-width="2.6" filter="url(#prc-glow)"/>
+                <path class="prc-track-rim-back" d="M 57 350 C 142 435, 242 470, 347 440 C 457 410, 497 315, 592 280 C 687 245, 767 220, 857 135 C 897 100, 922 65, 908 45" fill="none" stroke="url(#prc-gold-faint)" stroke-width="1.6"/>
+
+                <!-- Center Dashed Optical Rail -->
+                <path class="prc-track-rail" d="M 46 348 C 131 433, 231 468, 336 438 C 446 408, 486 313, 581 278 C 676 243, 756 218, 846 133 C 886 98, 908 65, 908 45" fill="none" stroke="rgba(255,255,255,0.28)" stroke-width="1.6" stroke-dasharray="3 12"/>
+
+                <!-- Traveling Light Pulse -->
+                <path class="prc-laser-pulse" d="M 46 348 C 131 433, 231 468, 336 438 C 446 408, 486 313, 581 278 C 676 243, 756 218, 846 133 C 886 98, 908 65, 908 45" fill="none" stroke="url(#prc-gold-rim)" stroke-width="3.6" stroke-linecap="round" pathLength="100" filter="url(#prc-glow)"/>
+
+
+                <!-- ================= 3. THE 6 PROMINENT ISOMETRIC STAGES ================= -->
+
+                <!-- STAGE 01: SCOPE & BRIEF -->
+                <g class="prc-stage prc-stg-1" transform="translate(100, 370)">
+                  <ellipse cx="0" cy="22" rx="38" ry="11" fill="#000" opacity="0.5"/>
+                  <ellipse cx="0" cy="22" rx="32" ry="9" fill="none" stroke="#d2b487" stroke-width="1.2" opacity="0.7"/>
+
+                  <g class="prc-float-item">
+                    <!-- Fan of Large Blueprint Sheets -->
+                    <polygon points="-32,-8 16,-26 44,6 -4,24" fill="#8ca4b8" stroke="#37536b" stroke-width="1"/>
+                    <polygon points="-36,-16 12,-34 40,-2 -8,16" fill="#c4d5e2" stroke="#37536b" stroke-width="1"/>
+                    <polygon points="-28,-24 20,-42 48,-10 0,8" fill="#f4f8fb" stroke="#48657c" stroke-width="1.2"/>
+                    <!-- Technical Grid Lines on Sheet -->
+                    <line x1="-14" y1="-22" x2="20" y2="-34" stroke="#48657c" stroke-width="1.3"/>
+                    <line x1="-8" y1="-15" x2="26" y2="-27" stroke="#48657c" stroke-width="1.3"/>
+                    <line x1="-2" y1="-8" x2="32" y2="-20" stroke="#48657c" stroke-width="1.3"/>
+                    <line x1="4" y1="-1" x2="38" y2="-13" stroke="#48657c" stroke-width="1.3"/>
+                    <!-- CAD Compass Reticle -->
+                    <circle cx="28" cy="-10" r="6" fill="none" stroke="#d2b487" stroke-width="1.4"/>
+                    <line x1="28" y1="-18" x2="28" y2="-2" stroke="#d2b487" stroke-width="1"/>
+                    <line x1="20" y1="-10" x2="36" y2="-10" stroke="#d2b487" stroke-width="1"/>
+                  </g>
+
+                  <text class="prc-stg-num" x="0" y="46">01</text>
+                  <text class="prc-stg-name" x="0" y="58">SCOPE</text>
+                </g>
+
+
+                <!-- STAGE 02: PROTOCOL & BEP -->
+                <g class="prc-stage prc-stg-2" transform="translate(245, 450)">
+                  <ellipse cx="0" cy="22" rx="38" ry="11" fill="#000" opacity="0.5"/>
+                  <ellipse cx="0" cy="22" rx="32" ry="9" fill="none" stroke="#d2b487" stroke-width="1.2" opacity="0.7"/>
+
+                  <g class="prc-float-item" style="animation-delay: -0.9s;">
+                    <!-- BEP Audit Holographic Console -->
+                    <polygon points="-30,-14 26,-30 32,8 -24,24" fill="#091c2c" stroke="rgba(210,180,135,0.7)" stroke-width="1.4"/>
+                    <polygon points="-26,-10 22,-24 27,4 -21,18" fill="#0f2b42"/>
+                    <!-- Audit Parameter Bars -->
+                    <line x1="-16" y1="-4" x2="6" y2="-10" stroke="#d2b487" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="-16" y1="3" x2="14" y2="-3" stroke="#408ce0" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="-16" y1="10" x2="2" y2="4" stroke="#2ac288" stroke-width="2" stroke-linecap="round"/>
+                    <!-- Verified Protocol Ring -->
+                    <circle cx="16" cy="-4" r="5" fill="none" stroke="#2ac288" stroke-width="1.2"/>
+                    <path d="M 14 -4 L 15.5 -2.5 L 18.5 -6" fill="none" stroke="#2ac288" stroke-width="1.2" stroke-linecap="round"/>
+                  </g>
+
+                  <text class="prc-stg-num" x="0" y="46">02</text>
+                  <text class="prc-stg-name" x="0" y="58">BEP AUDIT</text>
+                </g>
+
+
+                <!-- STAGE 03: PRODUCTION PLAN & SAMPLE -->
+                <g class="prc-stage prc-stg-3" transform="translate(400, 390)">
+                  <ellipse cx="0" cy="24" rx="40" ry="11" fill="#000" opacity="0.5"/>
+                  <ellipse cx="0" cy="24" rx="34" ry="9" fill="none" stroke="#d2b487" stroke-width="1.2" opacity="0.7"/>
+
+                  <g class="prc-float-item" style="animation-delay: -1.8s;">
+                    <!-- 3D Benchmark Prototype Sample -->
+                    <polygon points="0,-10 30,-24 0,-38 -30,-24" fill="rgba(255,255,255,0.22)" stroke="#d2b487" stroke-width="1.3"/>
+                    <polygon points="-30,-24 0,-10 0,14 -30,0" fill="#0d263b" stroke="rgba(210,180,135,0.5)" stroke-width="1"/>
+                    <polygon points="0,-10 30,-24 30,0 0,14" fill="#081827" stroke="rgba(210,180,135,0.5)" stroke-width="1"/>
+                    <!-- Core Column Datum -->
+                    <line x1="0" y1="-10" x2="0" y2="14" stroke="#d2b487" stroke-width="1.6"/>
+                    <line x1="-15" y1="-17" x2="-15" y2="7" stroke="#408ce0" stroke-width="1" stroke-dasharray="2 2"/>
+                    <line x1="15" y1="-17" x2="15" y2="7" stroke="#408ce0" stroke-width="1" stroke-dasharray="2 2"/>
+                  </g>
+
+                  <text class="prc-stg-num" x="0" y="48">03</text>
+                  <text class="prc-stg-name" x="0" y="60">SAMPLE</text>
+                </g>
+
+
+                <!-- STAGE 04: BIM PRODUCTION & QA -->
+                <g class="prc-stage prc-stg-4" transform="translate(560, 320)">
+                  <ellipse cx="0" cy="24" rx="40" ry="11" fill="#000" opacity="0.5"/>
+                  <ellipse cx="0" cy="24" rx="34" ry="9" fill="none" stroke="#d2b487" stroke-width="1.2" opacity="0.7"/>
+
+                  <g class="prc-float-item" style="animation-delay: -2.7s;">
+                    <!-- Glass Coordinated Clash Cube -->
+                    <polygon points="0,-22 32,-6 0,10 -32,-6" fill="rgba(64,140,224,0.3)" stroke="rgba(255,255,255,0.35)" stroke-width="1.2"/>
+                    <polygon points="-32,-6 0,10 0,42 -32,26" fill="#0a1f30" stroke="rgba(210,180,135,0.5)" stroke-width="1" opacity="0.88"/>
+                    <polygon points="0,10 32,-6 32,26 0,42" fill="#071522" stroke="rgba(210,180,135,0.5)" stroke-width="1" opacity="0.88"/>
+                    <!-- Prominent Colored MEP Conduits Inside Cube -->
+                    <path d="M -26 12 L 0 24 L 26 12" fill="none" stroke="#408ce0" stroke-width="3" stroke-linecap="round"/>
+                    <path d="M -22 2 L 4 14 L 22 6" fill="none" stroke="#d2b487" stroke-width="2.5" stroke-linecap="round"/>
+                    <path d="M -8 -10 L -8 34" fill="none" stroke="#2ac288" stroke-width="2.2" stroke-linecap="round"/>
+                    <!-- Sensor Flash Ping -->
+                    <circle cx="4" cy="14" r="5" fill="#d2b487" fill-opacity="0.35" stroke="#d2b487" stroke-width="1.2"/>
+                    <circle cx="4" cy="14" r="1.8" fill="#ffffff"/>
+                  </g>
+
+                  <text class="prc-stg-num" x="0" y="50">04</text>
+                  <text class="prc-stg-name" x="0" y="62">BIM &amp; QA</text>
+                </g>
+
+
+                <!-- STAGE 05: REVIEW GATE -->
+                <g class="prc-stage prc-stg-5" transform="translate(715, 230)">
+                  <ellipse cx="0" cy="22" rx="38" ry="10" fill="#000" opacity="0.5"/>
+                  <ellipse cx="0" cy="22" rx="32" ry="8" fill="none" stroke="#d2b487" stroke-width="1.2" opacity="0.7"/>
+
+                  <g class="prc-float-item" style="animation-delay: -1.2s;">
+                    <!-- Technical Inspection Console -->
+                    <polygon points="-32,-24 28,-38 32,10 -28,24" fill="#081827" stroke="rgba(210,180,135,0.6)" stroke-width="1.3"/>
+                    <polygon points="-28,-20 24,-32 28,6 -24,18" fill="#0b2238" opacity="0.9"/>
+                    <!-- Live Audit Rows -->
+                    <line x1="-18" y1="-10" x2="6" y2="-16" stroke="#2ac288" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="-18" y1="-2" x2="16" y2="-8" stroke="#408ce0" stroke-width="2" stroke-linecap="round"/>
+                    <line x1="-18" y1="6" x2="2" y2="0" stroke="#d2b487" stroke-width="2" stroke-linecap="round"/>
+                    <!-- Stamp Check Reticle -->
+                    <circle cx="16" cy="-2" r="8" fill="none" stroke="#2ac288" stroke-width="1.3" stroke-dasharray="2 1"/>
+                    <path d="M 13 -2 L 15.5 0.5 L 20 -4" fill="none" stroke="#2ac288" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                  </g>
+
+                  <text class="prc-stg-num" x="0" y="48">05</text>
+                  <text class="prc-stg-name" x="0" y="60">REVIEW</text>
+                </g>
+
+
+                <!-- STAGE 06: DELIVERY & HANDOFF -->
+                <g class="prc-stage prc-stg-6" transform="translate(860, 135)">
+                  <ellipse cx="0" cy="24" rx="36" ry="10" fill="#000" opacity="0.5"/>
+                  <ellipse cx="0" cy="24" rx="30" ry="8" fill="none" stroke="#d2b487" stroke-width="1.2" opacity="0.7"/>
+
+                  <g class="prc-float-item" style="animation-delay: -2.1s;">
+                    <!-- 3D Structured Digital Twin Crate -->
+                    <polygon points="0,-26 26,-13 0,0 -26,-13" fill="#d2b487" stroke="#ffffff" stroke-width="0.9"/>
+                    <polygon points="-26,-13 0,0 0,26 -26,13" fill="#a47a46" stroke="rgba(255,255,255,0.25)" stroke-width="0.9"/>
+                    <polygon points="0,0 26,-13 26,13 0,26" fill="#7d592e" stroke="rgba(255,255,255,0.25)" stroke-width="0.9"/>
+                    <!-- Packaging Fasteners -->
+                    <line x1="-13" y1="-19" x2="13" y2="-6" stroke="#ffffff" stroke-width="1.6" opacity="0.95"/>
+                    <line x1="0" y1="0" x2="0" y2="26" stroke="#ffffff" stroke-width="1.6" opacity="0.95"/>
+                    <!-- Luminous Delivery Beacon -->
+                    <circle cx="0" cy="-32" r="3" fill="#ffffff" filter="url(#prc-glow)"/>
+                  </g>
+
+                  <text class="prc-stg-num" x="0" y="48">06</text>
+                  <text class="prc-stg-name" x="0" y="60">HANDOFF</text>
+                </g>
+              </svg>
             </div>
           </div>
         </div>
@@ -195,7 +331,6 @@ const stepIcons = [
               <span class="prc-kicker">THE WORKFLOW</span>
               <h2 class="prc-sec-h2">A Structured <br /><span>Delivery Process</span></h2>
             </div>
-            <!-- <span class="prc-count">{stepsCount} STEPS</span> -->
           </div>
 
           <div class="prc-steps-grid">
@@ -292,7 +427,7 @@ const stepIcons = [
       );
       revealItems.forEach((item) => revealObserver.observe(item));
 
-      // Workflow: cards light up one after another (loop). Hover = jump to that card.
+      // Workflow: sequential cards highlight
       const section = document.querySelector("[data-steps]");
       const cards = Array.from(document.querySelectorAll("[data-step-card]"));
 
@@ -312,7 +447,6 @@ const stepIcons = [
         const tick = () => {
           if (hovering) return;
           idx = idx + 1 >= cards.length ? -1 : idx + 1;
-          // short pause with everything reset before the loop restarts
           paint(idx);
         };
 
@@ -345,104 +479,6 @@ const stepIcons = [
           { threshold: 0.25 }
         ).observe(section);
       }
-
-      /* ===== Sphere gallery (hero): auto-rotate + drag + mouse-follow ===== */
-      (() => {
-        const stage = document.querySelector("[data-sphere]");
-        if (!stage) return;
-        const sphere = stage.querySelector(".prc-sphere");
-        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-        const TILE = Number(stage.dataset.tile) || 0.2;
-        let R = 300;
-        const layout = () => {
-          const W = stage.clientWidth;
-          const H = stage.clientHeight;
-          if (!W || !H) return;
-          R = Math.min(W, H) * 0.49; // poora sphere (top + bottom) box ke andar fit
-          const tile = R * TILE;
-          stage.style.perspective = `${R * 3}px`;
-          stage.style.setProperty("--R", `${R}px`);
-          stage.style.setProperty("--tw", `${tile}px`);
-          stage.style.setProperty("--tht", `${tile}px`);
-        };
-        layout();
-        new ResizeObserver(layout).observe(stage);
-
-        const BASE_PITCH = -8;
-        const MAX_PITCH = 80; // drag karke poles tak dekh sakte ho
-        const AUTO_SPEED = reduce ? 0 : 0.07; // degrees per frame
-        let yaw = 0, pitch = BASE_PITCH, vYaw = 0, vPitch = 0;
-        let dragging = false, inside = false;
-        let lastX = 0, lastY = 0, hoverX = 0, hoverY = 0;
-        let running = true, last = performance.now();
-        const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-
-        const render = () => {
-          sphere.style.transform = `translateZ(${-R}px) rotateX(${pitch}deg) rotateY(${yaw}deg)`;
-        };
-
-        const frame = (now) => {
-          const dt = Math.min((now - last) / 16.667, 3);
-          last = now;
-          if (running && !dragging) {
-            const hoverSpin = inside && !reduce ? hoverX * 0.16 : 0;
-            yaw = (yaw + (vYaw + AUTO_SPEED + hoverSpin) * dt) % 360;
-            pitch += vPitch * dt;
-            const target = BASE_PITCH + (inside && !reduce ? hoverY * 8 : 0);
-            pitch += (target - pitch) * 0.035 * dt;
-            pitch = clamp(pitch, -MAX_PITCH, MAX_PITCH);
-            const decay = Math.pow(0.95, dt);
-            vYaw *= decay;
-            vPitch *= decay;
-          }
-          if (running) render();
-          requestAnimationFrame(frame);
-        };
-
-        stage.addEventListener("pointerdown", (e) => {
-          dragging = true;
-          lastX = e.clientX;
-          lastY = e.clientY;
-          vYaw = 0;
-          vPitch = 0;
-          stage.classList.add("is-dragging");
-          stage.setPointerCapture(e.pointerId);
-        });
-
-        stage.addEventListener("pointermove", (e) => {
-          const r = stage.getBoundingClientRect();
-          hoverX = ((e.clientX - r.left) / r.width - 0.5) * 2;
-          hoverY = ((e.clientY - r.top) / r.height - 0.5) * 2;
-          inside = true;
-          if (!dragging) return;
-          const dx = e.clientX - lastX;
-          const dy = e.clientY - lastY;
-          lastX = e.clientX;
-          lastY = e.clientY;
-          yaw += dx * 0.3;
-          pitch = clamp(pitch - dy * 0.2, -MAX_PITCH, MAX_PITCH);
-          vYaw = clamp(dx * 0.3, -8, 8);
-          vPitch = clamp(-dy * 0.2, -5, 5);
-        });
-
-        const endDrag = () => {
-          dragging = false;
-          stage.classList.remove("is-dragging");
-        };
-        stage.addEventListener("pointerup", endDrag);
-        stage.addEventListener("pointercancel", endDrag);
-        stage.addEventListener("pointerleave", () => { inside = false; });
-
-        // screen se bahar ho to animation rok do
-        new IntersectionObserver(([entry]) => {
-          running = entry.isIntersecting;
-          last = performance.now();
-        }).observe(stage);
-
-        render();
-        requestAnimationFrame(frame);
-      })();
     </script>
   </body>
 </html>
