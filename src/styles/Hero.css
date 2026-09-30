@@ -134,6 +134,7 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   overflow: hidden;
   margin: 0;
   padding: 0;
@@ -147,8 +148,9 @@
 ========================================================= */
 
 .hero-video {
-  position: fixed;
-  inset: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
@@ -161,7 +163,7 @@
 }
 
 .hero-overlay {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 1;
   background: linear-gradient(
@@ -197,11 +199,11 @@
 
 
 /* =========================================================
-   TOP BAR — logo + menu toggle (no persistent navbar)
+   TOP BAR — logo + menu toggle
 ========================================================= */
 
 .hero-topbar {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -226,7 +228,7 @@
 .brown-text { color: #b38b4c; }
 
 .menu-toggle-btn {
-  display: inline-flex;
+  display: none;
   align-items: center;
   gap: 12px;
 
@@ -296,11 +298,14 @@
   inset: 0;
   z-index: 21;
 
-  background: transparent;
+  background: rgba(0, 0, 0, 0.5);
+  opacity: 0;
   pointer-events: none;
+  transition: opacity 0.3s ease;
 }
 
 .hero.nav-open .side-nav-scrim {
+  opacity: 1;
   pointer-events: auto;
 }
 
@@ -321,7 +326,7 @@
   justify-content: center;
   gap: 18px;
 
-  background: rgba(7, 18, 29, 0.78);
+  background: rgba(7, 18, 29, 0.92);
   border-left: 1px solid rgba(226, 207, 171, 0.16);
   box-shadow: -30px 0 80px rgba(0, 0, 0, 0.35);
 
@@ -354,7 +359,6 @@
   vertical-align: middle;
 }
 
-/* Parallel preview panel — slides in level with whichever link is hovered */
 .side-nav-preview {
   position: fixed;
   top: 50%;
@@ -506,6 +510,7 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
+  min-height: 100dvh;
   box-sizing: border-box;
   padding: 120px 6% 0;
 
@@ -623,7 +628,7 @@
 
 
 /* =========================================================
-   HOTSPOTS — jump straight to a scene
+   HOTSPOTS
 ========================================================= */
 
 .hero-hotspots {
@@ -718,47 +723,6 @@
 
 
 /* =========================================================
-   RESPONSIVE
-========================================================= */
-
-@media (max-width: 1100px) {
-  .hero-content { padding: 100px 5% 0; }
-  .hero h1 { font-size: clamp(38px, 5.5vw, 60px); letter-spacing: -0.04em !important; }
-}
-
-@media (max-width: 900px) {
-  .hero-topbar { padding: 22px 5%; }
-  .side-nav { width: 100vw; padding: 90px 7% 30px; }
-  .side-nav-link-text { font-size: 18px; }
-  .side-nav-preview { display: none; }
-}
-
-@media (max-width: 768px) {
-  .hero-content { padding: 120px 6% 0; min-height: 100vh; }
-  .hero-eyebrow { font-size: 9px; margin-bottom: 14px; }
-  .hero h1 { font-size: clamp(36px, 9.5vw, 48px); line-height: 0.95 !important; letter-spacing: -0.04em !important; }
-  .hero-buttons { flex-wrap: wrap; margin-top: 22px; }
-  .primary-button, .secondary-button { min-height: 40px; padding: 0 16px; font-size: 11px; }
-
-  .hero-hotspots {
-    bottom: 26px;
-    max-width: 92vw;
-    overflow-x: auto;
-    gap: 4px;
-  }
-  .hotspot-btn { padding: 8px 12px; font-size: 10px; }
-  .hero-scroll-cue { display: none; }
-}
-
-@media (max-width: 480px) {
-  .hero-content { padding: 115px 6% 0; }
-  .hero h1 { font-size: 32px; letter-spacing: -0.04em !important; }
-  .hero-buttons { gap: 8px; }
-  .primary-button, .secondary-button { min-height: 38px; padding: 0 14px; gap: 16px; }
-}
-
-
-/* =========================================================
    FLOATING NAVBAR
 ========================================================= */
 
@@ -815,17 +779,13 @@
   pointer-events: none;
 }
 
-@media (max-width: 1300px) {
-  .floating-nav { display: none; }
-}
-
 
 /* =========================================================
-   HERO TEXT — video end hone par bottom-left mein aata hai
+   HERO TEXT SCRIM
 ========================================================= */
 
 .hero-text-scrim {
-  position: fixed;
+  position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
@@ -913,6 +873,54 @@
   transform: translateY(-1px);
 }
 
+
+/* =========================================================
+   RESPONSIVE (TABLET & PHONE BREAKPOINTS)
+========================================================= */
+
+@media (max-width: 1300px) {
+  .floating-nav { display: none; }
+}
+
+@media (max-width: 1100px) {
+  .hero-content { padding: 100px 5% 60px; }
+  .hero h1 { font-size: clamp(38px, 5.5vw, 60px); letter-spacing: -0.04em !important; }
+}
+
+@media (max-width: 900px) {
+  .hero-topbar { padding: 22px 5%; }
+  
+  /* Hide Desktop CTA, show 3 lines Menu button */
+  .topbar-cta { display: none; }
+  .menu-toggle-btn { display: inline-flex; }
+
+  .side-nav { width: 100vw; padding: 90px 7% 30px; }
+  .side-nav-link-text { font-size: 18px; }
+  .side-nav-preview { display: none; }
+}
+
+@media (max-width: 768px) {
+  .hero-content { padding: 100px 6% 50px; min-height: 100vh; min-height: 100dvh; }
+  .hero-eyebrow { font-size: 9px; margin-bottom: 14px; }
+  .hero h1 { font-size: clamp(32px, 8.5vw, 46px); line-height: 0.98 !important; letter-spacing: -0.04em !important; }
+  .hero-buttons { flex-direction: column; align-items: stretch; margin-top: 22px; width: 100%; }
+  .primary-button, .secondary-button { min-height: 42px; padding: 0 18px; font-size: 12px; justify-content: space-between; width: 100%; box-sizing: border-box; }
+
+  .hero-hotspots {
+    bottom: 26px;
+    max-width: 92vw;
+    overflow-x: auto;
+    gap: 4px;
+  }
+  .hotspot-btn { padding: 8px 12px; font-size: 10px; }
+  .hero-scroll-cue { display: none; }
+}
+
 @media (max-width: 480px) {
-  .topbar-cta { min-height: 38px; padding: 0 14px; gap: 10px; font-size: 11px; }
+  .hero-topbar { padding: 18px 5%; }
+  .hero-topbar .logo { font-size: 17px; }
+  .hero-content { padding: 90px 5% 40px; }
+  .hero h1 { font-size: 28px; letter-spacing: -0.03em !important; }
+  .hero-buttons { gap: 10px; }
+  .primary-button, .secondary-button { min-height: 40px; padding: 0 16px; font-size: 11px; }
 }
