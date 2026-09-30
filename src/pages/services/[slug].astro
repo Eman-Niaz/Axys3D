@@ -35,6 +35,8 @@ const {
   projectStages = [],
   engagementContext = [],
 } = service.data;
+const p = service.data as any;
+const stageCount = projectStages.length;
 
 const { Content } = await render(service);
 
@@ -44,9 +46,6 @@ const titleSplit = Math.ceil(titleWords.length / 2);
 
 const pad = (n: number | string) => String(n).padStart(2, "0");
 
-// steps grid: 4 per row max, 3 per row when there are 6
-const stageCount = projectStages.length;
-const stageCols = stageCount <= 4 ? Math.max(stageCount, 1) : stageCount === 6 ? 3 : 4;
 
 // --- markdown body -> modules (cream / dark cards) ---
 const escapeHtml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -110,12 +109,63 @@ const introHtml = parsed.intro
 // checkerboard: cream/dark alternate across 2 columns
 const isCream = (i: number) => (i + Math.floor(i / 2)) % 2 === 0;
 
-const stageIcons = [
-  '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>',
-  '<circle cx="12" cy="12" r="3.2"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8"/>',
-  '<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/>',
-  '<path d="M12 2.8l8 4.5v9.4l-8 4.5-8-4.5V7.3z"/><path d="M4 7.3l8 4.5 8-4.5M12 11.8v9.4"/>',
-];
+// ---------- FAQs ----------
+// 1) frontmatter:  faqs: [{ question: "...", answer: "..." }]
+// 2) otherwise a markdown section called FAQ / Frequently asked questions / Common questions
+const stripTags = (s: string) => s.replace(/<[^>]+>/g, "").trim();
+const isFaqTitle = (t: string) => /faq|frequently asked|common questions/i.test(t);
+const faqModule = parsed.mods.find((m: Module) => isFaqTitle(m.title));
+
+const faqFromModule = (m: Module): Array<{ q: string; a: string }> => {
+  const out: Array<{ q: string; a: string }> = [];
+  let cur: { q: string; a: string[] } | null = null;
+  const push = () => { if (cur && cur.a.length) out.push({ q: cur.q, a: cur.a.join("</p><p>") }); cur = null; };
+  for (const b of m.blocks) {
+    if (b.t === "h3") { push(); cur = { q: stripTags(b.html), a: [] }; }
+    else if (b.t === "p") {
+      const mm = b.html.match(/^<strong>(.+?)<\/strong>\s*[—–:\-]?\s*(.*)$/);
+      if (!cur && mm) { push(); out.push({ q: stripTags(mm[1]), a: mm[2] }); }
+      else if (cur) cur.a.push(b.html);
+    } else if (b.t === "ul") {
+      push();
+      for (const it of b.items) {
+        const s = it.match(/^<strong>(.+?)<\/strong>\s*[—–:\-]?\s*(.*)$/);
+        if (s && s[2]) out.push({ q: stripTags(s[1]), a: s[2] });
+        else {
+          const k = it.indexOf("?");
+          if (k > 0 && k < it.length - 1) out.push({ q: stripTags(it.slice(0, k + 1)), a: it.slice(k + 1).trim() });
+        }
+      }
+    }
+  }
+  push();
+  return out.filter((f) => f.q && f.a);
+};
+
+const dataFaqs: Array<{ q: string; a: string }> = (Array.isArray(p.faqs) ? p.faqs : Array.isArray(p.faq) ? p.faq : [])
+  .map((f: any) => ({ q: String(f.question ?? f.q ?? ""), a: escapeHtml(String(f.answer ?? f.a ?? "")) }))
+  .filter((f: { q: string; a: string }) => f.q && f.a);
+
+const faqs = dataFaqs.length > 0 ? dataFaqs : faqModule ? faqFromModule(faqModule) : [];
+const detailMods: Module[] = parsed.mods.filter((m: Module) => m !== faqModule || faqs.length === 0);
+
+// ---------- detail section: module -> { intro paragraphs, groups (label + content) } ----------
+type Group = { label: string; blocks: Block[]; wide: boolean };
+const specOf = (m: Module) => {
+  const intro: string[] = [];
+  const groups: Group[] = [];
+  let cur: Group | null = null;
+  for (const b of m.blocks) {
+    if (b.t === "h3") { cur = { label: b.html, blocks: [], wide: false }; groups.push(cur); }
+    else if (!cur) { if (b.t === "p") intro.push(b.html); else { cur = { label: "", blocks: [b], wide: false }; groups.push(cur); } }
+    else cur.blocks.push(b);
+  }
+  // groups that contain prose (e.g. "Review gate: ...") read better full width
+  groups.forEach((g) => { g.wide = g.blocks.some((b) => b.t === "p"); });
+  return { intro, groups };
+};
+const specMods = detailMods.map((m: Module) => ({ title: m.title, ...specOf(m) }));
+
 ---
 
 <!doctype html>
@@ -223,39 +273,47 @@ const stageIcons = [
         </section>
       )}
 
-      <!-- =========== PROJECT STAGES (auto-cycling steps) =========== -->
+      <!-- =========== PROCESS (stage viewer + stepper) =========== -->
       {stageCount > 0 && (
         <section class="svcd-section">
           <div class="svcd-wrap">
             <div class="svcd-head svcd-reveal">
               <div>
-                <span class="svcd-kicker">Project stages</span>
-                <h2 class="svcd-h2">A clear path from <span>brief to handoff.</span></h2>
+                <span class="svcd-kicker">Process</span>
+                <h2 class="svcd-h2">{stageCount} stages, <span>brief to handoff.</span></h2>
               </div>
-              <p class="svcd-head-note">The stages this service moves through, in order.</p>
+              <p class="svcd-head-note">Every package moves through the same ordered stages. Hover a stage to pause.</p>
             </div>
 
-            <div class="svcd-steps" data-steps style={`--cols:${stageCols}`}>
-              {projectStages.map((stage: string, i: number) => (
-                <article class={`svcd-step svcd-reveal${i === 0 ? " is-active" : ""}`} data-step style={`--d:${i * 0.09}s`}>
-                  <div class="svcd-step-top">
-                    <span class="svcd-step-pill">{pad(i + 1)}</span>
-                    <span class="svcd-step-count">{i + 1} / {stageCount}</span>
-                  </div>
-                  <div class="svcd-step-icon">
-                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={stageIcons[i % stageIcons.length]}></svg>
-                  </div>
-                  <h3 class="svcd-step-title">{stage}</h3>
-                  <div class="svcd-step-bar"><span></span></div>
-                  {(i + 1) % stageCols !== 0 && i < stageCount - 1 && <span class="svcd-step-link" aria-hidden="true">→</span>}
-                </article>
-              ))}
+            <div class="svcd-process" data-process>
+              <article class="svcd-card svcd-card--cream svcd-focus svcd-reveal">
+                <div class="svcd-card-top">
+                  <span class="svcd-tag">Current stage</span>
+                  <span class="svcd-card-num"><span data-focus-count>01</span> / {pad(stageCount)}</span>
+                </div>
+                <span class="svcd-focus-num" data-focus-num>01</span>
+                <h3 class="svcd-focus-title" data-focus-title>{projectStages[0]}</h3>
+                <div class="svcd-focus-dots" aria-hidden="true">
+                  {projectStages.map((_: string, i: number) => <span class={i === 0 ? "is-active" : ""}></span>)}
+                </div>
+              </article>
+
+              <ol class="svcd-stepper">
+                {projectStages.map((stage: string, i: number) => (
+                  <li class={`svcd-stage svcd-reveal${i === 0 ? " is-active" : ""}`} data-stage data-title={stage} style={`--d:${i * 0.06}s`}>
+                    <span class="svcd-stage-node">{pad(i + 1)}</span>
+                    <span class="svcd-stage-title">{stage}</span>
+                    <span class="svcd-stage-bar" aria-hidden="true"><span></span></span>
+                  </li>
+                ))}
+              </ol>
             </div>
           </div>
         </section>
       )}
 
       <!-- =========== SERVICE DETAIL (markdown -> modules) =========== -->
+      {(!useModules || detailMods.length > 0) && (
       <section class="svcd-section">
         <div class="svcd-wrap">
           <div class="svcd-head svcd-reveal">
@@ -263,35 +321,58 @@ const stageIcons = [
               <span class="svcd-kicker">Service detail</span>
               <h2 class="svcd-h2">Scope and delivery, <span>in detail.</span></h2>
             </div>
-            {useModules && introHtml
+            {useModules && detailMods.length > 0 && introHtml
               ? <p class="svcd-head-note" set:html={introHtml}></p>
               : <p class="svcd-head-note">What this service covers and how the work is run.</p>}
           </div>
 
           {useModules ? (
-            <div class="svcd-modules">
-              {parsed.mods.map((mod: Module, i: number) => (
-                <article class={`svcd-card svcd-card--${isCream(i) ? "cream" : "dark"} svcd-reveal`} style={`--d:${(i % 2) * 0.08}s`}>
-                  <div class="svcd-card-top">
-                    <span class="svcd-tag">Detail</span>
-                    <span class="svcd-card-num">{pad(i + 1)}</span>
-                  </div>
-                  <h3 class="svcd-card-title">{mod.title}</h3>
-                  {mod.blocks.map((b: Block) =>
-                    b.t === "p" ? (
-                      <p class="svcd-card-desc" set:html={b.html}></p>
-                    ) : b.t === "h3" ? (
-                      <h4 class="svcd-card-sub" set:html={b.html}></h4>
-                    ) : b.t === "ul" ? (
-                      <ul class="svcd-rows" data-rows>
-                        {b.items.map((it: string, k: number) => (
-                          <li class={`svcd-row${k === 0 ? " is-active" : ""}`} set:html={it}></li>
+            <div class="svcd-spec">
+              <nav class="svcd-spec-nav" aria-label="Sections in this service">
+                <span class="svcd-spec-nav-label">In this section</span>
+                <ol>
+                  {specMods.map((m, i) => (
+                    <li>
+                      <a href={`#detail-${i + 1}`} data-spec-link class={i === 0 ? "is-active" : ""}>
+                        <span class="svcd-spec-nav-num">{pad(i + 1)}</span>
+                        <span>{m.title}</span>
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </nav>
+
+              <div class="svcd-spec-body">
+                {specMods.map((m, i) => (
+                  <article class="svcd-spec-item svcd-reveal" id={`detail-${i + 1}`} data-spec-item>
+                    <header class="svcd-spec-top">
+                      <span class="svcd-spec-num">{pad(i + 1)}</span>
+                      <h3 class="svcd-spec-title">{m.title}</h3>
+                    </header>
+
+                    {m.intro.length > 0 && <p class="svcd-spec-intro" set:html={m.intro.join(" ")}></p>}
+
+                    {m.groups.length > 0 && (
+                      <div class="svcd-spec-groups">
+                        {m.groups.map((g) => (
+                          <section class={`svcd-spec-group${g.wide ? " is-wide" : ""}`}>
+                            {g.label && <h4 class="svcd-spec-label" set:html={g.label}></h4>}
+                            {g.blocks.map((blk) =>
+                              blk.t === "ul" ? (
+                                <ul class="svcd-spec-items">
+                                  {blk.items.map((it: string) => <li set:html={it}></li>)}
+                                </ul>
+                              ) : blk.t === "p" ? (
+                                <p class="svcd-spec-text" set:html={blk.html}></p>
+                              ) : null
+                            )}
+                          </section>
                         ))}
-                      </ul>
-                    ) : null
-                  )}
-                </article>
-              ))}
+                      </div>
+                    )}
+                  </article>
+                ))}
+              </div>
             </div>
           ) : (
             <div class="svcd-prose">
@@ -300,6 +381,35 @@ const stageIcons = [
           )}
         </div>
       </section>
+      )}
+
+      <!-- =========== FAQ =========== -->
+      {faqs.length > 0 && (
+        <section class="svcd-section svcd-faq-section" id="faq">
+          <div class="svcd-wrap">
+            <div class="svcd-faq-head svcd-reveal">
+              <span class="svcd-kicker">Technical fit</span>
+              <h2 class="svcd-h2">Common questions <span>before scope is fixed.</span></h2>
+            </div>
+
+            <div class="svcd-faq" data-faq>
+              {faqs.map((f, i) => (
+                <div class="svcd-faq-item svcd-reveal" style={`--d:${i * 0.07}s`}>
+                  <button class="svcd-faq-q" type="button" aria-expanded="false" aria-controls={`faq-a-${i}`} id={`faq-q-${i}`}>
+                    <span class="svcd-faq-idx">{i + 1}</span>
+                    <span class="svcd-faq-text">{f.q}</span>
+                    <span class="svcd-faq-plus" aria-hidden="true"></span>
+                  </button>
+                  <div class="svcd-faq-a" id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`}>
+                    <div class="svcd-faq-a-inner"><p set:html={f.a}></p></div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
 
       <!-- =========== FINAL CTA =========== -->
       <section class="svcd-final-cta">
@@ -343,22 +453,71 @@ const stageIcons = [
         }));
       });
 
-      // project stages: auto-cycle, hover to take control
+      // service detail: highlight the index link for the section in view
       (function () {
-        const wrap = document.querySelector("[data-steps]");
-        if (!wrap) return;
-        const steps = Array.from(wrap.querySelectorAll("[data-step]"));
-        if (!steps.length) return;
+        const links = Array.from(document.querySelectorAll("[data-spec-link]"));
+        const items = Array.from(document.querySelectorAll("[data-spec-item]"));
+        if (!links.length || !("IntersectionObserver" in window)) return;
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => {
+            if (!e.isIntersecting) return;
+            const id = e.target.id;
+            links.forEach((l) => l.classList.toggle("is-active", l.getAttribute("href") === "#" + id));
+          }),
+          { rootMargin: "-25% 0px -60% 0px" }
+        );
+        items.forEach((el) => io.observe(el));
+      })();
+
+      // process: stage viewer + stepper (auto-cycle, hover to take control)
+      (function () {
+        const root = document.querySelector("[data-process]");
+        if (!root) return;
+        const stages = Array.from(root.querySelectorAll("[data-stage]"));
+        const dots = Array.from(root.querySelectorAll(".svcd-focus-dots span"));
+        const numEl = root.querySelector("[data-focus-num]");
+        const countEl = root.querySelector("[data-focus-count]");
+        const titleEl = root.querySelector("[data-focus-title]");
+        if (!stages.length) return;
+        const pad = (n) => String(n).padStart(2, "0");
         let cur = 0, timer;
-        const set = (n) => { cur = n; steps.forEach((s, k) => s.classList.toggle("is-active", k === n)); };
+
+        const set = (n) => {
+          cur = n;
+          stages.forEach((s, k) => s.classList.toggle("is-active", k === n));
+          dots.forEach((d, k) => d.classList.toggle("is-active", k === n));
+          if (numEl) numEl.textContent = pad(n + 1);
+          if (countEl) countEl.textContent = pad(n + 1);
+          if (titleEl) {
+            titleEl.textContent = stages[n].getAttribute("data-title");
+            titleEl.classList.remove("is-swap"); void titleEl.offsetWidth; titleEl.classList.add("is-swap");
+          }
+        };
         const stop = () => clearInterval(timer);
-        const start = () => { stop(); timer = setInterval(() => set((cur + 1) % steps.length), 3600); };
+        const start = () => { stop(); timer = setInterval(() => set((cur + 1) % stages.length), 3400); };
+
         set(0);
         if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
         start();
-        steps.forEach((s, k) => {
+        stages.forEach((s, k) => {
           s.addEventListener("mouseenter", () => { stop(); set(k); });
           s.addEventListener("mouseleave", start);
+        });
+      })();
+
+      // faq accordion: one open at a time
+      (function () {
+        const items = document.querySelectorAll(".svcd-faq-item");
+        items.forEach((item) => {
+          const btn = item.querySelector(".svcd-faq-q");
+          btn.addEventListener("click", () => {
+            const open = item.classList.contains("is-open");
+            items.forEach((o) => {
+              o.classList.remove("is-open");
+              o.querySelector(".svcd-faq-q").setAttribute("aria-expanded", "false");
+            });
+            if (!open) { item.classList.add("is-open"); btn.setAttribute("aria-expanded", "true"); }
+          });
         });
       })();
     </script>

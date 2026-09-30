@@ -87,9 +87,7 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: 1100px auto;
-  opacity: 0.05; /* Opacity badha di hai taake overlay zyada nazaara aaye */
-  filter: contrast(1.15) brightness(0.85);
-  mix-blend-mode: screen;
+  opacity: 0.06;
   pointer-events: none;
   z-index: 0;
 } 
@@ -266,7 +264,7 @@
     0 16px 36px rgba(3, 12, 22, 0.35);
   opacity: 0;
   transform: translateY(45px) scale(0.96);
-  will-change: transform, box-shadow, opacity;
+  contain: layout paint;
   transition:
     opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1),
@@ -288,6 +286,16 @@
 
 .px-services-wrapper.is-visible .px-card:nth-child(4),
 .px-services-wrapper.is-visible .px-card:nth-child(8) { animation-delay: 1.3s; }
+
+/* cards 6+ are off-screen at arrival: no entrance animation for them */
+.px-card:nth-child(n+6) {
+  opacity: 1;
+  transform: none;
+}
+
+.px-services-wrapper.is-visible .px-card:nth-child(n+6) {
+  animation: none;
+}
 
 @keyframes cardEntrance {
   0% { opacity: 0; transform: translateY(45px) scale(0.96); }
@@ -363,9 +371,7 @@
   left: 18px;
   padding: 4px 11px;
   border-radius: 999px;
-  background: rgba(179, 139, 76, 0.18);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(38, 32, 24, 0.52);
   border: 1px solid rgba(226, 205, 165, 0.3);
   color: var(--accent-gold-bright);
   font-size: 10.5px;
