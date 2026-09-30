@@ -175,7 +175,7 @@
   max-width: 980px;
   margin: 0 0 24px;
   font-size: clamp(38px, 6vw, 76px);
-  line-height: 0.94 !important;
+  line-height: 1.1 !important;
   letter-spacing: -0.05em !important;
 }
 
@@ -235,7 +235,7 @@
   font-size: clamp(24px, 3.2vw, 38px);
   font-weight: 700;
   letter-spacing: -0.035em;
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
 .wrk-h2 span { color: var(--svc-muted); }
@@ -405,7 +405,7 @@
   font-size: clamp(36px, 5.2vw, 66px);
   font-weight: 700;
   letter-spacing: -0.05em;
-  line-height: 1.05;
+  line-height: 1.18;
 }
 
 .wrk-final-inner h2 span { color: var(--svc-muted); }
@@ -592,7 +592,7 @@
   font-size: clamp(26px, 3vw, 38px);
   font-weight: 700;
   letter-spacing: -0.04em;
-  line-height: 1.08;
+  line-height: 1.2;
   color: var(--svc-white);
 }
 
@@ -739,8 +739,8 @@
 
 .wrk-more-body { display: flex; flex-direction: column; gap: 12px; padding: 24px 26px 26px; flex: 1; }
 .wrk-more-card .wrk-tag { align-self: flex-start; background: rgba(255, 255, 255, 0.06); border: 1px solid rgba(255, 255, 255, 0.14); color: var(--svc-brown-light); }
-.wrk-more-body h3 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.15; }
-.wrk-more-body p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--svc-muted); display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.wrk-more-body h3 { margin: 0; font-size: 22px; font-weight: 700; letter-spacing: -0.03em; line-height: 1.2; }
+.wrk-more-body p { margin: 0; font-size: 14px; line-height: 1.6; color: var(--svc-muted); display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
 .wrk-more-link { margin-top: auto; padding-top: 6px; font-size: 12px; font-weight: 800; color: var(--svc-brown-light); }
 
 /* =========================================================

@@ -258,7 +258,7 @@ html {
 
   font-weight: 700;
 
-  line-height: 0.98;
+  line-height: 1.2;
 
   letter-spacing: -0.05em;
 
@@ -401,7 +401,7 @@ html {
 
   letter-spacing: -0.045em;
 
-  line-height: 1;
+  line-height: 1.2;
 
   color: var(--cnt-white);
 }
@@ -655,7 +655,7 @@ html {
 
   letter-spacing: -0.04em;
 
-  line-height: 1.05;
+  line-height: 1.2;
 
   color: var(--cnt-white);
 }
@@ -1245,4 +1245,49 @@ html {
 
     transform: none !important;
   }
+}
+
+/* =========================================================
+   RESPONSIVE FIXES — Contact
+   Navbar clearance is done with padding on the section
+   (margin-top on .page-contact was not reliable -> kicker
+   slid under the logo on mobile)
+   ========================================================= */
+
+.page-contact { margin-top: 0 !important; }
+.cnt-contact-section { padding: 210px 0 120px; }
+.cnt-intro-title { overflow-wrap: break-word; }
+.cnt-info-value { overflow-wrap: anywhere; }
+
+@media (max-width: 1050px) {
+  .cnt-contact-section { padding: 170px 0 90px; }
+  .cnt-intro { max-width: 100%; }
+  .cnt-main-layout { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 900px) {
+  .cnt-info-list { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .cnt-info-card:last-child:nth-child(odd) { grid-column: 1 / -1; }
+  .cnt-info-card { min-height: 0; }
+}
+
+@media (max-width: 760px) {
+  .cnt-contact-section { padding: 150px 0 70px; }
+  .cnt-kicker { margin-bottom: 14px; }
+  .cnt-intro { margin-bottom: 32px; }
+  .cnt-intro-title { font-size: clamp(34px, 10vw, 52px); margin-bottom: 16px; }
+  .cnt-intro-text { font-size: 15px; line-height: 1.65; }
+  .cnt-left-panel { min-height: 0; }
+  .cnt-info-list { grid-template-columns: minmax(0, 1fr); margin-top: 32px; }
+  .cnt-info-card:last-child:nth-child(odd) { grid-column: auto; }
+  .cnt-field input, .cnt-field select, .cnt-field textarea { font-size: 16px; }
+  .cnt-form-title { font-size: clamp(24px, 7vw, 30px); }
+  .cnt-submit { min-width: 0; }
+}
+
+@media (max-width: 480px) {
+  .cnt-contact-section { padding: 140px 0 60px; }
+  .cnt-intro-title { font-size: clamp(32px, 10.5vw, 42px); }
+  .cnt-left-title { font-size: clamp(28px, 9vw, 34px); }
+  .cnt-info-card { padding: 12px 14px; gap: 12px; }
 }
