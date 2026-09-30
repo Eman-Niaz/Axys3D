@@ -1,6 +1,7 @@
 ---
 // src/pages/insights/[slug].astro
-// Single Insights / Article page with dark architectural hero overlay & smooth typography
+// Single Insight / Article page — styled 1:1 like the Industry single page
+// (all styles live in ../../styles/insights.css under the .isd- prefix)
 
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
@@ -22,9 +23,15 @@ export async function getStaticPaths() {
 const { article } = Astro.props;
 const { Content } = await render(article);
 
-// Hero Background Image URL
-const heroBackgroundImage =
-  "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=2400&q=85";
+/* Hero title: first half white, second half muted (same as Industries) */
+const titleWords = article.data.title.trim().split(/\s+/);
+const mutedFrom = Math.ceil(titleWords.length / 2);
+
+/* "6 min read" -> big "6" + small "min read" */
+const rt = String(article.data.readTime ?? "").trim();
+const rtMatch = rt.match(/^(\d+)\s*(.*)$/);
+const rtNum = rtMatch ? rtMatch[1] : rt;
+const rtUnit = rtMatch ? rtMatch[2] || "min" : "";
 ---
 
 <!doctype html>
@@ -32,71 +39,122 @@ const heroBackgroundImage =
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={article.data.summary} />
     <title>{article.data.title} — Axys3D Insights</title>
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
 
-  <body class="page-insights ins-detail-page">
+  <body class="page-insight-single">
+    <!-- PAGE BACKGROUND — soft gradient with drifting corner glows -->
+    <div class="isd-page-bg" aria-hidden="true"></div>
+
     <Navbar variant="transparent" />
 
-    <main class="ins-main-content">
-      <!-- HERO SECTION -->
-      <section class="ins-hero-section">
-        <div class="ins-hero-bg">
-          <img
-            src={heroBackgroundImage}
-            alt={article.data.title}
-            class="ins-hero-img"
-          />
-          <div class="ins-hero-overlay"></div>
-        </div>
+    <main class="isd-page">
+      <!-- ================= HERO ================= -->
+      <section class="isd-hero isd-hero--article">
+        <div class="isd-wrap">
+          <span class="isd-kicker isd-kicker--pill">{article.data.category}</span>
 
-        <div class="ins-wrap ins-hero-wrap">
-          <!-- Back Link -->
-          <div class="ins-top-meta">
-            <a href="/Insights" class="ins-back-link">
-              <span class="back-arrow">←</span>
-              <span>BACK TO INSIGHTS</span>
-            </a>
-            <span class="ins-meta-tag">TECHNICAL BRIEF</span>
-          </div>
+          <div class="isd-hero-row">
+            <h1 class="isd-h1 isd-h1--article">
+              <span class="isd-h1-visual" aria-hidden="true">
+                {titleWords.map((w, i) => (
+                  <Fragment>
+                    <span
+                      class:list={["isd-word", { "isd-word--dim": i < mutedFrom }]}
+                      style={`--i:${i}`}
+                    >{w}</span>
+                    {i === mutedFrom - 1 && <br />}
+                  </Fragment>
+                ))}
+              </span>
+              <span class="sr-only">{article.data.title}</span>
+            </h1>
 
-          <div class="ins-hero-row">
-            <div class="ins-hero-label">
-              <span>Article</span>
-            </div>
-
-            <!-- Header Content -->
-            <header class="ins-detail-header ins-hero-content">
-              <p class="ins-eyebrow">
-                {article.data.category} <span class="ins-dot-sep">/</span> {article.data.readTime}
-              </p>
-              <h1 class="ins-detail-title">{article.data.title}</h1>
-              <p class="ins-detail-lead">{article.data.summary}</p>
-            </header>
+            <p class="isd-lead isd-lead--side">{article.data.summary}</p>
           </div>
         </div>
       </section>
 
-      <!-- BODY CONTENT SECTION -->
-      <section class="ins-body-section">
-        <div class="ins-wrap">
-          <!-- Dynamic Markdown Body -->
-          <article class="ins-markdown-body">
+      <!-- ================= BENTO: META + NEXT ================= -->
+      <section class="isd-section isd-article-sec">
+        <div class="isd-wrap">
+          <div class="isd-abento">
+            <!-- LEFT: light cards -->
+            <div class="isd-acol isd-acol--left">
+              <div class="isd-card isd-card--cream isd-meta-card isd-reveal">
+                <p class="isd-meta-note">Filed under</p>
+                <div class="isd-meta-foot">
+                  <span class="isd-meta-big">{article.data.category}</span>
+                  {article.data.badgeText && <span class="isd-meta-pill">{article.data.badgeText}</span>}
+                </div>
+              </div>
+
+              <div class="isd-card isd-card--white isd-meta-card isd-reveal" style="--d: 120ms">
+                <span class="isd-meta-label">READ TIME</span>
+                <div class="isd-meta-num">
+                  <span>{rtNum}</span>
+                  {rtUnit && <small>{rtUnit}</small>}
+                </div>
+                <p class="isd-meta-sub">Estimated time to read this article</p>
+              </div>
+            </div>
+
+            <!-- RIGHT: deep card -->
+            <div class="isd-acol isd-acol--right">
+              <div class="isd-card isd-card--deep isd-next-card isd-reveal" style="--d: 180ms">
+                <span class="isd-next-label">KEEP READING</span>
+                <p class="isd-next-text">More practical notes for controlled AEC delivery, straight from our team.</p>
+
+                <svg class="isd-next-arrow" viewBox="0 0 300 120" fill="none" aria-hidden="true">
+                  <path d="M4 104 C 50 106, 90 78, 138 66 C 176 57, 206 70, 246 52 C 266 44, 282 38, 294 34" stroke="#b38b5a" stroke-width="3" stroke-linecap="round"/>
+                  <path d="M268 32 L294 34 L286 58" stroke="#b38b5a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+
+                <div class="isd-next-foot">
+                  <a href="/Insights" class="isd-final-btn">
+                    <span>All insights</span>
+                    <span>↗</span>
+                  </a>
+                  <span class="isd-next-caption">AXYS3D<br />KNOWLEDGE BASE</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= ARTICLE AS STEP CARDS ================= -->
+      <section class="isd-section isd-flow-sec">
+        <div class="isd-wrap">
+          <div class="isd-head isd-reveal">
+            <div>
+              <span class="isd-kicker">IN THIS ARTICLE</span>
+              <h2 class="isd-h2">Key points, <br /><span>one step at a time.</span></h2>
+            </div>
+          </div>
+
+          <!-- Markdown renders here; the script below turns each H2 into a card.
+               Without JS it simply shows as a normal styled article. -->
+          <article class="isd-card isd-card--dark isd-article isd-flow-src" data-flow-src>
             <Content />
           </article>
+        </div>
+      </section>
 
-          <!-- BOTTOM CTA BANNER -->
-          <div class="ins-cta-card ins-card">
-            <div class="ins-cta-info">
-              <span class="ins-cta-eyebrow">AXYS3D KNOWLEDGE BASE</span>
-              <h2 class="ins-cta-heading">Want to implement these workflows in your firm?</h2>
-              <p class="ins-cta-subtext">Schedule a workflow review session with our technical leads.</p>
-            </div>
-            <div class="ins-cta-actions">
-              <a href="/Contact/" class="ins-btn ins-btn-primary">
-                Book Technical Session <span>→</span>
-              </a>
-            </div>
+      <!-- ================= FINAL CTA ================= -->
+      <section class="isd-final-cta">
+        <div class="isd-wrap">
+          <div class="isd-final-inner isd-reveal">
+            <h2>Want these workflows <br /><span>in your firm?</span></h2>
+            <p>Schedule a workflow review session with our technical leads.</p>
+            <a href="/Contact/" class="isd-final-btn">
+              <span>Book technical session</span>
+              <span>↗</span>
+            </a>
           </div>
         </div>
       </section>
@@ -104,23 +162,99 @@ const heroBackgroundImage =
 
     <Footer />
 
-    <script>
-      // Scroll-reveal for the bottom CTA card, matching Work/Process/Insights pages
-      const revealTargets = document.querySelectorAll(".ins-card");
+    <script is:inline>
+      // ---- Turn the markdown article into step cards (one card per H2) ----
+      (function () {
+        const src = document.querySelector("[data-flow-src]");
+        if (!src) return;
+        const nodes = Array.from(src.children);
+        const intro = [];
+        const groups = [];
+        nodes.forEach((n) => {
+          if (n.tagName === "H2") groups.push({ title: n.textContent, nodes: [] });
+          else if (groups.length) groups[groups.length - 1].nodes.push(n);
+          else intro.push(n);
+        });
+        if (!groups.length) return; // no headings -> keep plain article
 
+        const icons = [
+          '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
+          '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/>',
+          '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>',
+          '<path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>',
+        ];
+        const pad = (n) => String(n).padStart(2, "0");
+        const n = groups.length;
+        const cols = n <= 4 ? n : 3;
+
+        const wrap = document.createElement("div");
+        wrap.className = "isd-flow";
+
+        if (intro.length) {
+          const box = document.createElement("div");
+          box.className = "isd-flow-intro isd-reveal";
+          intro.forEach((el) => box.appendChild(el));
+          wrap.appendChild(box);
+        }
+
+        const grid = document.createElement("div");
+        grid.className = "isd-flow-grid" + (n <= 4 ? " isd-flow-grid--row" : "");
+        grid.style.setProperty("--cols", cols);
+
+        const cards = groups.map((g, i) => {
+          const card = document.createElement("div");
+          card.className = "isd-sc isd-reveal";
+          card.style.setProperty("--d", i * 90 + "ms");
+          card.innerHTML =
+            '<div class="isd-sc-top"><span class="isd-sc-pill">' + pad(i + 1) + '</span>' +
+            '<span class="isd-sc-count">' + pad(i + 1) + " / " + pad(n) + "</span></div>" +
+            '<div class="isd-sc-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
+            icons[i % icons.length] + "</svg></div>" +
+            '<h3 class="isd-sc-title"></h3><div class="isd-sc-content"></div>' +
+            '<div class="isd-sc-bar"><span></span></div>' +
+            (i < n - 1 && n <= 4 ? '<span class="isd-sc-link" aria-hidden="true">→</span>' : "");
+          card.querySelector(".isd-sc-title").textContent = g.title;
+          const c = card.querySelector(".isd-sc-content");
+          g.nodes.forEach((el) => c.appendChild(el));
+          grid.appendChild(card);
+          return card;
+        });
+        wrap.appendChild(grid);
+        src.replaceWith(wrap);
+
+        // ---- auto-cycling highlight (pauses on hover) ----
+        let cur = -1, timer = null;
+        const setActive = (i) => {
+          cards.forEach((c, k) => c.classList.toggle("is-active", k === i));
+          cur = i;
+        };
+        const start = () => {
+          if (timer || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+          setActive((cur + 1) % n);
+          timer = setInterval(() => setActive((cur + 1) % n), 3600);
+        };
+        const stop = () => { clearInterval(timer); timer = null; };
+        cards.forEach((c, i) => {
+          c.addEventListener("mouseenter", () => { stop(); setActive(i); });
+          c.addEventListener("mouseleave", () => { cur = i - 1; start(); });
+        });
+        new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? start() : stop())), { threshold: 0.25 }).observe(grid);
+      })();
+
+      // ---- Reveal on scroll ----
+      const revealItems = document.querySelectorAll(".isd-reveal");
       const revealObserver = new IntersectionObserver(
-        (entries, observer) => {
+        (entries) => {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
-              entry.target.classList.add("ins-reveal-visible");
-              observer.unobserve(entry.target);
+              entry.target.classList.add("is-visible");
+              revealObserver.unobserve(entry.target);
             }
           });
         },
-        { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+        { threshold: 0.08 }
       );
-
-      revealTargets.forEach((el) => revealObserver.observe(el));
+      revealItems.forEach((item) => revealObserver.observe(item));
     </script>
   </body>
 </html>

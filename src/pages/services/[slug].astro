@@ -7,7 +7,6 @@ import Footer from "../../components/Footer.astro";
 import "../../styles/token.css";
 import "../../styles/global.css";
 import "../../styles/Navbar.css";
-import "../../styles/services.css";
 import "../../styles/service-details.css";
 import "../../styles/footer.css";
 import { getCollection, render } from "astro:content";
@@ -32,15 +31,91 @@ const {
   serviceNumber,
   serviceLabel,
   description,
-  bestFitBuyers,
-  projectStages,
-  engagementContext,
+  bestFitBuyers = [],
+  projectStages = [],
+  engagementContext = [],
 } = service.data;
 
 const { Content } = await render(service);
 
-const heroBackgroundImage =
-  "https://images.unsplash.com/photo-1487958449943-2429e8be8625?auto=format&fit=crop&w=2400&q=85";
+// --- helpers ---
+const titleWords: string[] = title.split(/\s+/).filter(Boolean);
+const titleSplit = Math.ceil(titleWords.length / 2);
+
+const pad = (n: number | string) => String(n).padStart(2, "0");
+
+// steps grid: 4 per row max, 3 per row when there are 6
+const stageCount = projectStages.length;
+const stageCols = stageCount <= 4 ? Math.max(stageCount, 1) : stageCount === 6 ? 3 : 4;
+
+// --- markdown body -> modules (cream / dark cards) ---
+const escapeHtml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const inline = (s: string) =>
+  escapeHtml(s)
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<em>$2</em>")
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>');
+
+type Block = { t: "p" | "h3"; html: string } | { t: "ul"; items: string[] };
+type Module = { title: string; blocks: Block[] };
+
+function parseBody(md: string) {
+  const intro: Block[] = [];
+  const mods: Module[] = [];
+  let cur: Module | null = null;
+  let para: string[] = [];
+  let list: string[] | null = null;
+  const target = () => (cur ? cur.blocks : intro);
+  const flushPara = () => { if (para.length) { target().push({ t: "p", html: inline(para.join(" ")) }); para = []; } };
+  const flushList = () => { if (list) { target().push({ t: "ul", items: list }); list = null; } };
+
+  for (const raw of md.replace(/\r/g, "").split("\n")) {
+    const line = raw.trim();
+    let m: RegExpMatchArray | null;
+    if ((m = line.match(/^##\s+(.*)$/))) {
+      flushPara(); flushList();
+      cur = { title: m[1].replace(/[*_`]/g, ""), blocks: [] };
+      mods.push(cur);
+    } else if ((m = line.match(/^#{3,6}\s+(.*)$/))) {
+      flushPara(); flushList();
+      target().push({ t: "h3", html: inline(m[1]) });
+    } else if ((m = line.match(/^(?:[-*+]|\d+\.)\s+(.*)$/))) {
+      flushPara();
+      if (!list) list = [];
+      list.push(inline(m[1]));
+    } else if (line === "") {
+      flushPara(); flushList();
+    } else if (list && /^\s/.test(raw)) {
+      list[list.length - 1] += " " + inline(line);
+    } else if (/^#\s/.test(line) || /^(---|\*\*\*|___)$/.test(line)) {
+      // ignore h1 and rules
+    } else {
+      flushList();
+      para.push(line);
+    }
+  }
+  flushPara(); flushList();
+  return { intro, mods };
+}
+
+const rawBody: string = ((service as any).body as string) ?? "";
+const tooComplex = /^\s*(```|\||>|!\[|import\s|export\s|<[A-Za-z])/m.test(rawBody);
+const parsed = rawBody && !tooComplex ? parseBody(rawBody) : { intro: [] as Block[], mods: [] as Module[] };
+const useModules = parsed.mods.length > 0;
+const introHtml = parsed.intro
+  .filter((b): b is { t: "p" | "h3"; html: string } => b.t !== "ul")
+  .map((b) => b.html)
+  .join(" ");
+// checkerboard: cream/dark alternate across 2 columns
+const isCream = (i: number) => (i + Math.floor(i / 2)) % 2 === 0;
+
+const stageIcons = [
+  '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5"/>',
+  '<circle cx="12" cy="12" r="3.2"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8"/>',
+  '<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/>',
+  '<path d="M12 2.8l8 4.5v9.4l-8 4.5-8-4.5V7.3z"/><path d="M4 7.3l8 4.5 8-4.5M12 11.8v9.4"/>',
+];
 ---
 
 <!doctype html>
@@ -50,120 +125,242 @@ const heroBackgroundImage =
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
     <title>{title} — Axys3D</title>
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
 
   <body class="page-service-detail">
+    <!-- background reaches the very top (behind the transparent navbar) -->
+    <div class="svcd-page-bg" aria-hidden="true"></div>
 
-    <!-- HERO WRAPPER WITH TRANSPARENT OVERLAY NAVBAR -->
-    <div class="svcd-hero-wrapper">
-      <Navbar variant="transparent" />
+    <Navbar variant="solid" />
 
+    <main class="svcd-page">
+
+      <!-- =========== HERO (text only, left) =========== -->
       <section class="svcd-hero">
-
-        <!-- Background Image & Gradient Layer -->
-        <div class="svcd-hero-bg">
-          <img
-            src={heroBackgroundImage}
-            alt="Hero Background"
-            class="svcd-hero-img"
-          />
-          <div class="svcd-hero-overlay"></div>
-        </div>
-
-        <!-- Hero Primary Content -->
-        <div class="svc-wrap svcd-hero-content">
-
-          <div class="svcd-top-meta">
-            <a class="svcd-back" href="/Services/">
-              <span class="back-arrow">←</span>
-              <span>ALL SERVICES</span>
-            </a>
-            <span class="svcd-category-badge">AEC / PRODUCTION SPEC</span>
-          </div>
-
-          <p class="svc-eyebrow">
-            SERVICE {serviceNumber} // {serviceLabel}
-          </p>
+        <div class="svcd-wrap">
+          <a class="svcd-back" href="/Services/"><span>←</span> All services</a>
+          <span class="svcd-kicker">Service {pad(serviceNumber)} / {serviceLabel}</span>
 
           <h1 class="svcd-h1">
-            {title}
+            <span class="svcd-h1-visual" aria-hidden="true">
+              {titleWords.map((w: string, i: number) => (
+                <span class={`svcd-word${i >= titleSplit ? " svcd-word--muted" : ""}`} style={`--i:${i}`}>{w}</span>
+              ))}
+            </span>
+            <span class="sr-only">{title}</span>
           </h1>
 
-          <p class="svcd-lead">
-            {description}
-          </p>
-
-          <!-- DYNAMIC ASYMMETRIC META CARDS -->
-          <div class="svcd-meta-grid">
-
-            <!-- Card Variant 01: Glassmorphism Glass Panel -->
-            <div class="svcd-meta-col svcd-card-variant-a">
-              <span class="svcd-meta-number">01</span>
-              <p class="svcd-meta-label">BEST-FIT BUYERS</p>
-              <ul class="svcd-meta-list">
-                {bestFitBuyers.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-
-            <!-- Card Variant 02: Solid Dark Panel Accent -->
-            <div class="svcd-meta-col svcd-card-variant-b">
-              <span class="svcd-meta-number">02</span>
-              <p class="svcd-meta-label">PROJECT STAGES</p>
-              <ul class="svcd-meta-list">
-                {projectStages.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-
-            <!-- Card Variant 03: Left Border Inset Panel -->
-            <div class="svcd-meta-col svcd-card-variant-c">
-              <span class="svcd-meta-number">03</span>
-              <p class="svcd-meta-label">ENGAGEMENT CONTEXT</p>
-              <ul class="svcd-meta-list">
-                {engagementContext.map((item) => (
-                  <li>{item}</li>
-                ))}
-              </ul>
-            </div>
-
-          </div>
-
+          <p class="svcd-lead">{description}</p>
         </div>
-
       </section>
-    </div>
 
-    <!-- MAIN BODY & PROSE CONTAINER -->
-    <main class="svcd-body">
-      <div class="svc-wrap svcd-prose">
-        <Content />
-      </div>
+      <!-- =========== FIT & CONTEXT (bento) =========== -->
+      {(bestFitBuyers.length > 0 || engagementContext.length > 0) && (
+        <section class="svcd-section svcd-section--first">
+          <div class="svcd-wrap">
+            <div class="svcd-head svcd-reveal">
+              <div>
+                <span class="svcd-kicker">Fit &amp; context</span>
+                <h2 class="svcd-h2">Built for the right buyers, <span>in the right context.</span></h2>
+              </div>
+              <p class="svcd-head-note">Who this service fits best, and the context it is delivered in.</p>
+            </div>
 
-      <!-- CALL TO ACTION BLOCK -->
-      <div class="svc-wrap svcd-cta-wrapper">
-        <div class="svcd-cta-card">
-          <div class="svcd-cta-info">
-            <span class="svcd-cta-eyebrow">ENGAGE OUR STUDIO</span>
-            <h2 class="svcd-cta-heading">Ready to scale your BIM & visualization workflow?</h2>
-            <p class="svcd-cta-subtext">Let's discuss technical requirements, execution scope, and production schedules.</p>
+            <div class="svcd-bento">
+              {bestFitBuyers.length > 0 && (
+                <article class="svcd-card svcd-card--cream svcd-reveal" style="--d:0.05s">
+                  <div class="svcd-card-top">
+                    <span class="svcd-tag">Best-fit buyers</span>
+                    <span class="svcd-card-num">01</span>
+                  </div>
+                  <h3 class="svcd-card-title">Who it's built for</h3>
+                  <p class="svcd-card-desc">{bestFitBuyers.length} buyer types this service fits best.</p>
+                  <ul class="svcd-rows" data-rows>
+                    {bestFitBuyers.map((t: string, i: number) => (
+                      <li class={`svcd-row${i === 0 ? " is-active" : ""}`}>{t}</li>
+                    ))}
+                  </ul>
+                </article>
+              )}
+
+              {engagementContext.length > 0 && (
+                <article class="svcd-card svcd-card--dark svcd-reveal" style="--d:0.12s">
+                  <div class="svcd-card-top">
+                    <span class="svcd-tag">Engagement context</span>
+                    <span class="svcd-card-num">02</span>
+                  </div>
+                  <h3 class="svcd-card-title">How it's delivered</h3>
+                  <p class="svcd-card-desc">{engagementContext.length} points that shape how we work with you.</p>
+                  <ul class="svcd-rows" data-rows>
+                    {engagementContext.map((t: string, i: number) => (
+                      <li class={`svcd-row${i === 0 ? " is-active" : ""}`}>{t}</li>
+                    ))}
+                  </ul>
+                </article>
+              )}
+
+              <div class="svcd-stack">
+                <article class="svcd-card svcd-card--cream svcd-stat svcd-reveal" style="--d:0.19s">
+                  <span class="svcd-tag">Project stages</span>
+                  <div>
+                    <span class="svcd-stat-num">{pad(stageCount)}</span>
+                    <p class="svcd-stat-sub">Stages from first brief to structured handoff.</p>
+                  </div>
+                </article>
+                <article class="svcd-card svcd-card--dark svcd-stat svcd-reveal" style="--d:0.26s">
+                  <span class="svcd-tag">Service</span>
+                  <div>
+                    <span class="svcd-stat-num">{pad(serviceNumber)}</span>
+                    <p class="svcd-stat-sub">{serviceLabel}</p>
+                  </div>
+                </article>
+              </div>
+            </div>
           </div>
-          <div class="svcd-cta-actions">
-            <a href="/Contact/" class="svcd-btn svcd-btn-primary">
-              Schedule Consultation
-              <span class="btn-icon">→</span>
-            </a>
-            <a href="/Visuals/" class="svcd-btn svcd-btn-secondary">
-              Explore Portfolio
-            </a>
+        </section>
+      )}
+
+      <!-- =========== PROJECT STAGES (auto-cycling steps) =========== -->
+      {stageCount > 0 && (
+        <section class="svcd-section">
+          <div class="svcd-wrap">
+            <div class="svcd-head svcd-reveal">
+              <div>
+                <span class="svcd-kicker">Project stages</span>
+                <h2 class="svcd-h2">A clear path from <span>brief to handoff.</span></h2>
+              </div>
+              <p class="svcd-head-note">The stages this service moves through, in order.</p>
+            </div>
+
+            <div class="svcd-steps" data-steps style={`--cols:${stageCols}`}>
+              {projectStages.map((stage: string, i: number) => (
+                <article class={`svcd-step svcd-reveal${i === 0 ? " is-active" : ""}`} data-step style={`--d:${i * 0.09}s`}>
+                  <div class="svcd-step-top">
+                    <span class="svcd-step-pill">{pad(i + 1)}</span>
+                    <span class="svcd-step-count">{i + 1} / {stageCount}</span>
+                  </div>
+                  <div class="svcd-step-icon">
+                    <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={stageIcons[i % stageIcons.length]}></svg>
+                  </div>
+                  <h3 class="svcd-step-title">{stage}</h3>
+                  <div class="svcd-step-bar"><span></span></div>
+                  {(i + 1) % stageCols !== 0 && i < stageCount - 1 && <span class="svcd-step-link" aria-hidden="true">→</span>}
+                </article>
+              ))}
+            </div>
           </div>
+        </section>
+      )}
+
+      <!-- =========== SERVICE DETAIL (markdown -> modules) =========== -->
+      <section class="svcd-section">
+        <div class="svcd-wrap">
+          <div class="svcd-head svcd-reveal">
+            <div>
+              <span class="svcd-kicker">Service detail</span>
+              <h2 class="svcd-h2">Scope and delivery, <span>in detail.</span></h2>
+            </div>
+            {useModules && introHtml
+              ? <p class="svcd-head-note" set:html={introHtml}></p>
+              : <p class="svcd-head-note">What this service covers and how the work is run.</p>}
+          </div>
+
+          {useModules ? (
+            <div class="svcd-modules">
+              {parsed.mods.map((mod: Module, i: number) => (
+                <article class={`svcd-card svcd-card--${isCream(i) ? "cream" : "dark"} svcd-reveal`} style={`--d:${(i % 2) * 0.08}s`}>
+                  <div class="svcd-card-top">
+                    <span class="svcd-tag">Detail</span>
+                    <span class="svcd-card-num">{pad(i + 1)}</span>
+                  </div>
+                  <h3 class="svcd-card-title">{mod.title}</h3>
+                  {mod.blocks.map((b: Block) =>
+                    b.t === "p" ? (
+                      <p class="svcd-card-desc" set:html={b.html}></p>
+                    ) : b.t === "h3" ? (
+                      <h4 class="svcd-card-sub" set:html={b.html}></h4>
+                    ) : b.t === "ul" ? (
+                      <ul class="svcd-rows" data-rows>
+                        {b.items.map((it: string, k: number) => (
+                          <li class={`svcd-row${k === 0 ? " is-active" : ""}`} set:html={it}></li>
+                        ))}
+                      </ul>
+                    ) : null
+                  )}
+                </article>
+              ))}
+            </div>
+          ) : (
+            <div class="svcd-prose">
+              <Content />
+            </div>
+          )}
         </div>
-      </div>
+      </section>
+
+      <!-- =========== FINAL CTA =========== -->
+      <section class="svcd-final-cta">
+        <div class="svcd-final-inner svcd-reveal">
+          <h2>Ready to configure this <span>production workflow?</span></h2>
+          <p>Align model authoring, technical requirements, and deliverable standards with our studio team.</p>
+          <a href="/Contact/" class="svcd-final-btn">
+            <span>Define production package</span>
+            <span>↗</span>
+          </a>
+        </div>
+      </section>
     </main>
 
     <Footer />
 
+    <script is:inline>
+      // every block of the markdown body reveals on its own (tall pages never trigger one big observer)
+      document.querySelectorAll(".svcd-prose > *").forEach((el) => el.classList.add("svcd-reveal"));
+
+      // scroll reveal
+      const revealEls = document.querySelectorAll(".svcd-reveal");
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => {
+            if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); }
+          }),
+          { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+        );
+        revealEls.forEach((el) => io.observe(el));
+      } else {
+        revealEls.forEach((el) => el.classList.add("is-visible"));
+      }
+
+      // list rows: highlight follows the mouse
+      document.querySelectorAll("[data-rows]").forEach((list) => {
+        const rows = list.querySelectorAll(".svcd-row");
+        rows.forEach((row) => row.addEventListener("mouseenter", () => {
+          rows.forEach((r) => r.classList.remove("is-active"));
+          row.classList.add("is-active");
+        }));
+      });
+
+      // project stages: auto-cycle, hover to take control
+      (function () {
+        const wrap = document.querySelector("[data-steps]");
+        if (!wrap) return;
+        const steps = Array.from(wrap.querySelectorAll("[data-step]"));
+        if (!steps.length) return;
+        let cur = 0, timer;
+        const set = (n) => { cur = n; steps.forEach((s, k) => s.classList.toggle("is-active", k === n)); };
+        const stop = () => clearInterval(timer);
+        const start = () => { stop(); timer = setInterval(() => set((cur + 1) % steps.length), 3600); };
+        set(0);
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+        start();
+        steps.forEach((s, k) => {
+          s.addEventListener("mouseenter", () => { stop(); set(k); });
+          s.addEventListener("mouseleave", start);
+        });
+      })();
+    </script>
   </body>
 </html>

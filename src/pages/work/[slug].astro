@@ -1,6 +1,6 @@
 ---
 // src/pages/work/[slug].astro
-// Case Study / Project detail page with luxury architectural layout, video section & animations
+// Case study detail page — cover, fact sheet, article, films, more case studies
 
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
@@ -21,47 +21,87 @@ export async function getStaticPaths() {
 }
 
 const { project } = Astro.props;
-const projectData = project.data as typeof project.data & {
-  video1?: string;
-  videoUrl1?: string;
-  video2?: string;
-  videoUrl2?: string;
-  video3?: string;
-  videoUrl3?: string;
-};
-const {
-  title,
-  badgeText,
-  sector,
-  projectStage,
-  summary,
-  deliveryType,
-  services,
-  publicationStatus,
-  // Video fields (Extracting video 1, video 2, video 3)
-  video1 = projectData.video1 || projectData.videoUrl1 || null,
-  video2 = projectData.video2 || projectData.videoUrl2 || null,
-  video3 = projectData.video3 || projectData.videoUrl3 || null,
-} = projectData;
+const p = project.data as any;
+
+const { title, badgeText, sector, projectStage, summary, deliveryType, services, publicationStatus } = p;
 
 const { Content } = await render(project);
 
-const servicesLabel = Array.isArray(services) ? services.join(", ") : services;
+// ---------- helpers ----------
+const pad = (n: number | string) => String(n).padStart(2, "0");
+const titleWords: string[] = String(title ?? "").split(/\s+/).filter(Boolean);
+const titleSplit = Math.ceil(titleWords.length / 2);
 
-// Filter active videos into an array
-const projectVideos = [
-  { id: 1, title: "01 // Dynamic Walkthrough", url: video1 },
-  { id: 2, title: "02 // Technical Breakdown", url: video2 },
-  { id: 3, title: "03 // Spatial Flythrough", url: video3 },
-].filter(
-  (v): v is { id: number; title: string; url: string } =>
-    typeof v.url === "string" && v.url !== "",
-);
- 
+const servicesList: string[] = Array.isArray(services)
+  ? services
+  : services
+    ? String(services).split(",").map((s: string) => s.trim()).filter(Boolean)
+    : [];
 
-// Fallback background image
-const heroBackgroundImage =
+// cover image (optional fields: coverImage / image / heroImage / thumbnail)
+const fallbackCover =
   "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=2400&q=85";
+const customCover: string | undefined = p.coverImage || p.image || p.heroImage || p.thumbnail || undefined;
+const coverPoster: string = customCover || fallbackCover;
+const gallery: string[] = Array.isArray(p.gallery) ? p.gallery : [];
+
+// fact sheet rows (only the ones that have a value)
+const facts: Array<{ k: string; v: string }> = [
+  { k: "Client", v: p.client },
+  { k: "Year", v: p.year },
+  { k: "Sector", v: sector },
+  { k: "Location", v: p.location },
+  { k: "Stage", v: projectStage },
+  { k: "Delivery", v: deliveryType },
+  { k: "Status", v: publicationStatus },
+]
+  .filter((f) => f.v !== undefined && f.v !== null && String(f.v).trim() !== "")
+  .map((f) => ({ k: f.k, v: String(f.v) }));
+
+// ---------- position in the collection (same order as the Work page) ----------
+const all = await getCollection("projects");
+const idx = all.findIndex((x) => x.id === project.id);
+// Work.astro gives every card /videos/video{1..3}.mp4 by index — reuse the same file here
+const videoFor = (i: number) => `/videos/video${(i % 3) + 1}.mp4`;
+const relatedVideo = videoFor(Math.max(idx, 0));
+
+// ---------- videos ----------
+type Film = { label: string; kind: "iframe" | "video"; src: string };
+
+const toFilm = (url: string): { kind: "iframe" | "video"; src: string } => {
+  let m: RegExpMatchArray | null;
+  if ((m = url.match(/(?:youtube\.com\/watch\?(?:.*&)?v=|youtu\.be\/|youtube\.com\/shorts\/)([\w-]{11})/)))
+    return { kind: "iframe", src: `https://www.youtube.com/embed/${m[1]}?rel=0` };
+  if (url.includes("youtube.com/embed") || url.includes("player.vimeo.com")) return { kind: "iframe", src: url };
+  if ((m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/))) return { kind: "iframe", src: `https://player.vimeo.com/video/${m[1]}` };
+  if (/\.(mp4|webm|mov|m4v|ogg)(\?.*)?$/i.test(url)) return { kind: "video", src: url };
+  if (/^https?:\/\//.test(url)) return { kind: "iframe", src: url };
+  return { kind: "video", src: url };
+};
+
+const defaultLabels = ["Dynamic walkthrough", "Technical breakdown", "Spatial flythrough"];
+const rawVideos: Array<{ url: string; label?: string }> = [
+  { url: p.video1 || p.videoUrl1 },
+  { url: p.video2 || p.videoUrl2 },
+  { url: p.video3 || p.videoUrl3 },
+  ...(Array.isArray(p.videos)
+    ? p.videos.map((v: any) => (typeof v === "string" ? { url: v } : { url: v?.url, label: v?.title || v?.label }))
+    : []),
+]
+  .filter((v) => typeof v.url === "string" && v.url.trim() !== "")
+  .map((v, i) => ({ ...v, label: v.label || defaultLabels[i] || `Film ${pad(i + 1)}` }));
+
+const films: Film[] = rawVideos.length > 0
+  ? rawVideos.map((v) => ({ label: v.label as string, ...toFilm(v.url.trim()) }))
+  : [{ label: "Project film", kind: "video", src: relatedVideo }];
+
+// ---------- more case studies ----------
+const more = all.length > 1
+  ? Array.from({ length: Math.min(3, all.length - 1) }, (_, i) => {
+      const k = (idx + 1 + i) % all.length;
+      return { entry: all[k], video: videoFor(k) };
+    })
+  : [];
 ---
 
 <!doctype html>
@@ -71,125 +111,232 @@ const heroBackgroundImage =
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={summary} />
     <title>{title} — Axys3D Case Study</title>
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
   </head>
 
   <body class="page-work-detail">
-    <Navbar variant="transparent" />
+    <!-- background reaches the very top (behind the transparent navbar) -->
+    <div class="wrk-page-bg" aria-hidden="true"></div>
+
+    <Navbar variant="solid" />
 
     <main class="wrk-page">
-      <!-- HERO SECTION -->
-      <section class="wrk-hero-section">
-        <div class="wrk-hero-bg">
-          <img
-            src={heroBackgroundImage}
-            alt={title}
-            class="wrk-hero-img"
-          />
-          <div class="wrk-hero-overlay"></div>
-        </div>
+      <!-- =========== HERO (text only, left) =========== -->
+      <section class="wrk-hero">
+        <div class="wrk-wrap">
+          <a class="wrk-back" href="/Work/">All case studies</a>
+          <span class="wrk-kicker">{badgeText}{badgeText && sector ? " / " : ""}{sector}</span>
 
-        <div class="wrk-wrap wrk-hero-content">
-          <div class="wrk-top-meta">
-            <a class="wrk-back" href="/Work">
-              <span class="back-arrow">←</span>
-              <span>ALL CASE STUDIES</span>
-            </a>
-            <span class="wrk-category-badge">CASE STUDY // SPEC</span>
-          </div>
+          <h1 class="wrk-h1">
+            <span class="wrk-h1-visual" aria-hidden="true">
+              {titleWords.map((w: string, i: number) => (
+                <span class={`wrk-word${i >= titleSplit ? " wrk-word--muted" : ""}`} style={`--i:${i}`}>{w}</span>
+              ))}
+            </span>
+            <span class="sr-only">{title}</span>
+          </h1>
 
-          <p class="wrk-eyebrow">
-            {badgeText} · {sector}
-          </p>
-
-          <h1 class="wrk-h1">{title}</h1>
           <p class="wrk-lead">{summary}</p>
-
-          <!-- META CARDS GRID -->
-          <div class="wrk-meta-grid">
-            <div class="wrk-meta-card">
-              <span class="wrk-meta-label">PROJECT STAGE</span>
-              <span class="wrk-meta-val">{projectStage}</span>
-            </div>
-
-            <div class="wrk-meta-card">
-              <span class="wrk-meta-label">DELIVERY TYPE</span>
-              <span class="wrk-meta-val">{deliveryType}</span>
-            </div>
-
-            <div class="wrk-meta-card">
-              <span class="wrk-meta-label">CAPABILITIES</span>
-              <span class="wrk-meta-val">{servicesLabel}</span>
-            </div>
-
-            <div class="wrk-meta-card">
-              <span class="wrk-meta-label">STATUS</span>
-              <span class="wrk-meta-val">{publicationStatus}</span>
-            </div>
-          </div>
         </div>
       </section>
 
-      <!-- CONTENT BODY / ARTICLE -->
-      <section class="wrk-body-section">
+      <!-- =========== COVER =========== -->
+      <section class="wrk-cover-section">
         <div class="wrk-wrap">
-          <article class="wrk-content-body">
-            <Content />
-          </article>
+          <figure class="wrk-cover wrk-reveal">
+            {customCover ? (
+              <img src={customCover} alt={title} />
+            ) : (
+              <video src={relatedVideo} poster={coverPoster} autoplay muted loop playsinline preload="metadata" aria-label={title}></video>
+            )}
+            <div class="wrk-cover-shade"></div>
+            {films.length > 0 && (
+              <a class="wrk-cover-pill" href="#films"><span>▶</span> Watch the {films.length === 1 ? "film" : "films"}</a>
+            )}
+          </figure>
+        </div>
+      </section>
 
-          <!-- DYNAMIC VIDEO SHOWCASE SECTION (Video 1, Video 2, Video 3) -->
-          {projectVideos.length > 0 && (
-            <div class="wrk-videos-section">
-              <div class="wrk-video-head">
-                <span class="wrk-video-eyebrow">VISUAL PRODUCTIONS</span>
-                <h2 class="wrk-video-title">Project Motion & Video Showcases</h2>
+      <!-- =========== OVERVIEW (fact sheet + services, side by side) =========== -->
+      <section class="wrk-section wrk-section--first">
+        <div class="wrk-wrap">
+          <div class="wrk-overview">
+            <article class="wrk-card wrk-card--cream wrk-reveal">
+              <div class="wrk-card-top">
+                <span class="wrk-tag">Fact sheet</span>
+                <span class="wrk-card-num">01</span>
               </div>
-
-              <div class="wrk-video-grid">
-                {projectVideos.map((vid) => (
-                  <div class="wrk-video-card">
-                    <div class="wrk-video-header">
-                      <span class="wrk-video-tag">{vid.title}</span>
-                    </div>
-                    <div class="wrk-video-wrapper">
-                      {vid.url.includes("youtube") || vid.url.includes("vimeo") ? (
-                        <iframe
-                          src={vid.url}
-                          title={vid.title}
-                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                          allowfullscreen
-                          loading="lazy"
-                        ></iframe>
-                      ) : (
-                        <video controls preload="metadata">
-                          <source src={vid.url} type="video/mp4" />
-                          Your browser does not support the video tag.
-                        </video>
-                      )}
-                    </div>
+              <dl class="wrk-facts">
+                {facts.map((f) => (
+                  <div class="wrk-fact">
+                    <dt>{f.k}</dt>
+                    <dd>{f.v}</dd>
                   </div>
                 ))}
+              </dl>
+            </article>
+
+            {servicesList.length > 0 && (
+              <article class="wrk-card wrk-card--dark wrk-reveal" style="--d:0.1s">
+                <div class="wrk-card-top">
+                  <span class="wrk-tag">Services</span>
+                  <span class="wrk-card-num">02</span>
+                </div>
+                <ul class="wrk-rows" data-rows>
+                  {servicesList.map((s: string, i: number) => (
+                    <li class={`wrk-row${i === 0 ? " is-active" : ""}`}>{s}</li>
+                  ))}
+                </ul>
+              </article>
+            )}
+          </div>
+
+          <article class="wrk-article">
+            <Content />
+          </article>
+        </div>
+      </section>
+
+      <!-- =========== GALLERY (optional: gallery: [] in the project) =========== -->
+      {gallery.length > 0 && (
+        <section class="wrk-section wrk-section--tight">
+          <div class="wrk-wrap">
+            <div class="wrk-head wrk-reveal">
+              <div>
+                <span class="wrk-kicker">Gallery</span>
+                <h2 class="wrk-h2">Selected frames <span>from the project.</span></h2>
               </div>
             </div>
-          )}
-
-          <!-- BOTTOM CTA BANNER -->
-          <div class="wrk-cta-card">
-            <div class="wrk-cta-info">
-              <span class="wrk-cta-eyebrow">COMMISSION A CASE STUDY WORKFLOW</span>
-              <h2 class="wrk-cta-heading">Need similar architectural execution for your project?</h2>
-              <p class="wrk-cta-subtext">Let's align your production schedules and technical BIM deliverables.</p>
-            </div>
-            <div class="wrk-cta-actions">
-              <a href="/Contact/" class="wrk-btn wrk-btn-primary">
-                Configure Project Scope
-                <span>→</span>
-              </a>
+            <div class="wrk-gallery">
+              {gallery.map((src: string, i: number) => (
+                <figure class="wrk-shot wrk-reveal" style={`--d:${(i % 3) * 0.08}s`}>
+                  <img src={src} alt={`${title} — frame ${i + 1}`} loading="lazy" />
+                </figure>
+              ))}
             </div>
           </div>
+        </section>
+      )}
+
+      <!-- =========== FILMS =========== -->
+      {films.length > 0 && (
+        <section class="wrk-section wrk-section--tight" id="films">
+          <div class="wrk-wrap">
+            <div class="wrk-head wrk-reveal">
+              <div>
+                <span class="wrk-kicker">Visual productions</span>
+                <h2 class="wrk-h2">Project motion <span>&amp; film showcases.</span></h2>
+              </div>
+              <p class="wrk-head-note">Walkthroughs and flythroughs produced for this project.</p>
+            </div>
+
+            <div class={`wrk-films wrk-films--n${films.length}`}>
+              {films.map((f: Film, i: number) => (
+                <article class="wrk-film wrk-reveal" style={`--d:${(i % 2) * 0.08}s`}>
+                  <div class="wrk-film-top">
+                    <span class="wrk-tag">{f.label}</span>
+                    <span class="wrk-card-num">{pad(i + 1)}</span>
+                  </div>
+                  <div class="wrk-film-media">
+                    {f.kind === "iframe" ? (
+                      <iframe
+                        src={f.src}
+                        title={f.label}
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+                        allowfullscreen
+                        loading="lazy"
+                      ></iframe>
+                    ) : (
+                      <video controls preload="metadata" playsinline src={f.src}></video>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <!-- =========== MORE CASE STUDIES =========== -->
+      {more.length > 0 && (
+        <section class="wrk-section wrk-section--tight">
+          <div class="wrk-wrap">
+            <div class="wrk-head wrk-reveal">
+              <div>
+                <span class="wrk-kicker">Keep exploring</span>
+                <h2 class="wrk-h2">More <span>case studies.</span></h2>
+              </div>
+              <a class="wrk-all-link" href="/Work/">All case studies →</a>
+            </div>
+
+            <div class="wrk-more">
+              {more.map(({ entry, video }, i) => {
+                const d = entry.data as any;
+                const img = d.coverImage || d.image || d.heroImage || d.thumbnail;
+                return (
+                  <a class="wrk-more-card wrk-reveal" href={`/work/${entry.id}`} style={`--d:${i * 0.08}s`}>
+                    <div class="wrk-more-media">
+                      {img
+                        ? <img src={img} alt={d.title} loading="lazy" />
+                        : <video src={video} autoplay muted loop playsinline preload="metadata"></video>}
+                    </div>
+                    <div class="wrk-more-body">
+                      <span class="wrk-tag">{d.badgeText || d.sector || "Case study"}</span>
+                      <h3>{d.title}</h3>
+                      <p>{d.summary}</p>
+                      <span class="wrk-more-link">View case study →</span>
+                    </div>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <!-- =========== FINAL CTA =========== -->
+      <section class="wrk-final-cta">
+        <div class="wrk-final-inner wrk-reveal">
+          <h2>Need similar architectural execution <span>for your project?</span></h2>
+          <p>Let's align your production schedules and technical BIM deliverables.</p>
+          <a href="/Contact/" class="wrk-final-btn">
+            <span>Configure project scope</span>
+            <span>↗</span>
+          </a>
         </div>
       </section>
     </main>
 
     <Footer />
+
+    <script is:inline>
+      // every block of the article reveals on its own
+      document.querySelectorAll(".wrk-article > *").forEach((el) => el.classList.add("wrk-reveal"));
+
+      // scroll reveal
+      const revealEls = document.querySelectorAll(".wrk-reveal");
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => {
+            if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); }
+          }),
+          { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+        );
+        revealEls.forEach((el) => io.observe(el));
+      } else {
+        revealEls.forEach((el) => el.classList.add("is-visible"));
+      }
+
+      // list rows: highlight follows the mouse
+      document.querySelectorAll("[data-rows]").forEach((list) => {
+        const rows = list.querySelectorAll(".wrk-row");
+        rows.forEach((row) => row.addEventListener("mouseenter", () => {
+          rows.forEach((r) => r.classList.remove("is-active"));
+          row.classList.add("is-active");
+        }));
+      });
+    </script>
   </body>
 </html>
