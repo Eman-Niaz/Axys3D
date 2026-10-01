@@ -2,6 +2,13 @@
 import "../styles/Hero.css";
 ---
 
+<!-- =====================================================
+     UX BRIEF — HERO
+     Visitor ka sawal : "Ye log kya karte hain, aur kya ye mere liye hai?"
+     Jawab (5 second): drawings -> 3D models / renders / walkthroughs.
+     Har NEW (UX) element ka maqsad us k upar comment mein likha hai.
+     ===================================================== -->
+
 <section class="hero" id="axysHero">
 
   <!-- ================= FONTS ================= -->
@@ -48,123 +55,6 @@ import "../styles/Hero.css";
 
 
   <!-- =====================================================
-       TOP BAR / NAVBAR
-       ===================================================== -->
-
-  <div class="hero-topbar">
-
-    <!-- LOGO -->
-    <a href="/" class="logo">
-      AXYS<span class="brown-text">3D</span>
-    </a>
-
-
-    <!-- FLOATING NAVBAR -->
-    <nav class="floating-nav" aria-label="Primary">
-      <ul>
-        <li><a href="/" class="is-active">Home</a></li>
-        <li><a href="/Services">Services</a></li>
-        <li><a href="/Industries">Industries</a></li>
-        <li><a href="/Work">Work</a></li>
-        <li><a href="/Process">Process</a></li>
-        <li><a href="/Insights">Insights</a></li>
-        <li><a href="/Visuals">Visuals</a></li>
-        <li><a href="/About">About</a></li>
-      </ul>
-    </nav>
-
-
-    <!-- TOP RIGHT CTA -->
-    <a href="/Contact" class="topbar-cta">
-      <span>Discuss a production package</span>
-      <span class="arrow">↗</span>
-    </a>
-
-    <!-- THREE LINES TOGGLE BUTTON (MOBILE / TABLET) -->
-    <button class="menu-toggle-btn" id="menuToggleBtn" aria-label="Toggle Menu">
-      <span class="menu-toggle-label">Menu</span>
-      <span class="menu-toggle-lines">
-        <i></i>
-        <i></i>
-        <i></i>
-      </span>
-    </button>
-
-  </div>
-
-
-  <!-- =====================================================
-       SIDE NAV MENU (MOBILE / TABLET VIEW)
-       ===================================================== -->
-  <div class="side-nav-scrim" id="sideNavScrim"></div>
-  <aside class="side-nav" id="sideNav">
-    <span class="side-nav-kicker">Navigation</span>
-    <ul class="side-nav-links">
-      <li>
-        <a href="/">
-          <span class="side-nav-link-index">01</span>
-          <span class="side-nav-link-text">Home</span>
-          <span class="side-nav-link-arrow">↗</span>
-        </a>
-      </li>
-      <li>
-        <a href="/Services">
-          <span class="side-nav-link-index">02</span>
-          <span class="side-nav-link-text">Services</span>
-          <span class="side-nav-link-arrow">↗</span>
-        </a>
-      </li>
-      <li>
-        <a href="/Industries">
-          <span class="side-nav-link-index">03</span>
-          <span class="side-nav-link-text">Industries</span>
-          <span class="side-nav-link-arrow">↗</span>
-        </a>
-      </li>
-      <li>
-        <a href="/Work">
-          <span class="side-nav-link-index">04</span>
-          <span class="side-nav-link-text">Work</span>
-          <span class="side-nav-link-arrow">↗</span>
-        </a>
-      </li>
-      <li>
-        <a href="/Process">
-          <span class="side-nav-link-index">05</span>
-          <span class="side-nav-link-text">Process</span>
-          <span class="side-nav-link-arrow">↗</span>
-        </a>
-      </li>
-      <li>
-        <a href="/Insights">
-          <span class="side-nav-link-index">06</span>
-          <span class="side-nav-link-text">Insights</span>
-          <span class="side-nav-link-arrow">↗</span>
-        </a>
-      </li>
-      <li>
-        <a href="/Visuals">
-          <span class="side-nav-link-index">07</span>
-          <span class="side-nav-link-text">Visuals</span>
-          <span class="side-nav-link-arrow">↗</span>
-        </a>
-      </li>
-      <li>
-        <a href="/About">
-          <span class="side-nav-link-index">08</span>
-          <span class="side-nav-link-text">About</span>
-          <span class="side-nav-link-arrow">↗</span>
-        </a>
-      </li>
-    </ul>
-    <a href="/Contact" class="side-nav-cta">
-      <span>Discuss a production package</span>
-      <span>↗</span>
-    </a>
-  </aside>
-
-
-  <!-- =====================================================
        HERO CONTENT
        ===================================================== -->
 
@@ -180,7 +70,14 @@ import "../styles/Hero.css";
 
           <!-- EYEBROW -->
           <div class="hero-eyebrow">
-            Full-service AEC production partner
+            Full-service
+            <!-- NEW (UX): maqsad = "AEC" lafz na samajhne wale ko 1 tap par matlab mil jaye -->
+            <span
+              class="term"
+              tabindex="0"
+              data-tip="AEC = Architecture, Engineering &amp; Construction. In simple words: the building industry."
+            >AEC</span>
+            production partner
           </div>
 
 
@@ -196,6 +93,15 @@ import "../styles/Hero.css";
             </span>
 
           </h1>
+
+
+          <!-- NEW (UX): PLAIN-WORDS LINE
+               maqsad = heading industry ki zubaan mein hai; ye line aam banday ko
+               pehle 5 second mein bata deti hai ke kaam kya hai. -->
+          <p class="hero-lead">
+            We turn architects' drawings into 3D models, renders and walkthroughs,
+            so you can see the building before it's built.
+          </p>
 
 
           <!-- HERO BUTTONS -->
@@ -220,7 +126,7 @@ import "../styles/Hero.css";
               class="secondary-button"
             >
               <span>
-                Scope a production package
+                Discuss a production package
               </span>
 
               <span class="arrow">
@@ -229,6 +135,19 @@ import "../styles/Hero.css";
             </a>
 
           </div>
+
+
+          <!-- NEW (UX): "WHO ARE YOU?" CHIPS
+               maqsad = visitor ko khud apni jagah dhoondni na paray.
+               Click karne par Buyer section tak scroll hota hai.
+               NOTE: Buyer section par id="buyer-segments" lagana zaroori hai. -->
+          <!-- <div class="hero-fit" role="group" aria-label="Find the right fit for you">
+            <span class="hero-fit-label">Find your fit</span>
+
+            <a href="#buyer-segments" class="fit-chip" data-segment="architect">I design buildings</a>
+            <a href="#buyer-segments" class="fit-chip" data-segment="engineer">I coordinate engineering</a>
+            <a href="#buyer-segments" class="fit-chip" data-segment="developer">I develop property</a>
+          </div> -->
 
         </div>
 
@@ -258,35 +177,21 @@ import "../styles/Hero.css";
 
 
 <!-- =====================================================
-     SCRIPTS (NAV TOGGLE + VIDEO TO TEXT HANDLER)
+     SCRIPTS (VIDEO TO TEXT HANDLER)
      ===================================================== -->
 
 <script>
   const hero = document.getElementById("axysHero") as HTMLElement | null;
   const video = document.getElementById("heroVideo") as HTMLVideoElement | null;
-  const menuToggleBtn = document.getElementById("menuToggleBtn");
-  const sideNavScrim = document.getElementById("sideNavScrim");
-
-  // Mobile / Tablet Menu Toggle Logic
-  if (hero && menuToggleBtn) {
-    const toggleMenu = () => {
-      const isOpen = hero.classList.toggle("nav-open");
-      menuToggleBtn.classList.toggle("is-open", isOpen);
-    };
-
-    menuToggleBtn.addEventListener("click", toggleMenu);
-
-    if (sideNavScrim) {
-      sideNavScrim.addEventListener("click", () => {
-        hero.classList.remove("nav-open");
-        menuToggleBtn.classList.remove("is-open");
-      });
-    }
-  }
 
   // Video End Logic
   if (hero && video) {
     const HOLD_MS = 6000;
+
+    // NEW (UX): text video khatam hone ka intezar karta hai. Agar chahte ho ke
+    // text zyada se zyada itni der baad aa jaye to ise ms mein likho (jaise 4000).
+    // 0 = pehle jaisa (video end par).
+    const MAX_WAIT_MS = 0;
     let holdTimer: number | undefined;
 
     const restartVideo = () => {
@@ -301,6 +206,8 @@ import "../styles/Hero.css";
       window.clearTimeout(holdTimer);
       if (loopAgain) holdTimer = window.setTimeout(restartVideo, HOLD_MS);
     };
+
+    if (MAX_WAIT_MS > 0) window.setTimeout(() => showText(true), MAX_WAIT_MS);
 
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 

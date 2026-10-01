@@ -7,7 +7,7 @@ const caseStudies = [
     num: "01",
     tagline: "FEDERATED WORKFLOW",
     title: "Federated Delivery Study",
-    video: "/videos/video1.mp4",
+    video: "/videos/interior-1.mp4",
     href: "/work/aec-study-01/",
     cards: [
       {
@@ -32,7 +32,7 @@ const caseStudies = [
     num: "02",
     tagline: "CAMPUS INTEGRATION",
     title: "Real-Time Campus Study",
-    video: "/videos/video2.mp4",
+    video: "/videos/landscape.mp4",
     href: "/work/aec-study-02/",
     cards: [
       {
@@ -57,7 +57,7 @@ const caseStudies = [
     num: "03",
     tagline: "PRODUCTION PACKAGE",
     title: "Production Package Study",
-    video: "/videos/video3.mp4",
+    video: "/videos/exterior-1.mp4",
     href: "/work/aec-study-03/",
     cards: [
       {
@@ -85,80 +85,69 @@ const caseStudies = [
   <div class="cs-ambient-gradient-bg"></div>
 
   <div class="cs-carousel-container">
-    
+
     <!-- Top Header -->
     <div class="cs-carousel-head">
       <div>
-        <span class="cs-tag">SYNTHETIC CASE-STUDY SYSTEM</span>
+        <span class="cs-tag">CASE STUDIES</span>
         <h2 class="cs-heading">Delivery evidence, <span>not unverified claims.</span></h2>
       </div>
       <div class="cs-nav-controls">
-        <button id="csPrevBtn" aria-label="Previous Case Study">←</button>
-        <button id="csNextBtn" aria-label="Next Case Study">→</button>
+        <a href="/Work" class="cs-view-all-btn">
+          View All Case Studies
+          <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+            <path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </a>
+        <div class="cs-nav-arrows">
+          <button id="csPrevBtn" aria-label="Previous Case Study">←</button>
+          <button id="csNextBtn" aria-label="Next Case Study">→</button>
+        </div>
       </div>
     </div>
 
-    <!-- Horizontal Track Viewport -->
-    <div class="cs-track-viewport">
-      <div class="cs-horizontal-track" id="csTrack">
-        
-        {caseStudies.map((cs, idx) => (
-          <div class={`cs-single-slide ${idx === 0 ? "active" : ""}`} data-slide-index={idx}>
-            
-            <!-- LEFT SIDE: Title + 3 Cards -->
-            <div class="cs-slide-left">
-              <div class="cs-slide-header">
-                <div class="cs-badge-row">
-                  <span class="cs-num-tag">{cs.num}</span>
-                  <span class="cs-tagline">{cs.tagline}</span>
-                </div>
-                <h3 class="cs-main-title">{cs.title}</h3>
-              </div>
-
-              <div class="cs-cards-bento">
-                <!-- Top 2 Parallel Cards -->
-                <div class="cs-detail-card card-top">
-                  <span class="cs-card-value">{cs.cards[0].value}</span>
-                  <h4 class="cs-card-title">{cs.cards[0].title}</h4>
-                  <p class="cs-card-desc">{cs.cards[0].desc}</p>
-                </div>
-
-                <div class="cs-detail-card card-top">
-                  <span class="cs-card-value">{cs.cards[1].value}</span>
-                  <h4 class="cs-card-title">{cs.cards[1].title}</h4>
-                  <p class="cs-card-desc">{cs.cards[1].desc}</p>
-                </div>
-
-                <!-- Bottom Full-Width Card -->
-                <div class="cs-detail-card card-bottom">
-                  <span class="cs-card-value">{cs.cards[2].value}</span>
-                  <h4 class="cs-card-title">{cs.cards[2].title}</h4>
-                  <p class="cs-card-desc">{cs.cards[2].desc}</p>
-                </div>
-              </div>
-
-              <a href={cs.href} class="cs-case-link">
-                <span>EXPLORE CASE STUDY</span>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                  <path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
-              </a>
-            </div>
-
-            <!-- RIGHT SIDE: Video Display -->
-            <div class="cs-slide-right">
-              <div class="cs-video-box">
-                <video id={`csVid-${idx}`} autoplay muted loop playsinline>
-                  <source src={cs.video} type="video/mp4" />
-                </video>
-                <div class="cs-video-gradient"></div>
-              </div>
-            </div>
-
+    <!-- Expanding panels -->
+    <div class="cs-panels" id="csPanels">
+      {caseStudies.map((cs, idx) => (
+        <div
+          class={`cs-panel ${idx === 0 ? "active" : ""}`}
+          data-index={idx}
+          tabindex="0"
+          role="button"
+          aria-label={`Open ${cs.title}`}
+          aria-expanded={idx === 0 ? "true" : "false"}
+        >
+          <div class="cs-panel-media">
+            <video muted loop playsinline preload="metadata" aria-hidden="true">
+              <source src={`${cs.video}#t=0.1`} type="video/mp4" />
+            </video>
           </div>
-        ))}
+          <div class="cs-panel-shade"></div>
 
-      </div>
+          <!-- Collapsed label -->
+          <div class="cs-panel-label">
+            <span class="cs-name-num">{cs.num}</span>
+            <h3 class="cs-main-title">{cs.title}</h3>
+          </div>
+
+          <!-- Active: just the name (links to the case study) -->
+          <div class="cs-panel-content" inert={idx !== 0}>
+            <a href={cs.href} class="cs-name-link" aria-label={`Open ${cs.title}`}>
+              <span class="cs-name-text">
+                <span class="cs-name-num">{cs.num}</span>
+                <h3 class="cs-main-title">{cs.title}</h3>
+              </span>
+              <span class="cs-name-arrow" aria-hidden="true">
+                <svg width="16" height="16" viewBox="0 0 14 14" fill="none">
+                  <path d="M1 13L13 1M13 1H3M13 1V11" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+              </span>
+            </a>
+          </div>
+
+          <div class="cs-progress"></div>
+        </div>
+      ))}
     </div>
 
   </div>
@@ -167,82 +156,98 @@ const caseStudies = [
 <script>
   function setupCaseStudiesCarousel() {
     const wrapper = document.getElementById("caseStudyWrapper");
-    const track = document.getElementById("csTrack");
-    const slides = document.querySelectorAll(".cs-single-slide");
+    const panelsEl = document.getElementById("csPanels");
+    if (!wrapper || !panelsEl || wrapper.dataset.ready === "true") return;
+    wrapper.dataset.ready = "true";
+
+    const panels = Array.from(panelsEl.querySelectorAll<HTMLElement>(".cs-panel"));
     const prevBtn = document.getElementById("csPrevBtn");
     const nextBtn = document.getElementById("csNextBtn");
+    const total = panels.length;
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-    if (!wrapper || !track || slides.length === 0) return;
+    let current = 0;
+    let inView = true;
 
-    let currentIndex = 0;
-    const totalSlides = slides.length;
-    
-    // Slow Timer Speed: 5 seconds
-    const intervalDuration = 5000;
-    let timer: any = null;
-
-    function goToSlide(index: number) {
-      currentIndex = (index + totalSlides) % totalSlides;
-      track!.style.transform = `translateX(-${currentIndex * 100}%)`;
-
-      slides.forEach((slide, i) => {
-        const vid = slide.querySelector("video") as HTMLVideoElement;
-        if (i === currentIndex) {
-          slide.classList.add("active");
-          if (vid) {
-            vid.currentTime = 0;
-            vid.play().catch(() => {});
-          }
+    function playActive() {
+      panels.forEach((panel, i) => {
+        const vid = panel.querySelector("video");
+        if (!vid) return;
+        if (i === current && inView) {
+          vid.play().catch(() => {});
         } else {
-          slide.classList.remove("active");
+          vid.pause();
         }
       });
     }
 
-    function startAutoScroll() {
-      stopAutoScroll();
-      goToSlide(currentIndex);
-      timer = setInterval(() => {
-        goToSlide(currentIndex + 1);
-      }, intervalDuration);
-    }
-
-    function stopAutoScroll() {
-      if (timer) clearInterval(timer);
-    }
-
-    prevBtn?.addEventListener("click", () => {
-      stopAutoScroll();
-      goToSlide(currentIndex - 1);
-      startAutoScroll();
-    });
-
-    nextBtn?.addEventListener("click", () => {
-      stopAutoScroll();
-      goToSlide(currentIndex + 1);
-      startAutoScroll();
-    });
-
-    let isWheeling = false;
-    wrapper.addEventListener("wheel", (e) => {
-      if (isWheeling) return;
-      if (Math.abs(e.deltaX) > 25 || Math.abs(e.deltaY) > 25) {
-        isWheeling = true;
-        stopAutoScroll();
-        if (e.deltaX > 0 || e.deltaY > 0) {
-          goToSlide(currentIndex + 1);
-        } else {
-          goToSlide(currentIndex - 1);
+    function goTo(index: number) {
+      current = (index + total) % total;
+      panels.forEach((panel, i) => {
+        const on = i === current;
+        panel.classList.toggle("active", on);
+        panel.setAttribute("aria-expanded", String(on));
+        const content = panel.querySelector<HTMLElement>(".cs-panel-content");
+        if (content) content.inert = !on;
+        if (on) {
+          const vid = panel.querySelector("video");
+          if (vid) vid.currentTime = 0;
         }
-        startAutoScroll();
-        setTimeout(() => { isWheeling = false; }, 1000);
+      });
+      playActive();
+    }
+
+    // Autoplay is driven by the CSS progress bar finishing
+    panels.forEach((panel, i) => {
+      panel.querySelector(".cs-progress")?.addEventListener("animationend", () => {
+        if (i === current && !reduceMotion) goTo(current + 1);
+      });
+
+      // Click / keyboard to open a panel
+      panel.addEventListener("click", () => {
+        if (i !== current) goTo(i);
+      });
+      panel.addEventListener("keydown", (e) => {
+        if ((e.key === "Enter" || e.key === " ") && e.target === panel && i !== current) {
+          e.preventDefault();
+          goTo(i);
+        }
+        if (e.key === "ArrowRight") { e.preventDefault(); goTo(current + 1); panels[current].focus(); }
+        if (e.key === "ArrowLeft")  { e.preventDefault(); goTo(current - 1); panels[current].focus(); }
+      });
+    });
+
+    prevBtn?.addEventListener("click", () => goTo(current - 1));
+    nextBtn?.addEventListener("click", () => goTo(current + 1));
+
+    // Pause autoplay while hovering / focusing inside
+    wrapper.addEventListener("mouseenter", () => wrapper.classList.add("is-paused"));
+    wrapper.addEventListener("mouseleave", () => wrapper.classList.remove("is-paused"));
+    wrapper.addEventListener("focusin", () => wrapper.classList.add("is-paused"));
+    wrapper.addEventListener("focusout", () => wrapper.classList.remove("is-paused"));
+
+    // Swipe on touch (horizontal only, so page scroll still works)
+    let startX = 0, startY = 0;
+    panelsEl.addEventListener("touchstart", (e) => {
+      startX = e.touches[0].clientX;
+      startY = e.touches[0].clientY;
+    }, { passive: true });
+    panelsEl.addEventListener("touchend", (e) => {
+      const dx = e.changedTouches[0].clientX - startX;
+      const dy = e.changedTouches[0].clientY - startY;
+      if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy) * 1.5) {
+        goTo(dx < 0 ? current + 1 : current - 1);
       }
     }, { passive: true });
 
-    wrapper.addEventListener("mouseenter", stopAutoScroll);
-    wrapper.addEventListener("mouseleave", startAutoScroll);
+    // Only run video + autoplay while the section is on screen
+    new IntersectionObserver(([entry]) => {
+      inView = entry.isIntersecting;
+      wrapper.classList.toggle("is-paused", !inView);
+      playActive();
+    }, { threshold: 0.25 }).observe(wrapper);
 
-    startAutoScroll();
+    goTo(0);
   }
 
   document.addEventListener("DOMContentLoaded", setupCaseStudiesCarousel);

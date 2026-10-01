@@ -2,12 +2,13 @@
 import Hero from "../components/Hero.astro";
 import "../styles/token.css";
 import "../styles/global.css";
+import Navbar from "../components/Navbar.astro";
 import "../styles/Navbar.css";
 import "../styles/Hero.css";
 import ProductionLayer from "../components/ProductionLayer.astro";
 import "../styles/Production-layer.css";
-import Service from "../components/Service.astro";
-import "../styles/service.css";
+import VisualGallery from "../components/VisualGallery.astro";
+import "../styles/Visual-Gallery.css";
 import Buyersegments from "../components/Buyersegments.astro";
 import "../styles/Buyer-segments.css";
 import CaseStudies from "../components/casestudies.astro";
@@ -26,6 +27,8 @@ import "../styles/footer.css";
 import "../styles/index.css";
 import "../styles/Mission.css";
 import "../styles/HomeAbout.css";
+import Howitworks  from "../components/Howitworks.astro";
+import "../styles/Howitworks.css";
 ---
 
 <!doctype html>
@@ -46,6 +49,7 @@ import "../styles/HomeAbout.css";
   <body>
     <main>
       <div class="reveal reveal-zoom">
+        <Navbar />
         <Hero />
       </div>
 
@@ -56,6 +60,9 @@ import "../styles/HomeAbout.css";
         </div>
       </div>
 
+      <!-- How it works — own gradient zone -->
+    
+
       <!-- Production Layer — own gradient zone -->
       <div class="grad-zone">
         <div class="reveal reveal-up">
@@ -63,30 +70,38 @@ import "../styles/HomeAbout.css";
         </div>
       </div>
 
-      <div class="reveal reveal-left">
-        <Service />
-      </div>
-
-      <!-- Buyer segments gradient zone -->
-      <div class="grad-zone">
-        <div class="reveal reveal-right">
-          <Buyersegments />
-        </div>
-      </div>
-
-      <!-- Case Studies gradient zone -->
-      <div class="grad-zone">
+       <div class="grad-zone">
         <div class="reveal reveal-blur">
           <CaseStudies />
         </div>
       </div>
 
-      <!-- Process Section gradient zone -->
+
+      <div class="grad-zone">
+        <div class="reveal reveal-up">
+          <Howitworks />
+        </div> </div>
+
+      <div class="reveal reveal-left">
+        <VisualGallery />
+      </div>
+
+      <!-- Buyer segments gradient zone -->
+      <!-- <div class="grad-zone">
+        <div class="reveal reveal-right">
+          <Buyersegments />
+        </div>
+      </div> -->
+
+      <!-- Case Studies gradient zone -->
+     
+
+      <!-- Process Section gradient zone
       <div class="grad-zone">
         <div class="reveal reveal-up">
           <ProcessSection />
         </div>
-      </div>
+      </div> -->
 
       <div class="reveal reveal-fade">
         <About /> 

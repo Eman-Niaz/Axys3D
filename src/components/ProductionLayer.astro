@@ -5,48 +5,72 @@ const steps = [
   {
     num: "01",
     detail: "BIM Production",
+    kind: "Model & data",
+    plain: "A smart 3D model of your building that carries all its information.",
+    get: "Coordinated model + drawings",
     slug: "bim-production",
     image: "https://tewbhv.vtexassets.com/arquivos/ids/158339/DN%7C547%7C401%7C935%7C118%7C399.png?v=638007725075500000",
   },
   {
     num: "02",
     detail: "Revit Production",
+    kind: "Model & data",
+    plain: "Your design built into Revit, the standard software for building models.",
+    get: "Revit model, plans & sections",
     slug: "revit-production",
     image: "https://fiverr-res.cloudinary.com/images/t_main1%2Cq_auto%2Cf_auto%2Cq_auto%2Cf_auto/gigs2/450084919/original/490fd759b0ef419af08efbe26f7acd7d9c79a822/build-complete-revit-bim-model-architecture-layout-and-3d-visualization.png",
   },
   {
     num: "03",
     detail: "MEP Coordination",
+    kind: "Model & data",
+    plain: "We fit pipes, wiring and AC ducts into the model so they never clash.",
+    get: "Clash-checked service model",
     slug: "mep-coordination",
     image: "https://www.teslacad.com.au/images/img2.webp",
   },
   {
     num: "04",
-    detail: "3DModeling",
+    detail: "3D Modeling",
+    kind: "Visuals",
+    plain: "Accurate 3D shapes of your building, inside and out.",
+    get: "3D model files",
     slug: "3d-modeling",
     image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "05",
     detail: "Architectural Visualization",
+    kind: "Visuals",
+    plain: "Photo-real images of your design, before it is built.",
+    get: "High-resolution stills",
     slug: "architectural-visualization",
     image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "06",
     detail: "Real-time Experiences",
+    kind: "Interactive",
+    plain: "Walk through your design live, on screen or in VR.",
+    get: "Interactive walkthrough",
     slug: "real-time",
     image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "07",
     detail: "3D Max Production",
+    kind: "Visuals",
+    plain: "Detailed 3D scenes built in 3ds Max for premium-quality visuals.",
+    get: "Scene files + final renders",
     slug: "3ds-max-production",
     image: "https://tewbhv.vtexassets.com/arquivos/ids/158339/DN%7C547%7C401%7C935%7C118%7C399.png?v=638007725075500000",
   },
   {
     num: "08",
     detail: "Animation & Motion",
+    kind: "Visuals",
+    plain: "Short films that move through your building.",
+    get: "Walkthrough video",
     slug: "animation-motion",
     image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85",
   },
@@ -58,36 +82,59 @@ const infiniteSteps = [...steps, ...steps];
 const small = (u: string) => u.replace("w=1200&q=85", "w=620&q=72");
 ---
 
+<!-- =====================================================
+     UX BRIEF — SERVICES (PRODUCTION LAYER)
+     Visitor ka sawal : "Mujhe in se kya milega?"
+     Har card ab 3 cheezein batata hai: naam, "ye kya hai" (plain words), "You get" (deliverable).
+     ===================================================== -->
+
 <div class="px-services-wrapper" id="px-section">
   <div class="px-sketch-bg" aria-hidden="true"></div>
 
   <div class="px-container">
     <!-- Header -->
    <div class="px-header">
-  <span class="px-eyebrow">ONE PRODUCTION LAYER</span>
+  <span class="px-eyebrow">SERVICES</span>
   <h2>
     <span class="px-line">From model information to</span>
-    <span class="px-line px-highlight">stake-holder ready output</span>
+    <span class="px-line px-highlight">stake holder ready output</span>
   </h2>
   <p class="px-subtext">
-    <span class="px-line">Clear inputs, controlled production and defined approval routes keep every package aligned</span>
-    <span class="px-line">from start to handoff.</span>
+    <!-- <span class="px-line">Clear inputs, controlled production and defined approval routes keep every package aligned</span>
+    <span class="px-line">from start to handoff.</span> -->
   </p>
+
+  <!-- NEW (UX): maqsad = section kaise use karna hai, ye pehle hi bata do -->
+  <p class="px-helper">
+    Find the service you need. Each card shows what it is and what you receive.
+  </p>
+
+  <!-- NEW (UX): maqsad = khud chalti hui cheez ko rokne ka control (padhne ke liye) -->
+  <button type="button" class="px-pause" id="px-pause" aria-pressed="false">
+    <span class="px-pause-icon" aria-hidden="true">❚❚</span>
+    <span id="px-pause-label">Pause scrolling</span>
+  </button>
 </div>
 
     <!-- Horizontal Auto-Scrolling Slider -->
     <div class="px-slider-wrap">
       <div class="px-slider-track">
-        {infiniteSteps.map((step) => (
-          <div class="px-card">
+        {infiniteSteps.map((step, i) => (
+          <div class="px-card" aria-hidden={i >= steps.length ? "true" : undefined}>
             <img class="px-card-bg" src={small(step.image)} alt={step.detail} width="270" height="370" loading="lazy" decoding="async" />
             <div class="px-card-overlay"></div>
             <span class="px-card-num">{step.num}</span>
+            <!-- NEW (UX): maqsad = service ka group (Model / Visuals / Interactive) -->
+            <span class="px-card-kind">{step.kind}</span>
 
             <div class="px-card-content">
               <p class="px-card-desc">{step.detail}</p>
-              
-              <a href={`/services/${step.slug}`} class="px-scope-btn">
+
+              <!-- NEW (UX): maqsad = "ye kya hai" aur "mujhe kya milega" -- har card ka jawab -->
+              <p class="px-card-plain">{step.plain}</p>
+              {/* <p class="px-card-get"><strong>You get</strong> {step.get}</p>    */}
+
+              <a href={`/services/${step.slug}`} class="px-scope-btn" tabindex={i >= steps.length ? -1 : undefined}>
                 <span>Review technical scope</span>
                 <span class="arrow">↗</span>
               </a>
@@ -107,6 +154,17 @@ const small = (u: string) => u.replace("w=1200&q=85", "w=620&q=72");
     const section = document.getElementById("px-section");
     if (!section || section.dataset.ready === "1") return;
     section.dataset.ready = "1";
+
+    // NEW (UX): pause / play button
+    const pauseBtn = document.getElementById("px-pause");
+    const pauseLabel = document.getElementById("px-pause-label");
+    if (pauseBtn) {
+      pauseBtn.addEventListener("click", () => {
+        const paused = section.classList.toggle("is-paused");
+        pauseBtn.setAttribute("aria-pressed", String(paused));
+        if (pauseLabel) pauseLabel.textContent = paused ? "Play scrolling" : "Pause scrolling";
+      });
+    }
 
     const imgs = Array.from(section.querySelectorAll<HTMLImageElement>(".px-card-bg"));
     let warmPromise: Promise<unknown> | null = null;

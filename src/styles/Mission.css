@@ -6,7 +6,7 @@
   position: relative;
   width: 100%;
   background: transparent;
-  padding: 100px 6% 120px;
+  padding: 100px 6% 60px;
   box-sizing: border-box;
   font-family: 'Inter', sans-serif;
   overflow: hidden;
@@ -49,60 +49,6 @@
 
 
 /* =========================================================
-   TOP: TAG + HEADING
-========================================================= */
-
-.mission-top {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 40px;
-  margin-bottom: 56px;
-}
-
-.mission-tag {
-  display: inline-block;
-  padding: 5px 14px;
-  margin-bottom: 18px;
-  border-radius: 999px;
-  background: rgba(179, 139, 76, 0.12);
-  color: #b38b4c;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-.mission-heading h2 {
-  margin: 0;
-  font-family: 'Inter', sans-serif;
-  font-weight: 800;
-  font-size: clamp(28px, 3.4vw, 44px);
-  line-height: 1.15;
-  letter-spacing: -0.02em;
-}
-
-.mission-h-light {
-  display: block;
-  color: rgba(253, 253, 253, 0.35);
-}
-
-.mission-h-bold {
-  display: block;
-  color: whitesmoke;
-}
-
-.mission-promise {
-  max-width: 300px;
-  margin: 0 0 6px;
-  color: rgba(248, 245, 239, 0.65);
-  font-size: 14px;
-  line-height: 1.6;
-  text-align: right;
-}
-
-
-/* =========================================================
    BENTO GRID LAYOUT
 ========================================================= */
 
@@ -132,7 +78,7 @@
   background: #ffffff;
   padding: 30px;
   box-sizing: border-box;
-  cursor: pointer;
+  cursor: default; /* UX: cards click nahi hote, isliye pointer cursor hata diya */
   
   box-shadow:
     0 4px 12px rgba(11, 29, 45, 0.03),
@@ -424,14 +370,61 @@
   .mission-card--dark {
     grid-column: auto;
   }
-  .mission-top {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-  }
-  .mission-promise { text-align: left; max-width: 420px; }
 }
 
 @media (max-width: 600px) {
   .mission { padding: 70px 6% 80px; }
+}
+
+/* =========================================================
+   NEW (UX) — SHORT EXPLAINER NOTES INSIDE EXISTING CARDS
+========================================================= */
+
+.mission-card-note {
+  margin: 8px 0 0;
+  color: rgba(11, 29, 45, 0.5);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.mission-card-note--light {
+  color: rgba(248, 245, 239, 0.6);
+  margin: 0 0 4px;
+}
+
+.mission-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  margin-top: 14px;
+}
+
+.mission-chips-label {
+  width: 100%;
+  color: rgba(248, 245, 239, 0.5);
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.mission-chip {
+  padding: 5px 11px;
+  border-radius: 999px;
+  background: rgba(226, 207, 171, 0.12);
+  border: 1px solid rgba(226, 207, 171, 0.28);
+  color: #e2cda5;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.mission-rating-label {
+  display: block;
+  margin-bottom: 2px;
+  color: rgba(248, 245, 239, 0.5);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }

@@ -3,95 +3,47 @@ import "../styles/footer.css";
 ---
 
 <footer class="site-footer">
+  <!-- Corner Glow Gradients (Ditto Same) -->
   <div class="footer-glow footer-glow--left" aria-hidden="true"></div>
   <div class="footer-glow footer-glow--right" aria-hidden="true"></div>
 
   <div class="footer-inner">
-    <!-- Top Main Grid -->
     <div class="footer-top">
       <!-- Brand Column -->
-      <div class="footer-brand" data-f="left">
+      <div class="footer-brand">
         <a href="/" class="footer-logo">AXYS<span>3D</span></a>
-        <p>
-          Governed production capacity across BIM, Revit modeling, coordination support, and high-end visual outputs for AEC delivery teams.
-        </p>
+        <p>AEC production & BIM modeling partner. Islamabad based.</p>
         <a href="mailto:info@axys3d.com" class="footer-contact">info@axys3d.com</a>
-        </div>
+      </div>
 
-      <!-- Navigation Columns -->
-      <nav class="footer-navigation">
-        <div class="footer-column" data-f="right" style="--d: 0ms">
-          <span class="footer-label">NAVIGATION</span>
-          <a href="/">Home</a>
-          <a href="/Services/">Services</a>
-          <a href="/Process/">Process</a>
-          <a href="/Industries/">Industries</a>
-        </div>
+      <!-- Pages Column -->
+      <div class="footer-col">
+        <span class="footer-heading">PAGES</span>
+        <ul class="footer-links">
+          <li><a href="/">Home</a></li>
+          <li><a href="/Services/">Services</a></li>
+          <li><a href="/Process/">Process</a></li>
+          <li><a href="/Industries/">Industries</a></li>
+          <li><a href="/Contact">Contact</a></li>
+        </ul>
+      </div>
 
-        <div class="footer-column" data-f="right" style="--d: 130ms">
-          <span class="footer-label">CAPABILITIES</span>
-          <a href="/services/bim-production">BIM Execution</a>
-  <a href="/services/revit-production">Revit Production</a>
-  <a href="/services/mep-coordination">MEP Coordination</a>
-  <a href="/services/3d-modeling">3D Visualization</a>
+      <!-- Social Column -->
+      <div class="footer-col">
+        <span class="footer-heading">SOCIAL</span>
+        <div class="footer-socials">
+          <a href="#" target="_blank" rel="noopener">LinkedIn</a>
+          <a href="#" target="_blank" rel="noopener">Facebook</a>
+          <a href="#" target="_blank" rel="noopener">Instagram</a>
+          <a href="#" target="_blank" rel="noopener">Threads</a>
+          <a href="#" target="_blank" rel="noopener">Reddit</a>
         </div>
-
-        <div class="footer-column" data-f="right" style="--d: 260ms">
-          <span class="footer-label">OFFICE</span>
-          <span>GulbergGreens, Islamabad</span>
-          <span>Mon — Sat</span>
-          <span>06:00 PM — 03:00 AM</span>
-        </div>
-      </nav>
-    </div>
-
-    <!-- Middle Disclaimer -->
-    <div class="footer-disclaimer">
-      <p data-f="left">
-        Axys3D provides production and technical support. Design authority, statutory sign-offs, and compliance decisions remain under the ownership of client-appointed professionals.
-      </p>
-      <p data-f="right" style="--d: 150ms">
-        All project materials, assets, and documentation are handled under strict confidentiality and non-disclosure standards.
-      </p>
+      </div>
     </div>
 
     <!-- Bottom Bar -->
     <div class="footer-bottom">
-      <span data-f="left">© {new Date().getFullYear()} AXYS3D. ALL RIGHTS RESERVED.</span>
-      <div class="footer-legal" data-f="up" style="--d: 120ms">
-        <a href="#">PRIVACY POLICY</a>
-        <a href="#">TERMS OF ENGAGEMENT</a>
-      </div>
-      <span data-f="right" style="--d: 240ms">AEC PRODUCTION PARTNER</span>
+      <p>© {new Date().getFullYear()} AXYS3D.</p>
     </div>
   </div>
 </footer>
-
-<script is:inline>
-  (function () {
-    const items = document.querySelectorAll(".site-footer [data-f]");
-    if (!items.length) return;
-
-    const footer = document.querySelector(".site-footer");
-    footer.classList.add("f-anim");
-
-    if (!("IntersectionObserver" in window)) {
-      items.forEach((el) => el.classList.add("is-in"));
-      return;
-    }
-
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add("is-in");
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { threshold: 0.15, rootMargin: "0px 0px -4% 0px" }
-    );
-
-    items.forEach((el) => io.observe(el));
-  })();
-</script>

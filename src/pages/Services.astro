@@ -7,94 +7,6 @@ import "../styles/Navbar.css";
 import "../styles/Services.css";
 import "../styles/footer.css";
 
-const services = [
-  {
-    num: "01",
-    title: "BIM Execution & Model Production",
-    blurb:
-      "Coordinated BIM models built to firm standards, from concept development through construction-ready detail.",
-    videos: [
-      { src: "/videos/BIM-Modeling.mp4", label: "BIM Modeling" },
-      { src: "/videos/ModelDevelopement.mp4", label: "Model Development" },
-      { src: "/videos/BIM-Model-Setup-Standards.mp4", label: "Model Setup & Standards" },
-    ],
-  },
-  {
-    num: "02",
-    title: "Revit Production & Documentation",
-    blurb:
-      "Production-ready Revit documentation and drawing sets, coordinated across disciplines and issued on schedule.",
-    videos: [
-      { src: "/videos/Construction-drawing.mp4", label: "Construction Drawings" },
-      { src: "/videos/revit-documentation.mp4", label: "Revit Documentation" },
-      { src: "/videos/drawing-coordination.mp4", label: "Drawing Coordination" },
-    ],
-  },
-  {
-    num: "03",
-    title: "MEP Coordination Support",
-    blurb:
-      "Clash-checked mechanical, electrical and plumbing coordination that keeps every system resolved before it hits site.",
-    videos: [
-      { src: "/videos/mechanical_coordination.mp4", label: "Mechanical" },
-      { src: "/videos/electrical_coordination.mp4", label: "Electrical" },
-      { src: "/videos/plumbing_coordination.mp4", label: "Plumbing" },
-    ],
-  },
-  {
-    num: "04",
-    title: "3D Modeling",
-    blurb:
-      "Accurate architectural, interior and object models built to support every downstream visualization need.",
-    videos: [
-      { src: "/videos/Architectural.mp4", label: "Architectural Modeling" },
-      { src: "/videos/interior.mp4", label: "Interior Modeling" },
-      { src: "/videos/furniture.mp4", label: "Furniture & Objects" },
-    ],
-  },
-  {
-    num: "05",
-    title: "3ds Max Production",
-    blurb: "Scene setup, materials and lighting built in 3ds Max to a consistent, production-grade pipeline.",
-    videos: [
-      { src: "/videos/scene.mp4", label: "Scene Setup" },
-      { src: "/videos/texture-material.mp4", label: "Materials & Texturing" },
-      { src: "/videos/lightening.mp4", label: "Lighting & Camera" },
-    ],
-  },
-  {
-    num: "06",
-    title: "Architectural Visualization",
-    blurb: "Exterior, interior and site visualizations that read as photography long before the building exists.",
-    videos: [
-      { src: "/videos/Exterior.mp4", label: "Exterior Visualization" },
-      { src: "/videos/interior_visualization.mp4", label: "Interior Visualization" },
-      { src: "/videos/site-visualization.mp4", label: "Site Visualization" },
-    ],
-  },
-  {
-    num: "07",
-    title: "Animation & Motion",
-    blurb: "Walkthroughs, fly-throughs and camera sequences that move a project through space with intent.",
-    videos: [
-      { src: "/videos/walkthrough.mp4", label: "Walkthroughs" },
-      { src: "/videos/Fly-through.mp4", label: "Fly-through Animations" },
-      { src: "/videos/Camera-Motion.mp4", label: "Camera & Motion" },
-    ],
-  },
-  {
-    num: "08",
-    title: "Real-time / Unreal Engine",
-    blurb:
-      "Real-time environments in Unreal Engine — interactive walkthroughs and virtual showrooms your clients can explore.",
-    videos: [
-      { src: "/videos/3D-Walkthroughs.mp4", label: "Interactive Walkthroughs" },
-      { src: "/videos/Architectural_visualization.mp4", label: "Real-time Visualization" },
-      { src: "/videos/Virtual_showroom.mp4", label: "Virtual Showrooms" },
-    ],
-  },
-];
-
 // ⬇⬇ SIRF YAHAN IMAGE LINKS BADLO (https://... ya /images/... dono chalte hain) ⬇⬇
 const orbitImages = {
   bim: "https://images.unsplash.com/photo-1627141234469-24711efb373c?auto=format&fit=crop&w=400&h=400&q=75",
@@ -106,6 +18,87 @@ const orbitImages = {
   visualization: "https://images.unsplash.com/photo-1706808849802-8f876ade0d1f?auto=format&fit=crop&w=400&h=400&q=75",
   model3d: "https://images.unsplash.com/photo-1503387837-b154d5074bd2?auto=format&fit=crop&w=400&h=400&q=75",
 };
+
+/* =========================================================
+   SERVICE PANELS — data
+   Har service ka: slug (detail page /services/<slug>), image, aur "includes" (andar kya kya aata hai).
+   Images upar wali orbitImages se aati hain (wohi relevant images), bas bari size mein.
+   Kisi service ki image badalni ho to sirf us ka `image` link badlo.
+   ========================================================= */
+
+const big = (u: string) => u.replace(/w=\d+&h=\d+&q=\d+/, "w=2000&q=80");
+
+const services = [
+  {
+    num: "01",
+    slug: "bim-production",
+    title: "BIM Execution & Model Production",
+    blurb:
+      "Coordinated BIM models built to firm standards, from concept development through construction-ready detail.",
+    includes: ["BIM Modeling", "Model Development", "Model Setup & Standards"],
+    image: big(orbitImages.bim),
+  },
+  {
+    num: "02",
+    slug: "revit-production",
+    title: "Revit Production & Documentation",
+    blurb:
+      "Production-ready Revit documentation and drawing sets, coordinated across disciplines and issued on schedule.",
+    includes: ["Construction Drawings", "Revit Documentation", "Drawing Coordination"],
+    image: big(orbitImages.revit),
+  },
+  {
+    num: "03",
+    slug: "mep-coordination",
+    title: "MEP Coordination Support",
+    blurb:
+      "Clash-checked mechanical, electrical and plumbing coordination that keeps every system resolved before it hits site.",
+    includes: ["Mechanical", "Electrical", "Plumbing"],
+    image: big(orbitImages.mep),
+  },
+  {
+    num: "04",
+    slug: "3d-modeling",
+    title: "3D Modeling",
+    blurb:
+      "Accurate architectural, interior and object models built to support every downstream visualization need.",
+    includes: ["Architectural Modeling", "Interior Modeling", "Furniture & Objects"],
+    image: big(orbitImages.model3d),
+  },
+  {
+    num: "05",
+    slug: "3ds-max-production",
+    title: "3ds Max Production",
+    blurb: "Scene setup, materials and lighting built in 3ds Max to a consistent, production-grade pipeline.",
+    includes: ["Scene Setup", "Materials & Texturing", "Lighting & Camera"],
+    image: big(orbitImages.max3ds),
+  },
+  {
+    num: "06",
+    slug: "architectural-visualization",
+    title: "Architectural Visualization",
+    blurb: "Exterior, interior and site visualizations that read as photography long before the building exists.",
+    includes: ["Exterior Visualization", "Interior Visualization", "Site Visualization"],
+    image: big(orbitImages.visualization),
+  },
+  {
+    num: "07",
+    slug: "animation-motion",
+    title: "Animation & Motion",
+    blurb: "Walkthroughs, fly-throughs and camera sequences that move a project through space with intent.",
+    includes: ["Walkthroughs", "Fly-through Animations", "Camera & Motion"],
+    image: big(orbitImages.motion),
+  },
+  {
+    num: "08",
+    slug: "real-time",
+    title: "Real-time / Unreal Engine",
+    blurb:
+      "Real-time environments in Unreal Engine — interactive walkthroughs and virtual showrooms your clients can explore.",
+    includes: ["Interactive Walkthroughs", "Real-time Visualization", "Virtual Showrooms"],
+    image: big(orbitImages.unreal),
+  },
+];
 
 // ⬇⬇ OUTER CIRCLE KI IMAGES (sirf links, 8 images = andar wale jitni) ⬇⬇
 const orbitOuterImages = [
@@ -233,49 +226,42 @@ for (let r = 0; r < SPHERE_ROWS; r++) {
         </div>
       </section>
 
-      <!-- ================= SERVICE REEL (full-bleed panels) ================= -->
-      <section class="svc-reel">
-        {services.map((s) => (
-          <article class="svc-panel" data-reveal data-service>
-            <div class="svc-panel-media">
-              {s.videos.map((v, i) => (
-                <video
-                  class={`svc-panel-video${i === 0 ? " is-active" : ""}`}
-                  src={v.src}
-                  autoplay
-                  muted
-                  playsinline
-                  preload="metadata"
-                  onerror="this.closest('.svc-panel-media').classList.add('svc-media-fallback')"
-                ></video>
-              ))}
+      <!-- ================= SERVICE PANELS (stacking image cards) =================
+           Har card scroll par apni jagah ruk jata hai (image), uska text upar ko sarakta hai,
+           aur agla card rounded corners ke sath uske upar charh jata hai.
+           Har service ka button /services/<slug> par le jata hai. -->
+      <section class="svc-reel" aria-label="Our services">
+        {services.map((s, idx) => (
+          <article class="svc-panel">
+            <div class="svc-panel-stage">
+              <img
+                class="svc-panel-img"
+                src={s.image}
+                alt={`${s.title} — ${s.includes.join(", ")}`}
+                loading={idx === 0 ? "eager" : "lazy"}
+                decoding="async"
+                onerror="this.style.display='none'"
+              />
               <div class="svc-panel-overlay"></div>
-            </div>
 
-            <div class="svc-panel-content">
-              <div class="svc-panel-text">
-                <span class="svc-panel-num">{s.num}</span>
-                <h2 class="svc-panel-title">{s.title}</h2>
-                <p class="svc-panel-blurb">{s.blurb}</p>
-                <div class="svc-panel-tabs" role="tablist">
-                  {s.videos.map((v, i) => (
-                    <button
-                      type="button"
-                      class={`svc-tab${i === 0 ? " is-active" : ""}`}
-                      data-tab-index={i}
-                      role="tab"
-                      aria-selected={i === 0 ? "true" : "false"}
-                    >
-                      {v.label}
-                    </button>
-                  ))}
+              <div class="svc-panel-content">
+                <div class="svc-panel-text" data-reveal>
+                  <span class="svc-panel-num">{s.num}</span>
+                  <h2 class="svc-panel-title">{s.title}</h2>
+                  <p class="svc-panel-blurb">{s.blurb}</p>
+                  <p class="svc-panel-includes">{s.includes.join("  ·  ")}</p>
+
+                  <div class="svc-panel-actions">
+                    <a href={`/services/${s.slug}`} class="svc-pill" aria-label={`Explore ${s.title}`}>
+                      <span>Explore service</span>
+                      <span aria-hidden="true">↗</span>
+                    </a>
+                    <a href="/Contact" class="svc-pill">
+                      <span>Discuss this scope</span>
+                    </a>
+                  </div>
                 </div>
               </div>
-
-              <a href="/Contact" class="svc-panel-cta">
-                <span>Discuss this scope</span>
-                <span>↗</span>
-              </a>
             </div>
           </article>
         ))}
@@ -299,7 +285,7 @@ for (let r = 0; r < SPHERE_ROWS; r++) {
     <Footer />
 
     <script is:inline>
-      // Reveal on scroll
+      // Reveal on scroll (panel text + final CTA)
       const revealItems = document.querySelectorAll("[data-reveal]");
       const revealObserver = new IntersectionObserver(
         (entries) => {
@@ -314,40 +300,42 @@ for (let r = 0; r < SPHERE_ROWS; r++) {
       );
       revealItems.forEach((item) => revealObserver.observe(item));
 
-      // Tab-driven video switching within each service panel, with
-      // auto-advance to the next sub-service once a video finishes.
-      document.querySelectorAll("[data-service]").forEach((panel) => {
-        const videos = Array.from(panel.querySelectorAll(".svc-panel-video"));
-        const tabs = Array.from(panel.querySelectorAll(".svc-tab"));
-        let current = 0;
+      /* ===== Service panels: image pinned, text drifts up with the scroll ===== */
+      (() => {
+        const panels = Array.from(document.querySelectorAll(".svc-panel"));
+        if (!panels.length) return;
+        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
 
-        const showIndex = (i) => {
-          current = i;
-          videos.forEach((v, vi) => {
-            if (vi === i) {
-              v.classList.add("is-active");
-              v.currentTime = 0;
-              v.play?.().catch(() => {});
-            } else {
-              v.classList.remove("is-active");
-              v.pause();
-            }
-          });
-          tabs.forEach((t, ti) => {
-            t.classList.toggle("is-active", ti === i);
-            t.setAttribute("aria-selected", ti === i ? "true" : "false");
-          });
+        let pinTop = 0;
+        const measure = () => {
+          const stage = panels[0].querySelector(".svc-panel-stage");
+          pinTop = parseFloat(getComputedStyle(stage).top) || 0;
         };
 
-        videos.forEach((v, i) => {
-          if (i !== 0) v.pause();
-          v.addEventListener("ended", () => showIndex((current + 1) % videos.length));
-        });
+        let ticking = false;
+        const update = () => {
+          ticking = false;
+          const vh = window.innerHeight;
+          panels.forEach((p) => {
+            const stage = p.querySelector(".svc-panel-stage");
+            const content = p.querySelector(".svc-panel-content");
+            const extra = p.offsetHeight - stage.offsetHeight; // kitna scroll text ko milta hai
+            if (extra <= 0) return;
+            const r = p.getBoundingClientRect();
+            if (r.bottom < -50 || r.top > vh + 50) return;
+            const shift = Math.min(Math.max(pinTop - r.top, 0), extra);
+            content.style.transform = `translate3d(0, ${-shift}px, 0)`;
+          });
+        };
+        const onScroll = () => {
+          if (!ticking) { ticking = true; requestAnimationFrame(update); }
+        };
 
-        tabs.forEach((tab, i) => {
-          tab.addEventListener("click", () => showIndex(i));
-        });
-      });
+        measure();
+        update();
+        window.addEventListener("scroll", onScroll, { passive: true });
+        window.addEventListener("resize", () => { measure(); update(); }, { passive: true });
+      })();
 
       /* ===== Sphere gallery (hero): auto-rotate + drag + mouse-follow ===== */
       (() => {

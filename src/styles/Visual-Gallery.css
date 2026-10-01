@@ -4,19 +4,17 @@
 
 .cinematic-services-root {
   position: relative;
-  width: 100%;              /* was 100vw: caused sideways overflow + jitter */
+  width: 100%;
   height: 100vh;
   height: 100svh;
   min-height: 700px;
-  contain: layout paint;    /* browser does not re-layout the rest of the page for this section */
+  contain: layout paint;
   overflow: hidden;
   background: #090e17;
   color: #f5f2eb;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-  
 }
 
-/* Horizontal Screen Slider */
 .horizontal-screen-slider {
   display: flex;
   width: 200%;
@@ -32,19 +30,15 @@
   overflow: hidden;
 }
 
-/* =========================================================
-   SCREEN 1: SERVICES FULLSCREEN
-   ========================================================= */
-
+/* SCREEN 1 */
 .services-screen {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  padding: 6vh 5vw 5vh 6vw;
+  padding: max(96px, 12vh) 5vw 5vh 6vw;
   box-sizing: border-box;
 }
 
-/* Background Stack */
 .screen-bg-stack {
   position: absolute;
   inset: 0;
@@ -78,7 +72,6 @@
   object-fit: cover;
 }
 
-/* Minimized, Subtler Dark Overlay */
 .screen-bg-darkener {
   position: absolute;
   inset: 0;
@@ -91,7 +84,6 @@
   );
 }
 
-/* Main Layout */
 .services-main-layout {
   position: relative;
   z-index: 5;
@@ -103,12 +95,11 @@
   margin: auto 0;
 }
 
-/* Left Active Info Pane */
 .active-service-details {
   flex: 0 0 38%;
   max-width: 460px;
   position: relative;
-  height: 320px;
+  height: 340px;
 }
 
 .service-info-pane {
@@ -140,7 +131,7 @@
 
 .service-primary-title {
   margin: 0 0 16px;
-  font-size: clamp(34px, 4.2vw, 54px);
+  font-size: clamp(30px, 3.4vw, 46px);
   line-height: 1.05;
   font-weight: 700;
   letter-spacing: -0.04em;
@@ -179,7 +170,6 @@
   border-color: #c49c5c;
 }
 
-/* Right Viewport: Infinite Card Tray */
 .upcoming-cards-viewport {
   flex: 1;
   overflow: hidden;
@@ -196,7 +186,6 @@
   will-change: transform;
 }
 
-/* Upcoming Mini Cards */
 .upcoming-card-item {
   flex: 0 0 230px;
   height: 350px;
@@ -267,75 +256,13 @@
   line-height: 1.25;
 }
 
-/* Bottom Navigation Controls */
 .services-nav-bar {
   position: relative;
   z-index: 5;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
-}
-
-.nav-arrow-group {
-  display: flex;
-  gap: 12px;
-}
-
-.nav-arrow-btn {
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  background: rgba(11, 16, 25, 0.5);
-  color: #ffffff;
-  font-size: 22px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 300ms ease;
-}
-
-.nav-arrow-btn:hover {
-  background: #c49c5c;
-  border-color: #c49c5c;
-  color: #0b111e;
-}
-
-.nav-timeline-bar {
-  flex: 0 0 35%;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.15);
-  position: relative;
-}
-
-.nav-timeline-fill {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 12.5%;
-  background: #c49c5c;
-  transition: width 500ms ease;
-}
-
-.nav-controls-right {
-  display: flex;
-  align-items: center;
-  gap: 24px;
-}
-
-.nav-counter {
-  font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: #ffffff;
-}
-
-.counter-divider,
-.total-number {
-  color: rgba(255, 255, 255, 0.4);
 }
 
 .go-to-compare-btn {
@@ -368,14 +295,46 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 60px 8vw;
+  padding: 60px 8vw 30px;
   box-sizing: border-box;
+  overflow-y: auto; /* Agar Screen chhoti par jaye to scrolling smooth rahe */
 }
 
 .model-experience-container {
   width: 100%;
   max-width: 1200px;
   margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+/* BACK TO GALLERY BUTTON FIX (Normal Flow Element) */
+.back-to-services-btn {
+  position: relative;
+  top: auto;
+  left: auto;
+  align-self: flex-start;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 16px;
+  background: rgba(11, 16, 25, 0.7);
+  border: 1px solid rgba(229, 208, 169, 0.35);
+  color: #f5f2eb;
+  padding: 8px 16px;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.08em;
+  border-radius: 4px;
+  transition: all 300ms ease;
+  z-index: 10;
+}
+
+.back-to-services-btn:hover {
+  background: #b38b4c;
+  color: #0b111e;
+  border-color: #b38b4c;
 }
 
 .model-experience-heading {
@@ -383,9 +342,7 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 60px;
-  margin-bottom: 35px;
-  /* font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-  font-weight: 700; */
+  margin-bottom: 25px;
 }
 
 .section-eyebrow {
@@ -421,12 +378,12 @@
   line-height: 1.65;
 }
 
-/* Comparison Wrapper */
+/* Comparison Wrapper - Custom Height maintained */
 .comparison-wrapper {
   position: relative;
   width: 100%;
-  height: min(480px, 45vh);
-  min-height: 340px;
+  height: min(600px, 62vh); /* Aapki badhai hui height retain kar li hai */
+  min-height: 380px;
   overflow: hidden;
   border-radius: 4px;
   background: #15181a;
@@ -453,13 +410,8 @@
 
 .comparison-before {
   z-index: 2;
-  width: 50%;
-  overflow: hidden;
-}
-
-.comparison-before img {
-  width: 100vw;
-  max-width: none;
+  width: 100%;
+  clip-path: inset(0 50% 0 0);
 }
 
 .comparison-label {
@@ -553,42 +505,32 @@
   background: rgba(179, 139, 76, 0.7);
 }
 
-.back-to-services-btn {
-  position: absolute;
-  top: 40px;
-  left: 8vw;
-  background: transparent;
-  border: 1px solid rgba(229, 208, 169, 0.3);
-  color: #f5f2eb;
-  padding: 8px 16px;
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  letter-spacing: 0.08em;
-  transition: all 300ms ease;
-}
-
-.back-to-services-btn:hover {
-  background: #b38b4c;
-  color: #0b111e;
-  border-color: #b38b4c;
-}
-
 /* Responsive adjustments */
 @media (max-width: 900px) {
   .services-main-layout {
     flex-direction: column;
     align-items: flex-start;
+    gap: 0;
   }
   .active-service-details {
     flex: none;
-    height: auto;
+    height: 310px;
+    max-width: none;
     width: 100%;
-    margin-bottom: 20px;
+    margin-bottom: 8px;
   }
   .upcoming-cards-viewport {
     width: 100%;
+    padding: 10px 0;
   }
+  .upcoming-card-item { flex-basis: 170px; height: 220px; }
+  .services-screen { padding: 92px 6vw 4vh; }
+  .model-experience-heading { flex-direction: column; align-items: flex-start; gap: 14px; }
+}
+
+@media (max-width: 640px) {
+  .upcoming-cards-viewport { display: none; }
+  .active-service-details { height: 330px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -596,4 +538,92 @@
   .upcoming-cards-track,
   .screen-bg-image,
   .service-info-pane { transition-duration: 0.01ms !important; }
+}
+
+.gallery-header {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.gallery-eyebrow {
+  display: block;
+  margin-bottom: 6px;
+  color: #c49c5c;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+}
+
+.gallery-lead {
+  margin: 0;
+  max-width: 340px;
+  color: rgba(245, 242, 235, 0.75);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+.upcoming-card-item:focus-visible {
+  outline: 2px solid #c49c5c;
+  outline-offset: 3px;
+}
+
+@media (max-width: 900px) {
+  .gallery-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+}
+
+.gallery-counter {
+  display: flex;
+  align-items: baseline;
+  flex-wrap: wrap;
+  gap: 8px;
+  min-width: 120px;
+  font-variant-numeric: tabular-nums;
+}
+
+.gallery-counter-now {
+  color: #ffffff;
+  font-size: 30px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+}
+
+.gallery-counter-total {
+  color: rgba(245, 242, 235, 0.6);
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+
+.gallery-counter-bar {
+  flex-basis: 100%;
+  height: 2px;
+  margin-top: 6px;
+  background: rgba(255, 255, 255, 0.18);
+  overflow: hidden;
+}
+
+.gallery-counter-bar i {
+  display: block;
+  height: 100%;
+  background: #c49c5c;
+  transform-origin: left;
+  transform: scaleX(0.125);
+  transition: transform 650ms cubic-bezier(0.25, 1, 0.4, 1);
+}
+
+@media (max-width: 900px) {
+  .gallery-header { flex-direction: row; align-items: center; justify-content: space-between; }
+  .gallery-counter-now { font-size: 24px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gallery-counter-bar i { transition-duration: 0.01ms; }
 }

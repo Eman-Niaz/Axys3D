@@ -1,0 +1,392 @@
+---
+import "../styles/Visual-Gallery.css";
+
+const categories = [
+  { id: "models",      label: "3D Models",   hint: "The building as a working 3D model" },
+  { id: "stills",      label: "Stills",      hint: "Photo-real images" },
+  { id: "videos",      label: "Videos",      hint: "Walkthroughs and animations" },
+  { id: "interactive", label: "Interactive" },
+  { id: "drawings",    label: "Drawings",    hint: "Plans, sections and handoff files" },
+];
+
+const gallery = [
+  {
+    category: "models",
+    short: "Full building model",
+    title: "The whole building as one 3D model",
+    description:
+      "Every wall, floor and opening is modeled accurately, so architects and engineers all work from the same source.",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85",
+  },
+  {
+    category: "models",
+    short: "Clash check",
+    title: "Pipes, ducts and wiring checked for clashes",
+    description:
+      "Services are fitted into the model and conflicts are flagged on screen, long before they show up on site.",
+    image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1800&q=85",
+  },
+  {
+    category: "models",
+    short: "Custom 3D objects",
+    title: "Furniture, fittings and site, modeled to scale",
+    description:
+      "Custom objects and surroundings built to fit your design, ready to drop into any scene.",
+    image: "https://images.unsplash.com/photo-1693036723058-e32a1908e9d8?auto=format&fit=crop&w=1800&q=85",
+  },
+  {
+    category: "stills",
+    short: "Exterior & interior stills",
+    title: "Photo-real images of the finished design",
+    description:
+      "Light, materials and landscaping are tuned so a client can judge the design at a glance, before it exists.",
+    image: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1800&q=85",
+  },
+  {
+    category: "videos",
+    short: "Walkthrough video",
+    title: "A camera that moves through the space",
+    description:
+      "A planned camera path takes viewers from room to room, showing scale and flow the way a real visit would.",
+    image: "https://images.unsplash.com/photo-1633109870201-318921e3f992?auto=format&fit=crop&w=1800&q=85",
+  },
+  {
+    category: "interactive",
+    short: "Live exploration",
+    title: "Explore the building yourself, live",
+    description:
+      "Viewers walk through the design on screen or in VR and open any room at their own pace.",
+    image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=1800&q=85",
+  },
+  {
+    category: "drawings",
+    short: "Plans & sections",
+    title: "Plans and sections drawn from the model",
+    description:
+      "Floor plans, sections and elevations come straight from the 3D model, so drawings always match what was built.",
+    image: "https://images.unsplash.com/photo-1721244653652-268631ec049a?auto=format&fit=crop&w=1800&q=85",
+  },
+  {
+    category: "drawings",
+    short: "Handoff package",
+    title: "The complete package, ready to hand over",
+    description:
+      "Drawings, exports and files arrive organised in one place, so the next team can start without questions.",
+    image: "https://images.unsplash.com/photo-1603901622056-0a5bee231395?auto=format&fit=crop&w=1800&q=85",
+  },
+];
+
+const compare = {
+  before: "public/images/before.jpg",
+  after: "public/images/after.png",
+};
+
+const catLabel = (id: string) => categories.find((c) => c.id === id)?.label ?? id;
+
+const looped = [...gallery, ...gallery, ...gallery];
+
+const bgUrl = (u: string) => u.replace("w=1800&q=85", "w=1600&q=70");
+const cardUrl = (u: string) => u.replace("w=1800&q=85", "w=520&q=70");
+---
+
+<section class="cinematic-services-root" id="visual-gallery" aria-label="Visual gallery">
+  <div class="horizontal-screen-slider" id="horizontalScreenSlider">
+
+    <!-- SCREEN 1: GALLERY -->
+    <div class="screen-panel services-screen">
+
+      <div class="screen-bg-stack">
+        {gallery.map((item, idx) => (
+          <div class={`screen-bg-image ${idx === 0 ? "is-active" : ""}`} data-bg-index={idx}>
+            <img
+              src={idx === 0 ? bgUrl(item.image) : undefined}
+              data-src={bgUrl(item.image)}
+              alt={`${catLabel(item.category)}: ${item.short}`}
+              decoding="async"
+              fetchpriority={idx === 0 ? "high" : "low"}
+            />
+          </div>
+        ))}
+        <div class="screen-bg-darkener"></div>
+      </div>
+
+      <div class="gallery-header">
+        <div class="gallery-intro">
+          <span class="gallery-eyebrow">Visual gallery</span>
+        </div>
+
+        <div class="gallery-counter" aria-live="polite" aria-label="Current visual">
+          <span class="gallery-counter-now" id="galleryNow">01</span>
+          <span class="gallery-counter-total">/ {String(gallery.length).padStart(2, "0")}</span>
+          <span class="gallery-counter-bar" aria-hidden="true"><i id="galleryBar"></i></span>
+        </div>
+      </div>
+
+      <div class="services-main-layout">
+
+        <div class="active-service-details">
+          {gallery.map((item, idx) => (
+            <div
+              class={`service-info-pane ${idx === 0 ? "is-active" : ""}`}
+              data-info-index={idx}
+              data-cat={item.category}
+            >
+              <span class="service-category-tag">{catLabel(item.category)}</span>
+              <h2 class="service-primary-title">{item.title}</h2>
+              <p class="service-primary-desc">{item.description}</p>
+
+              <a class="service-discover-btn" href={`/Visuals?category=${item.category}`}>
+                <span>SEE MORE {catLabel(item.category).toUpperCase()}</span>
+                <span class="btn-arrow">↗</span>
+              </a>
+            </div>
+          ))}
+        </div>
+
+        <div class="upcoming-cards-viewport">
+          <div class="upcoming-cards-track" id="cardsTrack">
+            {looped.map((item, idx) => (
+              <div
+                class="upcoming-card-item"
+                data-original-index={idx % gallery.length}
+                data-loop-index={idx}
+                tabindex="0"
+                role="button"
+                aria-label={`Show ${item.short}`}
+              >
+                <div class="upcoming-card-img">
+                  <img src={cardUrl(item.image)} alt="" width="230" height="350" loading="lazy" decoding="async" />
+                  <div class="upcoming-card-shade"></div>
+                </div>
+
+                <div class="upcoming-card-content">
+                  <span class="upcoming-card-mini">{catLabel(item.category)}</span>
+                  <h3 class="upcoming-card-title">{item.short}</h3>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+      </div>
+
+      <div class="services-nav-bar">
+        <button class="go-to-compare-btn" id="goToCompareBtn">
+          <span>BEFORE &amp; AFTER</span>
+          <span class="btn-arrow">→</span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- SCREEN 2: BEFORE & AFTER -->
+    <div class="screen-panel model-experience-screen">
+      <div class="model-experience-container">
+
+        <!-- Button container ke top par move ho gaya hai -->
+        <button class="back-to-services-btn" id="backToServicesBtn" aria-label="Back to the gallery">
+          <span>← Back to gallery</span>
+        </button>
+
+        <div class="model-experience-heading">
+          <div>
+            <h2>
+              Same building,
+              <span>two stages.</span>
+            </h2>
+          </div>
+
+          <p>
+            Drag the handle. On the left is the 3D model we build first.
+            On the right is the finished visual you receive.
+          </p>
+        </div>
+
+        <div class="comparison-wrapper">
+          <div class="comparison-image comparison-final">
+            <img src={compare.after} alt="Finished visual" loading="lazy" decoding="async" />
+            <div class="comparison-label final-label">
+              <span>02</span>
+              FINISHED VISUAL
+            </div>
+          </div>
+
+          <div class="comparison-image comparison-before">
+            <img src={compare.before} alt="3D model of the same building" loading="lazy" decoding="async" />
+            <div class="comparison-label model-label">
+              <span>01</span>
+              3D MODEL
+            </div>
+          </div>
+
+          <div class="comparison-handle">
+            <div class="handle-line"></div>
+            <div class="handle-circle">
+              <span>←</span>
+              <span>→</span>
+            </div>
+          </div>
+
+          <input
+            class="comparison-range"
+            type="range"
+            min="0"
+            max="100"
+            value="50"
+            aria-label="Drag to compare the 3D model with the finished visual"
+          />
+        </div>
+
+        <div class="comparison-footer">
+          <span>STAGE 1 · 3D MODEL</span>
+          <div class="comparison-progress">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <span>STAGE 2 · FINISHED VISUAL</span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const infoPanes = document.querySelectorAll<HTMLElement>(".service-info-pane");
+  const N = infoPanes.length;
+  const cardsTrack = document.getElementById("cardsTrack");
+  const horizontalSlider = document.getElementById("horizontalScreenSlider");
+  const rootSection = document.querySelector<HTMLElement>(".cinematic-services-root");
+  const bgItems = document.querySelectorAll<HTMLElement>(".screen-bg-image");
+  const bgImgs = document.querySelectorAll<HTMLImageElement>(".screen-bg-image img");
+  const cardItems = document.querySelectorAll<HTMLElement>(".upcoming-card-item");
+  const counterNow = document.getElementById("galleryNow");
+  const counterBar = document.getElementById("galleryBar");
+
+  let pos = N;
+  let activeIndex = 0;
+  let step = 250;
+  let navLock = false;
+  let showingCompare = false;
+
+  const measureStep = () => {
+    if (cardItems.length > 1) step = cardItems[1].offsetLeft - cardItems[0].offsetLeft || 250;
+  };
+
+  const ensureLoaded = (i: number) => {
+    const img = bgImgs[((i % N) + N) % N];
+    if (img && !img.getAttribute("src") && img.dataset.src) img.src = img.dataset.src;
+  };
+
+  function paint(animate = true) {
+    activeIndex = ((pos % N) + N) % N;
+
+    bgItems.forEach((el, i) => el.classList.toggle("is-active", i === activeIndex));
+    infoPanes.forEach((el, i) => el.classList.toggle("is-active", i === activeIndex));
+
+    ensureLoaded(activeIndex);
+    ensureLoaded(activeIndex + 1);
+
+    if (counterNow) counterNow.textContent = String(activeIndex + 1).padStart(2, "0");
+    if (counterBar) counterBar.style.transform = `scaleX(${(activeIndex + 1) / N})`;
+
+    if (cardsTrack) {
+      cardsTrack.style.transition = animate ? "" : "none";
+      cardsTrack.style.transform = `translate3d(${-(pos + 1) * step}px, 0, 0)`;
+    }
+  }
+
+  function hideCompare() {
+    if (!showingCompare) return;
+    showingCompare = false;
+    if (horizontalSlider) horizontalSlider.style.transform = "translateX(0)";
+  }
+
+  function showCompare() {
+    showingCompare = true;
+    if (horizontalSlider) horizontalSlider.style.transform = "translateX(-50%)";
+  }
+
+  function goTo(newPos: number) {
+    if (navLock) return;
+    navLock = true;
+    setTimeout(() => (navLock = false), 350);
+    hideCompare();
+    pos = newPos;
+    paint(true);
+  }
+
+  cardsTrack?.addEventListener("transitionend", (e) => {
+    if (e.propertyName !== "transform") return;
+    if (pos < N || pos >= 2 * N) {
+      pos = activeIndex + N;
+      paint(false);
+      void cardsTrack.offsetWidth;
+      cardsTrack.style.transition = "";
+    }
+  });
+
+  cardItems.forEach((card) => {
+    card.addEventListener("click", () => goTo(Number(card.dataset.loopIndex)));
+    card.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" || e.key === " ") {
+        e.preventDefault();
+        goTo(Number(card.dataset.loopIndex));
+      }
+    });
+  });
+
+  document.getElementById("goToCompareBtn")?.addEventListener("click", showCompare);
+  document.getElementById("backToServicesBtn")?.addEventListener("click", hideCompare);
+
+  rootSection?.addEventListener(
+    "wheel",
+    (e: WheelEvent) => {
+      if ((e.target as HTMLElement).classList.contains("comparison-range")) return;
+      if (Math.abs(e.deltaX) < 25 || Math.abs(e.deltaX) <= Math.abs(e.deltaY)) return;
+      goTo(pos + (e.deltaX > 0 ? 1 : -1));
+    },
+    { passive: true }
+  );
+
+  let tx = 0, ty = 0, ignoreSwipe = false;
+  rootSection?.addEventListener("touchstart", (e) => {
+    tx = e.touches[0].clientX;
+    ty = e.touches[0].clientY;
+    ignoreSwipe = !!(e.target as HTMLElement).closest(".comparison-wrapper");
+  }, { passive: true });
+  rootSection?.addEventListener("touchend", (e) => {
+    if (ignoreSwipe) return;
+    const dx = e.changedTouches[0].clientX - tx;
+    const dy = e.changedTouches[0].clientY - ty;
+    if (Math.abs(dx) > 50 && Math.abs(dx) > Math.abs(dy)) goTo(pos + (dx < 0 ? 1 : -1));
+  }, { passive: true });
+
+  const comparisonRange = document.querySelector<HTMLInputElement>(".comparison-range");
+  const comparisonBefore = document.querySelector<HTMLElement>(".comparison-before");
+  const comparisonHandle = document.querySelector<HTMLElement>(".comparison-handle");
+  if (comparisonRange && comparisonBefore && comparisonHandle) {
+    const updateComparison = () => {
+      const value = Number(comparisonRange.value);
+      comparisonBefore.style.clipPath = `inset(0 ${100 - value}% 0 0)`;
+      comparisonHandle.style.left = `${value}%`;
+    };
+    comparisonRange.addEventListener("input", updateComparison);
+    updateComparison();
+  }
+
+  window.addEventListener("resize", () => { measureStep(); paint(false); }, { passive: true });
+
+  measureStep();
+  paint(false);
+
+  const idle = (cb: () => void) =>
+    "requestIdleCallback" in window ? (window as any).requestIdleCallback(cb, { timeout: 4000 }) : setTimeout(cb, 2500);
+  idle(() => {
+    let i = 0;
+    const next = () => { if (i >= N) return; ensureLoaded(i++); setTimeout(next, 700); };
+    next();
+  });
+</script>

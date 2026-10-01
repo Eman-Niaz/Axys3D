@@ -1,119 +1,143 @@
+---
+import "../styles/Navbar.css";
 
-<nav class="navbar" aria-label="Main navigation">
+const links = [
+  { label: "Home", href: "/" },
+  { label: "Services", href: "/Services" },
+  { label: "Industries", href: "/Industries" },
+  { label: "Work", href: "/Work" },
+  { label: "Process", href: "/Process" },
+  { label: "Insights", href: "/Insights" },
+  { label: "Visuals", href: "/Visuals" },
+  { label: "About", href: "/About" },
+];
 
-  <div class="navbar-inner">
+// Current page ko highlight karne ke liye
+const path = Astro.url.pathname.replace(/\/+$/, "") || "/";
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path.toLowerCase() === href.toLowerCase() ||
+  path.toLowerCase().startsWith(href.toLowerCase() + "/");
+---
+
+<!-- =====================================================
+     FIXED FLOATING NAVBAR (har page py scroll k sath tiki rehti hai)
+     ===================================================== -->
+<header class="site-header" id="siteHeader">
+
+  <div class="site-header-inner">
 
     <!-- LOGO -->
     <a href="/" class="logo" aria-label="Axys3D Home">
-      Axys<span class="brown-text">3D</span>
+      AXYS<span class="brown-text">3D</span>
     </a>
 
+    <!-- CENTER PILL NAV (desktop) -->
+    <nav class="floating-nav" aria-label="Primary">
+      <ul>
+        {links.map((l) => (
+          <li>
+            <a href={l.href} class={isActive(l.href) ? "is-active" : ""}>{l.label}</a>
+          </li>
+        ))}
+      </ul>
+    </nav>
 
-    <!-- DESKTOP NAVIGATION -->
-    <div class="nav-links">
+    <!-- RIGHT SIDE -->
+    <div class="nav-right">
 
-      <a href="/Services/">Services</a>
-      <a href="/Industries/">Industries</a>
-      <a href="/Work/">Work</a>
-      <a href="/Process/">Process</a>
-      <a href="/Insights/">Insights</a>
-      <a href="/Visuals/">Visuals</a>
-      <a href="/About/">About</a>
-
-    </div>
-
-
-    <!-- DESKTOP CTA -->
-    <a href="/Contact" class="nav-button">
-      <span>Discuss a production package</span>
-      <span class="nav-arrow">↗</span>
-    </a>
-
-
-    <!-- MOBILE MENU BUTTON -->
-    <button
-      class="menu-toggle"
-      type="button"
-      aria-label="Open navigation menu"
-      aria-expanded="false"
-      aria-controls="mobile-menu"
-    >
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-
-  </div>
-
-
-  <!-- MOBILE MENU -->
-  <div class="mobile-menu" id="mobile-menu">
-
-    <div class="mobile-menu-inner">
-
-      <a href="/Services/">Services</a>
-      <a href="/Industries/">Industries</a>
-      <a href="/Work/">Work</a>
-      <a href="/Process/">Process</a>
-      <a href="/Insights/">Insights</a>
-      <a href="/Visuals/">Visuals</a>
-      <a href="/About/">About</a>
-
-      <a href="/Contact" class="mobile-menu-button">
+      <a href="/Contact" class="topbar-cta">
         <span>Discuss a production package</span>
-        <span>↗</span>
+        <span class="arrow">↗</span>
       </a>
 
+      <button
+        class="menu-toggle-btn"
+        id="menuToggleBtn"
+        type="button"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="sideNav"
+      >
+        <span class="menu-toggle-label" id="menuToggleLabel">Menu</span>
+        <span class="menu-toggle-lines">
+          <i></i>
+          <i></i>
+          <i></i>
+        </span>
+      </button>
+
     </div>
 
   </div>
 
-</nav>
+</header>
+
+
+<!-- SIDE MENU (tablet / mobile) -->
+<div class="side-nav-scrim" id="sideNavScrim"></div>
+
+<aside class="side-nav" id="sideNav" aria-label="Mobile navigation">
+  <span class="side-nav-kicker">Navigation</span>
+
+  <ul class="side-nav-links">
+    {links.map((l, i) => (
+      <li>
+        <a href={l.href} class={isActive(l.href) ? "is-active" : ""}>
+          <span class="side-nav-link-index">{String(i + 1).padStart(2, "0")}</span>
+          <span class="side-nav-link-text">{l.label}</span>
+          <span class="side-nav-link-arrow">↗</span>
+        </a>
+      </li>
+    ))}
+  </ul>
+
+  <a href="/Contact" class="side-nav-cta">
+    <span>Discuss a production package</span>
+    <span>↗</span>
+  </a>
+</aside>
 
 
 <script>
-  const menuToggle = document.querySelector(".menu-toggle");
-  const mobileMenu = document.querySelector(".mobile-menu");
+  const header = document.getElementById("siteHeader") as HTMLElement | null;
+  const btn = document.getElementById("menuToggleBtn") as HTMLButtonElement | null;
+  const label = document.getElementById("menuToggleLabel") as HTMLElement | null;
+  const scrim = document.getElementById("sideNavScrim") as HTMLElement | null;
+  const sideNav = document.getElementById("sideNav") as HTMLElement | null;
+  // Parent par transform/overflow ho to bhi fixed chale
+  [header, scrim, sideNav].forEach((el) => {
+    if (el) document.body.appendChild(el);
+  });
+  /* ---------- Scroll par navbar ka background ---------- */
+  const onScroll = () => {
+    header?.classList.toggle("is-scrolled", window.scrollY > 24);
+  };
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
 
-  if (menuToggle && mobileMenu) {
+  /* ---------- Menu open / close ---------- */
+  const setOpen = (open: boolean) => {
+    document.body.classList.toggle("menu-open", open);
+    btn?.classList.toggle("is-open", open);
+    btn?.setAttribute("aria-expanded", String(open));
+    if (label) label.textContent = open ? "Close" : "Menu";
+  };
 
-    menuToggle.addEventListener("click", () => {
+  btn?.addEventListener("click", () => {
+    setOpen(!document.body.classList.contains("menu-open"));
+  });
 
-      const isOpen = menuToggle.classList.toggle("is-open");
+  scrim?.addEventListener("click", () => setOpen(false));
 
-      mobileMenu.classList.toggle("is-open", isOpen);
+  sideNav?.querySelectorAll("a").forEach((a) =>
+    a.addEventListener("click", () => setOpen(false))
+  );
 
-      menuToggle.setAttribute(
-        "aria-expanded",
-        String(isOpen)
-      );
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") setOpen(false);
+  });
 
-      menuToggle.setAttribute(
-        "aria-label",
-        isOpen ? "Close navigation menu" : "Open navigation menu"
-      );
-
-      document.body.classList.toggle("menu-open", isOpen);
-
-    });
-
-
-    /* Close menu after clicking a link */
-    mobileMenu.querySelectorAll("a").forEach((link) => {
-
-      link.addEventListener("click", () => {
-
-        menuToggle.classList.remove("is-open");
-        mobileMenu.classList.remove("is-open");
-
-        menuToggle.setAttribute("aria-expanded", "false");
-        menuToggle.setAttribute("aria-label", "Open navigation menu");
-
-        document.body.classList.remove("menu-open");
-
-      });
-
-    });
-
-  }
+  window.matchMedia("(min-width: 1301px)").addEventListener("change", (e) => {
+    if (e.matches) setOpen(false);
+  });
 </script>

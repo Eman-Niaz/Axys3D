@@ -1,23 +1,20 @@
 ---
 import "../styles/Mission.css";
+
+// Content wohi hai; sirf ek jagah rakha taake mahine ke sath asani se badal sako.
+const bookingStatus = "Now booking — June";
 ---
+
+<!-- =====================================================
+     UX BRIEF — MISSION (STATS)
+     Visitor ka sawal : "Kya in par bharosa kar sakta hoon?"
+     Jawab : numbers (50+ projects, 7 days, 4.8/5) + har number ka seedha matlab.
+     Purane cards / UI wohi hain; sirf NEW (UX) wale hisse add hue hain.
+     Agla section: HowItWorks.astro (kaam kaise hota hai).
+     ===================================================== -->
 
 <section class="mission" id="missionSection">
   <div class="mission-inner">
-
-    <div class="mission-top">
-      <div class="mission-heading">
-        <span class="mission-tag">Approach</span>
-        <h2>
-          <span class="mission-h-light">Our process is simple </span>
-          <span class="mission-h-bold">render before you build.</span>
-        </h2>
-      </div>
-
-      <p class="mission-promise">
-        We deliver architectural visuals that sell the space before it's built.
-      </p>
-    </div>
 
     <div class="mission-grid">
 
@@ -37,6 +34,8 @@ import "../styles/Mission.css";
               <span class="mission-stat-inline" data-count-to="40">0</span>+ Studio partners
             </span>
           </div>
+          <!-- NEW (UX): maqsad = "global leaders" kaun hain, ye saaf karna -->
+          <p class="mission-card-note">Architecture studios and developers who trust us with their projects.</p>
         </div>
 
         <!-- Card 2: Turnaround Time -->
@@ -46,6 +45,8 @@ import "../styles/Mission.css";
             <span class="mission-stat-value" data-count-to="7">0</span><span class="mission-stat-suffix"> days</span>
           </div>
           <p class="mission-card-copy">Average time from brief to first render</p>
+          <!-- NEW (UX): maqsad = "7 days" ka matlab client ke liye kya hai -->
+          <p class="mission-card-note">You see your first draft within a week of sending the brief.</p>
         </div>
       </div>
 
@@ -63,12 +64,20 @@ import "../styles/Mission.css";
           Renders, walkthroughs, and stills crafted with precision to bring architectural visions to life seamlessly.
         </p>
 
+        <!-- NEW (UX): maqsad = "projects" mein asal mein kya kya deliver hota hai -->
+        <div class="mission-chips">
+          <span class="mission-chips-label">What you get</span>
+          <span class="mission-chip">Renders</span>
+          <span class="mission-chip">Walkthroughs</span>
+          <span class="mission-chip">Stills</span>
+        </div>
+
         <!-- Availability Status Block (Replaced small badge) -->
         <div class="mission-booking-card">
           <span class="mission-badge-dot"></span>
           <div>
             <span class="mission-booking-label">Current Status</span>
-            <span class="mission-booking-val">Now booking — June</span>
+            <span class="mission-booking-val">{bookingStatus}</span>
           </div>
         </div>
       </div>
@@ -87,8 +96,12 @@ import "../styles/Mission.css";
           <path class="mission-chart-arrowhead" d="M196 8 l -15 -2 M196 8 l -4 15" />
         </svg>
 
+        <!-- NEW (UX): maqsad = graph ka matlab batana (pehle sirf sajawat thi) -->
+        <p class="mission-card-note mission-card-note--light">Clearer visuals help clients say yes sooner.</p>
+
         <div class="mission-dark-bottom">
           <div class="mission-rating">
+            <span class="mission-rating-label">Average client rating</span>
             <span class="mission-stat-value" data-count-to="4.8" data-decimals="1">0</span><span class="mission-stat-suffix">/5</span>
           </div>
           <div class="mission-trust">
@@ -99,6 +112,7 @@ import "../styles/Mission.css";
       </div>
 
     </div>
+
   </div>
 </section>
 
