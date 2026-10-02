@@ -100,59 +100,136 @@ const services = [
   },
 ];
 
-// ⬇⬇ OUTER CIRCLE KI IMAGES (sirf links, 8 images = andar wale jitni) ⬇⬇
-const orbitOuterImages = [
-  "https://images.unsplash.com/photo-1532323544230-7191fd51bc1b?auto=format&fit=crop&w=300&h=300&q=75",
-  "https://images.unsplash.com/photo-1721244654394-36a7bc2da288?auto=format&fit=crop&w=300&h=300&q=75",
-  "https://images.unsplash.com/photo-1633109741715-59b57495bbdc?auto=format&fit=crop&w=300&h=300&q=75",
-  "https://images.unsplash.com/photo-1634114582073-c34f96202b65?auto=format&fit=crop&w=300&h=300&q=75",
-  "https://images.unsplash.com/photo-1617850687395-620757feb1f3?auto=format&fit=crop&w=300&h=300&q=75",
-  "https://images.unsplash.com/photo-1721244653757-b76cc4679dfb?auto=format&fit=crop&w=300&h=300&q=75",
-  "https://images.unsplash.com/photo-1678575326996-a1bf09b86158?auto=format&fit=crop&w=300&h=300&q=75",
-  "https://images.unsplash.com/photo-1776279876113-514976038186?auto=format&fit=crop&w=300&h=300&q=75",
+/* =========================================================
+   HERO CARD — "What we deliver"
+   8 services ko 3 stages mein dikhata hai. Naam / line badalni ho to sirf yahan badlo.
+   Icon = simple SVG path (24x24 grid).
+   ========================================================= */
+const serviceMeta: Record<string, { name: string; deliver: string; icon: string }> = {
+  "bim-production": {
+    name: "BIM Production",
+    deliver: "Coordinated, standards-based BIM models",
+    icon: "M12 3l8 4.5v9L12 21l-8-4.5v-9L12 3z M12 12l8-4.5 M12 12v9 M12 12L4 7.5",
+  },
+  "revit-production": {
+    name: "Revit Documentation",
+    deliver: "Construction drawing sets, on schedule",
+    icon: "M5 3h14v18H5z M9 8h6 M9 12h6 M9 16h3",
+  },
+  "mep-coordination": {
+    name: "MEP Coordination",
+    deliver: "Clash-checked mechanical, electrical, plumbing",
+    icon: "M3 7h10a4 4 0 014 4v10 M3 13h5 M17 3v4",
+  },
+  "3d-modeling": {
+    name: "3D Modeling",
+    deliver: "Architecture, interiors, furniture & objects",
+    icon: "M12 3l8 4-8 4-8-4 8-4z M4 12l8 4 8-4 M4 16.5l8 4 8-4",
+  },
+  "3ds-max-production": {
+    name: "3ds Max Production",
+    deliver: "Scenes, materials & lighting, render-ready",
+    icon: "M12 8a4 4 0 100 8 4 4 0 000-8z M12 2v2 M12 20v2 M2 12h2 M20 12h2 M4.9 4.9l1.4 1.4 M17.7 17.7l1.4 1.4 M4.9 19.1l1.4-1.4 M17.7 6.3l1.4-1.4",
+  },
+  "architectural-visualization": {
+    name: "Architectural Visualization",
+    deliver: "Photoreal exterior, interior & site images",
+    icon: "M6 21V4h12v17 M3 21h18 M10 8h4 M10 12h4 M10 16h4",
+  },
+  "animation-motion": {
+    name: "Animation & Motion",
+    deliver: "Walkthroughs & fly-through films",
+    icon: "M3 6h12v12H3z M15 10l6-3v10l-6-3",
+  },
+  "real-time": {
+    name: "Real-time / Unreal",
+    deliver: "Interactive walkthroughs & virtual showrooms",
+    icon: "M3 4h18v12H3z M8 20h8 M12 16v4 M10 7.5l4.5 2.5-4.5 2.5z",
+  },
+};
+
+/* =========================================================
+   HERO VISUAL — "Idea -> Build -> Visualize -> Experience"
+   Ek isometric building khud ban-ti hai (wireframe + MEP) -> render hoti hai (rang, khidkiyan, roshni)
+   -> camera us ke gird ghoomta hai. 8 services ke icons aas-paas hain, apne stage mein jagmagate hain.
+   Geometry neeche code se banti hai, kuch hath se likhne ki zaroorat nahi.
+   Icons ki positions badalni hon to sirf vizNodes mein x / y (%) badlo.
+   ========================================================= */
+type P = [number, number];
+const U: P = [26, -15];
+const V: P = [-26, -15];
+const add = (a: P, d: P, k = 1): P => [a[0] + d[0] * k, a[1] + d[1] * k];
+const up = (p: P, h: number): P => [p[0], p[1] - h];
+const pts = (a: P[]) => a.map((p) => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ");
+
+function makeBox(F: P, dx: number, dy: number, H: number, rows: number, colsR: number, colsL: number) {
+  const R = add(F, U, dx);
+  const L = add(F, V, dy);
+  const B = add(R, V, dy);
+  const at = (side: "l" | "r", s: number, hf: number): P =>
+    side === "r" ? up(add(F, U, s * dx), H * hf) : up(add(F, V, s * dy), H * hf);
+  const wins: string[] = [];
+  const addWins = (side: "l" | "r", cols: number) => {
+    for (let r = 0; r < rows; r++)
+      for (let c = 0; c < cols; c++) {
+        const s0 = (c + 0.2) / cols, s1 = (c + 0.8) / cols;
+        const h0 = (r + 0.25) / rows, h1 = (r + 0.7) / rows;
+        wins.push(pts([at(side, s0, h0), at(side, s1, h0), at(side, s1, h1), at(side, s0, h1)]));
+      }
+  };
+  addWins("r", colsR);
+  addWins("l", colsL);
+  const floors: string[] = [];
+  for (let r = 1; r < rows; r++) floors.push(pts([up(L, (H * r) / rows), up(F, (H * r) / rows), up(R, (H * r) / rows)]));
+  return {
+    right: pts([F, R, up(R, H), up(F, H)]),
+    left: pts([F, L, up(L, H), up(F, H)]),
+    top: pts([up(F, H), up(R, H), up(B, H), up(L, H)]),
+    floors,
+    wins,
+    at,
+  };
+}
+
+const tower = makeBox([300, 420], 3, 3, 220, 8, 3, 3);
+const podium = makeBox([386, 444], 3, 2, 96, 3, 3, 2);
+
+const mep = [
+  { c: "blue", d: pts([tower.at("l", 1, 0.28), tower.at("l", 0, 0.28), tower.at("r", 0.75, 0.28)]) },
+  { c: "red", d: pts([tower.at("l", 1, 0.56), tower.at("l", 0.35, 0.56), tower.at("l", 0.35, 0.86), tower.at("l", 0.75, 0.86)]) },
+  { c: "gold", d: pts([tower.at("r", 0.15, 0), tower.at("r", 0.15, 1)]) },
+  { c: "gold", d: pts([tower.at("r", 0.15, 0.42), tower.at("r", 0.9, 0.42)]) },
+  { c: "blue", d: pts([podium.at("l", 1, 0.4), podium.at("l", 0, 0.4), podium.at("r", 0.8, 0.4)]) },
 ];
 
-/*
- * ROTATING SPHERE GALLERY (hero) — images upar wali orbitImages + orbitOuterImages se aati hain.
- * Sirf un links ko badlo, sphere khud update ho jayega.
- */
-const sphereSource = [...Object.values(orbitImages), ...orbitOuterImages].map((u) =>
-  u.replace(/w=\d+&h=\d+/, "w=240&h=240")
-);
-
-const SPHERE_STEP_WANT = 14; // degrees — kam karoge to balls chhoti + zyada, barhaoge to balls bari + kam
-const SPHERE_ROWS = Math.round(180 / SPHERE_STEP_WANT) + 1; // -90° (bottom pole) se +90° (top pole) tak
-const SPHERE_STEP = 180 / (SPHERE_ROWS - 1); // exact step taake dono poles par row aaye
-const SPHERE_COLS_EQ = Math.round(360 / SPHERE_STEP); // equator par kitni balls
-const SPHERE_FILL = 0.78; // 1 = balls aapas me chipki hui, kam = zyada gap
-const SPHERE_TILE = ((SPHERE_STEP * Math.PI) / 180) * SPHERE_FILL; // ball size (sphere radius ka hissa)
-
-const blobShapes = [
-  "52% 48% 55% 45% / 48% 54% 46% 52%",
-  "46% 54% 48% 52% / 55% 45% 55% 45%",
-  "58% 42% 50% 50% / 46% 52% 48% 54%",
-  "50% 50% 44% 56% / 54% 46% 54% 46%",
-  "44% 56% 52% 48% / 50% 58% 42% 50%",
-  "55% 45% 47% 53% / 44% 50% 50% 56%",
-];
-
-// Poora sphere: har latitude row me cos(lat) ke hisaab se balls (poles par 1 ball, equator par sab se zyada)
-const sphereTiles: { yaw: number; pitch: number; src: string; shape: string; n: number }[] = [];
-let tileN = 0;
-for (let r = 0; r < SPHERE_ROWS; r++) {
-  const lat = -90 + r * SPHERE_STEP;
-  const cols = Math.max(1, Math.round(SPHERE_COLS_EQ * Math.cos((lat * Math.PI) / 180)));
-  const offset = r % 2 ? 0.5 : 0; // alternate rows half-step — brick jaisa pattern
-  for (let c = 0; c < cols; c++) {
-    sphereTiles.push({
-      yaw: (c + offset) * (360 / cols),
-      pitch: lat,
-      src: sphereSource[(c * 3 + r * 5) % sphereSource.length],
-      shape: blobShapes[(c * 5 + r * 7) % blobShapes.length],
-      n: tileN++,
-    });
+// zameen ka iso grid
+const gridLines: string[] = [];
+{
+  const O: P = [300, 535], N = 10;
+  for (let i = 0; i <= N; i++) {
+    const a1 = add(O, V, i), a2 = add(a1, U, N);
+    const b1 = add(O, U, i), b2 = add(b1, V, N);
+    gridLines.push(`M${a1[0]},${a1[1]}L${a2[0]},${a2[1]}`, `M${b1[0]},${b1[1]}L${b2[0]},${b2[1]}`);
   }
 }
+
+// icons: g = stage (a Build, b Visualize, c Experience), x/y = % position, side = tooltip direction
+const vizNodes = [
+  { slug: "bim-production", g: "a", x: 6, y: 14, side: "r", tx: 245, ty: 270 },
+  { slug: "revit-production", g: "a", x: 6, y: 38, side: "r", tx: 245, ty: 305 },
+  { slug: "mep-coordination", g: "a", x: 6, y: 62, side: "r", tx: 245, ty: 340 },
+  { slug: "3d-modeling", g: "b", x: 94, y: 14, side: "l", tx: 355, ty: 270 },
+  { slug: "3ds-max-production", g: "b", x: 94, y: 38, side: "l", tx: 355, ty: 300 },
+  { slug: "architectural-visualization", g: "b", x: 94, y: 62, side: "l", tx: 355, ty: 330 },
+  { slug: "animation-motion", g: "c", x: 24, y: 93, side: "t", tx: 285, ty: 440 },
+  { slug: "real-time", g: "c", x: 76, y: 93, side: "t", tx: 330, ty: 452 },
+].map((n) => ({ ...n, ...serviceMeta[n.slug], x1: (n.x * 6).toFixed(1), y1: (n.y * 5.6).toFixed(1) }));
+
+const stages = [
+  { g: "a", label: "Build" },
+  { g: "b", label: "Visualize" },
+  { g: "c", label: "Experience" },
+];
 ---
 
 <!doctype html>
@@ -197,29 +274,124 @@ for (let r = 0; r < SPHERE_ROWS; r++) {
             </div>
 
             <div class="svc-intro-media">
-              <div
-                class="svc-sphere-stage"
-                data-sphere
-                data-tile={SPHERE_TILE}
-                role="img"
-                aria-label="Interactive rotating gallery of Axys3D service visuals. Drag to rotate."
-              >
-                <div class="svc-sphere">
-                  {sphereTiles.map((t) => (
-                    <span
-                      class="svc-tile"
-                      style={`--yaw:${t.yaw}deg;--pitch:${t.pitch}deg;--n:${t.n};border-radius:${t.shape}`}
-                    >
-                      <img
-                        src={t.src}
-                        alt=""
-                        loading="eager"
-                        decoding="async"
-                        draggable="false"
-                      />
-                    </span>
-                  ))}
-                </div>
+              <div class="svc-viz" role="navigation" aria-label="Services overview">
+                <svg class="svc-viz-svg" viewBox="0 0 600 560" aria-hidden="true" focusable="false">
+                  <defs>
+                    <linearGradient id="vzR" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#2b6089" />
+                      <stop offset="1" stop-color="#143550" />
+                    </linearGradient>
+                    <linearGradient id="vzL" x1="1" y1="0" x2="0" y2="1">
+                      <stop offset="0" stop-color="#173f5e" />
+                      <stop offset="1" stop-color="#0c2234" />
+                    </linearGradient>
+                    <linearGradient id="vzT" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0" stop-color="#d2b487" />
+                      <stop offset="1" stop-color="#8a6a43" />
+                    </linearGradient>
+                    <radialGradient id="vzSunG">
+                      <stop offset="0" stop-color="#d2b487" stop-opacity="0.55" />
+                      <stop offset="1" stop-color="#d2b487" stop-opacity="0" />
+                    </radialGradient>
+                    <radialGradient id="vzFade">
+                      <stop offset="0.35" stop-color="#fff" />
+                      <stop offset="1" stop-color="#000" />
+                    </radialGradient>
+                    <mask id="vzMask"><rect width="600" height="560" fill="url(#vzFade)" /></mask>
+                  </defs>
+
+                  <g class="vz-sun"><circle cx="480" cy="110" r="170" fill="url(#vzSunG)" /></g>
+
+                  <g class="vz-grid" mask="url(#vzMask)">{gridLines.map((d) => <path d={d} />)}</g>
+
+                  <g class="vz-links">
+                    {vizNodes.map((n) => (
+                      <line class={`vz-link vz-l-${n.g}`} x1={n.x1} y1={n.y1} x2={n.tx} y2={n.ty} />
+                    ))}
+                  </g>
+
+                  <g class="vz-orbit"><path class="vz-orbit-path" d="M70,385 A230,120 0 0 1 530,385" /></g>
+
+                  <!-- TOWER -->
+                  <g class="vz-fill">
+                    <polygon points={tower.left} fill="url(#vzL)" />
+                    <polygon points={tower.right} fill="url(#vzR)" />
+                    <polygon points={tower.top} fill="url(#vzT)" />
+                  </g>
+                  <g class="vz-wires">
+                    <polygon class="vz-wire vz-wa" pathLength="1" points={tower.left} />
+                    <polygon class="vz-wire vz-wa" pathLength="1" points={tower.right} />
+                    <polygon class="vz-wire vz-wa" pathLength="1" points={tower.top} />
+                    {tower.floors.map((f) => <polyline class="vz-wire vz-wb" pathLength="1" points={f} />)}
+                  </g>
+                  <g class="vz-mepg">
+                    {mep.slice(0, 4).map((m) => <polyline class={`vz-mep vz-mep-${m.c}`} pathLength="1" points={m.d} />)}
+                  </g>
+                  <g class="vz-win">
+                    {tower.wins.map((w, i) => <polygon points={w} style={`--w:${((i * 37) % 17) / 6}s`} />)}
+                  </g>
+
+                  <!-- PODIUM -->
+                  <g class="vz-occ">
+                    <polygon points={podium.left} />
+                    <polygon points={podium.right} />
+                    <polygon points={podium.top} />
+                  </g>
+                  <g class="vz-fill">
+                    <polygon points={podium.left} fill="url(#vzL)" />
+                    <polygon points={podium.right} fill="url(#vzR)" />
+                    <polygon points={podium.top} fill="url(#vzT)" />
+                  </g>
+                  <g class="vz-wires">
+                    <polygon class="vz-wire vz-wa" pathLength="1" points={podium.left} />
+                    <polygon class="vz-wire vz-wa" pathLength="1" points={podium.right} />
+                    <polygon class="vz-wire vz-wa" pathLength="1" points={podium.top} />
+                    {podium.floors.map((f) => <polyline class="vz-wire vz-wb" pathLength="1" points={f} />)}
+                  </g>
+                  <g class="vz-mepg">
+                    <polyline class={`vz-mep vz-mep-${mep[4].c}`} pathLength="1" points={mep[4].d} />
+                  </g>
+                  <g class="vz-win">
+                    {podium.wins.map((w, i) => <polygon points={w} style={`--w:${((i * 29) % 13) / 5}s`} />)}
+                  </g>
+
+                  <!-- CAMERA ORBIT (front half + moving camera) -->
+                  <g class="vz-orbit"><path class="vz-orbit-path" d="M530,385 A230,120 0 0 1 70,385" /></g>
+                  <g class="vz-orbit vz-cam">
+                    <g>
+                      <animate attributeName="opacity" dur="7s" repeatCount="indefinite" calcMode="discrete" keyTimes="0;0.5" values="0.35;1" />
+                      <circle r="3.5" fill="#d2b487" fill-opacity="0.25">
+                        <animateMotion dur="7s" begin="-0.4s" repeatCount="indefinite" path="M70,385 A230,120 0 0 1 530,385 A230,120 0 0 1 70,385" />
+                      </circle>
+                      <circle r="5" fill="#d2b487" fill-opacity="0.5">
+                        <animateMotion dur="7s" begin="-0.2s" repeatCount="indefinite" path="M70,385 A230,120 0 0 1 530,385 A230,120 0 0 1 70,385" />
+                      </circle>
+                      <circle r="7.5" fill="#d2b487" class="vz-cam-dot">
+                        <animateMotion dur="7s" repeatCount="indefinite" path="M70,385 A230,120 0 0 1 530,385 A230,120 0 0 1 70,385" />
+                      </circle>
+                    </g>
+                  </g>
+                </svg>
+
+                {vizNodes.map((n) => (
+                  <a
+                    href={`#${n.slug}`}
+                    class={`vz-node vz-g-${n.g} vz-side-${n.side}`}
+                    style={`left:${n.x}%;top:${n.y}%`}
+                    aria-label={n.name}
+                    data-label={n.name}
+                  >
+                    <svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <path d={n.icon} />
+                    </svg>
+                  </a>
+                ))}
+              </div>
+
+              <div class="svc-viz-stages" aria-hidden="true">
+                {stages.map((s) => (
+                  <span class={`vz-st vz-st-${s.g}`}><i></i><b>{s.label}</b></span>
+                ))}
               </div>
             </div>
           </div>
@@ -232,7 +404,7 @@ for (let r = 0; r < SPHERE_ROWS; r++) {
            Har service ka button /services/<slug> par le jata hai. -->
       <section class="svc-reel" aria-label="Our services">
         {services.map((s, idx) => (
-          <article class="svc-panel">
+          <article class="svc-panel" id={s.slug}>
             <div class="svc-panel-stage">
               <img
                 class="svc-panel-img"
@@ -335,104 +507,6 @@ for (let r = 0; r < SPHERE_ROWS; r++) {
         update();
         window.addEventListener("scroll", onScroll, { passive: true });
         window.addEventListener("resize", () => { measure(); update(); }, { passive: true });
-      })();
-
-      /* ===== Sphere gallery (hero): auto-rotate + drag + mouse-follow ===== */
-      (() => {
-        const stage = document.querySelector("[data-sphere]");
-        if (!stage) return;
-        const sphere = stage.querySelector(".svc-sphere");
-        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-        const TILE = Number(stage.dataset.tile) || 0.2;
-        let R = 300;
-        const layout = () => {
-          const W = stage.clientWidth;
-          const H = stage.clientHeight;
-          if (!W || !H) return;
-          R = Math.min(W, H) * 0.49; // poora sphere (top + bottom) box ke andar fit
-          const tile = R * TILE;
-          stage.style.perspective = `${R * 3}px`;
-          stage.style.setProperty("--R", `${R}px`);
-          stage.style.setProperty("--tw", `${tile}px`);
-          stage.style.setProperty("--tht", `${tile}px`);
-        };
-        layout();
-        new ResizeObserver(layout).observe(stage);
-
-        const BASE_PITCH = -8;
-        const MAX_PITCH = 80; // drag karke poles tak dekh sakte ho
-        const AUTO_SPEED = reduce ? 0 : 0.07; // degrees per frame
-        let yaw = 0, pitch = BASE_PITCH, vYaw = 0, vPitch = 0;
-        let dragging = false, inside = false;
-        let lastX = 0, lastY = 0, hoverX = 0, hoverY = 0;
-        let running = true, last = performance.now();
-        const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-
-        const render = () => {
-          sphere.style.transform = `translateZ(${-R}px) rotateX(${pitch}deg) rotateY(${yaw}deg)`;
-        };
-
-        const frame = (now) => {
-          const dt = Math.min((now - last) / 16.667, 3);
-          last = now;
-          if (running && !dragging) {
-            const hoverSpin = inside && !reduce ? hoverX * 0.16 : 0;
-            yaw = (yaw + (vYaw + AUTO_SPEED + hoverSpin) * dt) % 360;
-            pitch += vPitch * dt;
-            const target = BASE_PITCH + (inside && !reduce ? hoverY * 8 : 0);
-            pitch += (target - pitch) * 0.035 * dt;
-            pitch = clamp(pitch, -MAX_PITCH, MAX_PITCH);
-            const decay = Math.pow(0.95, dt);
-            vYaw *= decay;
-            vPitch *= decay;
-          }
-          if (running) render();
-          requestAnimationFrame(frame);
-        };
-
-        stage.addEventListener("pointerdown", (e) => {
-          dragging = true;
-          lastX = e.clientX;
-          lastY = e.clientY;
-          vYaw = 0;
-          vPitch = 0;
-          stage.classList.add("is-dragging");
-          stage.setPointerCapture(e.pointerId);
-        });
-
-        stage.addEventListener("pointermove", (e) => {
-          const r = stage.getBoundingClientRect();
-          hoverX = ((e.clientX - r.left) / r.width - 0.5) * 2;
-          hoverY = ((e.clientY - r.top) / r.height - 0.5) * 2;
-          inside = true;
-          if (!dragging) return;
-          const dx = e.clientX - lastX;
-          const dy = e.clientY - lastY;
-          lastX = e.clientX;
-          lastY = e.clientY;
-          yaw += dx * 0.3;
-          pitch = clamp(pitch - dy * 0.2, -MAX_PITCH, MAX_PITCH);
-          vYaw = clamp(dx * 0.3, -8, 8);
-          vPitch = clamp(-dy * 0.2, -5, 5);
-        });
-
-        const endDrag = () => {
-          dragging = false;
-          stage.classList.remove("is-dragging");
-        };
-        stage.addEventListener("pointerup", endDrag);
-        stage.addEventListener("pointercancel", endDrag);
-        stage.addEventListener("pointerleave", () => { inside = false; });
-
-        // screen se bahar ho to animation rok do
-        new IntersectionObserver(([entry]) => {
-          running = entry.isIntersecting;
-          last = performance.now();
-        }).observe(stage);
-
-        render();
-        requestAnimationFrame(frame);
       })();
     </script>
   </body>

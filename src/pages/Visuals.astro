@@ -141,27 +141,26 @@ const assets = [
   }
 ];
 
-const pad = (n: number) => String(n).padStart(2, "0");
-
 const heroTitle = "Visual Asset Library";
 const heroSubtitle = "Explore production assets & renders.";
 const heroDescription =
   "A curated archive of photorealistic visual sets, BIM coordination models, and interactive real-time environments.";
 
-/*
- * ROTATING SPHERE GALLERY (hero) — images assets array se aati hain (duplicate hata ke, chhota thumbnail).
- * Alag images chahiye to sirf sphereImages array badal do, e.g. ["/images/sphere/01.jpg", ...]
- */
-const sphereImages = [...new Set(assets.map((x) => x.image))].map((u) =>
-  u.replace("w=1200", "w=240").replace("q=80", "q=70")
-);
+/* DITO Sphere Setup from about.astro */
+const sphereImages = [
+  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=320&q=70",
+  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=320&q=70",
+  "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=320&q=70",
+  "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=320&q=70",
+  "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=320&q=70",
+  "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=320&q=70",
+  "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=320&q=70",
+  "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=320&q=70",
+];
 
-const SPHERE_STEP_WANT = 14; // degrees — kam karoge to balls chhoti + zyada, barhaoge to balls bari + kam
-const SPHERE_ROWS = Math.round(180 / SPHERE_STEP_WANT) + 1; // -90° (bottom pole) se +90° (top pole) tak
-const SPHERE_STEP = 180 / (SPHERE_ROWS - 1); // exact step taake dono poles par row aaye
-const SPHERE_COLS_EQ = Math.round(360 / SPHERE_STEP); // equator par kitni balls
-const SPHERE_FILL = 0.78; // 1 = balls aapas me chipki hui, kam = zyada gap
-const SPHERE_TILE = ((SPHERE_STEP * Math.PI) / 180) * SPHERE_FILL; // ball size (sphere radius ka hissa)
+const SPHERE_COLS = 30;
+const SPHERE_ROWS = 5;
+const SPHERE_ROW_STEP = 12;
 
 const blobShapes = [
   "52% 48% 55% 45% / 48% 54% 46% 52%",
@@ -172,25 +171,21 @@ const blobShapes = [
   "55% 45% 47% 53% / 44% 50% 50% 56%",
 ];
 
-// Poora sphere: har latitude row me cos(lat) ke hisaab se balls (poles par 1 ball, equator par sab se zyada)
 const sphereTiles: { yaw: number; pitch: number; src: string; shape: string; n: number }[] = [];
-let tileN = 0;
-for (let r = 0; r < SPHERE_ROWS; r++) {
-  const lat = -90 + r * SPHERE_STEP;
-  const cols = Math.max(1, Math.round(SPHERE_COLS_EQ * Math.cos((lat * Math.PI) / 180)));
-  const offset = r % 2 ? 0.5 : 0; // alternate rows half-step — brick jaisa pattern
-  for (let c = 0; c < cols; c++) {
+for (let c = 0; c < SPHERE_COLS; c++) {
+  for (let r = 0; r < SPHERE_ROWS; r++) {
+    const stagger = c % 2 ? 0.25 : -0.25;
     sphereTiles.push({
-      yaw: (c + offset) * (360 / cols),
-      pitch: lat,
-      src: sphereImages[(c * 3 + r * 5) % sphereImages.length],
+      yaw: c * (360 / SPHERE_COLS),
+      pitch: (r - (SPHERE_ROWS - 1) / 2 + stagger) * SPHERE_ROW_STEP,
+      src: sphereImages[(c * 3 + r * 2) % sphereImages.length],
       shape: blobShapes[(c * 5 + r * 7) % blobShapes.length],
-      n: tileN++,
+      n: c * SPHERE_ROWS + r,
     });
   }
 }
 
-/* Hero title: pehla aadha white, doosra aadha muted (baaki pages jaisa) */
+/* Hero title typography formatting */
 const heroWords = heroSubtitle.trim().split(/\s+/);
 const mutedFrom = Math.ceil(heroWords.length / 2);
 ---
@@ -211,7 +206,6 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
   </head>
 
   <body class="page-visual-library">
-    <!-- PAGE BACKGROUND — soft gradient with a drifting corner glow -->
     <div class="lib-page-bg" aria-hidden="true"></div>
 
     <Navbar variant="solid" />
@@ -240,18 +234,18 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
               <p class="lib-lead">{heroDescription}</p>
             </div>
 
+            <!-- DITO 3D Sphere from about.astro -->
             <div class="lib-intro-media">
               <div
-                class="lib-sphere-stage"
+                class="ind-sphere-stage"
                 data-sphere
-                data-tile={SPHERE_TILE}
                 role="img"
-                aria-label="Interactive rotating gallery of Axys3D visual assets. Drag to rotate."
+                aria-label="Interactive rotating gallery"
               >
-                <div class="lib-sphere">
+                <div class="ind-sphere">
                   {sphereTiles.map((t) => (
                     <span
-                      class="lib-tile"
+                      class="ind-tile"
                       style={`--yaw:${t.yaw}deg;--pitch:${t.pitch}deg;--n:${t.n};border-radius:${t.shape}`}
                     >
                       <img
@@ -270,7 +264,7 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
         </div>
       </section>
 
-      <!-- ================= LIBRARY (80px below hero) ================= -->
+      <!-- ================= LIBRARY SECTION ================= -->
       <section class="lib-section" id="visual-library">
         <div class="lib-wrap">
           <div class="lib-sec-head lib-sec-head--row" data-reveal>
@@ -278,7 +272,6 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
               <span class="lib-kicker">BROWSE THE ARCHIVE</span>
               <h2 class="lib-sec-h2">Every asset, <br /><span>organised by discipline.</span></h2>
             </div>
-            <!-- <span class="lib-count" id="libCount">{pad(assets.length)} ASSETS</span> -->
           </div>
 
           <!-- Filters -->
@@ -374,10 +367,9 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
       );
       document.querySelectorAll("[data-reveal]").forEach((el) => revealObserver.observe(el));
 
-      // ---- Grid + filters ----
+      // Grid + filters
       const filterBtns = Array.from(document.querySelectorAll(".lib-filter"));
       const cards = Array.from(document.querySelectorAll(".lib-card"));
-      const countEl = document.getElementById("libCount");
       const emptyEl = document.getElementById("libEmpty");
       const mqTablet = window.matchMedia("(max-width: 1024px)");
       const mqMobile = window.matchMedia("(max-width: 640px)");
@@ -385,7 +377,6 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
 
       const columns = () => (mqMobile.matches ? 1 : mqTablet.matches ? 2 : 3);
 
-      // 6-column grid: last row is stretched so no empty space is ever left.
       const layout = () => {
         const visible = cards.filter((c) => c.style.display !== "none");
         const cols = columns();
@@ -416,7 +407,6 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
         });
 
         const shown = cards.filter((c) => c.style.display !== "none").length;
-        if (countEl) countEl.textContent = `${pad(shown)} ${shown === 1 ? "ASSET" : "ASSETS"}`;
         emptyEl.classList.toggle("is-shown", shown === 0);
         layout();
         if (animate) setTimeout(() => cards.forEach((c) => c.classList.remove("lib-pop")), 1400);
@@ -428,7 +418,6 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
       mqTablet.addEventListener("change", layout);
       mqMobile.addEventListener("change", layout);
 
-      // Category from URL (e.g. coming from a Services card click)
       const categoryFromUrl = new URLSearchParams(window.location.search).get("category");
       if (categoryFromUrl && filterBtns.some((b) => b.dataset.category === categoryFromUrl)) {
         applyFilter(categoryFromUrl, false);
@@ -437,7 +426,6 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
         layout();
       }
 
-      // Card spotlight
       cards.forEach((card) => {
         card.addEventListener("pointermove", (e) => {
           const r = card.getBoundingClientRect();
@@ -446,7 +434,7 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
         });
       });
 
-      // ---- Lightbox ----
+      // Lightbox
       const lightbox = document.getElementById("lightboxModal");
       const lightboxImg = document.getElementById("lightboxImg");
       const lightboxCaption = document.getElementById("lightboxCaption");
@@ -481,32 +469,29 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
         if (e.key === "Escape") closeBox();
       });
 
-      /* ===== Sphere gallery (hero): auto-rotate + drag + mouse-follow ===== */
+      /* DITO Sphere Animation Script from about.astro */
       (() => {
         const stage = document.querySelector("[data-sphere]");
         if (!stage) return;
-        const sphere = stage.querySelector(".lib-sphere");
+        const sphere = stage.querySelector(".ind-sphere");
         const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
-        const TILE = Number(stage.dataset.tile) || 0.2;
         let R = 300;
         const layout = () => {
           const W = stage.clientWidth;
           const H = stage.clientHeight;
           if (!W || !H) return;
-          R = Math.min(W, H) * 0.49; // poora sphere (top + bottom) box ke andar fit
-          const tile = R * TILE;
+          R = Math.min(W * 0.52, H * 0.9);
           stage.style.perspective = `${R * 3}px`;
           stage.style.setProperty("--R", `${R}px`);
-          stage.style.setProperty("--tw", `${tile}px`);
-          stage.style.setProperty("--tht", `${tile}px`);
+          stage.style.setProperty("--tw", `${R * 0.15}px`);
+          stage.style.setProperty("--tht", `${R * 0.16}px`);
         };
         layout();
         new ResizeObserver(layout).observe(stage);
 
-        const BASE_PITCH = -8;
-        const MAX_PITCH = 80; // drag karke poles tak dekh sakte ho
-        const AUTO_SPEED = reduce ? 0 : 0.07; // degrees per frame
+        const BASE_PITCH = -6;
+        const AUTO_SPEED = reduce ? 0 : 0.07;
         let yaw = 0, pitch = BASE_PITCH, vYaw = 0, vPitch = 0;
         let dragging = false, inside = false;
         let lastX = 0, lastY = 0, hoverX = 0, hoverY = 0;
@@ -526,7 +511,7 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
             pitch += vPitch * dt;
             const target = BASE_PITCH + (inside && !reduce ? hoverY * 8 : 0);
             pitch += (target - pitch) * 0.035 * dt;
-            pitch = clamp(pitch, -MAX_PITCH, MAX_PITCH);
+            pitch = clamp(pitch, -40, 40);
             const decay = Math.pow(0.95, dt);
             vYaw *= decay;
             vPitch *= decay;
@@ -556,7 +541,7 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
           lastX = e.clientX;
           lastY = e.clientY;
           yaw += dx * 0.3;
-          pitch = clamp(pitch - dy * 0.2, -MAX_PITCH, MAX_PITCH);
+          pitch = clamp(pitch - dy * 0.2, -40, 40);
           vYaw = clamp(dx * 0.3, -8, 8);
           vPitch = clamp(-dy * 0.2, -5, 5);
         });
@@ -569,7 +554,6 @@ const mutedFrom = Math.ceil(heroWords.length / 2);
         stage.addEventListener("pointercancel", endDrag);
         stage.addEventListener("pointerleave", () => { inside = false; });
 
-        // screen se bahar ho to animation rok do
         new IntersectionObserver(([entry]) => {
           running = entry.isIntersecting;
           last = performance.now();

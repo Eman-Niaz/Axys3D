@@ -1,5 +1,5 @@
 /* =========================================================
-   AXYS3D — VISUAL LIBRARY PAGE (same system as Industries / Work / Process / Insights)
+   AXYS3D — VISUAL LIBRARY PAGE
    ========================================================= */
 
 .library-page {
@@ -26,13 +26,10 @@
 .page-visual-library {
   background: var(--lib-blue);
   color: var(--lib-white);
-  font-family: "Manrope", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
 
-/* =========================================================
-   BACKGROUND IMAGE OVERLAY (restored, as it was before)
-   ========================================================= */
-
+/* Background Overlay */
 .lib-page-bg {
   position: absolute;
   top: 0;
@@ -47,82 +44,6 @@
   mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
 }
 
-/* =========================================================
-   HERO ROW — text parallel to a content-sized video box
-   ========================================================= */
-
-.lib-intro-row {
-  /* ⬇⬇ DONO ALAG ALAG CONTROL (sirf is page ke liye) ⬇⬇ */
-  --sphere-size: 640px;   /* sphere kitna bada (width = height) */
-  --hero-height: 520px;   /* hero row ki height (text + sphere isi ke andar beech mein) */
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: clamp(24px, 3vw, 40px);
-  height: var(--hero-height);   /* sphere isse bada ho to upar/neeche barabar bahar nikalta hai, hero nahi barhta */
-}
-
-/* Sphere box: size sirf --sphere-size se, hero ki height se bilkul alag */
-.lib-intro-media {
-  flex: 0 1 var(--sphere-size);   /* jagah kam ho to shrink hota hai, warna exactly --sphere-size */
-  min-width: 0;
-  aspect-ratio: 1 / 1;
-  position: relative;
-}
-
-/* drifting glow, kept confined to the top-right corner (painted above the video) */
-.lib-page-bg::before {
-  content: "";
-  position: absolute;
-  top: -180px;
-  right: -180px;
-  width: 620px;
-  height: 620px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(179, 139, 90, 0.28) 0%, rgba(179, 139, 90, 0.1) 45%, transparent 72%);
-  filter: blur(6px);
-  animation: libGlowDrift 16s ease-in-out infinite alternate;
-  z-index: 1;
-}
-
-.lib-page-bg::after {
-  content: "";
-  position: absolute;
-  top: 120px;
-  right: 60px;
-  width: 380px;
-  height: 380px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(16, 38, 55, 0.55) 0%, rgba(16, 38, 55, 0.2) 50%, transparent 75%);
-  animation: libGlowDrift 16s ease-in-out infinite alternate-reverse;
-  z-index: 1;
-}
-
-@keyframes libGlowDrift {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.85;
-  }
-  100% {
-    transform: translate(-26px, 24px) scale(1.08);
-    opacity: 1;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .lib-page-bg::before,
-  .lib-page-bg::after,
-  .lib-intro::before,
-  .lib-intro::after {
-    animation: none;
-  }
-}
-
-/* =========================================================
-   GLOBAL WRAPPER
-   ========================================================= */
-
 .lib-wrap {
   width: min(1320px, calc(100% - 80px));
   margin: 0 auto;
@@ -130,55 +51,18 @@
   z-index: 2;
 }
 
-/* =========================================================
-   HERO
-   ========================================================= */
-
+/* Hero Row Layout (DITO About Page) */
 .lib-intro {
-  padding: 64px 0 0;
+  padding: 64px 0 70px;
   position: relative;
   z-index: 2;
 }
 
-/* blue drifting glow — left corner (right wale brown glow ka jorra) */
-.lib-intro::before {
-  content: "";
-  position: absolute;
-  top: 24px;
-  left: -200px;
-  width: 620px;
-  height: 620px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(64, 140, 224, 0.30) 0%, rgba(64, 140, 224, 0.11) 45%, transparent 72%);
-  filter: blur(6px);
-  animation: libGlowDriftLeft 16s ease-in-out infinite alternate;
-  z-index: -1;
-  pointer-events: none;
-}
-
-.lib-intro::after {
-  content: "";
-  position: absolute;
-  top: 180px;
-  left: 40px;
-  width: 380px;
-  height: 380px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(30, 90, 170, 0.40) 0%, rgba(30, 90, 170, 0.14) 50%, transparent 75%);
-  animation: libGlowDriftLeft 16s ease-in-out infinite alternate-reverse;
-  z-index: -1;
-  pointer-events: none;
-}
-
-@keyframes libGlowDriftLeft {
-  0% {
-    transform: translate(0, 0) scale(1);
-    opacity: 0.85;
-  }
-  100% {
-    transform: translate(26px, 24px) scale(1.08);
-    opacity: 1;
-  }
+.lib-intro-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(24px, 3vw, 40px);
 }
 
 .lib-intro-header {
@@ -187,6 +71,15 @@
   text-align: left;
 }
 
+.lib-intro-media {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 780px;
+  aspect-ratio: 16 / 10;
+  position: relative;
+}
+
+/* Typography */
 .lib-kicker {
   display: block;
   font-size: 12px;
@@ -229,6 +122,14 @@
   }
 }
 
+.lib-lead {
+  margin: 0;
+  font-size: 16px;
+  line-height: 1.7;
+  color: var(--lib-text);
+  max-width: 560px;
+}
+
 .sr-only {
   position: absolute;
   width: 1px;
@@ -241,34 +142,91 @@
   border: 0;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .lib-word {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
+/* =========================================================
+   HERO — ROTATING SPHERE GALLERY (DITO ABOUT.CSS)
+   ========================================================= */
+
+.ind-sphere-stage {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  perspective: 900px;
+  cursor: grab;
+  touch-action: pan-y;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.lib-lead {
-  margin: 0;
-  font-size: 16px;
-  line-height: 1.7;
-  color: var(--lib-text);
-  max-width: 560px;
+.ind-sphere-stage.is-dragging {
+  cursor: grabbing;
 }
 
+.ind-sphere {
+  position: absolute;
+  inset: 0;
+  transform-style: preserve-3d;
+  transform: translateZ(calc(var(--R, 300px) * -1));
+  will-change: transform;
+}
 
-html {
-  scroll-behavior: smooth;
+.ind-tile {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: var(--tw, 90px);
+  height: var(--tht, 96px);
+  margin: calc(var(--tht, 96px) / -2) 0 0 calc(var(--tw, 90px) / -2);
+  overflow: hidden;
+  background: linear-gradient(155deg, var(--lib-blue-panel) 0%, var(--lib-blue) 100%);
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(var(--R, 300px));
+  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  animation: indTileIn 0.9s ease both;
+  animation-delay: calc(var(--n, 0) * 7ms + 200ms);
+}
+
+.ind-tile img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  pointer-events: none;
+  transform: scale(1.04);
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.ind-tile:hover {
+  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(calc(var(--R, 300px) + 26px));
+}
+
+.ind-tile:hover img {
+  transform: scale(1.14);
+}
+
+@keyframes indTileIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* =========================================================
-   SHARED SECTION HEAD
+   LIBRARY SECTION
    ========================================================= */
 
-.lib-sec-head {
-  margin-bottom: 32px;
+.lib-section {
+  position: relative;
+  z-index: 2;
   margin-top: 80px;
+  padding: 0 0 110px;
+  scroll-margin-top: 100px;
+}
+
+.lib-sec-head--row {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 32px;
 }
 
 .lib-sec-h2 {
@@ -284,79 +242,11 @@ html {
   color: var(--lib-muted);
 }
 
-.js .lib-sec-head {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.js .lib-sec-head.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* =========================================================
-   LIBRARY SECTION — 80px below the hero
-   ========================================================= */
-
-.lib-section {
-  position: relative;
-  z-index: 2;
-  margin-top: 140px;
-  padding: 0 0 110px;
-  scroll-margin-top: 100px;
-
-}
-
-.lib-sec-head--row {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 24px;
-}
-
-.lib-count {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-  padding-bottom: 8px;
-  font-size: 11.5px;
-  letter-spacing: 0.14em;
-  color: var(--lib-brown-light);
-}
-
-.lib-count::after {
-  content: "";
-  width: 60px;
-  height: 1px;
-  background: var(--lib-brown);
-  transform-origin: left;
-  animation: libLineGrow 1.2s cubic-bezier(0.22, 1, 0.36, 1) 0.3s both;
-}
-
-@keyframes libLineGrow {
-  from { transform: scaleX(0); }
-  to   { transform: scaleX(1); }
-}
-
-/* ---------- filters ---------- */
-
 .lib-filters {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
   margin-bottom: 34px;
-}
-
-.js .lib-filters {
-  opacity: 0;
-  transform: translateY(16px);
-  transition: opacity 0.7s ease 0.1s, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
-}
-
-.js .lib-filters.is-visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .lib-filter {
@@ -382,14 +272,6 @@ html {
   border-color: var(--lib-brown-light);
   color: var(--lib-blue);
 }
-
-.lib-filter:focus-visible,
-.lib-card:focus-visible {
-  outline: 2px solid var(--lib-brown-light);
-  outline-offset: 3px;
-}
-
-/* ---------- grid (6 columns so any count can be filled with no gaps) ---------- */
 
 .lib-grid {
   display: grid;
@@ -445,8 +327,7 @@ html {
   transition: opacity 0.45s ease;
 }
 
-.lib-card:hover .lib-card-overlay,
-.lib-card:focus-visible .lib-card-overlay {
+.lib-card:hover .lib-card-overlay {
   opacity: 1;
 }
 
@@ -474,21 +355,24 @@ html {
   justify-content: space-between;
   gap: 12px;
   padding: 20px 24px 0;
-}
-
-/* names / tags sirf hover (ya keyboard focus) par nazar aate hain */
-.lib-card-top,
-.lib-card-body {
   opacity: 0;
+  transform: translateY(-12px);
   transition: opacity 0.4s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-.lib-card-top {
-  transform: translateY(-12px);
-}
-
 .lib-card-body {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 24px;
+  opacity: 0;
   transform: translateY(16px);
+  transition: opacity 0.4s ease, transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .lib-card:hover .lib-card-top,
@@ -507,54 +391,25 @@ html {
 }
 
 .lib-card-tag {
-  flex: 0 0 auto;
   padding: 6px 12px;
   border-radius: 999px;
   background: rgba(7, 21, 34, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.18);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
   font-size: 10px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--lib-white);
-  transition: background 0.35s ease, color 0.35s ease, border-color 0.35s ease;
-}
-
-.lib-card:hover .lib-card-tag {
-  background: var(--lib-brown-light);
-  border-color: var(--lib-brown-light);
-  color: var(--lib-blue);
-}
-
-.lib-card-body {
-  position: absolute;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 16px;
-  padding: 24px;
 }
 
 .lib-card-title {
   margin: 0;
-  max-width: 460px;
   font-size: clamp(17px, 1.6vw, 22px);
   letter-spacing: -0.02em;
   line-height: 1.2;
   color: var(--lib-white);
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .lib-card-arrow {
-  flex: 0 0 auto;
   width: 46px;
   height: 46px;
   display: grid;
@@ -570,35 +425,6 @@ html {
   transform: scale(1.12) rotate(-8deg);
 }
 
-/* entrance */
-.js .lib-card {
-  opacity: 0;
-  transform: translateY(40px) scale(0.96);
-  transition: opacity 0.8s ease var(--d, 0ms), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms), border-color 0.4s ease, box-shadow 0.5s ease;
-}
-
-.js .lib-card.is-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.js .lib-card.is-visible:hover,
-.js .lib-card.is-visible:focus-visible {
-  transform: translateY(-8px);
-  transition-delay: 0ms;
-}
-
-/* when the filter changes, shown cards pop in one by one */
-.lib-card.lib-pop {
-  animation: libPop 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
-  animation-delay: calc(var(--k, 0) * 55ms);
-}
-
-@keyframes libPop {
-  from { opacity: 0; transform: translateY(24px) scale(0.95); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
 .lib-empty {
   display: none;
   padding: 60px 0;
@@ -610,8 +436,7 @@ html {
   display: block;
 }
 
-/* ---------- lightbox ---------- */
-
+/* Lightbox Modal */
 .lib-lightbox {
   position: fixed;
   inset: 0;
@@ -622,7 +447,6 @@ html {
   padding: 24px;
   background: rgba(7, 21, 34, 0.92);
   backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
   opacity: 0;
   visibility: hidden;
   transition: opacity 0.35s ease, visibility 0.35s ease;
@@ -633,23 +457,11 @@ html {
   visibility: visible;
 }
 
-.lib-lightbox-inner {
-  max-width: min(1100px, 100%);
-  text-align: center;
-  transform: scale(0.94) translateY(12px);
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.lib-lightbox.is-open .lib-lightbox-inner {
-  transform: scale(1) translateY(0);
-}
-
 .lib-lightbox-inner img {
   display: block;
   max-width: 100%;
   max-height: 76vh;
   margin: 0 auto;
-  object-fit: contain;
   border-radius: 14px;
   border: 1px solid rgba(210, 180, 135, 0.3);
 }
@@ -658,6 +470,7 @@ html {
   margin-top: 16px;
   font-size: 15px;
   color: var(--lib-brown-light);
+  text-align: center;
 }
 
 .lib-lightbox-close {
@@ -673,87 +486,22 @@ html {
   background: rgba(255, 255, 255, 0.08);
   color: var(--lib-white);
   font-size: 22px;
-  line-height: 1;
   cursor: pointer;
-  transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease;
 }
 
-.lib-lightbox-close:hover {
-  background: var(--lib-brown-light);
-  color: var(--lib-blue);
-  transform: rotate(90deg);
-}
-
-/* ---------- responsive ---------- */
-
-@media (max-width: 1024px) {
-  .lib-card {
-    grid-column: span 3;
-    height: clamp(280px, 40vw, 360px);
-  }
-}
-
-@media (max-width: 640px) {
-  .lib-card {
-    grid-column: span 6;
-    height: 320px;
-  }
-
-  .lib-section {
-    margin-top: 60px;
-    padding-bottom: 80px;
-  }
-
-  .lib-sec-head--row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 14px;
-  }
-
-  .lib-lightbox-close {
-    top: 14px;
-    right: 14px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .js .lib-sec-head,
-  .js .lib-filters,
-  .js .lib-card {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
-  .lib-card.lib-pop {
-    animation: none;
-  }
-}
-
-/* =========================================================
-   FINAL CTA
-   ========================================================= */
-
+/* Final CTA Section */
 .lib-final-cta {
   padding: 120px 0 140px;
   background: var(--lib-blue);
-  border-top: none !important;
   position: relative;
   z-index: 2;
+  overflow: hidden;
 }
 
 .lib-final-inner {
   max-width: 800px;
   margin: 0 auto;
   text-align: center;
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.js .lib-final-inner.is-visible {
-  opacity: 1;
-  transform: translateY(0);
 }
 
 .lib-final-inner h2 {
@@ -772,7 +520,6 @@ html {
   margin: 0 auto 32px;
   color: var(--lib-muted);
   font-size: 15px;
-  max-width: 500px;
 }
 
 .lib-final-button {
@@ -786,202 +533,34 @@ html {
   text-decoration: none;
   font-size: 12px;
   font-weight: 800;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
-.lib-final-button:hover {
-  background: #dfc39a;
-  transform: translateY(-3px);
-  box-shadow: 0 20px 45px rgba(179, 139, 90, 0.25);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .lib-panel,
-  .lib-final-inner {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+/* Responsive */
+@media (max-width: 1024px) {
+  .lib-card {
+    grid-column: span 3;
   }
 }
 
-
-/* CTA — left blue / right brown drifting glow */
-.lib-final-cta {
-  overflow: hidden;
-  isolation: isolate;
-}
-
-.lib-final-cta::before,
-.lib-final-cta::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 520px;
-  height: 520px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: -1;
-  filter: blur(6px);
-}
-
-.lib-final-cta::before {
-  left: -220px;
-  background: radial-gradient(circle, rgba(64, 140, 224, 0.30) 0%, rgba(64, 140, 224, 0.11) 45%, transparent 72%);
-  animation: libGlowLeft 16s ease-in-out infinite alternate;
-}
-
-.lib-final-cta::after {
-  right: -220px;
-  background: radial-gradient(circle, rgba(179, 139, 90, 0.28) 0%, rgba(179, 139, 90, 0.10) 45%, transparent 72%);
-  animation: libGlowRight 16s ease-in-out infinite alternate;
-}
-
-@keyframes libGlowLeft {
-  0%   { transform: translate(0, -50%) scale(1); opacity: 0.85; }
-  100% { transform: translate(28px, -46%) scale(1.08); opacity: 1; }
-}
-
-@keyframes libGlowRight {
-  0%   { transform: translate(0, -50%) scale(1); opacity: 0.85; }
-  100% { transform: translate(-28px, -54%) scale(1.08); opacity: 1; }
-}
-
-
-/* =========================================================
-   RESPONSIVE DESIGN
-   ========================================================= */
-
-@media (max-width: 680px) {
-  .lib-wrap {
-    width: min(100% - 40px, 100%);
-  }
-
-  .lib-intro {
-    padding: 48px 0 40px;
-  }
-
+@media (max-width: 900px) {
   .lib-intro-row {
     flex-direction: column;
     align-items: flex-start;
-    gap: 32px;
-    height: auto;   /* mobile par content ke hisaab se */
+    gap: 28px;
   }
-
-  .lib-intro-media {
-    flex: 0 0 auto;
+  .lib-intro-header {
     width: 100%;
     max-width: 100%;
-    aspect-ratio: 1 / 1; /* mobile par sphere ko height chahiye */
   }
-
-  .lib-intro-header {
-    flex: 0 0 auto;
-    max-width: 100%;
-  }
-
-  .lib-final-cta::before,
-  .lib-final-cta::after {
-    width: 340px;
-    height: 340px;
+  .lib-intro-media {
+    width: 100%;
+    max-width: 640px;
+    margin: 0 auto;
   }
 }
 
-
-/* =========================================================
-   TYPOGRAPHY — poore page ka text: Inter, bold
-   ========================================================= */
-
-.library-page,
-.library-page *,
-.library-page *::before,
-.library-page *::after,
-.lib-lightbox,
-.lib-lightbox * {
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-  font-weight: 700 !important;
-}
-
-
-/* =========================================================
-   HERO — ROTATING SPHERE GALLERY (full sphere, top + bottom poles)
-========================================================= */
-
-.lib-sphere-stage {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  perspective: 700px; /* JS sets the real value (3 x radius) */
-  cursor: grab;
-  touch-action: pan-y; /* vertical swipe still scrolls the page */
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.lib-sphere-stage.is-dragging {
-  cursor: grabbing;
-}
-
-.lib-sphere {
-  position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
-  transform: translateZ(calc(var(--R, 300px) * -1));
-  will-change: transform;
-}
-
-.lib-tile {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: var(--tw, 60px);
-  height: var(--tht, 60px);
-  margin: calc(var(--tht, 60px) / -2) 0 0 calc(var(--tw, 60px) / -2);
-  overflow: hidden;
-  background: linear-gradient(155deg, var(--lib-blue-panel) 0%, var(--lib-blue) 100%);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(var(--R, 300px));
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  animation: libTileIn 0.9s ease both;
-  animation-delay: calc(var(--n, 0) * 7ms + 200ms);
-}
-
-.lib-tile img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  pointer-events: none;
-  transform: scale(1.04);
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* hover: tile thoda bahar aata hai */
-.lib-tile:hover {
-  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(calc(var(--R, 300px) + 22px));
-}
-
-.lib-tile:hover img {
-  transform: scale(1.14);
-}
-
-@keyframes libTileIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .lib-tile {
-    animation: none;
+@media (max-width: 640px) {
+  .lib-card {
+    grid-column: span 6;
   }
-}
-
-/* =========================================================
-   RESPONSIVE FIXES — tablet: stack hero (text above, visual below)
-   ========================================================= */
-@media (max-width: 900px) {
-  .lib-intro-row { flex-direction: column; align-items: flex-start; gap: 28px; height: auto; }
-  .lib-intro-header { flex: 0 0 auto; width: 100%; max-width: 100%; }
-  .lib-h1 { max-width: 100%; overflow-wrap: break-word; }
-  .lib-intro-media { flex: 0 0 auto; width: 100%; max-width: 640px; margin: 0 auto; }
 }

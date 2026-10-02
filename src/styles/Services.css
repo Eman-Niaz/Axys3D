@@ -612,96 +612,165 @@ html {
 
 
 /* =========================================================
-   HERO — ROTATING SPHERE GALLERY (full sphere, top + bottom poles)
-========================================================= */
+   HERO — animated production visual (card ki jagah)
+   ========================================================= */
 
-/* Industries jitna bada sphere: box 780px wide + utna hi lamba (poora sphere top/bottom ke saath) */
+html:has(.page-services) { scroll-behavior: smooth; }
+.svc-panel { scroll-margin-top: var(--svc-top, 96px); }
+
 .svc-intro-media {
   flex: 1 1 0;
   min-width: 0;
-  max-width: 680px;
-  aspect-ratio: 1 / 1;
+  max-width: 600px;
   position: relative;
   margin-bottom: 70px;
 }
 
-.svc-sphere-stage {
+.svc-viz {
   position: relative;
   width: 100%;
-  height: 100%;
-  perspective: 700px; /* JS sets the real value (3 x radius) */
-  cursor: grab;
-  touch-action: pan-y; /* vertical swipe still scrolls the page */
-  user-select: none;
-  -webkit-user-select: none;
+  aspect-ratio: 600 / 560;
+  animation: svcFlowIn 0.8s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
 }
+.svc-viz-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 
-.svc-sphere-stage.is-dragging {
-  cursor: grabbing;
-}
+/* ---- scene (15s loop: 0-33% Build, 33-66% Visualize, 66-100% Experience) ---- */
+.vz-grid path { fill: none; stroke: rgba(210, 180, 135, 0.22); stroke-width: 1; }
+.vz-sun { opacity: 0; animation: vzSun 15s ease-in-out infinite; }
 
-.svc-sphere {
+.vz-wire { fill: none; stroke: var(--svc-brown-light); stroke-width: 1.3; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+.vz-wa { animation: vzDrawA 15s ease-in-out infinite; }
+.vz-wb { animation: vzDrawB 15s ease-in-out infinite; }
+
+.vz-mep { fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; animation: vzMep 15s ease-in-out infinite; }
+.vz-mep-blue { stroke: #5aaeff; }
+.vz-mep-red { stroke: #ff7a6b; }
+.vz-mep-gold { stroke: #f2c14e; }
+
+.vz-occ polygon { fill: #0b1d2c; }
+.vz-fill { opacity: 0; animation: vzFill 15s ease-in-out infinite; }
+.vz-win { opacity: 0; animation: vzWin 15s ease-in-out infinite; }
+.vz-win polygon { fill: #f6dca4; opacity: 0.55; animation: vzTw 3.6s ease-in-out infinite; animation-delay: var(--w, 0s); }
+
+.vz-orbit { opacity: 0; animation: vzOrbit 15s ease-in-out infinite; }
+.vz-orbit-path { fill: none; stroke: var(--svc-brown-light); stroke-width: 1.4; stroke-dasharray: 2 7; stroke-linecap: round; opacity: 0.75; }
+.vz-cam-dot { filter: drop-shadow(0 0 7px rgba(210, 180, 135, 0.95)); }
+
+/* ---- connector lines icon -> building ---- */
+.vz-link { stroke: var(--svc-brown-light); stroke-width: 1.2; stroke-dasharray: 3 6; opacity: 0.1; }
+.vz-l-a { animation: vzFlow 1s linear infinite, vzLinkA 15s ease-in-out infinite; }
+.vz-l-b { animation: vzFlow 1s linear infinite, vzLinkB 15s ease-in-out infinite; }
+.vz-l-c { animation: vzFlow 1s linear infinite, vzLinkC 15s ease-in-out infinite; }
+
+/* ---- service icons ---- */
+.vz-node {
   position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
-  transform: translateZ(calc(var(--R, 300px) * -1));
-  will-change: transform;
+  z-index: 2;
+  width: 48px;
+  height: 48px;
+  transform: translate(-50%, -50%);
+  display: grid;
+  place-items: center;
+  border-radius: 15px;
+  border: 1px solid rgba(210, 180, 135, 0.4);
+  background: rgba(11, 29, 44, 0.9);
+  color: var(--svc-brown-light);
+  text-decoration: none;
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+  transition: transform 0.25s ease;
 }
+.vz-g-a { animation: vzNodeA 15s ease-in-out infinite; }
+.vz-g-b { animation: vzNodeB 15s ease-in-out infinite; }
+.vz-g-c { animation: vzNodeC 15s ease-in-out infinite; }
 
-.svc-tile {
+.vz-node:hover,
+.vz-node:focus-visible {
+  z-index: 5;
+  transform: translate(-50%, -50%) scale(1.12);
+  background: var(--svc-brown-light) !important;
+  color: var(--svc-blue) !important;
+  outline: none;
+}
+.vz-node::after {
+  content: attr(data-label);
   position: absolute;
-  left: 50%;
-  top: 50%;
-  width: var(--tw, 60px);
-  height: var(--tht, 60px);
-  margin: calc(var(--tht, 60px) / -2) 0 0 calc(var(--tw, 60px) / -2);
-  overflow: hidden;
-  background: linear-gradient(155deg, var(--svc-blue-panel) 0%, var(--svc-blue) 100%);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(var(--R, 300px));
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  animation: svcTileIn 0.9s ease both;
-  animation-delay: calc(var(--n, 0) * 7ms + 200ms);
-}
-
-.svc-tile img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
+  padding: 6px 11px;
+  border-radius: 9px;
+  background: var(--svc-brown-light);
+  color: var(--svc-blue);
+  font-size: 12px;
+  font-weight: 600;
+  white-space: nowrap;
+  opacity: 0;
   pointer-events: none;
-  transform: scale(1.04);
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  transition: opacity 0.2s ease;
 }
+.vz-node:hover::after,
+.vz-node:focus-visible::after { opacity: 1; }
+.vz-side-r::after { left: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
+.vz-side-l::after { right: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
+.vz-side-t::after { bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); }
 
-/* hover: tile thoda bahar aata hai */
-.svc-tile:hover {
-  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(calc(var(--R, 300px) + 22px));
-}
+/* ---- stage progress bar ---- */
+.svc-viz-stages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
+.vz-st { display: flex; flex-direction: column; gap: 8px; }
+.vz-st b { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--svc-muted); }
+.vz-st i { display: block; height: 3px; border-radius: 3px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; }
+.vz-st i::after { content: ""; position: absolute; inset: 0; background: var(--svc-brown-light); transform: scaleX(0); transform-origin: left; }
+.vz-st-a i::after { animation: vzBarA 15s linear infinite; }
+.vz-st-b i::after { animation: vzBarB 15s linear infinite; }
+.vz-st-c i::after { animation: vzBarC 15s linear infinite; }
 
-.svc-tile:hover img {
-  transform: scale(1.14);
-}
+/* ---- keyframes ---- */
+@keyframes svcFlowIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+@keyframes vzDrawA { 0% { stroke-dashoffset: 1; opacity: 1; } 18%, 90% { stroke-dashoffset: 0; opacity: 1; } 97% { stroke-dashoffset: 0; opacity: 0; } 100% { stroke-dashoffset: 1; opacity: 0; } }
+@keyframes vzDrawB { 0%, 8% { stroke-dashoffset: 1; opacity: 1; } 28%, 90% { stroke-dashoffset: 0; opacity: 1; } 97% { stroke-dashoffset: 0; opacity: 0; } 100% { stroke-dashoffset: 1; opacity: 0; } }
+@keyframes vzMep { 0%, 14% { stroke-dashoffset: 1; opacity: 0; } 18% { opacity: 1; } 31% { stroke-dashoffset: 0; opacity: 1; } 40% { stroke-dashoffset: 0; opacity: 1; } 48%, 100% { stroke-dashoffset: 0; opacity: 0; } }
+@keyframes vzFill { 0%, 34% { opacity: 0; } 46%, 90% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes vzWin { 0%, 44% { opacity: 0; } 54%, 90% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes vzTw { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+@keyframes vzSun { 0%, 36% { opacity: 0; } 50%, 66% { opacity: 1; } 80%, 90% { opacity: 0.4; } 97%, 100% { opacity: 0; } }
+@keyframes vzOrbit { 0%, 64% { opacity: 0; } 72%, 90% { opacity: 1; } 97%, 100% { opacity: 0; } }
+@keyframes vzFlow { to { stroke-dashoffset: -9; } }
+@keyframes vzLinkA { 0%, 30% { opacity: 0.85; } 36%, 96% { opacity: 0.1; } 100% { opacity: 0.85; } }
+@keyframes vzLinkB { 0%, 30% { opacity: 0.1; } 36%, 63% { opacity: 0.85; } 69%, 100% { opacity: 0.1; } }
+@keyframes vzLinkC { 0%, 63% { opacity: 0.1; } 69%, 96% { opacity: 0.85; } 100% { opacity: 0.1; } }
 
-@keyframes svcTileIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+@keyframes vzNodeA {
+  0%, 30% { background: var(--svc-brown-light); color: var(--svc-blue); box-shadow: 0 0 22px rgba(210, 180, 135, 0.55); }
+  36%, 96% { background: rgba(11, 29, 44, 0.9); color: var(--svc-brown-light); box-shadow: none; }
+  100% { background: var(--svc-brown-light); color: var(--svc-blue); box-shadow: 0 0 22px rgba(210, 180, 135, 0.55); }
 }
+@keyframes vzNodeB {
+  0%, 30% { background: rgba(11, 29, 44, 0.9); color: var(--svc-brown-light); box-shadow: none; }
+  36%, 63% { background: var(--svc-brown-light); color: var(--svc-blue); box-shadow: 0 0 22px rgba(210, 180, 135, 0.55); }
+  69%, 100% { background: rgba(11, 29, 44, 0.9); color: var(--svc-brown-light); box-shadow: none; }
+}
+@keyframes vzNodeC {
+  0%, 63% { background: rgba(11, 29, 44, 0.9); color: var(--svc-brown-light); box-shadow: none; }
+  69%, 96% { background: var(--svc-brown-light); color: var(--svc-blue); box-shadow: 0 0 22px rgba(210, 180, 135, 0.55); }
+  100% { background: rgba(11, 29, 44, 0.9); color: var(--svc-brown-light); box-shadow: none; }
+}
+@keyframes vzBarA { 0% { transform: scaleX(0); } 33%, 96% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+@keyframes vzBarB { 0%, 33% { transform: scaleX(0); } 66%, 96% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
+@keyframes vzBarC { 0%, 66% { transform: scaleX(0); } 98% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
 
 @media (prefers-reduced-motion: reduce) {
-  .svc-tile {
-    animation: none;
-  }
+  html:has(.page-services) { scroll-behavior: auto; }
+  .svc-viz, .vz-sun, .vz-wire, .vz-fill, .vz-win, .vz-win polygon, .vz-orbit, .vz-link, .vz-node, .vz-st i::after { animation: none; }
+  .vz-wire { stroke-dashoffset: 0; opacity: 1; }
+  .vz-fill, .vz-win, .vz-orbit { opacity: 1; }
+  .vz-sun { opacity: 0.6; }
+  .vz-link { opacity: 0.4; }
+  .vz-cam { display: none; }
+  .vz-st i::after { transform: scaleX(1); }
 }
 
 @media (max-width: 680px) {
-  .svc-intro-media {
-    flex: 0 0 auto;
-    width: 100%;
-    max-width: 100%;
-    aspect-ratio: 1 / 1; /* mobile par sphere ko height chahiye */
-  }
+  .vz-node { width: 40px; height: 40px; border-radius: 12px; }
+  .vz-node svg { width: 18px; height: 18px; }
+  .svc-viz-stages { margin-top: 12px; }
 }
 
 /* =========================================================
@@ -713,7 +782,7 @@ html {
 /* laptop / small desktop: keep the two-column hero but let the text column breathe */
 @media (max-width: 1100px) {
   .svc-wrap { width: min(100% - 56px, 1320px); }
-  .svc-kicker { margin-top: 0; }            /* desktop pull-up (-100px) only suits the big sphere layout */
+  .svc-kicker { margin-top: 0; }
   .svc-intro-header { flex: 1 1 46%; max-width: none; min-width: 0; }
   .svc-h1 { font-size: clamp(34px, 5.4vw, 60px); max-width: 100%; }
   .svc-lead { max-width: 100%; }
@@ -727,7 +796,7 @@ html {
   .svc-intro-header { flex: 0 0 auto; width: 100%; max-width: 100%; }
   .svc-h1 { font-size: clamp(34px, 7.6vw, 56px); }
   .svc-lead { font-size: 16px; }
-  .svc-intro-media { flex: 0 0 auto; width: min(100%, 520px); max-width: 520px; margin: 0 auto; }
+  .svc-intro-media { flex: 0 0 auto; width: 100%; max-width: 640px; margin: 0; }
   .svc-final-cta { padding: 90px 0 110px; }
 }
 

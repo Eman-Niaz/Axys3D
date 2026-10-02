@@ -29,11 +29,11 @@
   font-family: 'Inter',
     -apple-system,
     BlinkMacSystemFont,
-    sans-serif !important;;
+    sans-serif !important;
 }
 
 /* =========================================================
-   BACKGROUND IMAGE OVERLAY (restored, as it was before)
+   BACKGROUND OVERLAY
    ========================================================= */
 
 .ind-page-bg {
@@ -50,100 +50,7 @@
   mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
 }
 
-/* =========================================================
-   HERO ROW — text parallel to a content-sized video box
-   ========================================================= */
-
-.ind-intro-row {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: clamp(24px, 3vw, 40px);
-}
-
-.ind-intro-media {
-  flex: 1 1 0;
-  min-width: 0;
-  max-width: 780px;
-  aspect-ratio: 16 / 10;
-  position: relative;
-}
-
-/* =========================================================
-   HERO — ROTATING SPHERE GALLERY
-   ========================================================= */
-
-.ind-sphere-stage {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  perspective: 900px; /* JS sets the real value (3 x radius) */
-  cursor: grab;
-  touch-action: pan-y; /* vertical swipe still scrolls the page */
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.ind-sphere-stage.is-dragging {
-  cursor: grabbing;
-}
-
-.ind-sphere {
-  position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
-  transform: translateZ(calc(var(--R, 300px) * -1));
-  will-change: transform;
-}
-
-.ind-tile {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: var(--tw, 90px);
-  height: var(--tht, 96px);
-  margin: calc(var(--tht, 96px) / -2) 0 0 calc(var(--tw, 90px) / -2);
-  overflow: hidden;
-  background: linear-gradient(155deg, var(--ind-blue-panel) 0%, var(--ind-blue) 100%);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(var(--R, 300px));
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  animation: indTileIn 0.9s ease both;
-  animation-delay: calc(var(--n, 0) * 7ms + 200ms);
-}
-
-.ind-tile img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  pointer-events: none;
-  transform: scale(1.04);
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* hover: tile thoda bahar aata hai */
-.ind-tile:hover {
-  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(calc(var(--R, 300px) + 26px));
-}
-
-.ind-tile:hover img {
-  transform: scale(1.14);
-}
-
-@keyframes indTileIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ind-tile {
-    animation: none;
-  }
-}
-
-/* drifting glow, kept confined to the top-right corner (painted above the video) */
+/* Background Drifting Glows */
 .ind-page-bg::before {
   content: "";
   position: absolute;
@@ -182,17 +89,38 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .ind-page-bg::before,
-  .ind-page-bg::after,
-  .ind-intro::before,
-  .ind-intro::after {
-    animation: none;
-  }
+/* =========================================================
+   HERO ROW & FLOATING VISUAL (NO CARD / NO BORDER)
+   ========================================================= */
+
+.ind-intro-row {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: clamp(24px, 3vw, 40px);
+}
+
+.ind-intro-media {
+  flex: 1 1 0;
+  min-width: 0;
+  max-width: 780px;
+  aspect-ratio: 16 / 10;
+  position: relative;
+  border: none !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.ind-hero-svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+  overflow: visible;
+  filter: drop-shadow(0 12px 35px rgba(0, 0, 0, 0.25));
 }
 
 /* =========================================================
-   GLOBAL WRAPPER
+   GLOBAL WRAPPER & HERO HEADER
    ========================================================= */
 
 .ind-wrap {
@@ -202,17 +130,12 @@
   z-index: 2;
 }
 
-/* =========================================================
-   HERO
-   ========================================================= */
-
 .ind-intro {
   padding: 64px 0 70px;
   position: relative;
   z-index: 2;
 }
 
-/* blue drifting glow — left corner (right wale brown glow ka jorra) */
 .ind-intro::before {
   content: "";
   position: absolute;
@@ -313,14 +236,6 @@
   border: 0;
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .ind-word {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
-}
-
 .ind-lead {
   margin: 0;
   font-size: 16px;
@@ -328,7 +243,6 @@
   color: var(--ind-text);
   max-width: 560px;
 }
-
 
 html {
   scroll-behavior: smooth;
@@ -367,7 +281,7 @@ html {
 }
 
 /* =========================================================
-   TRUSTED ACROSS BORDERS — 4 stat cards
+   TRUSTED ACROSS BORDERS
    ========================================================= */
 
 .ind-trust {
@@ -392,7 +306,6 @@ html {
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s ease, background 0.4s ease;
 }
 
-/* soft brown glow that rises on hover */
 .ind-stat::after {
   content: "";
   position: absolute;
@@ -465,7 +378,6 @@ html {
   color: #e5484d;
 }
 
-/* staggered entrance */
 .js .ind-stat {
   opacity: 0;
   transform: translateY(28px) scale(0.97);
@@ -477,7 +389,6 @@ html {
   transform: translateY(0) scale(1);
 }
 
-/* once visible, hover should respond instantly */
 .js .ind-stat.is-visible:hover {
   transform: translateY(-6px);
   transition-delay: 0ms;
@@ -495,13 +406,13 @@ html {
 }
 
 /* =========================================================
-   INDUSTRIES — 2 x 2 image cards
+   INDUSTRIES (2 x 2 CARDS)
    ========================================================= */
 
 .ind-cards-sec {
   position: relative;
   z-index: 2;
-  padding: 75PX 0 110px;
+  padding: 75px 0 110px;
 }
 
 .ind-cards-grid {
@@ -554,12 +465,10 @@ html {
   position: absolute;
   inset: 0;
   z-index: -2;
-  background:
-    linear-gradient(180deg, rgba(7, 21, 34, 0.25) 0%, rgba(7, 21, 34, 0.55) 45%, rgba(7, 21, 34, 0.92) 100%);
+  background: linear-gradient(180deg, rgba(7, 21, 34, 0.25) 0%, rgba(7, 21, 34, 0.55) 45%, rgba(7, 21, 34, 0.92) 100%);
   transition: opacity 0.5s ease;
 }
 
-/* cursor spotlight */
 .ind-card-shine {
   position: absolute;
   inset: 0;
@@ -655,7 +564,6 @@ html {
   50%      { transform: translateX(4px); }
 }
 
-/* staggered entrance */
 .js .ind-card {
   opacity: 0;
   transform: translateY(40px) scale(0.96);
@@ -673,51 +581,6 @@ html {
   transition-delay: 0ms;
 }
 
-@media (max-width: 1000px) {
-  .ind-stats {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-}
-
-@media (max-width: 760px) {
-  .ind-cards-grid {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .ind-card {
-    min-height: 400px;
-  }
-
-  .ind-trust {
-    padding-bottom: 70px;
-  }
-
-  .ind-cards-sec {
-    padding-bottom: 80px;
-  }
-}
-
-@media (max-width: 480px) {
-  .ind-stats {
-    grid-template-columns: minmax(0, 1fr);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .js .ind-sec-head,
-  .js .ind-stat,
-  .js .ind-stat .ind-stat-plus,
-  .js .ind-card {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-
-  .ind-card:hover .ind-card-arrow svg {
-    animation: none;
-  }
-}
-
 /* =========================================================
    FINAL CTA
    ========================================================= */
@@ -728,6 +591,8 @@ html {
   border-top: none !important;
   position: relative;
   z-index: 2;
+  overflow: hidden;
+  isolation: isolate;
 }
 
 .ind-final-inner {
@@ -783,22 +648,6 @@ html {
   box-shadow: 0 20px 45px rgba(179, 139, 90, 0.25);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .ind-panel,
-  .ind-final-inner {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-}
-
-
-/* CTA — left blue / right brown drifting glow */
-.ind-final-cta {
-  overflow: hidden;
-  isolation: isolate;
-}
-
 .ind-final-cta::before,
 .ind-final-cta::after {
   content: "";
@@ -834,10 +683,40 @@ html {
   100% { transform: translate(-28px, -54%) scale(1.08); opacity: 1; }
 }
 
-
 /* =========================================================
    RESPONSIVE DESIGN
    ========================================================= */
+
+@media (max-width: 1000px) {
+  .ind-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .ind-intro-row { flex-direction: column; align-items: flex-start; gap: 28px; height: auto; }
+  .ind-intro-header { flex: 0 0 auto; width: 100%; max-width: 100%; }
+  .ind-h1 { max-width: 100%; overflow-wrap: break-word; }
+  .ind-intro-media { flex: 0 0 auto; width: 100%; max-width: 640px; margin: 0 auto; }
+}
+
+@media (max-width: 760px) {
+  .ind-cards-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .ind-card {
+    min-height: 400px;
+  }
+
+  .ind-trust {
+    padding-bottom: 70px;
+  }
+
+  .ind-cards-sec {
+    padding-bottom: 80px;
+  }
+}
 
 @media (max-width: 680px) {
   .ind-wrap {
@@ -873,12 +752,25 @@ html {
   }
 }
 
-/* =========================================================
-   RESPONSIVE FIXES — tablet: stack hero (text above, visual below)
-   ========================================================= */
-@media (max-width: 900px) {
-  .ind-intro-row { flex-direction: column; align-items: flex-start; gap: 28px; height: auto; }
-  .ind-intro-header { flex: 0 0 auto; width: 100%; max-width: 100%; }
-  .ind-h1 { max-width: 100%; overflow-wrap: break-word; }
-  .ind-intro-media { flex: 0 0 auto; width: 100%; max-width: 640px; margin: 0 auto; }
+@media (max-width: 480px) {
+  .ind-stats {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .js .ind-sec-head,
+  .js .ind-stat,
+  .js .ind-stat .ind-stat-plus,
+  .js .ind-card,
+  .ind-panel,
+  .ind-final-inner {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+
+  .ind-card:hover .ind-card-arrow svg {
+    animation: none;
+  }
 }

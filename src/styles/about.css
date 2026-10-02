@@ -1,23 +1,23 @@
 /* =========================================================
-   AXYS3D — ABOUT PAGE (SPHERE + PRINCIPLES INCLUDED)
+   AXYS3D — ABOUT PAGE (CENTERED & REALISTIC BUILDING VISUAL)
    ========================================================= */
 
 .about-page {
-  --abt-blue: #091d2f;
+  --abt-blue: #072540;
   --abt-blue-soft: #0b1d2c;
   --abt-blue-panel: #102637;
 
-  --abt-brown: #b38b5a;
-  --abt-brown-light: #d2b487;
+  --abt-gold: #b38b5a;
+  --abt-gold-light: #d2b487;
 
   --abt-white: #ffffff;
   --abt-text: #d8dde0;
   --abt-muted: #8997a1;
 
   color: var(--abt-white);
-  overflow: hidden;
+  overflow-x: clip;
   position: relative;
-  margin-top: 150px;
+  margin-top: 140px;
   z-index: 1;
 }
 
@@ -27,19 +27,15 @@
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
 }
 
-/* Background Overlay */
 .abt-page-bg {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
-  height: min(1300px, 130vh);
+  height: 120vh;
   z-index: 0;
-  overflow: hidden;
   pointer-events: none;
   background: linear-gradient(160deg, var(--abt-blue-panel) 0%, var(--abt-blue-soft) 50%, var(--abt-blue) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
 }
 
 .abt-wrap {
@@ -49,57 +45,125 @@
   z-index: 2;
 }
 
-/* ================= HERO & MEDIA ================= */
+/* ================= HERO & BALANCED LAYOUT ================= */
 
 .abt-intro {
-  padding: 64px 0 70px;
+  padding: 20px 0 60px;
   position: relative;
   z-index: 2;
 }
 
 .abt-intro-row {
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   align-items: center;
-  justify-content: flex-start;
-  gap: clamp(24px, 3vw, 40px);
+  justify-content: center;
+  gap: clamp(20px, 3vw, 40px);
 }
 
 .abt-intro-header {
-  flex: 0 1 520px;
-  max-width: 520px;
-  text-align: left;
+  max-width: 540px;
 }
 
+/* Centered Visual Container */
 .abt-intro-media {
-  flex: 1 1 0;
-  min-width: 0;
-  max-width: 780px;
-  aspect-ratio: 16 / 10;
-  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
-/* Typography */
+.abt-viz {
+  position: relative;
+  width: 100%;
+  max-width: 520px;
+  aspect-ratio: 540 / 520;
+  margin: 0 auto;
+  animation: abtFlowIn 0.8s 0.2s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.abt-viz-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* Glass Façade & Architectural Glow Effects */
+.abt-grid path { 
+  fill: none; 
+  stroke: rgba(210, 180, 135, 0.25); 
+  stroke-width: 1; 
+}
+
+.abt-wire { 
+  fill: none; 
+  stroke: rgba(210, 180, 135, 0.85); 
+  stroke-width: 1.2; 
+  stroke-linejoin: round; 
+}
+
+.abt-mep { 
+  fill: none; 
+  stroke-width: 2.2; 
+  stroke-linecap: round; 
+  stroke-linejoin: round; 
+}
+
+.abt-mep-cyan { stroke: #4fc3f7; }
+.abt-mep-gold { stroke: #ffd54f; }
+
+.abt-fill polygon {
+  transition: opacity 0.4s ease;
+}
+
+.abt-win polygon { 
+  fill: #ffe0b2; 
+  opacity: 0.65; 
+  animation: abtGlassPulse 3.5s ease-in-out infinite alternate; 
+  animation-delay: var(--w, 0s); 
+}
+
+.abt-orbit-path { 
+  fill: none; 
+  stroke: var(--abt-gold-light); 
+  stroke-width: 1.2; 
+  stroke-dasharray: 3 6; 
+  opacity: 0.6; 
+}
+
+.abt-cam-dot { 
+  filter: drop-shadow(0 0 8px rgba(210, 180, 135, 0.9)); 
+}
+
+@keyframes abtGlassPulse { 
+  0% { opacity: 0.35; fill: #ffd54f; } 
+  100% { opacity: 0.85; fill: #ffffff; } 
+}
+
+@keyframes abtFlowIn { 
+  from { opacity: 0; transform: translateY(18px); } 
+  to { opacity: 1; transform: none; } 
+}
+
+/* ================= TYPOGRAPHY & SECTIONS ================= */
+
 .abt-kicker {
   display: block;
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: var(--abt-brown-light);
+  color: var(--abt-gold-light);
   margin-bottom: 20px;
 }
 
 .abt-h1 {
-  max-width: 820px;
   margin: 0 0 20px;
-  font-size: clamp(25px, 6vw, 70px);
+  font-size: clamp(34px, 5.2vw, 70px);
   line-height: 1.1 !important;
   letter-spacing: -0.05em !important;
-  transition: opacity 0.2s ease;
 }
 
-.abt-h1-visual {
-  display: inline;
-}
+.abt-h1-visual { display: inline; }
 
 .abt-word {
   display: inline-block;
@@ -107,26 +171,13 @@
   transform: translateY(16px);
   margin-right: 0.28em;
   animation: abtWordIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-  animation-delay: calc(var(--i) * 0.14s);
+  animation-delay: calc(var(--i) * 0.12s);
 }
 
-.abt-word--muted {
-  color: var(--abt-muted);
-}
+.abt-word--muted { color: var(--abt-muted); }
 
 @keyframes abtWordIn {
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .abt-word {
-    animation: none;
-    opacity: 1;
-    transform: none;
-  }
+  to { opacity: 1; transform: translateY(0); }
 }
 
 .abt-lead {
@@ -134,63 +185,32 @@
   font-size: 16px;
   line-height: 1.7;
   color: var(--abt-text);
-  max-width: 560px;
+  max-width: 520px;
 }
 
-/* ================= WHY SECTION ================= */
-
-/* =========================================================
-   WHY — statement block (2-Column Layout + Animation)
-   ========================================================= */
-
+/* WHY SECTION */
 .abt-why {
   position: relative;
   z-index: 2;
-  padding: 0 0 110px;
-  margin-top: 80px;
+  padding: 0 0 100px;
+  margin-top: 40px;
 }
 
 .abt-why-panel {
-  position: relative;
   display: grid;
-  grid-template-columns: 1fr 1fr; /* Left me heading, right me description */
+  grid-template-columns: 1fr 1fr;
   gap: clamp(32px, 4vw, 60px);
   align-items: center;
   padding: clamp(28px, 4vw, 56px);
   border-radius: 24px;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.025));
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  overflow: hidden;
-  
-  /* Initial state before reveal (Animation properties) */
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
   opacity: 0;
-  transform: translateY(40px); /* 40px neeche se upar aayega */
+  transform: translateY(40px);
   transition: opacity 1s ease-out, transform 1s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-/* This class is added by your JavaScript IntersectionObserver when scrolling */
-.abt-why-panel.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* drifting brown light inside the panel */
-.abt-why-panel::before {
-  content: "";
-  position: absolute;
-  top: -160px;
-  right: -140px;
-  width: 460px;
-  height: 460px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(179, 139, 90, 0.26) 0%, rgba(179, 139, 90, 0.08) 45%, transparent 72%);
-  animation: abtGlowDrift 14s ease-in-out infinite alternate;
-  pointer-events: none;
-}
-
-.abt-why-panel > * {
-  position: relative;
-}
+.abt-why-panel.is-visible { opacity: 1; transform: translateY(0); }
 
 .abt-why-h2 {
   margin: 0;
@@ -198,55 +218,28 @@
   font-weight: 700;
   letter-spacing: -0.04em;
   line-height: 1.2;
-  color: var(--abt-white);
 }
 
-.abt-why-h2 span {
-  color: var(--abt-muted);
-}
+.abt-why-h2 span { color: var(--abt-muted); }
 
 .abt-why-desc {
   margin: 0;
-  max-width: 100%;
   padding-left: 24px;
-  border-left: 1px solid rgba(210, 180, 135, 0.5);
+  border-left: 1px solid var(--abt-gold-light);
   font-size: 15px;
   line-height: 1.75;
   color: var(--abt-text);
 }
 
-/* Mobile responsive fallback */
-@media (max-width: 768px) {
-  .abt-why-panel {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Respect user preferences for reduced motion */
-@media (prefers-reduced-motion: reduce) {
-  .abt-why-panel {
-    transition: none !important;
-    opacity: 1;
-    transform: none;
-  }
-}
-/* ================= PRINCIPLES SECTION ================= */
-
+/* PRINCIPLES SECTION */
 .abt-principles {
-  padding: 80px 0 100px;
+  padding: 60px 0 100px;
   position: relative;
   z-index: 2;
 }
 
 .abt-principles-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
   margin-bottom: 32px;
-}
-
-.abt-principles-header-left {
-  max-width: 700px;
 }
 
 .abt-principles-h2 {
@@ -254,24 +247,9 @@
   font-size: clamp(26px, 3.4vw, 44px);
   font-weight: 700;
   letter-spacing: -0.045em;
-  line-height: 1.2;
-  color: var(--abt-white);
 }
 
-.abt-principles-h2 span {
-  color: var(--abt-muted);
-}
-
-.js .abt-principles-header {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.js .abt-principles-header.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
+.abt-principles-h2 span { color: var(--abt-muted); }
 
 .abt-principles-grid {
   display: grid;
@@ -279,527 +257,86 @@
   gap: 24px;
 }
 
-/* ---------- Principle cards: glass + outline number + gold line ---------- */
-
 .abt-principle-card {
-  --mx: 50%;
-  --my: 50%;
   position: relative;
   display: flex;
   flex-direction: column;
-  padding: clamp(7px, 2.2vw, 30px);
+  padding: clamp(20px, 2.2vw, 30px);
   border-radius: 20px;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  overflow: hidden;
-  isolation: isolate;
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s ease, box-shadow 0.5s ease;
-}
-
-/* light: follows the cursor if the small script is added, otherwise glows from the centre */
-.abt-principle-card::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: radial-gradient(340px circle at var(--mx) var(--my), rgba(210, 180, 135, 0.2), transparent 60%);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
-}
-
-/* gold line that grows along the bottom on hover */
-.abt-principle-card::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, var(--abt-brown), var(--abt-brown-light), transparent);
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  background: linear-gradient(160deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  transition: transform 0.5s ease, border-color 0.4s ease;
 }
 
 .abt-principle-card:hover {
   transform: translateY(-8px);
-  border-color: rgba(210, 180, 135, 0.45);
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
-}
-
-.abt-principle-card:hover::before {
-  opacity: 1;
-}
-
-.abt-principle-card:hover::after {
-  transform: scaleX(1);
+  border-color: var(--abt-gold-light);
 }
 
 .abt-card-num {
-  display: block;
-  margin-bottom: 22px;
-  font-size: clamp(34px, 3.2vw, 50px);
+  font-size: clamp(34px, 3.2vw, 48px);
   font-weight: 700;
-  letter-spacing: -0.04em;
-  line-height: 1;
   color: transparent;
-  -webkit-text-stroke: 1px rgba(210, 180, 135, 0.55);
-  transform-origin: left center;
-  transition: color 0.5s ease, transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-}
-
-.abt-principle-card:hover .abt-card-num {
-  color: var(--abt-brown-light);
-  transform: scale(1.08);
+  -webkit-text-stroke: 1px var(--abt-gold-light);
+  margin-bottom: 20px;
 }
 
 .abt-card-title {
   font-size: clamp(18px, 1.6vw, 21px);
   font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: 1.2;
   margin: 0 0 10px;
-  color: var(--abt-white);
-  transition: color 0.35s ease;
-}
-
-.abt-principle-card:hover .abt-card-title {
-  color: var(--abt-brown-light);
 }
 
 .abt-card-desc {
   font-size: 14px;
   line-height: 1.65;
   color: var(--abt-text);
-  opacity: 0.85;
   margin: 0;
 }
 
-/* staggered entrance — works when the card has data-reveal (no effect otherwise) */
-.abt-principle-card:nth-child(4n + 1) { --d: 0ms; }
-.abt-principle-card:nth-child(4n + 2) { --d: 120ms; }
-.abt-principle-card:nth-child(4n + 3) { --d: 240ms; }
-.abt-principle-card:nth-child(4n + 4) { --d: 360ms; }
-
-.js .abt-principle-card[data-reveal] {
-  opacity: 0;
-  transform: translateY(36px) scale(0.97);
-  transition:
-    opacity 0.8s ease var(--d, 0ms),
-    transform 0.9s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0ms),
-    border-color 0.4s ease,
-    box-shadow 0.5s ease;
-}
-
-.js .abt-principle-card[data-reveal].is-visible {
-  opacity: 1;
-  transform: translateY(0) scale(1);
-}
-
-.js .abt-principle-card[data-reveal].is-visible:hover {
-  transform: translateY(-8px);
-  transition-delay: 0ms;
-}
-
-/* keyframes used by the Why panel glow */
-@keyframes abtGlowDrift {
-  0%   { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(-50px, 40px) scale(1.12); }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .js .abt-principle-card[data-reveal] {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-}
-
-/* ================= FINAL CTA ================= */
-
+/* FINAL CTA */
 .abt-final-cta {
-  padding: 120px 0 140px;
-  background: var(--abt-blue);
-  border-top: none !important;
-  position: relative;
-  z-index: 2;
-  overflow: hidden;
-  isolation: isolate;
-}
-
-.abt-final-inner {
-  max-width: 800px;
-  margin: 0 auto;
+  padding: 100px 0 140px;
   text-align: center;
 }
 
-.js .abt-final-inner {
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.js .abt-final-inner.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
 .abt-final-inner h2 {
+  font-size: clamp(36px, 5.5vw, 64px);
   margin: 0 0 20px;
-  font-size: clamp(38px, 5.5vw, 68px);
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 1.18;
 }
 
-.abt-final-inner h2 span {
-  color: var(--abt-muted);
-}
-
-.abt-final-inner p {
-  margin: 0 auto 32px;
-  color: var(--abt-muted);
-  font-size: 15px;
-  max-width: 500px;
-}
+.abt-final-inner h2 span { color: var(--abt-muted); }
 
 .abt-final-button {
   display: inline-flex;
   align-items: center;
-  gap: 20px;
-  padding: 16px 28px;
+  gap: 16px;
+  padding: 16px 30px;
   border-radius: 999px;
   color: var(--abt-blue);
-  background: var(--abt-brown-light);
+  background: var(--abt-gold-light);
   text-decoration: none;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
-  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+  transition: transform 0.3s ease;
 }
 
 .abt-final-button:hover {
-  background: #dfc39a;
-  transform: translateY(-3px);
-  box-shadow: 0 20px 45px rgba(179, 139, 90, 0.25);
+  transform: scale(1.05);
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .js .abt-final-inner,
-  .js .abt-principles-header {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
-  }
-}
-
-/* Scroll reveal animations */
-.js [data-reveal] {
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.8s ease, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.js [data-reveal].is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ================= RESPONSIVE ================= */
-
+/* RESPONSIVE MEDIA QUERIES */
 @media (max-width: 1024px) {
-  .abt-principles-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-
-  .abt-principle-card:nth-child(n) { --d: 0ms; }
-  .abt-principle-card:nth-child(2n) { --d: 120ms; }
-
-  /* odd count: last card stretches so there is no empty slot */
-  .abt-principle-card:last-child:nth-child(odd) {
-    grid-column: 1 / -1;
-  }
+  .abt-principles-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
 @media (max-width: 900px) {
-  .abt-why-panel {
-    grid-template-columns: 1fr;
-    gap: 24px;
-    padding: 32px;
-  }
+  .abt-intro-row { grid-template-columns: 1fr; gap: 40px; }
+  .abt-intro-header { max-width: 100%; text-align: center; }
+  .abt-lead { margin: 0 auto; }
+  .abt-why-panel { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 680px) {
-  .abt-wrap {
-    width: min(100% - 40px, 100%);
-  }
-
-  .abt-intro-row {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 32px;
-  }
-
-  .abt-intro-media {
-    width: 100%;
-    max-width: 100%;
-  }
-
-  .abt-intro-header {
-    max-width: 100%;
-  }
-
-  .abt-principles-grid {
-    grid-template-columns: 1fr;
-  }
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-/* =========================================================
-   HERO GLOWS — same as Industries
-   right: brown (on the page background) / left: blue (on the hero)
-   ========================================================= */
-
-.abt-page-bg::before {
-  content: "";
-  position: absolute;
-  top: -180px;
-  right: -180px;
-  width: 620px;
-  height: 620px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(179, 139, 90, 0.28) 0%, rgba(179, 139, 90, 0.1) 45%, transparent 72%);
-  filter: blur(6px);
-  animation: abtGlowDriftRight 16s ease-in-out infinite alternate;
-  z-index: 1;
-}
-
-.abt-page-bg::after {
-  content: "";
-  position: absolute;
-  top: 120px;
-  right: 60px;
-  width: 380px;
-  height: 380px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(16, 38, 55, 0.55) 0%, rgba(16, 38, 55, 0.2) 50%, transparent 75%);
-  animation: abtGlowDriftRight 16s ease-in-out infinite alternate-reverse;
-  z-index: 1;
-}
-
-.abt-intro::before {
-  content: "";
-  position: absolute;
-  top: 24px;
-  left: -200px;
-  width: 620px;
-  height: 620px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(64, 140, 224, 0.30) 0%, rgba(64, 140, 224, 0.11) 45%, transparent 72%);
-  filter: blur(6px);
-  animation: abtGlowDriftLeft 16s ease-in-out infinite alternate;
-  z-index: -1;
-  pointer-events: none;
-}
-
-.abt-intro::after {
-  content: "";
-  position: absolute;
-  top: 180px;
-  left: 40px;
-  width: 380px;
-  height: 380px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(30, 90, 170, 0.40) 0%, rgba(30, 90, 170, 0.14) 50%, transparent 75%);
-  animation: abtGlowDriftLeft 16s ease-in-out infinite alternate-reverse;
-  z-index: -1;
-  pointer-events: none;
-}
-
-@keyframes abtGlowDriftRight {
-  0%   { transform: translate(0, 0) scale(1); opacity: 0.85; }
-  100% { transform: translate(-26px, 24px) scale(1.08); opacity: 1; }
-}
-
-@keyframes abtGlowDriftLeft {
-  0%   { transform: translate(0, 0) scale(1); opacity: 0.85; }
-  100% { transform: translate(26px, 24px) scale(1.08); opacity: 1; }
-}
-
-/* =========================================================
-   CTA GLOWS — left blue / right brown (same as Industries)
-   ========================================================= */
-
-.abt-final-cta::before,
-.abt-final-cta::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  width: 520px;
-  height: 520px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: -1;
-  filter: blur(6px);
-}
-
-.abt-final-cta::before {
-  left: -220px;
-  background: radial-gradient(circle, rgba(64, 140, 224, 0.30) 0%, rgba(64, 140, 224, 0.11) 45%, transparent 72%);
-  animation: abtGlowLeft 16s ease-in-out infinite alternate;
-}
-
-.abt-final-cta::after {
-  right: -220px;
-  background: radial-gradient(circle, rgba(179, 139, 90, 0.28) 0%, rgba(179, 139, 90, 0.10) 45%, transparent 72%);
-  animation: abtGlowRight 16s ease-in-out infinite alternate;
-}
-
-@keyframes abtGlowLeft {
-  0%   { transform: translate(0, -50%) scale(1); opacity: 0.85; }
-  100% { transform: translate(28px, -46%) scale(1.08); opacity: 1; }
-}
-
-@keyframes abtGlowRight {
-  0%   { transform: translate(0, -50%) scale(1); opacity: 0.85; }
-  100% { transform: translate(-28px, -54%) scale(1.08); opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .abt-page-bg::before,
-  .abt-page-bg::after,
-  .abt-intro::before,
-  .abt-intro::after,
-  .abt-final-cta::before,
-  .abt-final-cta::after {
-    animation: none;
-  }
-}
-
-/* =========================================================
-   HERO — ROTATING SPHERE GALLERY (same as Industries)
-   JS sets: --R, --tw, --tht and the perspective
-   ========================================================= */
-
-.ind-sphere-stage {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  perspective: 900px; /* JS sets the real value (3 x radius) */
-  cursor: grab;
-  touch-action: pan-y; /* vertical swipe still scrolls the page */
-  user-select: none;
-  -webkit-user-select: none;
-}
-
-.ind-sphere-stage.is-dragging {
-  cursor: grabbing;
-}
-
-.ind-sphere {
-  position: absolute;
-  inset: 0;
-  transform-style: preserve-3d;
-  transform: translateZ(calc(var(--R, 300px) * -1));
-  will-change: transform;
-}
-
-.ind-tile {
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: var(--tw, 90px);
-  height: var(--tht, 96px);
-  margin: calc(var(--tht, 96px) / -2) 0 0 calc(var(--tw, 90px) / -2);
-  overflow: hidden;
-  background: linear-gradient(155deg, var(--abt-blue-panel) 0%, var(--abt-blue) 100%);
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(var(--R, 300px));
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  animation: indTileIn 0.9s ease both;
-  animation-delay: calc(var(--n, 0) * 7ms + 200ms);
-}
-
-.ind-tile img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  pointer-events: none;
-  transform: scale(1.04);
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-/* hover: tile thoda bahar aata hai */
-.ind-tile:hover {
-  transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(calc(var(--R, 300px) + 26px));
-}
-
-.ind-tile:hover img {
-  transform: scale(1.14);
-}
-
-@keyframes indTileIn {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ind-tile {
-    animation: none;
-  }
-}
-
-/* screen-reader only text (hero heading) */
-.sr-only {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border: 0;
-}
-
-/* ---------- small screens (same as Industries) ---------- */
-
-@media (max-width: 680px) {
-  .abt-intro {
-    padding: 48px 0 40px;
-  }
-
-  .abt-intro-row {
-    gap: 32px;
-  }
-
-  .abt-intro-media {
-    flex: 0 0 auto;
-    aspect-ratio: 16 / 10;
-  }
-
-  .abt-intro-header {
-    flex: 0 0 auto;
-  }
-
-  .abt-final-cta::before,
-  .abt-final-cta::after {
-    width: 340px;
-    height: 340px;
-  }
-}
-
-/* =========================================================
-   RESPONSIVE FIXES — tablet: stack hero (text above, visual below)
-   ========================================================= */
-@media (max-width: 900px) {
-  .abt-intro-row { flex-direction: column; align-items: flex-start; gap: 28px; height: auto; }
-  .abt-intro-header { flex: 0 0 auto; width: 100%; max-width: 100%; }
-  .abt-h1 { max-width: 100%; overflow-wrap: break-word; }
-  .abt-intro-media { flex: 0 0 auto; width: 100%; max-width: 640px; margin: 0 auto; }
+  .abt-principles-grid { grid-template-columns: 1fr; }
 }

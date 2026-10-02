@@ -15,45 +15,6 @@ if (!pageData) {
   throw new Error("Could not find index.md in src/content/aboutPage/");
 }
 
-/* 3D Sphere Gallery Images */
-const sphereImages = [
-  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=320&q=70",
-  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=320&q=70",
-  "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=320&q=70",
-  "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=320&q=70",
-  "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=320&q=70",
-  "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=320&q=70",
-  "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=320&q=70",
-  "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=320&q=70",
-];
-
-const SPHERE_COLS = 30;
-const SPHERE_ROWS = 5;
-const SPHERE_ROW_STEP = 12;
-
-const blobShapes = [
-  "52% 48% 55% 45% / 48% 54% 46% 52%",
-  "46% 54% 48% 52% / 55% 45% 55% 45%",
-  "58% 42% 50% 50% / 46% 52% 48% 54%",
-  "50% 50% 44% 56% / 54% 46% 54% 46%",
-  "44% 56% 52% 48% / 50% 58% 42% 50%",
-  "55% 45% 47% 53% / 44% 50% 50% 56%",
-];
-
-const sphereTiles: { yaw: number; pitch: number; src: string; shape: string; n: number }[] = [];
-for (let c = 0; c < SPHERE_COLS; c++) {
-  for (let r = 0; r < SPHERE_ROWS; r++) {
-    const stagger = c % 2 ? 0.25 : -0.25;
-    sphereTiles.push({
-      yaw: c * (360 / SPHERE_COLS),
-      pitch: (r - (SPHERE_ROWS - 1) / 2 + stagger) * SPHERE_ROW_STEP,
-      src: sphereImages[(c * 3 + r * 2) % sphereImages.length],
-      shape: blobShapes[(c * 5 + r * 7) % blobShapes.length],
-      n: c * SPHERE_ROWS + r,
-    });
-  }
-}
-
 /* Hero title formatting */
 const heroWords = pageData.heroTitle.trim().split(/\s+/);
 const mutedFrom = Math.ceil(heroWords.length / 2);
@@ -66,6 +27,80 @@ const splitHalf = (text: string = "") => {
 
 const [whyA, whyB] = splitHalf(pageData.whySubtitle);
 const [delA, delB] = splitHalf(pageData.deliveryTitle);
+
+/* Refined Centered Isometric Architectural Building Model */
+type P = [number, number];
+const U: P = [28, -16];
+const V: P = [-28, -16];
+const add = (a: P, d: P, k = 1): P => [a[0] + d[0] * k, a[1] + d[1] * k];
+const up = (p: P, h: number): P => [p[0], p[1] - h];
+const pts = (a: P[]) => a.map((p) => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ");
+
+function makeDetailedTower(F: P, dx: number, dy: number, H: number, rows: number, colsR: number, colsL: number) {
+  const R = add(F, U, dx);
+  const L = add(F, V, dy);
+  const B = add(R, V, dy);
+  
+  const at = (side: "l" | "r", s: number, hf: number): P =>
+    side === "r" ? up(add(F, U, s * dx), H * hf) : up(add(F, V, s * dy), H * hf);
+
+  const glassPanels: string[] = [];
+  const addPanels = (side: "l" | "r", cols: number) => {
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        const s0 = (c + 0.12) / cols, s1 = (c + 0.88) / cols;
+        const h0 = (r + 0.18) / rows, h1 = (r + 0.82) / rows;
+        glassPanels.push(pts([at(side, s0, h0), at(side, s1, h0), at(side, s1, h1), at(side, s0, h1)]));
+      }
+    }
+  };
+  addPanels("r", colsR);
+  addPanels("l", colsL);
+
+  const floorLines: string[] = [];
+  for (let r = 1; r < rows; r++) {
+    floorLines.push(pts([up(L, (H * r) / rows), up(F, (H * r) / rows), up(R, (H * r) / rows)]));
+  }
+
+  // Spire / Crown Top Accent
+  const crownF = up(F, H);
+  const crownR = up(R, H);
+  const crownL = up(L, H);
+  const crownB = up(B, H);
+  const spireTip = up(add(crownF, [0, -25]), 40);
+
+  return {
+    right: pts([F, R, up(R, H), up(F, H)]),
+    left: pts([F, L, up(L, H), up(F, H)]),
+    top: pts([up(F, H), up(R, H), up(B, H), up(L, H)]),
+    crown: pts([crownF, crownR, crownB, crownL]),
+    spire: pts([add(crownF, [0, -10]), spireTip]),
+    floorLines,
+    glassPanels,
+    at,
+  };
+}
+
+// Center Offset Adjusted Visual Geometry (Base center around ~260, 390)
+const mainTower = makeDetailedTower([250, 390], 3.5, 3.5, 250, 11, 4, 4);
+const podiumWing = makeDetailedTower([340, 415], 3.0, 2.2, 110, 4, 3, 2);
+
+const pipePaths = [
+  { c: "cyan", d: pts([mainTower.at("l", 1, 0.2), mainTower.at("l", 0, 0.2), mainTower.at("r", 0.8, 0.2)]) },
+  { c: "gold", d: pts([mainTower.at("r", 0.2, 0), mainTower.at("r", 0.2, 1)]) },
+  { c: "gold", d: pts([mainTower.at("r", 0.2, 0.5), mainTower.at("r", 0.95, 0.5)]) },
+  { c: "cyan", d: pts([podiumWing.at("l", 1, 0.35), podiumWing.at("l", 0, 0.35), podiumWing.at("r", 0.85, 0.35)]) },
+];
+
+const gridLines: string[] = [];
+{
+  const O: P = [250, 480], N = 11;
+  for (let i = 0; i <= N; i++) {
+    const a1 = add(O, V, i), a2 = add(a1, U, N);
+    const b1 = add(O, U, i), b2 = add(b1, V, N);
+    gridLines.push(`M${a1[0]},${a1[1]}L${a2[0]},${a2[1]}`, `M${b1[0]},${b1[1]}L${b2[0]},${b2[1]}`);
+  }
+}
 ---
 
 <!doctype html>
@@ -74,10 +109,10 @@ const [delA, delB] = splitHalf(pageData.deliveryTitle);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={pageData.heroDescription} />
-    <title>About Us</title>
+    <title>About Us — AXYS3D</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <script is:inline>
       document.documentElement.classList.add("js");
     </script>
@@ -96,7 +131,7 @@ const [delA, delB] = splitHalf(pageData.deliveryTitle);
             <div class="abt-intro-header">
               <span class="abt-kicker">{pageData.heroEyebrow}</span>
               <h1 class="abt-h1">
-                <span class="abt-h1-visual" aria-hidden="true">
+                <span class="abt-h1-visual">
                   {heroWords.map((w, i) => (
                     <Fragment>
                       <span
@@ -107,35 +142,102 @@ const [delA, delB] = splitHalf(pageData.deliveryTitle);
                     </Fragment>
                   ))}
                 </span>
-                <span class="sr-only">{pageData.heroTitle}</span>
               </h1>
               <p class="abt-lead">{pageData.heroDescription}</p>
             </div>
 
-            <!-- Interactive 3D sphere (video ki jagah) -->
+            <!-- Centered & Realistic Architectural Glass Skyscraper Visual -->
             <div class="abt-intro-media">
-              <div
-                class="ind-sphere-stage"
-                data-sphere
-                role="img"
-                aria-label="Interactive rotating gallery"
-              >
-                <div class="ind-sphere">
-                  {sphereTiles.map((t) => (
-                    <span
-                      class="ind-tile"
-                      style={`--yaw:${t.yaw}deg;--pitch:${t.pitch}deg;--n:${t.n};border-radius:${t.shape}`}
-                    >
-                      <img
-                        src={t.src}
-                        alt=""
-                        loading="eager"
-                        decoding="async"
-                        draggable="false"
-                      />
-                    </span>
-                  ))}
-                </div>
+              <div class="abt-viz">
+                <svg class="abt-viz-svg" viewBox="0 0 540 520" aria-hidden="true" focusable="false">
+                  <defs>
+                    <!-- Realistic Glass Façade Gradients -->
+                    <linearGradient id="glassRight" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#3b729f" stop-opacity="0.9" />
+                      <stop offset="50%" stop-color="#1e486b" stop-opacity="0.95" />
+                      <stop offset="100%" stop-color="#0f2940" stop-opacity="1" />
+                    </linearGradient>
+
+                    <linearGradient id="glassLeft" x1="1" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#1d4d75" stop-opacity="0.9" />
+                      <stop offset="50%" stop-color="#10324f" stop-opacity="0.95" />
+                      <stop offset="100%" stop-color="#071b2d" stop-opacity="1" />
+                    </linearGradient>
+
+                    <linearGradient id="glassRoof" x1="0" y1="0" x2="1" y2="1">
+                      <stop offset="0%" stop-color="#e2c89d" />
+                      <stop offset="100%" stop-color="#8c6d46" />
+                    </linearGradient>
+
+                    <radialGradient id="buildingGlow" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stop-color="#4a90e2" stop-opacity="0.25" />
+                      <stop offset="100%" stop-color="#4a90e2" stop-opacity="0" />
+                    </radialGradient>
+
+                    <radialGradient id="gridFade">
+                      <stop offset="0.3" stop-color="#fff" />
+                      <stop offset="1" stop-color="#000" />
+                    </radialGradient>
+                    <mask id="gridMask"><rect width="540" height="520" fill="url(#gridFade)" /></mask>
+                  </defs>
+
+                  <!-- Ambient Architectural Glow -->
+                  <circle cx="270" cy="270" r="210" fill="url(#buildingGlow)" />
+
+                  <!-- Structural Grid Ground -->
+                  <g class="abt-grid" mask="url(#gridMask)">{gridLines.map((d) => <path d={d} />)}</g>
+
+                  <!-- Main Tower Base Volume -->
+                  <g class="abt-fill">
+                    <polygon points={mainTower.left} fill="url(#glassLeft)" />
+                    <polygon points={mainTower.right} fill="url(#glassRight)" />
+                    <polygon points={mainTower.top} fill="url(#glassRoof)" />
+                  </g>
+
+                  <!-- Wireframe Structural Lines -->
+                  <g class="abt-wires">
+                    <polygon class="abt-wire abt-wa" pathLength="1" points={mainTower.left} />
+                    <polygon class="abt-wire abt-wa" pathLength="1" points={mainTower.right} />
+                    <polygon class="abt-wire abt-wa" pathLength="1" points={mainTower.top} />
+                    {mainTower.floorLines.map((f) => <polyline class="abt-wire abt-wb" pathLength="1" points={f} />)}
+                  </g>
+
+                  <!-- Realistic Glass Window Panels with Subtle Glow -->
+                  <g class="abt-win">
+                    {mainTower.glassPanels.map((w, i) => <polygon points={w} style={`--w:${((i * 19) % 11) / 4}s`} />)}
+                  </g>
+
+                  <!-- Building MEP & Structural Details -->
+                  <g class="abt-mepg">
+                    {pipePaths.slice(0, 3).map((m) => <polyline class={`abt-mep abt-mep-${m.c}`} pathLength="1" points={m.d} />)}
+                  </g>
+
+                  <!-- Podium Wing Volume -->
+                  <g class="abt-fill">
+                    <polygon points={podiumWing.left} fill="url(#glassLeft)" />
+                    <polygon points={podiumWing.right} fill="url(#glassRight)" />
+                    <polygon points={podiumWing.top} fill="url(#glassRoof)" />
+                  </g>
+                  <g class="abt-wires">
+                    <polygon class="abt-wire abt-wa" pathLength="1" points={podiumWing.left} />
+                    <polygon class="abt-wire abt-wa" pathLength="1" points={podiumWing.right} />
+                    <polygon class="abt-wire abt-wa" pathLength="1" points={podiumWing.top} />
+                    {podiumWing.floorLines.map((f) => <polyline class="abt-wire abt-wb" pathLength="1" points={f} />)}
+                  </g>
+                  <g class="abt-win">
+                    {podiumWing.glassPanels.map((w, i) => <polygon points={w} style={`--w:${((i * 13) % 7) / 3}s`} />)}
+                  </g>
+
+                  <!-- Animated Drone / Camera Orbit Ring -->
+                  <g class="abt-orbit">
+                    <path class="abt-orbit-path" d="M60,350 A210,110 0 0 1 480,350 A210,110 0 0 1 60,350" />
+                  </g>
+                  <g class="abt-orbit abt-cam">
+                    <circle r="6" fill="#d2b487" class="abt-cam-dot">
+                      <animateMotion dur="8s" repeatCount="indefinite" path="M60,350 A210,110 0 0 1 480,350 A210,110 0 0 1 60,350" />
+                    </circle>
+                  </g>
+                </svg>
               </div>
             </div>
           </div>
@@ -198,7 +300,7 @@ const [delA, delB] = splitHalf(pageData.deliveryTitle);
     <Footer />
 
     <script is:inline>
-      // Reveal on scroll
+      // Scroll Reveal Observer
       const revealObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -211,110 +313,6 @@ const [delA, delB] = splitHalf(pageData.deliveryTitle);
         { threshold: 0.12 }
       );
       document.querySelectorAll("[data-reveal]").forEach((el) => revealObserver.observe(el));
-
-      // Principle cards: light follows the cursor
-      document.querySelectorAll(".abt-principle-card").forEach((card) => {
-        card.addEventListener("pointermove", (e) => {
-          const r = card.getBoundingClientRect();
-          card.style.setProperty("--mx", `${e.clientX - r.left}px`);
-          card.style.setProperty("--my", `${e.clientY - r.top}px`);
-        });
-      });
-
-      /* ===== Sphere gallery animation & controls ===== */
-      (() => {
-        const stage = document.querySelector("[data-sphere]");
-        if (!stage) return;
-        const sphere = stage.querySelector(".ind-sphere");
-        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-
-        let R = 300;
-        const layout = () => {
-          const W = stage.clientWidth;
-          const H = stage.clientHeight;
-          if (!W || !H) return;
-          R = Math.min(W * 0.52, H * 0.9);
-          stage.style.perspective = `${R * 3}px`;
-          stage.style.setProperty("--R", `${R}px`);
-          stage.style.setProperty("--tw", `${R * 0.15}px`);
-          stage.style.setProperty("--tht", `${R * 0.16}px`);
-        };
-        layout();
-        new ResizeObserver(layout).observe(stage);
-
-        const BASE_PITCH = -6;
-        const AUTO_SPEED = reduce ? 0 : 0.07;
-        let yaw = 0, pitch = BASE_PITCH, vYaw = 0, vPitch = 0;
-        let dragging = false, inside = false;
-        let lastX = 0, lastY = 0, hoverX = 0, hoverY = 0;
-        let running = true, last = performance.now();
-        const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-
-        const render = () => {
-          sphere.style.transform = `translateZ(${-R}px) rotateX(${pitch}deg) rotateY(${yaw}deg)`;
-        };
-
-        const frame = (now) => {
-          const dt = Math.min((now - last) / 16.667, 3);
-          last = now;
-          if (running && !dragging) {
-            const hoverSpin = inside && !reduce ? hoverX * 0.16 : 0;
-            yaw = (yaw + (vYaw + AUTO_SPEED + hoverSpin) * dt) % 360;
-            pitch += vPitch * dt;
-            const target = BASE_PITCH + (inside && !reduce ? hoverY * 8 : 0);
-            pitch += (target - pitch) * 0.035 * dt;
-            pitch = clamp(pitch, -40, 40);
-            const decay = Math.pow(0.95, dt);
-            vYaw *= decay;
-            vPitch *= decay;
-          }
-          if (running) render();
-          requestAnimationFrame(frame);
-        };
-
-        stage.addEventListener("pointerdown", (e) => {
-          dragging = true;
-          lastX = e.clientX;
-          lastY = e.clientY;
-          vYaw = 0;
-          vPitch = 0;
-          stage.classList.add("is-dragging");
-          stage.setPointerCapture(e.pointerId);
-        });
-
-        stage.addEventListener("pointermove", (e) => {
-          const r = stage.getBoundingClientRect();
-          hoverX = ((e.clientX - r.left) / r.width - 0.5) * 2;
-          // FIX: pehle `e.clientY - r.height` tha (galat) — ab `r.top`
-          hoverY = ((e.clientY - r.top) / r.height - 0.5) * 2;
-          inside = true;
-          if (!dragging) return;
-          const dx = e.clientX - lastX;
-          const dy = e.clientY - lastY;
-          lastX = e.clientX;
-          lastY = e.clientY;
-          yaw += dx * 0.3;
-          pitch = clamp(pitch - dy * 0.2, -40, 40);
-          vYaw = clamp(dx * 0.3, -8, 8);
-          vPitch = clamp(-dy * 0.2, -5, 5);
-        });
-
-        const endDrag = () => {
-          dragging = false;
-          stage.classList.remove("is-dragging");
-        };
-        stage.addEventListener("pointerup", endDrag);
-        stage.addEventListener("pointercancel", endDrag);
-        stage.addEventListener("pointerleave", () => { inside = false; });
-
-        new IntersectionObserver(([entry]) => {
-          running = entry.isIntersecting;
-          last = performance.now();
-        }).observe(stage);
-
-        render();
-        requestAnimationFrame(frame);
-      })();
     </script>
   </body>
 </html>
