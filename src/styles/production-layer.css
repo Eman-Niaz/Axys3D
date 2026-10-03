@@ -588,3 +588,23 @@
     opacity: 1;
   }
 }
+
+/* =========================================================
+   SIMPLE CARD — sirf service heading + chhota button
+========================================================= */
+
+.px-card-content { gap: 14px; }
+
+.px-card-desc {
+  font-size: 19px;
+  line-height: 1.25;
+}
+
+.px-scope-btn {
+  width: auto;
+  align-self: flex-start;
+  height: 32px;
+  padding: 0 16px;
+  font-size: 11px;
+  gap: 6px;
+}

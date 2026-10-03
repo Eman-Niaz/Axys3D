@@ -205,6 +205,8 @@
 .cs-panel-media {
   position: absolute;
   inset: 0;
+  /* video / poster load hone se pehle kala nahi, navy gradient dikhe */
+  background: linear-gradient(160deg, #123453 0%, #0a2038 55%, #07182a 100%);
 }
 /* Video: pehle se bohot kam blur taaki peechhe ki image/video dikhe */
 .cs-panel-media video {

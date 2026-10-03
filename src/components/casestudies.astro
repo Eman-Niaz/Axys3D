@@ -8,6 +8,7 @@ const caseStudies = [
     tagline: "FEDERATED WORKFLOW",
     title: "Federated Delivery Study",
     video: "/videos/interior-1.mp4",
+    poster: "/images/case-studies/interior-1.jpg",
     href: "/work/aec-study-01/",
     cards: [
       {
@@ -33,6 +34,7 @@ const caseStudies = [
     tagline: "CAMPUS INTEGRATION",
     title: "Real-Time Campus Study",
     video: "/videos/landscape.mp4",
+    poster: "/images/case-studies/landscape.jpg",
     href: "/work/aec-study-02/",
     cards: [
       {
@@ -58,6 +60,7 @@ const caseStudies = [
     tagline: "PRODUCTION PACKAGE",
     title: "Production Package Study",
     video: "/videos/exterior-1.mp4",
+    poster: "/images/case-studies/exterior-1.jpg",
     href: "/work/aec-study-03/",
     cards: [
       {
@@ -118,7 +121,7 @@ const caseStudies = [
           aria-expanded={idx === 0 ? "true" : "false"}
         >
           <div class="cs-panel-media">
-            <video muted loop playsinline preload="metadata" aria-hidden="true">
+            <video muted loop playsinline preload="metadata" poster={cs.poster} aria-hidden="true">
               <source src={`${cs.video}#t=0.1`} type="video/mp4" />
             </video>
           </div>
@@ -246,6 +249,23 @@ const caseStudies = [
       wrapper.classList.toggle("is-paused", !inView);
       playActive();
     }, { threshold: 0.25 }).observe(wrapper);
+
+    // Videos ko pehle se load kar lo, taaki inactive panel kala na dikhe
+    const warmVideos = () => {
+      panels.forEach((panel, i) => {
+        const vid = panel.querySelector("video");
+        if (!vid || vid.preload === "auto") return;
+        vid.preload = "auto";
+        if (i !== current) vid.load();
+      });
+    };
+    const warmObserver = new IntersectionObserver(([entry]) => {
+      if (entry.isIntersecting) {
+        warmVideos();
+        warmObserver.disconnect();
+      }
+    }, { rootMargin: "1200px 0px" });
+    warmObserver.observe(wrapper);
 
     goTo(0);
   }

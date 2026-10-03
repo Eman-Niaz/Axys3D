@@ -9,7 +9,7 @@ const steps = [
     plain: "A smart 3D model of your building that carries all its information.",
     get: "Coordinated model + drawings",
     slug: "bim-production",
-    image: "https://tewbhv.vtexassets.com/arquivos/ids/158339/DN%7C547%7C401%7C935%7C118%7C399.png?v=638007725075500000",
+    image: "https://images.unsplash.com/photo-1560131653-63257db002c8?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "02",
@@ -18,7 +18,7 @@ const steps = [
     plain: "Your design built into Revit, the standard software for building models.",
     get: "Revit model, plans & sections",
     slug: "revit-production",
-    image: "https://fiverr-res.cloudinary.com/images/t_main1%2Cq_auto%2Cf_auto%2Cq_auto%2Cf_auto/gigs2/450084919/original/490fd759b0ef419af08efbe26f7acd7d9c79a822/build-complete-revit-bim-model-architecture-layout-and-3d-visualization.png",
+    image: "https://images.unsplash.com/photo-1721244654210-a505a99661e9?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "03",
@@ -27,7 +27,7 @@ const steps = [
     plain: "We fit pipes, wiring and AC ducts into the model so they never clash.",
     get: "Clash-checked service model",
     slug: "mep-coordination",
-    image: "https://www.teslacad.com.au/images/img2.webp",
+    image: "https://images.unsplash.com/photo-1558358235-a0a93f68a52c?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "04",
@@ -36,7 +36,7 @@ const steps = [
     plain: "Accurate 3D shapes of your building, inside and out.",
     get: "3D model files",
     slug: "3d-modeling",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1722872236844-6e395a98853d?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "05",
@@ -45,7 +45,7 @@ const steps = [
     plain: "Photo-real images of your design, before it is built.",
     get: "High-resolution stills",
     slug: "architectural-visualization",
-    image: "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1668015641954-d3685b7236e7?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "06",
@@ -54,7 +54,7 @@ const steps = [
     plain: "Walk through your design live, on screen or in VR.",
     get: "Interactive walkthrough",
     slug: "real-time",
-    image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1664538922512-127ff7e30aef?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "07",
@@ -63,7 +63,7 @@ const steps = [
     plain: "Detailed 3D scenes built in 3ds Max for premium-quality visuals.",
     get: "Scene files + final renders",
     slug: "3ds-max-production",
-    image: "https://tewbhv.vtexassets.com/arquivos/ids/158339/DN%7C547%7C401%7C935%7C118%7C399.png?v=638007725075500000",
+    image: "https://images.unsplash.com/photo-1637167085833-f6aac03a9aa5?auto=format&fit=crop&w=1200&q=85",
   },
   {
     num: "08",
@@ -72,7 +72,7 @@ const steps = [
     plain: "Short films that move through your building.",
     get: "Walkthrough video",
     slug: "animation-motion",
-    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=85",
+    image: "https://images.unsplash.com/photo-1660361339436-ddd4b85372da?auto=format&fit=crop&w=1200&q=85",
   },
 ];
 
@@ -130,8 +130,6 @@ const small = (u: string) => u.replace("w=1200&q=85", "w=620&q=72");
             <div class="px-card-content">
               <p class="px-card-desc">{step.detail}</p>
 
-              <!-- NEW (UX): maqsad = "ye kya hai" aur "mujhe kya milega" -- har card ka jawab -->
-              <p class="px-card-plain">{step.plain}</p>
               {/* <p class="px-card-get"><strong>You get</strong> {step.get}</p>    */}
 
               <a href={`/services/${step.slug}`} class="px-scope-btn" tabindex={i >= steps.length ? -1 : undefined}>

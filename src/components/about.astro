@@ -4,10 +4,6 @@ import "../styles/HomeAbout.css";
 
 const mainImage =
   "public/images/SAMPLE.png";
-const thumbA =
-  "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=500&q=80";
-const thumbB =
-  "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=500&q=80";
 
 // UX: 3 short promises (plain words)
 const points = [
@@ -16,11 +12,15 @@ const points = [
   "Organised files at handoff",
 ];
 
-// 2 x 2 tiles: text / image, image / text
-const tiles = [
+// 2 x 2 tiles (all text tiles)
+type AboutTile =
+  | { type: "text"; label: string; title: string; href: string }
+  | { type: "image"; label: string; img: string; href: string };
+
+const tiles: AboutTile[] = [
   { type: "text", label: "Explore", title: "Services", href: "/Services" },
-  { type: "image", label: "Industries", href: "/Industries", img: thumbA },
-  { type: "image", label: "Process", href: "/Process", img: thumbB },
+  { type: "text", label: "Explore", title: "Industries", href: "/Industries" },
+  { type: "text", label: "See our", title: "Process", href: "/Process" },
   { type: "text", label: "Start a", title: "Project", href: "/Contact" },
 ];
 ---

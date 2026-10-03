@@ -1,78 +1,77 @@
 ---
 import "../styles/Visual-Gallery.css";
 
-const categories = [
-  { id: "models",      label: "3D Models",   hint: "The building as a working 3D model" },
-  { id: "stills",      label: "Stills",      hint: "Photo-real images" },
-  { id: "videos",      label: "Videos",      hint: "Walkthroughs and animations" },
-  { id: "interactive", label: "Interactive" },
-  { id: "drawings",    label: "Drawings",    hint: "Plans, sections and handoff files" },
-];
+
+// 8 services = 8 gallery slides.
+// To change an image: paste only the Unsplash photo id (the "photo-xxxx" part) into the matching unsplash("...") line.
+// `slug` is used for the Visuals page filter (?service=slug).
+const unsplash = (id: string) =>
+  `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1800&q=85`;
 
 const gallery = [
   {
-    category: "models",
-    short: "Full building model",
-    title: "The whole building as one 3D model",
-    description:
-      "Every wall, floor and opening is modeled accurately, so architects and engineers all work from the same source.",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1800&q=85",
+    slug: "bim-production",
+    short: "BIM Production",
+    service: "BIM Execution & Model Production",
+    headline: "Coordinated building models, ready for construction",
+    description: "See the BIM models we build, with every wall, floor and opening set up to your firm's standards.",
+    image: unsplash("photo-1678388583153-f0e667c97288"),
   },
   {
-    category: "models",
-    short: "Clash check",
-    title: "Pipes, ducts and wiring checked for clashes",
-    description:
-      "Services are fitted into the model and conflicts are flagged on screen, long before they show up on site.",
-    image: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1800&q=85",
+    slug: "revit-production",
+    short: "Revit Documentation",
+    service: "Revit Production & Documentation",
+    headline: "Drawing sets that always match the model",
+    description: "Plans, sections and construction drawings produced in Revit and issued on schedule.",
+    image: unsplash("photo-1746308674931-12bacad54df7"),
   },
   {
-    category: "models",
-    short: "Custom 3D objects",
-    title: "Furniture, fittings and site, modeled to scale",
-    description:
-      "Custom objects and surroundings built to fit your design, ready to drop into any scene.",
-    image: "https://images.unsplash.com/photo-1693036723058-e32a1908e9d8?auto=format&fit=crop&w=1800&q=85",
+    slug: "mep-coordination",
+    short: "MEP Coordination",
+    service: "MEP Coordination Support",
+    headline: "Pipes, ducts and wiring, without clashes",
+    description: "See mechanical, electrical and plumbing systems checked and resolved before site.",
+    image: unsplash("photo-1615309662243-70f6df917b59"),
   },
   {
-    category: "stills",
-    short: "Exterior & interior stills",
-    title: "Photo-real images of the finished design",
-    description:
-      "Light, materials and landscaping are tuned so a client can judge the design at a glance, before it exists.",
-    image: "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1800&q=85",
+    slug: "3d-modeling",
+    short: "3D Modeling",
+    service: "3D Modeling",
+    headline: "Buildings, interiors and objects, modeled to scale",
+    description: "Accurate architectural, interior and furniture models, ready for any visualization.",
+    image: unsplash("photo-1722876599298-dbdf5c4006f5"),
   },
   {
-    category: "videos",
-    short: "Walkthrough video",
-    title: "A camera that moves through the space",
-    description:
-      "A planned camera path takes viewers from room to room, showing scale and flow the way a real visit would.",
-    image: "https://images.unsplash.com/photo-1633109870201-318921e3f992?auto=format&fit=crop&w=1800&q=85",
+    slug: "3ds-max-production",
+    short: "3ds Max Production",
+    service: "3ds Max Production",
+    headline: "Scenes textured and lit, ready to render",
+    description: "See how scenes, materials and lighting are set up in 3ds Max.",
+    image: unsplash("photo-1749834553226-b0f0651a2a96"),
   },
   {
-    category: "interactive",
-    short: "Live exploration",
-    title: "Explore the building yourself, live",
-    description:
-      "Viewers walk through the design on screen or in VR and open any room at their own pace.",
-    image: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?auto=format&fit=crop&w=1800&q=85",
+    slug: "architectural-visualization",
+    short: "Visualization",
+    service: "Architectural Visualization",
+    headline: "Photo-real images before the building exists",
+    description: "Exterior, interior and site visuals that read as photography.",
+    image: unsplash("photo-1633109713362-031e75973c1b"),
   },
   {
-    category: "drawings",
-    short: "Plans & sections",
-    title: "Plans and sections drawn from the model",
-    description:
-      "Floor plans, sections and elevations come straight from the 3D model, so drawings always match what was built.",
-    image: "https://images.unsplash.com/photo-1721244653652-268631ec049a?auto=format&fit=crop&w=1800&q=85",
+    slug: "animation-motion",
+    short: "Animation & Motion",
+    service: "Animation & Motion",
+    headline: "Walk through the project on camera",
+    description: "Walkthroughs and fly-throughs that show scale and flow.",
+    image: unsplash("photo-1633109633238-e982d5b61f9f"),
   },
   {
-    category: "drawings",
-    short: "Handoff package",
-    title: "The complete package, ready to hand over",
-    description:
-      "Drawings, exports and files arrive organised in one place, so the next team can start without questions.",
-    image: "https://images.unsplash.com/photo-1603901622056-0a5bee231395?auto=format&fit=crop&w=1800&q=85",
+    slug: "unreal-engine",
+    short: "Unreal Engine",
+    service: "Real-time / Unreal Engine",
+    headline: "Explore the design live, in real time",
+    description: "Interactive walkthroughs and virtual showrooms your clients can navigate.",
+    image: unsplash("photo-1633109611134-c41b5c0bbc1a"),
   },
 ];
 
@@ -80,8 +79,6 @@ const compare = {
   before: "public/images/before.jpg",
   after: "public/images/after.png",
 };
-
-const catLabel = (id: string) => categories.find((c) => c.id === id)?.label ?? id;
 
 const looped = [...gallery, ...gallery, ...gallery];
 
@@ -101,7 +98,7 @@ const cardUrl = (u: string) => u.replace("w=1800&q=85", "w=520&q=70");
             <img
               src={idx === 0 ? bgUrl(item.image) : undefined}
               data-src={bgUrl(item.image)}
-              alt={`${catLabel(item.category)}: ${item.short}`}
+              alt={`${item.service}: ${item.headline}`}
               decoding="async"
               fetchpriority={idx === 0 ? "high" : "low"}
             />
@@ -129,14 +126,14 @@ const cardUrl = (u: string) => u.replace("w=1800&q=85", "w=520&q=70");
             <div
               class={`service-info-pane ${idx === 0 ? "is-active" : ""}`}
               data-info-index={idx}
-              data-cat={item.category}
+              data-service={item.slug}
             >
-              <span class="service-category-tag">{catLabel(item.category)}</span>
-              <h2 class="service-primary-title">{item.title}</h2>
+              <span class="service-category-tag">{item.service}</span>
+              <h2 class="service-primary-title">{item.headline}</h2>
               <p class="service-primary-desc">{item.description}</p>
 
-              <a class="service-discover-btn" href={`/Visuals?category=${item.category}`}>
-                <span>SEE MORE {catLabel(item.category).toUpperCase()}</span>
+              <a class="service-discover-btn" href={`/Visuals?service=${item.slug}`}>
+                <span>VIEW {item.short.toUpperCase()} VISUALS</span>
                 <span class="btn-arrow">↗</span>
               </a>
             </div>
@@ -152,7 +149,7 @@ const cardUrl = (u: string) => u.replace("w=1800&q=85", "w=520&q=70");
                 data-loop-index={idx}
                 tabindex="0"
                 role="button"
-                aria-label={`Show ${item.short}`}
+                aria-label={`Show ${item.service}`}
               >
                 <div class="upcoming-card-img">
                   <img src={cardUrl(item.image)} alt="" width="230" height="350" loading="lazy" decoding="async" />
@@ -160,7 +157,6 @@ const cardUrl = (u: string) => u.replace("w=1800&q=85", "w=520&q=70");
                 </div>
 
                 <div class="upcoming-card-content">
-                  <span class="upcoming-card-mini">{catLabel(item.category)}</span>
                   <h3 class="upcoming-card-title">{item.short}</h3>
                 </div>
               </div>
