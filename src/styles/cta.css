@@ -1,55 +1,42 @@
 /* =========================================================
-   CTA SECTION (Mission-style background + Bricolage heading)
+   CTA SECTION — background image + overlay, glass card
    ========================================================= */
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500&display=swap');
 
-:root {
-  --font-heading: "Bricolage Grotesque", sans-serif;
-}
-
 .cta-section {
   --gold: #c6a775;
-  --gold-button: #e2cca6;
-  --text-white: #ffffff;
-  --text-muted: rgba(255, 255, 255, 0.82);
+  --gold-soft: #e2cca6;
+  --navy: #072540;
 
   position: relative;
   width: 100%;
-  padding: 120px 0;
+  padding: clamp(90px, 14vh, 150px) 0;
   overflow: hidden;
-  font-family: "Manrope", sans-serif;
   background: transparent;
+  font-family: "Manrope", sans-serif;
 }
 
-/* Bottom-Left Brown Gradient (same as Mission) */
-.cta-section::before {
-  content: "";
+/* ---------- Background image + overlay ---------- */
+.cta-bg {
   position: absolute;
-  bottom: -250px;
-  left: -250px;
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(179, 139, 76, 0.25) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 1;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(
+      135deg,
+      rgba(7, 37, 64, 0.93) 0%,
+      rgba(7, 37, 64, 0.8) 50%,
+      rgba(7, 37, 64, 0.94) 100%
+    ),
+    url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  /* upar-neeche se fade, taake section ki line na dikhe */
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
 }
 
-/* Bottom-Right Light Blue Gradient (same as Mission) */
-.cta-section::after {
-  content: "";
-  position: absolute;
-  bottom: -250px;
-  right: -250px;
-  width: 600px;
-  height: 600px;
-  border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(90, 169, 230, 0.22) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-/* Container & Layout */
 .cta-inner {
   position: relative;
   z-index: 2;
@@ -60,12 +47,12 @@
 
 .cta-main {
   display: grid;
-  grid-template-columns: 1.15fr 0.85fr;
-  gap: 80px;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(40px, 6vw, 96px);
   align-items: center;
 }
 
-/* Left Content */
+/* ---------- Left ---------- */
 .cta-eyebrow {
   display: block;
   margin-bottom: 18px;
@@ -79,87 +66,155 @@
 
 .cta-main h2 {
   margin: 0;
-  color: var(--text-white);
+  color: #f3efe6;
   font-family: "Bricolage Grotesque", sans-serif;
-  font-size: clamp(2.6rem, 5.4vw, 6.5rem);
+  font-size: clamp(2.1rem, 4.1vw, 3.9rem);
   font-weight: 800;
-  line-height: 1.02;
+  line-height: 1.04;
   letter-spacing: -0.01em;
 }
 
-/* Right Content */
-.cta-action {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+/* White → Dark Grey gradient */
+.cta-highlight {
+  display: inline-block;
+  padding-right: .06em;
+  background: linear-gradient(90deg, #ffffff 0%, #c9ccd2 40%, #6a6e78 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
-.cta-action p {
-  margin: 0 0 32px;
-  max-width: 440px;
-  color: var(--text-muted);
+/* ---------- Right: glass card + offset shapes ---------- */
+.cta-card-wrap {
+  position: relative;
+  isolation: isolate;
+  margin: 28px 28px 28px 0;
+}
+
+.cta-shape {
+  position: absolute;
+  z-index: -1;
+  border-radius: 28px;
+}
+
+/* top-right, light blue */
+.cta-shape--a {
+  top: -28px;
+  right: -28px;
+  width: 58%;
+  height: 72%;
+  background: linear-gradient(160deg, #5e7480 0%, #3a5a6e 100%);
+  border-top-right-radius: 56px;
+}
+
+/* bottom-left, steel blue */
+.cta-shape--b {
+  left: -28px;
+  bottom: -28px;
+  width: 52%;
+  height: 66%;
+  background: linear-gradient(200deg, #015382 0%, #013f6f 100%);
+  border-bottom-left-radius: 56px;
+}
+
+.cta-card {
+  position: relative;
+  padding: clamp(28px, 3.2vw, 44px);
+  border-radius: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  background:
+    radial-gradient(90% 120% at 85% 40%, rgba(255, 255, 255, 0.22), transparent 70%),
+    linear-gradient(135deg, rgba(14, 50, 86, 0.78) 0%, rgba(14, 50, 86, 0.55) 100%);
+  -webkit-backdrop-filter: blur(18px) saturate(140%);
+  backdrop-filter: blur(18px) saturate(140%);
+  box-shadow: 0 30px 70px rgba(2, 10, 20, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.cta-card p {
+  margin: 0 0 30px;
+  color: rgba(255, 255, 255, 0.88);
   font-size: 15px;
-  font-weight: 400;
-  line-height: 1.65;
+  font-weight: 500;
+  line-height: 1.7;
 }
 
-/* Button Style */
+/* Button: gold pill + circular arrow + shine sweep */
 .cta-button {
+  box-sizing: border-box;
+  position: relative;
+  overflow: hidden;
   display: inline-flex;
   align-items: center;
-  gap: 14px;
-  padding: 16px 32px;
-  background: var(--gold-button);
-  color: #111111;
-  border-radius: 100px;
+  gap: 18px;
+  padding: 10px 10px 10px 28px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #f6e0bd 0%, #e2cca6 45%, #c6a775 100%);
+  color: var(--navy);
   text-decoration: none;
   font-size: 14px;
-  font-weight: 600;
-  transition: transform 0.3s ease, background 0.3s ease, box-shadow 0.3s ease;
+  font-weight: 700;
+  box-shadow: 0 10px 30px rgba(198, 167, 117, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  transition: transform .3s ease, box-shadow .3s ease;
+}
+
+.cta-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -60%;
+  width: 40%;
+  height: 100%;
+  background: linear-gradient(100deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+  transform: skewX(-20deg);
+  transition: left .7s ease;
+  pointer-events: none;
 }
 
 .cta-button:hover {
-  background: #ecdac0;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+  box-shadow: 0 16px 40px rgba(198, 167, 117, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
+
+.cta-button:hover::before { left: 120%; }
+
+.cta-button-label { position: relative; }
 
 .cta-arrow {
-  font-size: 16px;
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #f6e0bd;
+  font-size: 17px;
   line-height: 1;
+  transition: transform .35s cubic-bezier(.34, 1.56, .64, 1);
 }
 
-/* Responsive */
+.cta-button:hover .cta-arrow { transform: rotate(45deg); }
+
+.cta-button:focus-visible {
+  outline: 2px solid #ffffff;
+  outline-offset: 4px;
+}
+
+/* ---------- Responsive ---------- */
 @media (max-width: 992px) {
-  .cta-section {
-    padding: 90px 0;
-  }
-
-  .cta-main {
-    grid-template-columns: 1fr;
-    gap: 40px;
-  }
-
-  .cta-inner {
-    padding: 0 30px;
-  }
+  .cta-main { grid-template-columns: 1fr; gap: 48px; }
+  .cta-inner { padding: 0 30px; }
 }
 
-@media (max-width: 560px) {
-  .cta-section {
-    padding: 70px 0;
-  }
+@media (max-width: 640px) {
+  .cta-inner { padding: 0 20px; }
+  .cta-card-wrap { margin: 18px 18px 18px 0; }
+  .cta-shape--a { top: -18px; right: -18px; }
+  .cta-shape--b { left: -18px; bottom: -18px; }
+  .cta-button { width: 100%; justify-content: space-between; }
+}
 
-  .cta-inner {
-    padding: 0 20px;
-  }
-
-  .cta-main h2 {
-    font-size: clamp(2.2rem, 10vw, 3rem);
-  }
-
-  .cta-button {
-    width: 100%;
-    justify-content: center;
-  }
+@media (prefers-reduced-motion: reduce) {
+  .cta-button, .cta-button::before, .cta-arrow { transition: none; }
 }

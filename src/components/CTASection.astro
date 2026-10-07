@@ -1,4 +1,11 @@
+---
+import "../styles/cta.css";
+---
+
 <section class="cta-section">
+  <!-- Background image + dark blue overlay (edges page mein fade ho jati hain) -->
+  <div class="cta-bg" aria-hidden="true"></div>
+
   <div class="cta-inner">
     <div class="cta-main">
       <!-- Left Column -->
@@ -6,21 +13,26 @@
         <span class="cta-eyebrow">PRODUCTION ENQUIRY</span>
         <h2>
           Bring the package,<br />
-          standards and delivery constraints.
+          <span class="cta-highlight">standards and delivery constraints.</span>
         </h2>
       </div>
 
-      <!-- Right Column -->
-      <div class="cta-action">
-        <p>
-          Start with a technical brief. We'll use the available information to understand the
-          production scope, review structure and required outputs.
-        </p>
+      <!-- Right Column: glass card with offset blue shapes -->
+      <div class="cta-card-wrap">
+        <span class="cta-shape cta-shape--a" aria-hidden="true"></span>
+        <span class="cta-shape cta-shape--b" aria-hidden="true"></span>
 
-        <a href="/Contact" class="cta-button">
-          <span>Discuss a production package</span>
-          <span class="cta-arrow">↗</span>
-        </a>
+        <div class="cta-card">
+          <p>
+            Start with a technical brief. We'll use the available information to understand the
+            production scope, review structure and required outputs.
+          </p>
+
+          <a href="/Contact" class="cta-button">
+            <span class="cta-button-label">Discuss a production package</span>
+            <span class="cta-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
       </div>
     </div>
   </div>
