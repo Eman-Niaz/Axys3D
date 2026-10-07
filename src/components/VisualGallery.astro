@@ -16,7 +16,7 @@ const gallery = [
   { slug: "unreal-engine", kind: "REAL-TIME", scope: "Real-time walkthrough", tools: "Unreal Engine", deliver: "Interactive walkthrough", short: "Unreal Engine", service: "Real-time / Unreal Engine", headline: "Explore the design live, in real time", description: "Interactive walkthroughs and virtual showrooms your clients can navigate.", image: unsplash("photo-1633109611134-c41b5c0bbc1a") },
 ];
 
-const requestHref = "/contact";
+const requestHref = "/Contact";
 const small = (u: string) => u.replace("w=1800&q=85", "w=620&q=72");
 const loop = [...gallery, ...gallery]; // entrance marquee: do baar, taake loop beech se na tute
 ---
@@ -195,6 +195,14 @@ const loop = [...gallery, ...gallery]; // entrance marquee: do baar, taake loop 
   const step = (dir) => (mode === "intro" ? enterWalk(0) : goPage(page + dir));
 
   let imgFlip = false;
+  const buildContactHref = (g) => {
+    const params = new URLSearchParams({
+      service: g.slug,
+      subject: g.service,
+    });
+    return `${requestHref}?${params.toString()}`;
+  };
+
   function fill() {
     const g = gallery[idx];
     const sw = $("vgSwap");
@@ -205,7 +213,7 @@ const loop = [...gallery, ...gallery]; // entrance marquee: do baar, taake loop 
     $("vgDScope").textContent = g.scope;
     $("vgDTools").textContent = g.tools;
     $("vgDDeliver").textContent = g.deliver;
-    $("vgDLink").href = `${requestHref}?service=${g.slug}`;
+    $("vgDLink").href = buildContactHref(g);
     const nextImg = $(imgFlip ? "vgDImgA" : "vgDImgB"), prevImg = $(imgFlip ? "vgDImgB" : "vgDImgA");
     nextImg.src = g.image; nextImg.alt = g.service;
     nextImg.classList.add("is-on"); prevImg.classList.remove("is-on");
