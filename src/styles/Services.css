@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 /* =========================================================
    AXYS3D — SERVICES PAGE
    ========================================================= */
@@ -26,10 +27,7 @@
 .page-services {
   background: var(--svc-blue);
   color: var(--svc-white);
-  font-family: 'Inter',
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif !important;
+  font-family: 'Manrope', system-ui, sans-serif !important;
   padding: 0 0 100px;
   margin-bottom: -70px
 }
@@ -809,4 +807,93 @@ html:has(.page-services) { scroll-behavior: smooth; }
   .svc-final-cta { padding: 70px 0 90px; }
   .svc-final-inner h2 { font-size: clamp(30px, 9vw, 40px); }
   .svc-final-inner p { font-size: 14px; }
+}
+
+/* =========================================================
+   AXYS3D DESIGN SYSTEM — Howitworks jaisi styling
+   (colors: brown/gold wahi jo pehle tha)
+   ========================================================= */
+.services-page,
+.page-services { font-family: 'Manrope', system-ui, sans-serif !important; }
+
+/* Headings */
+.services-page h1,
+.page-services h1,
+.services-page h2,
+.page-services h2,
+.services-page [class*="-h1"],
+.page-services [class*="-h1"],
+.services-page [class*="-h2"],
+.page-services [class*="-h2"] {
+  font-family: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.05 !important;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  color: #f3efe6;
+}
+
+/* Heading ka highlight = white -> grey gradient */
+.services-page [class*="word--muted"],
+.page-services [class*="word--muted"],
+.services-page h2 span,
+.page-services h2 span,
+.services-page [class*="-h2"] span,
+.page-services [class*="-h2"] span {
+  background: linear-gradient(90deg, #ffffff 0%, #8e919c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  padding-right: .06em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Chhoti heading / kicker: mono, grey, spaced */
+.services-page [class*="kicker"],
+.page-services [class*="kicker"],
+.services-page [class*="eyebrow"],
+.page-services [class*="eyebrow"] {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+  font-size: clamp(0.55rem, 0.65vw, 0.72rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.3em !important;
+  text-transform: uppercase !important;
+  color: #747884 !important;
+}
+
+/* Lead paragraphs */
+.services-page [class*="-lead"],
+.page-services [class*="-lead"] {
+  color: rgba(243, 239, 230, 0.6);
+  letter-spacing: -0.01em;
+}
+
+/* CTA buttons = grey */
+[class*="final-button"], [class*="final-btn"], .final-cta-button, .ins-btn-primary, .cnt-submit {
+  background: #a3a5ad !important;
+  border-color: #a3a5ad !important;
+  color: #0b0c0e !important;
+  box-shadow: none !important;
+}
+[class*="final-button"]:hover, [class*="final-btn"]:hover, .final-cta-button:hover, .ins-btn-primary:hover, .cnt-submit:hover {
+  background: #bbbdc5 !important;
+  border-color: #bbbdc5 !important;
+  color: #0b0c0e !important;
+}
+
+/* =========================================================
+   CTA BACKGROUND — image + navy overlay (har CTA par same)
+   Image badalni ho to :root mein --cta-image set karein,
+   jaise:  :root { --cta-image: url('/images/hero.jpg'); }
+   ========================================================= */
+.svc-final-cta {
+  background-image:
+    linear-gradient(135deg, rgba(20, 29, 49, 0.94) 0%, rgba(20, 29, 49, 0.82) 50%, rgba(20, 29, 49, 0.95) 100%),
+    var(--cta-image, url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
 }

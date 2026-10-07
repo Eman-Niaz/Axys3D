@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 /* =========================================================
    AXYS3D — SERVICE DETAIL PAGE
    Same system as industry-single.css / Services.css (same palette, Inter, heading
@@ -5,9 +6,9 @@
    ========================================================= */
 
 .page-service-detail {
-  background: #091d2f;
+  background: #072540;
   color: #ffffff;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: 'Manrope', system-ui, sans-serif !important;
   position: relative;
 }
 
@@ -392,7 +393,7 @@
 
 .svcd-final-cta {
   padding: 120px 0 140px;
-  background: #091d2f;
+  background: #072540;
   position: relative;
   z-index: 2;
 }
@@ -897,8 +898,8 @@
   scroll-margin-top: 110px;
   padding: clamp(24px, 3vw, 40px);
   border-radius: 24px;
-  background: linear-gradient(160deg, rgba(24, 48, 68, 0.55) 0%, rgba(9, 24, 38, 0.7) 100%);
-  border: 1px solid var(--svc-dark-line);
+  background: linear-gradient(160deg, rgba(24, 48, 68, 0.4) 0%, rgba(9, 24, 38, 0.5) 100%);
+  border: 0;
 }
 
 .svcd-spec-top { display: flex; align-items: center; gap: 16px; }
@@ -937,9 +938,9 @@
   display: grid;
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 30px 44px;
-  margin-top: 28px;
-  padding-top: 28px;
-  border-top: 1px solid var(--svc-dark-line);
+  margin-top: 24px;
+  padding-top: 0;
+  border-top: 0;
 }
 .svcd-spec-item > .svcd-spec-top + .svcd-spec-groups { margin-top: 24px; }
 .svcd-spec-group { min-width: 0; }
@@ -958,7 +959,7 @@
   line-height: 1.4;
   color: var(--svc-brown-light);
 }
-.svcd-spec-label::after { content: ""; flex: 1; height: 1px; background: var(--svc-dark-line); }
+.svcd-spec-label::after { content: none; }
 
 /* clean checklist */
 .svcd-spec-items { list-style: none; margin: 0; padding: 0; }
@@ -969,9 +970,8 @@
   font-weight: 500;
   line-height: 1.55;
   color: var(--svc-text);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 0;
 }
-.svcd-spec-items li:last-child { border-bottom: 0; }
 .svcd-spec-items li::before {
   content: "";
   position: absolute;
@@ -1002,7 +1002,7 @@
   margin: 0 0 10px;
   padding: 14px 18px;
   border-radius: 14px;
-  border-left: 3px solid var(--svc-brown);
+  border-left: 0;
   background: rgba(179, 139, 90, 0.08);
   font-size: 15px;
   line-height: 1.65;
@@ -1052,4 +1052,93 @@
   .svcd-spec-top { gap: 12px; }
   .svcd-spec-num { min-width: 38px; height: 38px; border-radius: 12px; font-size: 13px; }
   .svcd-spec-items li { font-size: 14.5px; }
+}
+
+/* =========================================================
+   AXYS3D DESIGN SYSTEM — Howitworks jaisi styling
+   (colors: brown/gold wahi jo pehle tha)
+   ========================================================= */
+.page-service-detail,
+.svcd-page { font-family: 'Manrope', system-ui, sans-serif !important; }
+
+/* Headings */
+.page-service-detail h1,
+.svcd-page h1,
+.page-service-detail h2,
+.svcd-page h2,
+.page-service-detail [class*="-h1"],
+.svcd-page [class*="-h1"],
+.page-service-detail [class*="-h2"],
+.svcd-page [class*="-h2"] {
+  font-family: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.05 !important;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  color: #f3efe6;
+}
+
+/* Heading ka highlight = white -> grey gradient */
+.page-service-detail [class*="word--muted"],
+.svcd-page [class*="word--muted"],
+.page-service-detail h2 span,
+.svcd-page h2 span,
+.page-service-detail [class*="-h2"] span,
+.svcd-page [class*="-h2"] span {
+  background: linear-gradient(90deg, #ffffff 0%, #8e919c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  padding-right: .06em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Chhoti heading / kicker: mono, grey, spaced */
+.page-service-detail [class*="kicker"],
+.svcd-page [class*="kicker"],
+.page-service-detail [class*="eyebrow"],
+.svcd-page [class*="eyebrow"] {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+  font-size: clamp(0.55rem, 0.65vw, 0.72rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.3em !important;
+  text-transform: uppercase !important;
+  color: #747884 !important;
+}
+
+/* Lead paragraphs */
+.page-service-detail [class*="-lead"],
+.svcd-page [class*="-lead"] {
+  color: rgba(243, 239, 230, 0.6);
+  letter-spacing: -0.01em;
+}
+
+/* CTA buttons = grey */
+[class*="final-button"], [class*="final-btn"], .final-cta-button, .ins-btn-primary, .cnt-submit {
+  background: #a3a5ad !important;
+  border-color: #a3a5ad !important;
+  color: #0b0c0e !important;
+  box-shadow: none !important;
+}
+[class*="final-button"]:hover, [class*="final-btn"]:hover, .final-cta-button:hover, .ins-btn-primary:hover, .cnt-submit:hover {
+  background: #bbbdc5 !important;
+  border-color: #bbbdc5 !important;
+  color: #0b0c0e !important;
+}
+
+/* =========================================================
+   CTA BACKGROUND — image + navy overlay (har CTA par same)
+   Image badalni ho to :root mein --cta-image set karein,
+   jaise:  :root { --cta-image: url('/images/hero.jpg'); }
+   ========================================================= */
+.svcd-final-cta {
+  background-image:
+    linear-gradient(135deg, rgba(20, 29, 49, 0.94) 0%, rgba(20, 29, 49, 0.82) 50%, rgba(20, 29, 49, 0.95) 100%),
+    var(--cta-image, url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
 }

@@ -1,10 +1,11 @@
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 /* ==========================================================================
    INSIGHTS PAGE STYLING
    PREMIUM VISUAL SYSTEM — MATCHED WITH WORK / PROCESS PAGES
 ========================================================================== */
 
 .insights-page {
-  --ins-blue: #071522;
+  --ins-blue: #072540;
   --ins-blue-soft: #0b1d2c;
   --ins-blue-panel: #102637;
   --ins-blue-light: #16364d;
@@ -25,11 +26,7 @@
   color: var(--ins-white);
   overflow: hidden;
 
-  font-family:
-    'Inter',
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif !important;
+  font-family: 'Manrope', system-ui, sans-serif !important;
 }
 
 
@@ -296,11 +293,7 @@
 
   color: var(--ins-white);
 
-  font-family:
-    'Inter',
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif !important;
+  font-family: 'Manrope', system-ui, sans-serif !important;
 
   font-size: clamp(23px, 5vw, 53px);
 
@@ -687,11 +680,7 @@
 
   color: var(--ins-white);
 
-  font-family:
-    'Inter',
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif !important;
+  font-family: 'Manrope', system-ui, sans-serif !important;
 
   font-size: clamp(38px, 5vw, 72px);
 
@@ -1228,7 +1217,7 @@
 ########################################################################## */
 
 .isl-page {
-  --isl-blue: #091d2f;
+  --isl-blue: #072540;
   --isl-blue-soft: #0b1d2c;
   --isl-blue-panel: #102637;
 
@@ -1568,11 +1557,7 @@
 
   margin: 0 0 20px;
 
-  font-family:
-    'Inter',
-    -apple-system,
-    BlinkMacSystemFont,
-    sans-serif !important;
+  font-family: 'Manrope', system-ui, sans-serif !important;
 
   font-size: clamp(25px, 6vw, 70px);
 
@@ -2613,7 +2598,7 @@ html {
 
 .isl-tag-num {
   fill: var(--isl-brown-light, #d2b487);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-family: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
   font-size: 8px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -2622,7 +2607,7 @@ html {
 
 .isl-tag-title {
   fill: #a2b7c7;
-  font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+  font-family: 'Manrope', system-ui, sans-serif;
   font-size: 8.5px;
   font-weight: 600;
   letter-spacing: 0.05em;
@@ -2821,9 +2806,9 @@ html {
    ========================================================= */
 
 .page-insight-single {
-  background: #091d2f;
+  background: #072540;
   color: #ffffff;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  font-family: 'Manrope', system-ui, sans-serif !important;
   position: relative;
 }
 
@@ -3343,7 +3328,7 @@ html {
 
 .isd-final-cta {
   padding: 120px 0 140px;
-  background: #091d2f;
+  background: #072540;
   position: relative;
   z-index: 2;
 }
@@ -3573,4 +3558,137 @@ html {
   .isd-article {
     padding: 24px 20px;
   }
+}
+
+/* =========================================================
+   AXYS3D DESIGN SYSTEM — Howitworks jaisi styling
+   (colors: brown/gold wahi jo pehle tha)
+   ========================================================= */
+.insights-page,
+.page-insights,
+.isl-page,
+.page-insights-list,
+.page-insight-single,
+.isd-page { font-family: 'Manrope', system-ui, sans-serif !important; }
+
+/* Headings */
+.insights-page h1,
+.page-insights h1,
+.isl-page h1,
+.page-insights-list h1,
+.page-insight-single h1,
+.isd-page h1,
+.insights-page h2,
+.page-insights h2,
+.isl-page h2,
+.page-insights-list h2,
+.page-insight-single h2,
+.isd-page h2,
+.insights-page [class*="-h1"],
+.page-insights [class*="-h1"],
+.isl-page [class*="-h1"],
+.page-insights-list [class*="-h1"],
+.page-insight-single [class*="-h1"],
+.isd-page [class*="-h1"],
+.insights-page [class*="-h2"],
+.page-insights [class*="-h2"],
+.isl-page [class*="-h2"],
+.page-insights-list [class*="-h2"],
+.page-insight-single [class*="-h2"],
+.isd-page [class*="-h2"] {
+  font-family: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.02em !important;
+  line-height: 1.05 !important;
+  font-optical-sizing: auto;
+  -webkit-font-smoothing: antialiased;
+  color: #f3efe6;
+}
+
+/* Heading ka highlight = white -> grey gradient */
+.insights-page [class*="word--muted"],
+.page-insights [class*="word--muted"],
+.isl-page [class*="word--muted"],
+.page-insights-list [class*="word--muted"],
+.page-insight-single [class*="word--muted"],
+.isd-page [class*="word--muted"],
+.insights-page h2 span,
+.page-insights h2 span,
+.isl-page h2 span,
+.page-insights-list h2 span,
+.page-insight-single h2 span,
+.isd-page h2 span,
+.insights-page [class*="-h2"] span,
+.page-insights [class*="-h2"] span,
+.isl-page [class*="-h2"] span,
+.page-insights-list [class*="-h2"] span,
+.page-insight-single [class*="-h2"] span,
+.isd-page [class*="-h2"] span {
+  background: linear-gradient(90deg, #ffffff 0%, #8e919c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  padding-right: .06em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+}
+
+/* Chhoti heading / kicker: mono, grey, spaced */
+.insights-page [class*="kicker"],
+.page-insights [class*="kicker"],
+.isl-page [class*="kicker"],
+.page-insights-list [class*="kicker"],
+.page-insight-single [class*="kicker"],
+.isd-page [class*="kicker"],
+.insights-page [class*="eyebrow"],
+.page-insights [class*="eyebrow"],
+.isl-page [class*="eyebrow"],
+.page-insights-list [class*="eyebrow"],
+.page-insight-single [class*="eyebrow"],
+.isd-page [class*="eyebrow"] {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+  font-size: clamp(0.55rem, 0.65vw, 0.72rem) !important;
+  font-weight: 400 !important;
+  letter-spacing: 0.3em !important;
+  text-transform: uppercase !important;
+  color: #747884 !important;
+}
+
+/* Lead paragraphs */
+.insights-page [class*="-lead"],
+.page-insights [class*="-lead"],
+.isl-page [class*="-lead"],
+.page-insights-list [class*="-lead"],
+.page-insight-single [class*="-lead"],
+.isd-page [class*="-lead"] {
+  color: rgba(243, 239, 230, 0.6);
+  letter-spacing: -0.01em;
+}
+
+/* CTA buttons = grey */
+[class*="final-button"], [class*="final-btn"], .final-cta-button, .ins-btn-primary, .cnt-submit {
+  background: #a3a5ad !important;
+  border-color: #a3a5ad !important;
+  color: #0b0c0e !important;
+  box-shadow: none !important;
+}
+[class*="final-button"]:hover, [class*="final-btn"]:hover, .final-cta-button:hover, .ins-btn-primary:hover, .cnt-submit:hover {
+  background: #bbbdc5 !important;
+  border-color: #bbbdc5 !important;
+  color: #0b0c0e !important;
+}
+
+/* =========================================================
+   CTA BACKGROUND — image + navy overlay (har CTA par same)
+   Image badalni ho to :root mein --cta-image set karein,
+   jaise:  :root { --cta-image: url('/images/hero.jpg'); }
+   ========================================================= */
+.isd-final-cta, .isl-final-cta, .ins-cta-card {
+  background-image:
+    linear-gradient(135deg, rgba(20, 29, 49, 0.94) 0%, rgba(20, 29, 49, 0.82) 50%, rgba(20, 29, 49, 0.95) 100%),
+    var(--cta-image, url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')) !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
 }

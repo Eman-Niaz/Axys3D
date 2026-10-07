@@ -1,6 +1,18 @@
 ---
 // src/pages/work/[slug].astro
-// Case study detail page — cover, fact sheet, article, films, more case studies
+// Case study detail page — cover, KPIs, article, STEP-BY-STEP REPLAY,
+// stage-by-stage images, before/after compare, delivered renders (lightbox), films, more case studies.
+//
+// Optional fields in a project's frontmatter (sab optional, na hon to fallback use hota hai):
+//   coverImage, gallery: [], video1/video2/video3 | videos: []
+//   brief: { project, scope, inputs }
+//   stageImages: [sketch, bim, revised, render]   (ya { sketch, bim, revised, render })
+//   stages: [{ title, desc, day, badge }, ...x4]   (stage cards ka text)
+//   timeline: [{ tab, slide, role, cls, logCls, logRole, day, title, desc, qc, badge }]  (replay ke events)
+//   renders: ["/images/work/x/render1.jpg", { src, title, note }]   <- client ko diye gaye final renders
+//
+// Default image folder: /public/images/work/<slug>/stage1|stage2|before|after (.jpg/.png/.jpeg/.webp/.avif)
+// (agar wo na mile to /public/images/stage1|stage2|before|after use hote hain)
 
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
@@ -29,6 +41,7 @@ const { Content } = await render(project);
 
 // ---------- helpers ----------
 const pad = (n: number | string) => String(n).padStart(2, "0");
+const pick = (v: any): string | undefined => (typeof v === "string" && v.trim() ? v.trim() : undefined);
 const titleWords: string[] = String(title ?? "").split(/\s+/).filter(Boolean);
 const titleSplit = Math.ceil(titleWords.length / 2);
 
@@ -44,19 +57,6 @@ const fallbackCover =
 const customCover: string | undefined = p.coverImage || p.image || p.heroImage || p.thumbnail || undefined;
 const coverPoster: string = customCover || fallbackCover;
 const gallery: string[] = Array.isArray(p.gallery) ? p.gallery : [];
-
-// fact sheet rows (only the ones that have a value)
-const facts: Array<{ k: string; v: string }> = [
-  { k: "Client", v: p.client },
-  { k: "Year", v: p.year },
-  { k: "Sector", v: sector },
-  { k: "Location", v: p.location },
-  { k: "Stage", v: projectStage },
-  { k: "Delivery", v: deliveryType },
-  { k: "Status", v: publicationStatus },
-]
-  .filter((f) => f.v !== undefined && f.v !== null && String(f.v).trim() !== "")
-  .map((f) => ({ k: f.k, v: String(f.v) }));
 
 // ---------- position in the collection (same order as the Work page) ----------
 const all = await getCollection("projects");
@@ -94,6 +94,98 @@ const rawVideos: Array<{ url: string; label?: string }> = [
 const films: Film[] = rawVideos.length > 0
   ? rawVideos.map((v) => ({ label: v.label as string, ...toFilm(v.url.trim()) }))
   : [{ label: "Project film", kind: "video", src: relatedVideo }];
+
+// ---------- STAGE IMAGES (sketch -> bim -> revised -> render) ----------
+const base = `/images/work/${project.id}`;
+const stageStems = [
+  `${base}/stage1|/images/stage1`,
+  `${base}/stage2|/images/stage2`,
+  `${base}/before|/images/before`,
+  `${base}/after|/images/after`,
+];
+const stageKeys = ["sketch", "bim", "revised", "render"];
+const si = p.stageImages;
+const explicitStage = (i: number): string | undefined =>
+  Array.isArray(si) ? pick(si[i]) : si && typeof si === "object" ? pick(si[stageKeys[i]]) : undefined;
+// each: { src?: string; stem?: string }
+const stageImg = stageStems.map((stem, i) => {
+  const src = explicitStage(i);
+  return src ? { src } : { stem };
+});
+
+const stageMetaDefault = [
+  { title: "Sketch & 2D plan", day: "Day 2–3", desc: "Concept linework and floor plans drafted, quality-checked and approved by the client.", badge: "✓ QC passed" },
+  { title: "3D BIM model", day: "Day 4–5", desc: "Structure, facade and floors modelled in Revit, with clash detection and standards checked.", badge: "✓ QC passed" },
+  { title: "Revised & approved model", day: "Day 6", desc: "Client revision applied, re-checked in-house and cleared for visualization.", badge: "↻ 1 revision" },
+  { title: "Final render", day: "Day 8–9", desc: "Materials, lighting and environment designed. Final visual QC before delivery.", badge: "✓ Delivered" },
+];
+const stageMeta = stageMetaDefault.map((m, i) => ({ ...m, ...(Array.isArray(p.stages) ? (p.stages[i] ?? {}) : {}) }));
+
+// ---------- DELIVERED RENDERS (client ko diye gaye) ----------
+const rawRenders: any[] = Array.isArray(p.renders) ? p.renders : p.finalRender ? [p.finalRender] : p.render ? [p.render] : [];
+const renders = rawRenders
+  .map((r: any, i: number) =>
+    typeof r === "string"
+      ? { src: r, title: `Render ${pad(i + 1)}`, note: "As delivered to the client" }
+      : { src: r?.src || r?.url || r?.image, title: r?.title || r?.label || `Render ${pad(i + 1)}`, note: r?.note || r?.desc || "As delivered to the client" }
+  )
+  .filter((r) => r.src);
+// real renders na hon to final-stage image ko pehle render ki jagah dikhate hain + 2 "coming soon" slots
+const renderSlots: Array<{ src?: string; stem?: string; title: string; note: string }> =
+  renders.length > 0
+    ? renders
+    : [{ ...(stageImg[3].src ? { src: stageImg[3].src } : { stem: stageStems[3] }), title: "Final render", note: "As delivered to the client" }];
+const soonSlots = renders.length === 0 ? 2 : 0;
+
+// ---------- REPLAY EVENTS ----------
+const tabs = [
+  { num: "01", label: "Brief" },
+  { num: "02", label: "Expert analysis" },
+  { num: "03", label: "Sketch & 2D plan" },
+  { num: "04", label: "3D BIM model" },
+  { num: "05", label: "Renders & film" },
+];
+
+// slide: 0 = brief card, 1 = sketch, 2 = bim, 3 = revised, 4 = final render
+const defaultEvents = [
+  { tab: 0, slide: 0, role: "CLIENT", cls: "role-client", logCls: "log-client", logRole: "Client", day: "DAY 1", title: "Brief received", desc: "Requirements, references and deadline submitted.", qc: 0, badge: null },
+  { tab: 1, slide: 0, role: "AXYS3D LEAD", cls: "role-lead", logCls: "log-lead", logRole: "Axys3D lead", day: "DAY 1", title: "Expert analysis", desc: "Scope, codes and deliverables confirmed.", qc: 0, badge: null },
+  { tab: 2, slide: 1, role: "DESIGNER", cls: "role-designer", logCls: "log-designer", logRole: "Designer", day: "DAY 2", title: "Sketch & 2D plan", desc: "Concept linework and floor plans drafted.", qc: 0, badge: null },
+  { tab: 2, slide: 1, role: "QC TEAM", cls: "role-qc", logCls: "log-qc", logRole: "QC team", day: "DAY 2", title: "Quality check passed", desc: "Dimensions, layout and brief compliance verified.", qc: 1, badge: ["✓ QC passed", "ok"] },
+  { tab: 2, slide: 1, role: "CLIENT", cls: "role-client", logCls: "log-client", logRole: "Client", day: "DAY 3", title: "Plan approved", desc: "Go ahead for the BIM model.", qc: 1, badge: ["✓ Client approved", "ok"] },
+  { tab: 3, slide: 2, role: "BIM MODELER", cls: "role-modeler", logCls: "log-bim", logRole: "BIM modeler", day: "DAY 4", title: "3D BIM model built", desc: "Structure, facade and floors modelled in Revit.", qc: 1, badge: null },
+  { tab: 3, slide: 2, role: "QC TEAM", cls: "role-qc", logCls: "log-qc", logRole: "QC team", day: "DAY 5", title: "Quality check passed", desc: "Clash detection and standards verified.", qc: 2, badge: ["✓ QC passed", "ok"] },
+  { tab: 3, slide: 2, role: "CLIENT", cls: "role-client", logCls: "log-client", logRole: "Client", day: "DAY 5", title: "Revision requested", desc: "Widen the lower deck stair.", qc: 2, badge: ["↻ Revision", "rev"] },
+  { tab: 3, slide: 3, role: "BIM MODELER", cls: "role-modeler", logCls: "log-bim", logRole: "BIM modeler", day: "DAY 6", title: "Revision complete", desc: "Changes made and sent back to QC.", qc: 2, badge: null },
+  { tab: 3, slide: 3, role: "QC TEAM", cls: "role-qc", logCls: "log-qc", logRole: "QC team", day: "DAY 6", title: "Re-check passed", desc: "Model cleared for the client.", qc: 3, badge: ["✓ QC passed", "ok"] },
+  { tab: 3, slide: 3, role: "CLIENT", cls: "role-client", logCls: "log-client", logRole: "Client", day: "DAY 6", title: "BIM approved", desc: "Files released to visualization.", qc: 3, badge: ["✓ Client approved", "ok"] },
+  { tab: 4, slide: 4, role: "RENDERER", cls: "role-render", logCls: "log-render", logRole: "Renderer", day: "DAY 8", title: "Renders & film produced", desc: "Materials, lighting and environment designed.", qc: 3, badge: ["✓ Client approved", "ok"] },
+  { tab: 4, slide: 4, role: "QC TEAM", cls: "role-qc", logCls: "log-qc", logRole: "QC team", day: "DAY 9", title: "Final visual QC passed", desc: "Colour, detail and framing checked.", qc: 4, badge: ["✓ QC passed", "ok"] },
+  { tab: 4, slide: 4, role: "CLIENT", cls: "role-client", logCls: "log-client", logRole: "Client", day: "DAY 9", title: "Delivered", desc: "Final package approved.", qc: 4, badge: ["✓ Delivered", "ok"] },
+];
+const events: any[] = Array.isArray(p.timeline) && p.timeline.length > 0 ? p.timeline : defaultEvents;
+const first = events[0];
+
+// brief card rows
+const briefIn = p.brief ?? {};
+const briefRows = [
+  { k: "Project", v: briefIn.project || title },
+  { k: "Scope", v: briefIn.scope || servicesList.slice(0, 2).join(", ") || deliveryType || "BIM model, renders" },
+  { k: "Inputs", v: briefIn.inputs || "Survey, sketches" },
+].filter((r) => r.v);
+
+// KPIs (events se nikalte hain)
+const last = events[events.length - 1];
+const lastDay = parseInt(String(last?.day ?? "").replace(/\D/g, ""), 10) || events.length;
+const qcTotal = Math.max(...events.map((e: any) => Number(e.qc) || 0));
+const revCount = events.filter((e: any) => Array.isArray(e.badge) && e.badge[1] === "rev").length;
+const deliverables = (renders.length || 1) + rawVideos.length;
+const kpis = [
+  { n: lastDay, label: "Days to deliver" },
+  { n: qcTotal, label: "In-house QC checks" },
+  { n: revCount, label: revCount === 1 ? "Client revision" : "Client revisions" },
+  { n: deliverables, label: "Deliverables" },
+];
 
 // ---------- more case studies ----------
 const more = all.length > 1
@@ -156,46 +248,236 @@ const more = all.length > 1
               <a class="wrk-cover-pill" href="#films"><span>▶</span> Watch the {films.length === 1 ? "film" : "films"}</a>
             )}
           </figure>
+
+          <!-- KPI strip -->
+          <div class="wrk-kpis">
+            {kpis.map((k, i) => (
+              <div class="wrk-kpi wrk-reveal" style={`--d:${i * 0.07}s`}>
+                <span class="wrk-kpi-num">{k.n}</span>
+                <span class="wrk-kpi-label">{k.label}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
-      <!-- =========== OVERVIEW (fact sheet + services, side by side) =========== -->
+      <!-- =========== ARTICLE =========== -->
       <section class="wrk-section wrk-section--first">
         <div class="wrk-wrap">
-          <div class="wrk-overview">
-            <article class="wrk-card wrk-card--cream wrk-reveal">
-              <div class="wrk-card-top">
-                <span class="wrk-tag">Fact sheet</span>
-                <span class="wrk-card-num">01</span>
-              </div>
-              <dl class="wrk-facts">
-                {facts.map((f) => (
-                  <div class="wrk-fact">
-                    <dt>{f.k}</dt>
-                    <dd>{f.v}</dd>
-                  </div>
-                ))}
-              </dl>
-            </article>
-
-            {servicesList.length > 0 && (
-              <article class="wrk-card wrk-card--dark wrk-reveal" style="--d:0.1s">
-                <div class="wrk-card-top">
-                  <span class="wrk-tag">Services</span>
-                  <span class="wrk-card-num">02</span>
-                </div>
-                <ul class="wrk-rows" data-rows>
-                  {servicesList.map((s: string, i: number) => (
-                    <li class={`wrk-row${i === 0 ? " is-active" : ""}`}>{s}</li>
-                  ))}
-                </ul>
-              </article>
-            )}
-          </div>
-
           <article class="wrk-article">
             <Content />
           </article>
+        </div>
+      </section>
+
+      <!-- =========== PROJECT REPLAY (step by step, landing page jaisa) =========== -->
+      <section class="wrk-section wrk-section--tight" id="process">
+        <div class="wrk-wrap">
+          <div class="wrk-head wrk-reveal">
+            <div>
+              <span class="wrk-kicker">How it was delivered</span>
+              <h2 class="wrk-h2">Watch this project <span>go live.</span></h2>
+            </div>
+            <p class="wrk-head-note">Every step of this project, in order. Each one passed in-house QC before the client saw it.</p>
+          </div>
+
+          <div class="wrk-rp wrk-reveal" id="wrkRp">
+            <div class="wrk-rp-stage">
+              <div class="wrk-rp-screen">
+                <div class="wrk-rp-slide is-active" data-slide="0">
+                  <div class="wrk-rp-brief">
+                    <div class="wrk-rp-brief-head">CLIENT BRIEF</div>
+                    <div class="wrk-rp-brief-rows">
+                      {briefRows.map((r) => (
+                        <div class="wrk-rp-brief-row"><span>{r.k}</span><b>{r.v}</b></div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {stageImg.map((im, i) => (
+                  <div class="wrk-rp-slide wrk-ph" data-slide={i + 1} data-missing={`${stageMeta[i].title} image not found`}>
+                    <img
+                      class="wrk-rp-img"
+                      alt={stageMeta[i].title}
+                      decoding="async"
+                      data-src={im.src}
+                      data-stem={im.stem}
+                    />
+                  </div>
+                ))}
+
+                <div class="wrk-rp-badge" id="wrkRpBadge" hidden><span id="wrkRpBadgeText"></span></div>
+              </div>
+
+              <div class="wrk-rp-info">
+                <div class="wrk-rp-info-head">
+                  <div class="wrk-rp-role role-client" id="wrkRpRole"><span class="wrk-rp-role-dot"></span><span id="wrkRpRoleText">{first.role}</span></div>
+                  <div class="wrk-rp-day" id="wrkRpDay">{first.day}</div>
+                </div>
+                <h3 class="wrk-rp-step-title" id="wrkRpTitle">{first.title}</h3>
+                <p class="wrk-rp-step-desc" id="wrkRpDesc">{first.desc}</p>
+
+                <div class="wrk-rp-qc">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+                  <span><b id="wrkRpQc">0</b> in house QC checks passed</span>
+                </div>
+
+                <div class="wrk-rp-controls">
+                  <button type="button" class="wrk-rp-btn wrk-rp-btn--ghost" id="wrkRpPlay"><span id="wrkRpPlayIcon"></span><span id="wrkRpPlayLabel">Pause</span></button>
+                  <button type="button" class="wrk-rp-btn wrk-rp-btn--ghost" id="wrkRpLogBtn">Show project log</button>
+                  <button type="button" class="wrk-rp-btn wrk-rp-btn--solid" id="wrkRpSkip"><span>Skip</span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                  </button>
+                  <button type="button" class="wrk-rp-btn wrk-rp-btn--gold" id="wrkRpRender" hidden>View delivered render <span aria-hidden="true">↗</span></button>
+                </div>
+              </div>
+            </div>
+
+            <div class="wrk-rp-log" id="wrkRpLog" aria-hidden="true">
+              <div class="wrk-rp-log-inner">
+                <div class="wrk-rp-log-scroll" id="wrkRpLogScroll">
+                  {[...events].map((e: any, i: number) => ({ e, i })).reverse().map(({ e, i }) => (
+                    <div class="wrk-rp-log-row" data-ev={i}>
+                      <span class="wrk-rp-log-day">{e.day}</span>
+                      <span class={`wrk-rp-log-role ${e.logCls}`}>{e.logRole}</span>
+                      <span class="wrk-rp-log-msg">{e.title}. {e.desc}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div class="wrk-rp-timeline">
+              <div class="wrk-rp-progress"><i id="wrkRpProgress"></i></div>
+              {tabs.map((t, i) => (
+                <button type="button" class={`wrk-rp-tab${i === 0 ? " is-active" : ""}`} data-tab={i} aria-label={`Step ${t.num}: ${t.label}`}>
+                  {i === 3 && revCount > 0 && <span class="wrk-rp-rev" id="wrkRpRev" hidden><span>●</span> {revCount} REVISION{revCount > 1 ? "S" : ""}</span>}
+                  <span class="wrk-rp-tab-num">{t.num}</span>
+                  <span class="wrk-rp-tab-label">{t.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========== STAGE BY STAGE =========== -->
+      <section class="wrk-section wrk-section--tight" id="stages">
+        <div class="wrk-wrap">
+          <div class="wrk-head wrk-reveal">
+            <div>
+              <span class="wrk-kicker">Stage by stage</span>
+              <h2 class="wrk-h2">From first sketch <span>to final render.</span></h2>
+            </div>
+            <p class="wrk-head-note">Click any stage to open it full screen.</p>
+          </div>
+
+          <div class="wrk-stages">
+            {stageImg.map((im, i) => (
+              <button
+                type="button"
+                class="wrk-stage-card wrk-reveal"
+                style={`--d:${i * 0.08}s`}
+                data-lb="stages"
+                data-title={`${pad(i + 1)} — ${stageMeta[i].title}`}
+                data-note={stageMeta[i].desc}
+              >
+                <span class="wrk-stage-media wrk-ph" data-missing="Image not added yet">
+                  <img alt={stageMeta[i].title} loading="lazy" decoding="async" data-src={im.src} data-stem={im.stem} />
+                  <span class="wrk-stage-zoom" aria-hidden="true">⤢</span>
+                </span>
+                <span class="wrk-stage-body">
+                  <span class="wrk-stage-top">
+                    <span class="wrk-stage-num">{pad(i + 1)}</span>
+                    <span class="wrk-stage-day">{stageMeta[i].day}</span>
+                  </span>
+                  <span class="wrk-stage-title">{stageMeta[i].title}</span>
+                  <span class="wrk-stage-desc">{stageMeta[i].desc}</span>
+                  <span class={`wrk-stage-badge${String(stageMeta[i].badge).startsWith("↻") ? " is-rev" : ""}`}>{stageMeta[i].badge}</span>
+                </span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- =========== BEFORE / AFTER COMPARE =========== -->
+      <section class="wrk-section wrk-section--tight" id="compare">
+        <div class="wrk-wrap">
+          <div class="wrk-head wrk-reveal">
+            <div>
+              <span class="wrk-kicker">Before / after</span>
+              <h2 class="wrk-h2">Approved model <span>vs final render.</span></h2>
+            </div>
+            <p class="wrk-head-note">Drag the handle to compare the approved BIM model with the delivered visual.</p>
+          </div>
+
+          <div class="wrk-cmp wrk-reveal wrk-ph" id="wrkCmp" data-missing="Add the stage images to enable the comparison" style="--pos:50%">
+            <img class="wrk-cmp-img" alt="Approved BIM model" data-src={stageImg[2].src} data-stem={stageImg[2].stem} decoding="async" loading="lazy" />
+            <div class="wrk-cmp-after">
+              <img class="wrk-cmp-img" alt="Final render" data-src={stageImg[3].src} data-stem={stageImg[3].stem} decoding="async" loading="lazy" />
+            </div>
+            <span class="wrk-cmp-label wrk-cmp-label--l">BIM model</span>
+            <span class="wrk-cmp-label wrk-cmp-label--r">Final render</span>
+            <span class="wrk-cmp-handle" aria-hidden="true"><i>‹ ›</i></span>
+            <input class="wrk-cmp-range" type="range" min="0" max="100" value="50" aria-label="Compare approved model and final render" />
+          </div>
+        </div>
+      </section>
+
+      <!-- =========== DELIVERED RENDERS (client ko diye gaye) =========== -->
+      <section class="wrk-section wrk-section--tight" id="renders">
+        <div class="wrk-wrap">
+          <div class="wrk-head wrk-reveal">
+            <div>
+              <span class="wrk-kicker">Delivered to the client</span>
+              <h2 class="wrk-h2">Final renders <span>as delivered.</span></h2>
+            </div>
+            <p class="wrk-head-note">The exact visuals handed over at the end of the project. Click to open full screen.</p>
+          </div>
+
+          <div class="wrk-renders">
+            {renderSlots.map((r, i) => (
+              <button
+                type="button"
+                class={`wrk-render wrk-reveal${i === 0 ? " wrk-render--lead" : ""}`}
+                style={`--d:${i * 0.08}s`}
+                data-lb="renders"
+                data-title={r.title}
+                data-note={r.note}
+              >
+                <span class="wrk-render-media wrk-ph" data-missing="Render not added yet">
+                  <img alt={r.title} loading="lazy" decoding="async" data-src={r.src} data-stem={r.stem} />
+                </span>
+                <span class="wrk-render-cap">
+                  <span>
+                    <b>{r.title}</b>
+                    <small>{r.note}</small>
+                  </span>
+                  <span class="wrk-render-open" aria-hidden="true">↗</span>
+                </span>
+              </button>
+            ))}
+
+            {Array.from({ length: soonSlots }, (_, i) => (
+              <button
+                type="button"
+                class="wrk-render wrk-render--soon wrk-reveal"
+                style={`--d:${(renderSlots.length + i) * 0.08}s`}
+                data-lb="renders"
+                data-soon="true"
+                data-title={`Client render ${pad(renderSlots.length + i + 1)}`}
+                data-note="Coming soon"
+              >
+                <span class="wrk-render-media wrk-render-soon">
+                  <span class="wrk-render-soon-ico" aria-hidden="true">◐</span>
+                  <b>Client render {pad(renderSlots.length + i + 1)}</b>
+                  <small>Coming soon</small>
+                </span>
+              </button>
+            ))}
+          </div>
         </div>
       </section>
 
@@ -309,6 +591,28 @@ const more = all.length > 1
       </section>
     </main>
 
+    <!-- =========== LIGHTBOX (stages + delivered renders) =========== -->
+    <div class="wrk-lb" id="wrkLb" role="dialog" aria-modal="true" aria-label="Image viewer" aria-hidden="true">
+      <button type="button" class="wrk-lb-close" id="wrkLbClose" aria-label="Close">✕</button>
+      <button type="button" class="wrk-lb-nav wrk-lb-nav--prev" id="wrkLbPrev" aria-label="Previous">‹</button>
+      <button type="button" class="wrk-lb-nav wrk-lb-nav--next" id="wrkLbNext" aria-label="Next">›</button>
+      <figure class="wrk-lb-fig">
+        <div class="wrk-lb-frame">
+          <img id="wrkLbImg" alt="" />
+          <div class="wrk-lb-soon" id="wrkLbSoon" hidden>
+            <span aria-hidden="true">◐</span>
+            <b>Render coming soon</b>
+            <small>The final client render will appear here.</small>
+          </div>
+        </div>
+        <figcaption class="wrk-lb-cap">
+          <b id="wrkLbTitle"></b>
+          <span id="wrkLbNote"></span>
+          <em id="wrkLbCount"></em>
+        </figcaption>
+      </figure>
+    </div>
+
     <Footer />
 
     <script is:inline>
@@ -337,6 +641,207 @@ const more = all.length > 1
           row.classList.add("is-active");
         }));
       });
+
+      // ---- images: explicit src, ya stems + (jpg|png|jpeg|webp|avif) try karo, phir placeholder ----
+      document.querySelectorAll("img[data-src], img[data-stem]").forEach((img) => {
+        const ph = img.closest(".wrk-ph");
+        const miss = () => { img.onerror = null; img.removeAttribute("src"); ph && ph.classList.add("is-missing"); };
+        const direct = img.dataset.src;
+        if (direct) { img.onerror = miss; img.src = direct; return; }
+        const list = [];
+        (img.dataset.stem || "").split("|").forEach((s) => ["jpg", "png", "jpeg", "webp", "avif"].forEach((x) => list.push(`${s}.${x}`)));
+        let n = 0;
+        img.onerror = () => { n++; if (n < list.length) img.src = list[n]; else miss(); };
+        img.src = list[0];
+      });
+
+      // ---- before / after compare ----
+      document.querySelectorAll(".wrk-cmp").forEach((box) => {
+        const range = box.querySelector(".wrk-cmp-range");
+        const set = (v) => box.style.setProperty("--pos", v + "%");
+        range.addEventListener("input", () => set(range.value));
+        set(range.value);
+      });
+
+      // ---- lightbox ----
+      (function () {
+        const lb = document.getElementById("wrkLb");
+        const img = document.getElementById("wrkLbImg");
+        const soon = document.getElementById("wrkLbSoon");
+        const T = document.getElementById("wrkLbTitle"), N = document.getElementById("wrkLbNote"), C = document.getElementById("wrkLbCount");
+        let items = [], i = 0, lastFocus = null;
+
+        function show() {
+          const el = items[i];
+          const im = el.querySelector("img");
+          const src = im && (im.currentSrc || im.getAttribute("src"));
+          const isSoon = el.dataset.soon === "true" || !src;
+          soon.hidden = !isSoon;
+          img.hidden = isSoon;
+          if (!isSoon) { img.src = src; img.alt = el.dataset.title || ""; }
+          T.textContent = el.dataset.title || "";
+          N.textContent = el.dataset.note || "";
+          C.textContent = items.length > 1 ? `${String(i + 1).padStart(2, "0")} / ${String(items.length).padStart(2, "0")}` : "";
+          lb.classList.toggle("is-single", items.length < 2);
+        }
+        function open(group, idx) {
+          items = [...document.querySelectorAll(`[data-lb="${group}"]`)];
+          if (!items.length) return;
+          i = Math.max(0, Math.min(items.length - 1, idx || 0));
+          lastFocus = document.activeElement;
+          show();
+          lb.classList.add("is-open");
+          lb.setAttribute("aria-hidden", "false");
+          document.documentElement.style.overflow = "hidden";
+          document.getElementById("wrkLbClose").focus();
+        }
+        function close() {
+          lb.classList.remove("is-open");
+          lb.setAttribute("aria-hidden", "true");
+          document.documentElement.style.overflow = "";
+          lastFocus && lastFocus.focus && lastFocus.focus();
+        }
+        const step = (d) => { i = (i + d + items.length) % items.length; show(); };
+
+        document.querySelectorAll("[data-lb]").forEach((el) =>
+          el.addEventListener("click", () => {
+            const g = el.dataset.lb;
+            open(g, [...document.querySelectorAll(`[data-lb="${g}"]`)].indexOf(el));
+          })
+        );
+        document.getElementById("wrkLbClose").addEventListener("click", close);
+        document.getElementById("wrkLbPrev").addEventListener("click", () => step(-1));
+        document.getElementById("wrkLbNext").addEventListener("click", () => step(1));
+        lb.addEventListener("click", (e) => { if (e.target === lb || e.target.classList.contains("wrk-lb-fig")) close(); });
+        document.addEventListener("keydown", (e) => {
+          if (!lb.classList.contains("is-open")) return;
+          if (e.key === "Escape") close();
+          else if (e.key === "ArrowRight") step(1);
+          else if (e.key === "ArrowLeft") step(-1);
+        });
+        window.wrkOpenLightbox = open;
+      })();
+    </script>
+
+    <!-- =========== REPLAY PLAYER LOGIC =========== -->
+    <script define:vars={{ events, tabCount: tabs.length }}>
+      (function () {
+        const root = document.getElementById("wrkRp");
+        if (!root || root.dataset.ready === "true") return;
+        root.dataset.ready = "true";
+        const $ = (id) => document.getElementById(id);
+        const slides = [...root.querySelectorAll(".wrk-rp-slide")];
+        const tabEls = [...root.querySelectorAll(".wrk-rp-tab")];
+        const logRows = [...root.querySelectorAll(".wrk-rp-log-row")];
+        const bar = $("wrkRpProgress"), badge = $("wrkRpBadge"), revPill = $("wrkRpRev"), renderBtn = $("wrkRpRender");
+        const N = events.length, DUR = 1400;
+        const ICON = {
+          pause: '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>',
+          play: '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21"/></svg>',
+          replay: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.5 15a9 9 0 1 0 2.1-9.4L1 10"/></svg>',
+        };
+        const revStart = events.findIndex((e) => Array.isArray(e.badge) && e.badge[1] === "rev");
+        const lastSlide = Math.max(...events.map((e) => e.slide));
+
+        let cur = 0, playing = false, finished = false, timer = 0, evStart = 0, remain = DUR;
+
+        function paint(i) {
+          cur = i;
+          const e = events[i];
+          slides.forEach((s, k) => s.classList.toggle("is-active", k === e.slide));
+          tabEls.forEach((t, k) => { t.classList.toggle("is-active", k === e.tab); t.classList.toggle("is-passed", k < e.tab); });
+          $("wrkRpRole").className = `wrk-rp-role ${e.cls}`;
+          $("wrkRpRoleText").textContent = e.role;
+          $("wrkRpDay").textContent = e.day;
+          $("wrkRpTitle").textContent = e.title;
+          $("wrkRpDesc").textContent = e.desc;
+          $("wrkRpQc").textContent = e.qc;
+          ["wrkRpTitle", "wrkRpDesc"].forEach((id) => { const el = $(id); el.classList.remove("wrk-rp-in"); void el.offsetWidth; el.classList.add("wrk-rp-in"); });
+          if (e.badge) { badge.hidden = false; badge.className = `wrk-rp-badge tone-${e.badge[1]}`; $("wrkRpBadgeText").textContent = e.badge[0]; }
+          else badge.hidden = true;
+          if (revPill) revPill.hidden = revStart < 0 || i < revStart;
+          renderBtn.hidden = !(e.slide === lastSlide && e.slide > 0);
+          logRows.forEach((r) => r.classList.toggle("is-highlighted", Number(r.dataset.ev) === i));
+          const active = root.querySelector(".wrk-rp-log-row.is-highlighted");
+          const sc = $("wrkRpLogScroll");
+          if (active && $("wrkRpLog").classList.contains("is-open")) sc.scrollTo({ top: active.offsetTop - sc.offsetTop - 40, behavior: "smooth" });
+        }
+
+        function setBar(from, to, ms) {
+          bar.style.transition = "none";
+          bar.style.transform = `scaleX(${from})`;
+          void bar.offsetWidth;
+          bar.style.transition = ms ? `transform ${ms}ms linear` : "none";
+          bar.style.transform = `scaleX(${to})`;
+        }
+        function setBtn(state) {
+          $("wrkRpPlayIcon").innerHTML = ICON[state];
+          $("wrkRpPlayLabel").textContent = { pause: "Pause", play: "Play", replay: "Replay" }[state];
+        }
+        function run(ms) {
+          clearTimeout(timer);
+          evStart = performance.now();
+          remain = ms;
+          timer = setTimeout(() => { if (cur < N - 1) go(cur + 1); else finish(); }, ms);
+        }
+        function go(i) {
+          paint(i);
+          if (playing) { setBar(i / N, (i + 1) / N, DUR); run(DUR); }
+          else setBar((i + 1) / N, (i + 1) / N, 0);
+        }
+        function finish() {
+          playing = false; finished = true;
+          clearTimeout(timer);
+          setBar(1, 1, 0);
+          setBtn("replay");
+        }
+        function curScale() {
+          const m = getComputedStyle(bar).transform;
+          return m && m !== "none" ? parseFloat(m.split(",")[0].replace("matrix(", "")) : cur / N;
+        }
+        function play() {
+          playing = true; finished = false; setBtn("pause");
+          const from = cur / N, to = (cur + 1) / N;
+          if (remain >= DUR) { setBar(from, to, DUR); run(DUR); }
+          else { setBar(curScale() || from, to, remain); run(remain); }
+        }
+        function pause() {
+          playing = false; clearTimeout(timer);
+          remain = Math.max(60, DUR - (performance.now() - evStart));
+          const sx = curScale();
+          bar.style.transition = "none"; bar.style.transform = `scaleX(${sx})`;
+          setBtn("play");
+        }
+
+        const firstOfTab = (t) => events.findIndex((e) => e.tab === t);
+
+        $("wrkRpPlay").addEventListener("click", () => {
+          if (finished) { remain = DUR; paint(0); play(); }
+          else if (playing) pause();
+          else play();
+        });
+        $("wrkRpSkip").addEventListener("click", () => {
+          const nt = (events[cur].tab + 1) % tabCount;
+          remain = DUR; finished = false; go(firstOfTab(nt));
+        });
+        tabEls.forEach((t, k) => t.addEventListener("click", () => { remain = DUR; finished = false; go(firstOfTab(k)); }));
+
+        $("wrkRpLogBtn").addEventListener("click", () => {
+          const log = $("wrkRpLog");
+          const open = log.classList.toggle("is-open");
+          log.setAttribute("aria-hidden", String(!open));
+          $("wrkRpLogBtn").textContent = open ? "Hide project log" : "Show project log";
+        });
+
+        // client ko diya gaya render: lightbox mein
+        renderBtn.addEventListener("click", () => { if (window.wrkOpenLightbox) window.wrkOpenLightbox("renders", 0); });
+
+        // plays once when it scrolls into view
+        paint(0); setBar(0, 0, 0); setBtn("play");
+        new IntersectionObserver(([en], ob) => {
+          if (en.isIntersecting) { ob.disconnect(); remain = DUR; play(); }
+        }, { threshold: 0.35 }).observe(root);
+      })();
     </script>
   </body>
 </html>
