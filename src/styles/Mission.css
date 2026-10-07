@@ -1,6 +1,7 @@
 /* =========================================================
    MISSION / STATS SECTION (BENTO GRID STYLING)
 ========================================================= */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap');
 
 .mission {
   position: relative;
@@ -12,30 +13,32 @@
   overflow: hidden;
 }
 
-/* Bottom-Left Brown Gradient */
+/* Left-MIDDLE Brown Glow (top/bottom edge ko touch nahi karta) */
 .mission::before {
   content: "";
   position: absolute;
-  bottom: -250px;
-  left: -250px;
-  width: 600px;
-  height: 600px;
+  top: 50%;
+  left: -280px;
+  width: 560px;
+  height: 560px;
+  transform: translateY(-50%);
   border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(179, 139, 76, 0.25) 0%, transparent 70%);
+  background: radial-gradient(closest-side, rgba(179, 139, 76, 0.28) 0%, transparent 100%);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Bottom-Right Light Blue Gradient */
+/* Right-MIDDLE Blue Glow (top/bottom edge ko touch nahi karta) */
 .mission::after {
   content: "";
   position: absolute;
-  bottom: -250px;
-  right: -250px;
-  width: 600px;
-  height: 600px;
+  top: 50%;
+  right: -280px;
+  width: 560px;
+  height: 560px;
+  transform: translateY(-50%);
   border-radius: 50%;
-  background: radial-gradient(circle at center, rgba(90, 169, 230, 0.22) 0%, transparent 70%);
+  background: radial-gradient(closest-side, rgba(90, 169, 230, 0.26) 0%, transparent 100%);
   pointer-events: none;
   z-index: 1;
 }
@@ -160,7 +163,7 @@
   border-radius: 50%;
   margin-left: -10px;
   border: 2px solid #ffffff;
-  background: #0b1d2d;
+  background: #0a2e4f;
   color: #f8f5ef;
   font-size: 11px;
   font-weight: 700;
@@ -198,17 +201,20 @@
   margin: 8px 0;
 }
 
+/* Heading font — same as How it works / Gallery / Stages */
 .mission-stat-value {
+  font-family: "Bricolage Grotesque", sans-serif;
   font-weight: 800;
   font-size: clamp(42px, 4vw, 56px);
-  line-height: 1;
-  letter-spacing: -0.02em;
+  line-height: 1.02;
+  letter-spacing: -0.01em;
   color: #0b1d2d;
 }
 
 .mission-stat-suffix {
+  font-family: "Bricolage Grotesque", sans-serif;
   color: rgba(11, 29, 45, 0.45);
-  font-weight: 700;
+  font-weight: 800;
   font-size: clamp(20px, 2vw, 26px);
 }
 
@@ -218,7 +224,7 @@
 ========================================================= */
 
 .mission-card--accent {
-  background: linear-gradient(160deg, #1d2c3a 0%, #0b1d2d 100%);
+  background: linear-gradient(160deg, #11456f 0%, #0a2e4f 100%);
   border: 1px solid rgba(226, 207, 171, 0.2);
   display: flex;
   flex-direction: column;
@@ -238,8 +244,10 @@
 
 .mission-hero-title {
   color: #f8f5ef;
+  font-family: "Bricolage Grotesque", sans-serif;
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 800;
+  letter-spacing: -0.01em;
   margin: 4px 0 0;
 }
 
@@ -289,7 +297,7 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background: #07131f;
+  background: #06213a;
   border: 1px solid rgba(179, 139, 76, 0.25);
 }
 

@@ -1,211 +1,84 @@
 ---
 import "../styles/production-layer.css";
 
-const steps = [
+const services = [
   {
-    num: "01",
-    detail: "BIM Production",
-    kind: "Model & data",
-    plain: "A smart 3D model of your building that carries all its information.",
-    get: "Coordinated model + drawings",
+    title: "BIM production",
+    desc: "A coordinated model that carries every piece of building data, plus drawing sets. RVT, IFC, NWD.",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
     slug: "bim-production",
-    image: "https://images.unsplash.com/photo-1560131653-63257db002c8?auto=format&fit=crop&w=1200&q=85",
+    gridClass: "card-col-7",
   },
   {
-    num: "02",
-    detail: "Revit Production",
-    kind: "Model & data",
-    plain: "Your design built into Revit, the standard software for building models.",
-    get: "Revit model, plans & sections",
+    title: "Revit production",
+    desc: "Construction drawing sets, plans, sections and schedules drafted directly in Revit.",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
     slug: "revit-production",
-    image: "https://images.unsplash.com/photo-1721244654210-a505a99661e9?auto=format&fit=crop&w=1200&q=85",
+    gridClass: "card-col-5",
   },
   {
-    num: "03",
-    detail: "MEP Coordination",
-    kind: "Model & data",
-    plain: "We fit pipes, wiring and AC ducts into the model so they never clash.",
-    get: "Clash-checked service model",
+    title: "MEP coordination",
+    desc: "Services modelled and clash checked before site.",
+    // New high-detail MEP / Industrial Piping & Ductwork image
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
     slug: "mep-coordination",
-    image: "https://images.unsplash.com/photo-1558358235-a0a93f68a52c?auto=format&fit=crop&w=1200&q=85",
+    gridClass: "card-col-4",
   },
   {
-    num: "04",
-    detail: "3D Modeling",
-    kind: "Visuals",
-    plain: "Accurate 3D shapes of your building, inside and out.",
-    get: "3D model files",
-    slug: "3d-modeling",
-    image: "https://images.unsplash.com/photo-1722872236844-6e395a98853d?auto=format&fit=crop&w=1200&q=85",
+    title: "Archviz stills",
+    desc: "Photoreal interiors and exteriors for sales and planning.",
+    image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
+    slug: "archviz-stills",
+    gridClass: "card-col-4",
   },
   {
-    num: "05",
-    detail: "Architectural Visualization",
-    kind: "Visuals",
-    plain: "Photo-real images of your design, before it is built.",
-    get: "High-resolution stills",
-    slug: "architectural-visualization",
-    image: "https://images.unsplash.com/photo-1668015641954-d3685b7236e7?auto=format&fit=crop&w=1200&q=85",
+    title: "Animation",
+    desc: "Cinematic walkthrough films in 4K.",
+    image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80",
+    slug: "animation",
+    gridClass: "card-col-4",
   },
   {
-    num: "06",
-    detail: "Real-time Experiences",
-    kind: "Interactive",
-    plain: "Walk through your design live, on screen or in VR.",
-    get: "Interactive walkthrough",
-    slug: "real-time",
-    image: "https://images.unsplash.com/photo-1664538922512-127ff7e30aef?auto=format&fit=crop&w=1200&q=85",
-  },
-  {
-    num: "07",
-    detail: "3D Max Production",
-    kind: "Visuals",
-    plain: "Detailed 3D scenes built in 3ds Max for premium-quality visuals.",
-    get: "Scene files + final renders",
-    slug: "3ds-max-production",
-    image: "https://images.unsplash.com/photo-1637167085833-f6aac03a9aa5?auto=format&fit=crop&w=1200&q=85",
-  },
-  {
-    num: "08",
-    detail: "Animation & Motion",
-    kind: "Visuals",
-    plain: "Short films that move through your building.",
-    get: "Walkthrough video",
-    slug: "animation-motion",
-    image: "https://images.unsplash.com/photo-1660361339436-ddd4b85372da?auto=format&fit=crop&w=1200&q=85",
+    title: "Real time & VR",
+    desc: "Unreal Engine tours for web, screens and headsets.",
+    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80",
+    slug: "real-time-vr",
+    gridClass: "card-col-12",
   },
 ];
-
-const infiniteSteps = [...steps, ...steps];
-
-// cards are only 270px wide -> 620px (retina) is plenty. Was 1200px q85.
-const small = (u: string) => u.replace("w=1200&q=85", "w=620&q=72");
 ---
 
-<!-- =====================================================
-     UX BRIEF — SERVICES (PRODUCTION LAYER)
-     Visitor ka sawal : "Mujhe in se kya milega?"
-     Har card ab 3 cheezein batata hai: naam, "ye kya hai" (plain words), "You get" (deliverable).
-     ===================================================== -->
-
-<div class="px-services-wrapper" id="px-section">
-  <div class="px-sketch-bg" aria-hidden="true"></div>
-
-  <div class="px-container">
-    <!-- Header -->
-   <div class="px-header">
-  <span class="px-eyebrow">SERVICES</span>
-  <h2>
-    <span class="px-line">From model information to</span>
-    <span class="px-line px-highlight">stake holder ready output</span>
-  </h2>
-  <p class="px-subtext">
-    <!-- <span class="px-line">Clear inputs, controlled production and defined approval routes keep every package aligned</span>
-    <span class="px-line">from start to handoff.</span> -->
-  </p>
-
-  <!-- NEW (UX): maqsad = section kaise use karna hai, ye pehle hi bata do -->
-  <p class="px-helper">
-    Find the service you need. Each card shows what it is and what you receive.
-  </p>
-
-  <!-- NEW (UX): maqsad = khud chalti hui cheez ko rokne ka control (padhne ke liye) -->
-  <button type="button" class="px-pause" id="px-pause" aria-pressed="false">
-    <span class="px-pause-icon" aria-hidden="true">❚❚</span>
-    <span id="px-pause-label">Pause scrolling</span>
-  </button>
-</div>
-
-    <!-- Horizontal Auto-Scrolling Slider -->
-    <div class="px-slider-wrap">
-      <div class="px-slider-track">
-        {infiniteSteps.map((step, i) => (
-          <div class="px-card" aria-hidden={i >= steps.length ? "true" : undefined}>
-            <img class="px-card-bg" src={small(step.image)} alt={step.detail} width="270" height="370" loading="lazy" decoding="async" />
-            <div class="px-card-overlay"></div>
-            <span class="px-card-num">{step.num}</span>
-            <!-- NEW (UX): maqsad = service ka group (Model / Visuals / Interactive) -->
-            <span class="px-card-kind">{step.kind}</span>
-
-            <div class="px-card-content">
-              <p class="px-card-desc">{step.detail}</p>
-
-              {/* <p class="px-card-get"><strong>You get</strong> {step.get}</p>    */}
-
-              <a href={`/services/${step.slug}`} class="px-scope-btn" tabindex={i >= steps.length ? -1 : undefined}>
-                <span>Review technical scope</span>
-                <span class="arrow">↗</span>
-              </a>
-            </div>
-          </div>
-        ))}
-      </div>
+<section class="pl-section" id="services">
+  <div class="pl-container">
+    
+    <!-- Header with Screenshot Monospace Style -->
+    <div class="pl-header">
+      <span class="pl-tag">SERVICES</span>
+      <h2 class="pl-title">
+        The full <span class="pl-highlight">pipeline.</span>
+      </h2>
     </div>
+
+    <!-- Cards Grid -->
+    <div class="pl-grid">
+      {services.map((item) => (
+        <a href={`/services/${item.slug}`} class={`pl-card ${item.gridClass}`} aria-label={item.title}>
+          <img 
+            src={item.image} 
+            alt={item.title} 
+            class="pl-card-img" 
+            loading="lazy" 
+            decoding="async" 
+          />
+          <div class="pl-card-overlay" aria-hidden="true"></div>
+          
+          <div class="pl-card-content">
+            <h3 class="pl-card-title">{item.title}</h3>
+            <p class="pl-card-desc">{item.desc}</p>
+          </div>
+        </a>
+      ))}
+    </div>
+
   </div>
-</div>
-
-<script>
-  // 1) warm up the images BEFORE the section arrives (load + decode)
-  // 2) start the animations only when the section is visible AND the images are ready
-  //    -> nothing heavy happens at the exact moment the user arrives
-  const initProductionLayer = () => {
-    const section = document.getElementById("px-section");
-    if (!section || section.dataset.ready === "1") return;
-    section.dataset.ready = "1";
-
-    // NEW (UX): pause / play button
-    const pauseBtn = document.getElementById("px-pause");
-    const pauseLabel = document.getElementById("px-pause-label");
-    if (pauseBtn) {
-      pauseBtn.addEventListener("click", () => {
-        const paused = section.classList.toggle("is-paused");
-        pauseBtn.setAttribute("aria-pressed", String(paused));
-        if (pauseLabel) pauseLabel.textContent = paused ? "Play scrolling" : "Pause scrolling";
-      });
-    }
-
-    const imgs = Array.from(section.querySelectorAll<HTMLImageElement>(".px-card-bg"));
-    let warmPromise: Promise<unknown> | null = null;
-
-    const warm = () => {
-      if (!warmPromise) {
-        warmPromise = Promise.all(
-          imgs.map((img) => {
-            img.loading = "eager";
-            return img.decode ? img.decode().catch(() => {}) : Promise.resolve();
-          })
-        );
-      }
-      return warmPromise;
-    };
-
-    // start loading when the section is still ~1.5 screens away
-    const warmObserver = new IntersectionObserver(
-      (entries) => {
-        if (entries.some((e) => e.isIntersecting)) {
-          warm();
-          warmObserver.disconnect();
-        }
-      },
-      { rootMargin: "1500px 0px" }
-    );
-    warmObserver.observe(section);
-
-    // arrival: animate once images are decoded (max wait 800ms so it never gets stuck)
-    const showObserver = new IntersectionObserver(
-      (entries) => {
-        if (!entries.some((e) => e.isIntersecting)) return;
-        showObserver.disconnect();
-        Promise.race([warm(), new Promise((r) => setTimeout(r, 800))]).then(() => {
-          requestAnimationFrame(() => section.classList.add("is-visible"));
-        });
-      },
-      { threshold: 0.15 }
-    );
-    showObserver.observe(section);
-  };
-
-  document.addEventListener("DOMContentLoaded", initProductionLayer);
-  document.addEventListener("astro:page-load", initProductionLayer);
-  if (document.readyState !== "loading") initProductionLayer();
-</script>
+</section>

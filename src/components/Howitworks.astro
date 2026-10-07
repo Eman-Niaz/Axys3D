@@ -1,302 +1,258 @@
 ---
-import "../styles/HowItWorks.css";
+import "../styles/Howitworks.css";
 
-// Ek hi section: Approach + How it works (Drawings -> 3D model -> Renders)
-const steps = [
-  {
-    num: "01",
-    label: "YOU GIVE US",
-    title: "Drawings or plans",
-    desc: "Floor plans, sketches or design files. Whatever you already have is enough to start.",
-    icon: "plan",
-    checks: ["Floor plans", "Sketches", "Design files"],
-  },
-  {
-    num: "02",
-    label: "WE BUILD",
-    title: "An accurate 3D model",
-    desc: "Our team turns your drawings into a precise 3D model of the building.",
-    icon: "cube",
-    checks: ["Geometry modelled", "Dimensions verified", "Model approved"],
-  },
-  {
-    num: "03",
-    label: "YOU GET",
-    title: "Renders, walkthroughs & stills",
-    desc: "Photo-real images and videos you can show your client, before anything is built.",
-    icon: "image",
-    checks: ["Photo-real renders", "Walkthrough videos", "High-res stills"],
-  },
+// Tabs (5 phases). Replay steps through all 14 events below, like the recording.
+const tabs = [
+  { num: "01", label: "Brief" },
+  { num: "02", label: "Expert analysis" },
+  { num: "03", label: "Sketch & 2D plan" },
+  { num: "04", label: "3D BIM model" },
+  { num: "05", label: "Renders & film" },
 ];
+
+// slide: 0 = client brief card, 1 = stage1, 2 = stage2, 3 = before, 4 = after
+// badge: [text, tone] or null.  tone: ok | rev
+const events = [
+  { tab: 0, slide: 0, role: "CLIENT", cls: "role-client", logCls: "log-client", logRole: "Client", day: "DAY 1", title: "Brief received", desc: "Requirements, references and deadline submitted.", qc: 0, badge: null },
+  { tab: 1, slide: 0, role: "AXYS3D LEAD", cls: "role-lead", logCls: "log-lead", logRole: "Axys3D lead", day: "DAY 1", title: "Expert analysis", desc: "Scope, codes and deliverables confirmed.", qc: 0, badge: null },
+  { tab: 2, slide: 1, role: "DESIGNER", cls: "role-designer", logCls: "log-designer", logRole: "Designer", day: "DAY 2", title: "Sketch & 2D plan", desc: "Concept linework and floor plans drafted.", qc: 0, badge: null },
+  { tab: 2, slide: 1, role: "QC TEAM", cls: "role-qc", logCls: "log-qc", logRole: "QC team", day: "DAY 2", title: "Quality check passed", desc: "Dimensions, layout and brief compliance verified.", qc: 1, badge: ["✓ QC passed", "ok"] },
+  { tab: 2, slide: 1, role: "CLIENT", cls: "role-client", logCls: "log-client", logRole: "Client", day: "DAY 3", title: "Plan approved", desc: "Go ahead for the BIM model.", qc: 1, badge: ["✓ Client approved", "ok"] },
+  { tab: 3, slide: 2, role: "BIM MODELER", cls: "role-modeler", logCls: "log-bim", logRole: "BIM modeler", day: "DAY 4", title: "3D BIM model built", desc: "Structure, facade and floors modelled in Revit.", qc: 1, badge: null },
+  { tab: 3, slide: 2, role: "QC TEAM", cls: "role-qc", logCls: "log-qc", logRole: "QC team", day: "DAY 5", title: "Quality check passed", desc: "Clash detection and standards verified.", qc: 2, badge: ["✓ QC passed", "ok"] },
+  { tab: 3, slide: 2, role: "CLIENT", cls: "role-client", logCls: "log-client", logRole: "Client", day: "DAY 5", title: "Revision requested", desc: "Widen the lower deck stair.", qc: 2, badge: ["↻ Revision", "rev"] },
+  { tab: 3, slide: 3, role: "BIM MODELER", cls: "role-modeler", logCls: "log-bim", logRole: "BIM modeler", day: "DAY 6", title: "Revision complete", desc: "Changes made and sent back to QC.", qc: 2, badge: null },
+  { tab: 3, slide: 3, role: "QC TEAM", cls: "role-qc", logCls: "log-qc", logRole: "QC team", day: "DAY 6", title: "Re-check passed", desc: "Model cleared for the client.", qc: 3, badge: ["✓ QC passed", "ok"] },
+  { tab: 3, slide: 3, role: "CLIENT", cls: "role-client", logCls: "log-client", logRole: "Client", day: "DAY 6", title: "BIM approved", desc: "Files released to visualization.", qc: 3, badge: ["✓ Client approved", "ok"] },
+  { tab: 4, slide: 4, role: "RENDERER", cls: "role-render", logCls: "log-render", logRole: "Renderer", day: "DAY 8", title: "Renders & film produced", desc: "Materials, lighting and environment designed.", qc: 3, badge: ["✓ Client approved", "ok"] },
+  { tab: 4, slide: 4, role: "QC TEAM", cls: "role-qc", logCls: "log-qc", logRole: "QC team", day: "DAY 9", title: "Final visual QC passed", desc: "Colour, detail and framing checked.", qc: 4, badge: ["✓ QC passed", "ok"] },
+  { tab: 4, slide: 4, role: "CLIENT", cls: "role-client", logCls: "log-client", logRole: "Client", day: "DAY 9", title: "Delivered", desc: "Final package approved.", qc: 4, badge: ["✓ Delivered", "ok"] },
+];
+
+// 4 images, in this order: stage1 -> stage2 -> before -> after
+// Har image ko barabar time: 3 events x 1400ms = 4.2s each (events 2-4, 5-7, 8-10, 11-13).
+// Put them in /public/images/ . Any of jpg/png/jpeg/webp/avif works.
+const imgs = [
+  { stems: "/images/stage1", name: "stage1", alt: "Sketch and 2D plan" },
+  { stems: "/images/stage2", name: "stage2", alt: "3D BIM model" },
+  { stems: "/images/before", name: "before", alt: "3D BIM model, revised" },
+  { stems: "/images/after", name: "after", alt: "Final delivered render" },
+];
+const first = events[0];
 ---
 
-<section class="hiw" id="howItWorks">
-  <div class="hiw-inner">
-
-    <!-- Heading -->
-    <div class="hiw-top">
-      <span class="hiw-tag">How we work</span>
-      <h2>
-        <span class="hiw-h-light">Our process is simple</span>
-        <span class="hiw-h-bold">render before you build.</span>
-      </h2>
-      <p class="hiw-promise">
-        We deliver architectural visuals that sell the space before it's built.
-      </p>
+<section class="hw-section" id="howItWorks">
+  <div class="hw-container">
+    <div class="hw-header">
+      <span class="hw-tag">HOW WE WORK</span>
+      <h2 class="hw-title">Watch a<br />project <span class="hw-highlight">go live.</span></h2>
+      <p class="hw-subtitle">A 20 second replay. Every step passes in-house QC before the client sees it.</p>
     </div>
 
-    <!-- Steps -->
-    <div class="hiw-steps" id="hiwSteps">
-      {steps.map((s, i) => (
-        <>
-          <article
-            class={`hiw-step ${i === 0 ? "is-active" : ""}`}
-            data-step={i}
-            tabindex="0"
-            role="button"
-            aria-label={`Step ${s.num}: ${s.title}`}
-          >
-            <div class="hiw-step-head">
-              <span class="hiw-step-num">{s.num}</span>
-              <span class="hiw-step-label">{s.label}</span>
+    <div class="hw-player" id="hwPlayer">
+      <div class="hw-stage-wrapper">
+        <div class="hw-screen">
+          <div class="hw-slide is-active" data-slide="0">
+            <div class="hw-brief-card">
+              <div class="hw-brief-header">CLIENT BRIEF</div>
+              <div class="hw-brief-rows">
+                <div class="hw-brief-row"><span class="hw-brief-label">Project</span><span class="hw-brief-val">Hillside residence</span></div>
+                <div class="hw-brief-row"><span class="hw-brief-label">Scope</span><span class="hw-brief-val">BIM model, renders</span></div>
+                <div class="hw-brief-row"><span class="hw-brief-label">Inputs</span><span class="hw-brief-val">Survey, sketches</span></div>
+              </div>
             </div>
+          </div>
 
-            <div class="hiw-visual" aria-hidden="true">
-              {s.icon === "plan" && (
-                <svg viewBox="0 0 240 150" preserveAspectRatio="xMidYMid meet">
-                  <defs>
-                    <pattern id="hiwGrid" width="12" height="12" patternUnits="userSpaceOnUse">
-                      <path d="M12 0H0V12" fill="none" stroke="rgba(127,182,230,.12)" stroke-width=".6" />
-                    </pattern>
-                  </defs>
-                  <rect width="240" height="150" fill="url(#hiwGrid)" />
-                  <g fill="none" stroke="#9cc7ee" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round">
-                    <rect class="d" pathLength="1" x="40" y="30" width="160" height="94" />
-                    <path class="d" pathLength="1" d="M40 80H108M108 30V80M108 100V124M148 80H200M148 80V124" />
-                    <path class="d" pathLength="1" d="M108 80a14 14 0 0 1 14 -14" stroke-width="1" />
-                    <path class="d" pathLength="1" d="M148 100a14 14 0 0 0 -14 14" stroke-width="1" />
-                  </g>
-                  <path class="d" pathLength="1" d="M40 18H200M40 14V22M200 14V22" stroke="#b38b4c" stroke-width="1" fill="none" />
-                  <text class="r" x="120" y="13" fill="#b38b4c" font-size="7" font-weight="700" text-anchor="middle">12.0 m</text>
-                </svg>
-              )}
-              {s.icon === "cube" && (
-                <svg viewBox="0 0 240 150" preserveAspectRatio="xMidYMid meet">
-                  <g fill="none" stroke="#e2cda5" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round">
-                    <path class="d" pathLength="1" d="M120 24L192 60L120 96L48 60Z" />
-                    <path class="d" pathLength="1" d="M48 60V92L120 128V96" />
-                    <path class="d" pathLength="1" d="M192 60V92L120 128" />
-                    <path class="d" pathLength="1" d="M84 42L156 78M156 42L84 78" stroke-opacity=".35" />
-                    <path class="d" pathLength="1" d="M96 106L96 90L112 98L112 114Z" stroke-opacity=".7" />
-                    <path class="d" pathLength="1" d="M132 114V98L148 90V106Z" stroke-opacity=".7" />
-                  </g>
-                  <g fill="#b38b4c" class="r">
-                    <circle cx="120" cy="24" r="2.4" /><circle cx="192" cy="60" r="2.4" />
-                    <circle cx="48" cy="60" r="2.4" /><circle cx="120" cy="96" r="2.4" />
-                    <circle cx="48" cy="92" r="2.4" /><circle cx="192" cy="92" r="2.4" />
-                    <circle cx="120" cy="128" r="2.4" />
-                  </g>
-                </svg>
-              )}
-              {s.icon === "image" && (
-                <svg viewBox="0 0 240 150" preserveAspectRatio="xMidYMid slice">
-                  <defs>
-                    <linearGradient id="hiwSky" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stop-color="#14233d" />
-                      <stop offset=".45" stop-color="#4c6a94" />
-                      <stop offset=".8" stop-color="#e29a6b" />
-                      <stop offset="1" stop-color="#f6c08a" />
-                    </linearGradient>
-                    <radialGradient id="hiwSun" cx=".78" cy=".68" r=".5">
-                      <stop offset="0" stop-color="#ffe2b0" stop-opacity=".85" />
-                      <stop offset="1" stop-color="#ffe2b0" stop-opacity="0" />
-                    </radialGradient>
-                    <linearGradient id="hiwWood" x1="0" y1="0" x2="1" y2="0">
-                      <stop offset="0" stop-color="#8a6140" />
-                      <stop offset="1" stop-color="#5a3d27" />
-                    </linearGradient>
-                    <linearGradient id="hiwConcrete" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stop-color="#e6eaee" />
-                      <stop offset="1" stop-color="#b9c1c9" />
-                    </linearGradient>
-                    <linearGradient id="hiwGlassOff" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stop-color="#27384f" />
-                      <stop offset="1" stop-color="#17243a" />
-                    </linearGradient>
-                    <linearGradient id="hiwGlassOn" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stop-color="#ffe2ac" />
-                      <stop offset="1" stop-color="#f2a85c" />
-                    </linearGradient>
-                    <linearGradient id="hiwGround" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stop-color="#1b2735" />
-                      <stop offset="1" stop-color="#0a121c" />
-                    </linearGradient>
-                    <linearGradient id="hiwWater" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0" stop-color="#2a3d57" />
-                      <stop offset="1" stop-color="#0d1a2a" />
-                    </linearGradient>
-                    <filter id="hiwBlur" x="-20%" y="-20%" width="140%" height="140%">
-                      <feGaussianBlur stdDeviation="3" />
-                    </filter>
-                  </defs>
-
-                  <!-- sky -->
-                  <rect width="240" height="150" fill="url(#hiwSky)" />
-                  <rect width="240" height="150" fill="url(#hiwSun)" />
-                  <g fill="#fff" opacity=".7">
-                    <circle cx="26" cy="14" r=".7" /><circle cx="64" cy="9" r=".6" /><circle cx="118" cy="16" r=".7" />
-                    <circle cx="160" cy="8" r=".6" /><circle cx="210" cy="17" r=".7" />
-                  </g>
-
-                  <g class="r">
-                    <!-- distant tree line -->
-                    <path d="M0 100 Q20 90 40 98 T80 96 T130 99 T180 94 T240 100 V108 H0Z" fill="#1a2a3a" />
-
-                    <!-- ground + pool -->
-                    <rect y="106" width="240" height="44" fill="url(#hiwGround)" />
-                    <rect x="52" y="118" width="150" height="26" rx="2" fill="url(#hiwWater)" />
-
-                    <!-- lower volume -->
-                    <rect x="44" y="84" width="46" height="26" fill="url(#hiwWood)" />
-                    <g stroke="#3d2818" stroke-opacity=".5" stroke-width=".6">
-                      <path d="M52 84V110M60 84V110M68 84V110M76 84V110M84 84V110" />
-                    </g>
-                    <rect x="90" y="84" width="104" height="26" fill="#10192a" />
-                    <rect x="93" y="87" width="98" height="22" fill="url(#hiwGlassOff)" />
-
-                    <!-- upper volume -->
-                    <rect x="72" y="58" width="130" height="26" fill="url(#hiwConcrete)" />
-                    <rect x="84" y="63" width="108" height="14" fill="#10192a" />
-                    <rect x="85" y="64" width="106" height="12" fill="url(#hiwGlassOff)" />
-
-                    <!-- roof slab -->
-                    <rect x="66" y="54.5" width="142" height="3.6" fill="#f2f4f6" />
-                    <rect x="66" y="58" width="142" height="1.4" fill="#000" fill-opacity=".25" />
-                    <!-- cantilever shadow -->
-                    <rect x="72" y="84" width="130" height="5" fill="#000" fill-opacity=".28" />
-
-                    <!-- trees -->
-                    <g fill="#0f1c2a">
-                      <circle cx="26" cy="96" r="12" /><circle cx="36" cy="102" r="9" />
-                      <circle cx="214" cy="98" r="11" /><circle cx="224" cy="104" r="8" />
-                    </g>
-                    <rect x="24" y="104" width="2.4" height="8" fill="#0a1420" />
-                  </g>
-
-                  <!-- warm light turning on -->
-                  <g class="lit">
-                    <ellipse cx="142" cy="112" rx="62" ry="9" fill="#ffc77a" opacity=".35" filter="url(#hiwBlur)" />
-                    <rect x="93" y="87" width="98" height="22" fill="url(#hiwGlassOn)" />
-                    <rect x="85" y="64" width="106" height="12" fill="url(#hiwGlassOn)" />
-                    <!-- interior silhouettes -->
-                    <g fill="#7a4a24" fill-opacity=".55">
-                      <rect x="102" y="100" width="26" height="9" rx="2" />
-                      <rect x="102" y="96" width="26" height="5" rx="2" />
-                      <rect x="150" y="98" width="16" height="11" rx="1" />
-                    </g>
-                    <g stroke="#ffe9c4" stroke-width=".6">
-                      <path d="M140 87V93M176 87V92" />
-                    </g>
-                    <g fill="#fff3d6">
-                      <circle cx="140" cy="94" r="1.8" /><circle cx="176" cy="93" r="1.8" />
-                    </g>
-                    <!-- reflection in pool -->
-                    <rect x="93" y="120" width="98" height="9" fill="#ffc77a" opacity=".28" filter="url(#hiwBlur)" />
-                    <rect x="100" y="132" width="84" height="4" fill="#ffc77a" opacity=".16" filter="url(#hiwBlur)" />
-                  </g>
-
-                  <!-- window mullions (always on top) -->
-                  <g class="r" stroke="#0c1522" stroke-width="1">
-                    <path d="M117 87V109M141 87V109M165 87V109M110 64V76M135 64V76M160 64V76" />
-                    <path d="M93 98H191" stroke-opacity=".5" stroke-width=".6" />
-                  </g>
-
-                  <!-- subtle vignette -->
-                  <rect width="240" height="150" fill="none" stroke="#000" stroke-opacity=".0" />
-                </svg>
-              )}
+          {imgs.map((im, i) => (
+            <div class="hw-slide" data-slide={i + 1} data-missing={`${im.name} not found. Add it to /public/images/`}>
+              <img class="hw-slide-img" data-stem={im.stems} alt={im.alt} decoding="async" />
             </div>
+          ))}
 
-            <h3>{s.title}</h3>
-            <p>{s.desc}</p>
+          <div class="hw-screen-badge" id="hwScreenBadge" hidden><span id="hwBadgeText"></span></div>
+        </div>
 
-            <ul class="hiw-checks">
-              {s.checks.map((c) => (
-                <li>
-                  <span class="hiw-check-dot">
-                    <svg width="10" height="10" viewBox="0 0 12 12" fill="none"><path d="M2.5 6.5L5 9L9.5 3.5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                  </span>
-                  <span>{c}</span>
-                </li>
-              ))}
-            </ul>
+        <div class="hw-info-pane">
+          <div class="hw-info-header">
+            <div class="hw-role role-client" id="hwRoleBadge"><span class="hw-role-dot"></span><span id="hwRoleText">{first.role}</span></div>
+            <div class="hw-day" id="hwDayText">{first.day}</div>
+          </div>
+          <h3 class="hw-step-title" id="hwStepTitle">{first.title}</h3>
+          <p class="hw-step-desc" id="hwStepDesc">{first.desc}</p>
 
-            <div class="hiw-progress"></div>
-          </article>
+          <div class="hw-qc-status">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
+            <span><b id="hwQcNum">0</b> in house QC checks passed</span>
+          </div>
 
-          {i < steps.length - 1 && (
-            <span class="hiw-step-arrow" data-arrow={i} aria-hidden="true">→</span>
-          )}
-        </>
-      ))}
+          <div class="hw-controls">
+            <button type="button" class="hw-btn hw-btn-secondary" id="hwPlayBtn"><span id="hwPlayIcon"></span><span id="hwPlayLabel">Pause</span></button>
+            <button type="button" class="hw-btn hw-btn-secondary" id="hwToggleLogBtn">Show project log</button>
+            <button type="button" class="hw-btn hw-btn-play hw-btn-skip" id="hwSkipBtn"><span>Skip</span>
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="hw-project-log" id="hwProjectLog" aria-hidden="true">
+        <div class="hw-log-inner">
+          <div class="hw-log-scroll" id="hwLogScroll">
+            {[...events].map((e, i) => ({ e, i })).reverse().map(({ e, i }) => (
+              <div class="hw-log-row" data-ev={i}>
+                <span class="hw-log-day">{e.day}</span>
+                <span class={`hw-log-role ${e.logCls}`}>{e.logRole}</span>
+                <span class="hw-log-msg">{e.title}. {e.desc}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div class="hw-timeline">
+        <div class="hw-progress"><i id="hwProgress"></i></div>
+        {tabs.map((t, i) => (
+          <button type="button" class={`hw-tab ${i === 0 ? "is-active" : ""}`} data-tab={i} aria-label={`Step ${t.num}: ${t.label}`}>
+            {i === 3 && <span class="hw-revision-pill" id="hwRevPill" hidden><span class="hw-rev-dot">●</span> 1 REVISION</span>}
+            <span class="hw-tab-num">{t.num}</span>
+            <span class="hw-tab-label">{t.label}</span>
+          </button>
+        ))}
+      </div>
     </div>
-
-
   </div>
 </section>
 
-<script>
-  function setupHowItWorks() {
-    const section = document.getElementById("howItWorks");
-    const wrap = document.getElementById("hiwSteps");
-    if (!section || !wrap || section.dataset.ready === "true") return;
-    section.dataset.ready = "true";
+<script define:vars={{ events, tabCount: tabs.length }}>
+  (function () {
+    const root = document.getElementById("hwPlayer");
+    if (!root || root.dataset.ready === "true") return;
+    root.dataset.ready = "true";
+    const $ = (id) => document.getElementById(id);
+    const slides = [...root.querySelectorAll(".hw-slide")];
+    const tabEls = [...root.querySelectorAll(".hw-tab")];
+    const logRows = [...root.querySelectorAll(".hw-log-row")];
+    const bar = $("hwProgress"), badge = $("hwScreenBadge"), revPill = $("hwRevPill");
+    const N = events.length, DUR = 1400;
+    const ICON = {
+      pause: '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><rect x="6" y="4" width="4" height="16" rx="1"/><rect x="14" y="4" width="4" height="16" rx="1"/></svg>',
+      play: '<svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><polygon points="6 3 20 12 6 21"/></svg>',
+      replay: '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="1 4 1 10 7 10"/><path d="M3.5 15a9 9 0 1 0 2.1-9.4L1 10"/></svg>',
+    };
 
-    const steps = Array.from(wrap.querySelectorAll<HTMLElement>(".hiw-step"));
-    const arrows = Array.from(wrap.querySelectorAll<HTMLElement>(".hiw-step-arrow"));
-    const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    let current = 0;
-    let started = false;
-
-    function render() {
-      steps.forEach((step, i) => {
-        step.classList.toggle("is-active", i === current);
-        step.classList.toggle("is-done", i < current);
-      });
-      arrows.forEach((a, i) => a.classList.toggle("is-lit", i <= current));
-    }
-
-    function goTo(i: number) {
-      current = (i + steps.length) % steps.length;
-      render();
-    }
-
-    steps.forEach((step, i) => {
-      step.querySelector(".hiw-progress")?.addEventListener("animationend", () => {
-        if (i === current && !reduce) goTo(current + 1);
-      });
-      step.addEventListener("click", () => goTo(i));
-      step.addEventListener("keydown", (e) => {
-        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); goTo(i); }
-        if (e.key === "ArrowRight") { e.preventDefault(); goTo(current + 1); steps[current].focus(); }
-        if (e.key === "ArrowLeft")  { e.preventDefault(); goTo(current - 1); steps[current].focus(); }
-      });
+    // ---- images: try each candidate once, then stop (no infinite loop) ----
+    root.querySelectorAll("img[data-stem]").forEach((img) => {
+      const list = [];
+      img.dataset.stem.split("|").forEach((s) => ["jpg", "png", "jpeg", "webp", "avif"].forEach((x) => list.push(`${s}.${x}`)));
+      let n = 0;
+      img.onerror = () => {
+        n++;
+        if (n < list.length) img.src = list[n];
+        else { img.onerror = null; img.removeAttribute("src"); img.closest(".hw-slide").classList.add("is-missing"); }
+      };
+      img.src = list[0];
     });
 
-    // Start only when the section is visible
-    new IntersectionObserver(([entry]) => {
-      if (entry.isIntersecting && !started) {
-        started = true;
-        section.classList.add("is-in");
-        if (reduce) { current = steps.length - 1; }
-        render();
-      }
-      section.classList.toggle("is-offscreen", !entry.isIntersecting);
-    }, { threshold: 0.3 }).observe(section);
+    let cur = 0, playing = false, finished = false, timer = 0, evStart = 0, remain = DUR, started = false;
 
-    render();
-  }
+    function paint(i) {
+      cur = i;
+      const e = events[i];
+      slides.forEach((s, k) => s.classList.toggle("is-active", k === e.slide));
+      tabEls.forEach((t, k) => { t.classList.toggle("is-active", k === e.tab); t.classList.toggle("is-passed", k < e.tab); });
+      $("hwRoleBadge").className = `hw-role ${e.cls}`;
+      $("hwRoleText").textContent = e.role;
+      $("hwDayText").textContent = e.day;
+      $("hwStepTitle").textContent = e.title;
+      $("hwStepDesc").textContent = e.desc;
+      $("hwQcNum").textContent = e.qc;
+      ["hwStepTitle", "hwStepDesc"].forEach((id) => { const el = $(id); el.classList.remove("hw-in"); void el.offsetWidth; el.classList.add("hw-in"); });
+      if (e.badge) { badge.hidden = false; badge.className = `hw-screen-badge tone-${e.badge[1]}`; $("hwBadgeText").textContent = e.badge[0]; }
+      else badge.hidden = true;
+      revPill.hidden = i < 7;
+      logRows.forEach((r) => r.classList.toggle("is-highlighted", Number(r.dataset.ev) === i));
+      const active = root.querySelector(".hw-log-row.is-highlighted");
+      const sc = $("hwLogScroll");
+      if (active && $("hwProjectLog").classList.contains("is-open")) sc.scrollTo({ top: active.offsetTop - sc.offsetTop - 40, behavior: "smooth" });
+    }
 
-  document.addEventListener("DOMContentLoaded", setupHowItWorks);
-  document.addEventListener("astro:page-load", setupHowItWorks);
+    function setBar(from, to, ms) {
+      bar.style.transition = "none";
+      bar.style.transform = `scaleX(${from})`;
+      void bar.offsetWidth;
+      bar.style.transition = ms ? `transform ${ms}ms linear` : "none";
+      bar.style.transform = `scaleX(${to})`;
+    }
+
+    function setBtn(state) {
+      $("hwPlayIcon").innerHTML = ICON[state];
+      $("hwPlayLabel").textContent = { pause: "Pause", play: "Play", replay: "Replay" }[state];
+    }
+
+    function run(ms) {
+      clearTimeout(timer);
+      evStart = performance.now();
+      remain = ms;
+      timer = setTimeout(() => {
+        if (cur < N - 1) { go(cur + 1); }
+        else finish();
+      }, ms);
+    }
+
+    function go(i) {
+      paint(i);
+      if (playing) { setBar(i / N, (i + 1) / N, DUR); run(DUR); }
+      else setBar((i + 1) / N, (i + 1) / N, 0);
+    }
+
+    function finish() {
+      playing = false; finished = true;
+      clearTimeout(timer);
+      setBar(1, 1, 0);
+      setBtn("replay");
+    }
+
+    function play() {
+      playing = true; finished = false; setBtn("pause");
+      const from = cur / N, to = (cur + 1) / N;
+      if (remain >= DUR) { setBar(from, to, DUR); run(DUR); }
+      else { setBar(parseFloat(getComputedStyle(bar).transform.split(",")[0].replace("matrix(", "")) || from, to, remain); run(remain); }
+    }
+
+    function pause() {
+      playing = false; clearTimeout(timer);
+      remain = Math.max(60, DUR - (performance.now() - evStart));
+      const m = getComputedStyle(bar).transform;
+      const sx = m && m !== "none" ? parseFloat(m.split(",")[0].replace("matrix(", "")) : cur / N;
+      bar.style.transition = "none"; bar.style.transform = `scaleX(${sx})`;
+      setBtn("play");
+    }
+
+    const firstOfTab = (t) => events.findIndex((e) => e.tab === t);
+
+    $("hwPlayBtn").addEventListener("click", () => {
+      if (finished) { remain = DUR; paint(0); play(); }
+      else if (playing) pause();
+      else play();
+    });
+    $("hwSkipBtn").addEventListener("click", () => {
+      const nt = (events[cur].tab + 1) % tabCount;
+      remain = DUR; finished = false; go(firstOfTab(nt));
+      if (!playing && !finished && started) { /* stay paused on the new step */ }
+    });
+    tabEls.forEach((t, k) => t.addEventListener("click", () => { remain = DUR; finished = false; go(firstOfTab(k)); }));
+
+    $("hwToggleLogBtn").addEventListener("click", () => {
+      const log = $("hwProjectLog");
+      const open = log.classList.toggle("is-open");
+      log.setAttribute("aria-hidden", String(!open));
+      $("hwToggleLogBtn").textContent = open ? "Hide project log" : "Show project log";
+    });
+
+    // start once, when the player scrolls into view (plays once, no auto-loop)
+    paint(0); setBar(0, 0, 0); setBtn("play");
+    new IntersectionObserver(([en], ob) => {
+      if (en.isIntersecting) { ob.disconnect(); started = true; remain = DUR; play(); }
+    }, { threshold: 0.35 }).observe(root);
+  })();
 </script>

@@ -1,629 +1,551 @@
-/* =========================================================
-   CINEMATIC FULLSCREEN SLIDER WITH 3+ CARD LOOP
-   ========================================================= */
-
-.cinematic-services-root {
+/* 3D WALK-THE-GALLERY — DITTO SAME ENTRANCE */
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap');
+.vg { 
+  --bg: transparent; 
+  --cream: #f3efe6; 
+  --muted: #b4b3ad; 
+  --edge: rgba(255, 255, 255, 0.09); 
   position: relative;
-  width: 100%;
-  height: 100vh;
-  height: 100svh;
-  min-height: 700px;
-  contain: layout paint;
   overflow: hidden;
-  background: #090e17;
-  color: #f5f2eb;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
+  background: transparent; 
+  color: var(--cream); 
+  font-family: 'Manrope', system-ui, sans-serif; 
+  padding: clamp(4rem, 12vh, 9rem) 0; 
 }
 
-.horizontal-screen-slider {
-  display: flex;
-  width: 200%;
-  height: 100%;
-  transition: transform 900ms cubic-bezier(0.25, 1, 0.35, 1);
-}
-
-.screen-panel {
-  position: relative;
-  width: 50%;
-  height: 100%;
-  flex-shrink: 0;
-  overflow: hidden;
-}
-
-/* SCREEN 1 */
-.services-screen {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  padding: max(96px, 12vh) 5vw 5vh 6vw;
-  box-sizing: border-box;
-}
-
-.screen-bg-stack {
+/* Left-MIDDLE Brown Glow (top/bottom edge ko touch nahi karta) */
+.vg::before {
+  content: "";
   position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  top: 50%;
+  left: -280px;
+  width: 560px;
+  height: 560px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(179, 139, 76, 0.28) 0%, transparent 100%);
+  pointer-events: none;
   z-index: 1;
 }
 
-.screen-bg-image {
+/* Right-MIDDLE Blue Glow (top/bottom edge ko touch nahi karta) */
+.vg::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -280px;
+  width: 560px;
+  height: 560px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(90, 169, 230, 0.26) 0%, transparent 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.vg-wrap { 
+  position: relative;
+  z-index: 2;
+  width: min(1500px, 88vw); 
+  margin: 0 auto; 
+}
+
+.vg-head { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-end; 
+  gap: 40px; 
+  margin-bottom: clamp(24px, 4vh, 40px); 
+}
+
+.vg-tag { 
+  display: block; 
+  margin-bottom: 14px; 
+  font-family: 'JetBrains Mono', ui-monospace, monospace; 
+  font-size: clamp(.55rem, .65vw, .7rem); 
+  letter-spacing: .3em; 
+  color: #747884; 
+}
+
+.vg-head h2 { 
+  margin: 0; 
+  font-family: "Bricolage Grotesque", sans-serif;
+  font-weight: 800;
+  font-size: clamp(2.6rem, 5.4vw, 6.5rem);
+  line-height: 1.02;
+  letter-spacing: -0.01em;
+  color: var(--cream); 
+  white-space: nowrap; 
+}
+
+/* White → Grey gradient */
+.vg-head h2 em { 
+  font-style: normal; 
+  background: linear-gradient(90deg, #ffffff 0%, #c9ccd2 40%, #6a6e78 100%); 
+  -webkit-background-clip: text; 
+  background-clip: text; 
+  color: transparent; 
+}
+
+.vg-head p { 
+  margin: 0 0 .5em; 
+  max-width: 30ch; 
+  font-size: clamp(.78rem, .9vw, 1rem); 
+  line-height: 1.55; 
+  letter-spacing: -.01em; 
+  color: var(--muted); 
+}
+
+/* Stage & Background */
+.vg-stage { 
+  position: relative; 
+  aspect-ratio: 2 / 1; 
+  min-height: 460px; 
+  overflow: hidden; 
+  border-radius: clamp(20px, 2vw, 32px); 
+  border: 1px solid var(--edge); 
+  background: radial-gradient(120% 90% at 50% 0%, #0c3558, #061f38); 
+  box-shadow: 0 30px 80px rgba(0,0,0,.65), 0 0 60px rgba(255,138,76,.05); 
+  outline: none; 
+  user-select: none; 
+  touch-action: pan-y; 
+}
+
+/* =========================================================
+   ENTRANCE — cards khud scroll hote hain (Production Layer jaisa)
+   Sirf images, koi text nahi.
+========================================================= */
+.vg-marquee {
+  --cw: 270px;
+  --ch: 400px;
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  transition: opacity .6s ease, visibility 0s;
+}
+
+.vg-stage.is-walk .vg-marquee {
   opacity: 0;
   visibility: hidden;
-  transform: scale(1.05);
-  transition: opacity 800ms cubic-bezier(0.25, 1, 0.5, 1), transform 1100ms cubic-bezier(0.25, 1, 0.5, 1), visibility 0s linear 1100ms;
   pointer-events: none;
+  transition: opacity .6s ease, visibility 0s linear .6s;
 }
 
-.screen-bg-image.is-active {
-  opacity: 1;
-  visibility: visible;
-  transform: scale(1);
-  transition-delay: 0s;
-}
-
-.screen-bg-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.screen-bg-darkener {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(
-    90deg,
-    rgba(9, 14, 23, 0.78) 50%,
-    rgba(9, 14, 23, 0.42) 100%,
-    rgba(9, 14, 23, 0.15) 100%
-  );
-}
-
-.services-main-layout {
-  position: relative;
-  z-index: 5;
+.vg-marquee-track {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  gap: 4vw;
-  margin: auto 0;
-}
-
-.active-service-details {
-  flex: 0 0 38%;
-  max-width: 460px;
-  position: relative;
-  height: 340px;
-}
-
-.service-info-pane {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 550ms ease, transform 550ms ease;
-  pointer-events: none;
-}
-
-.service-info-pane.is-active {
-  opacity: 1;
-  transform: translateY(0);
-  pointer-events: auto;
-}
-
-.service-category-tag {
-  color: #c49c5c;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-
-.service-primary-title {
-  margin: 0 0 16px;
-  font-size: clamp(30px, 3.4vw, 46px);
-  line-height: 1.05;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  color: #ffffff;
-  text-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
-}
-
-.service-primary-desc {
-  margin: 0 0 28px;
-  font-size: 14px;
-  line-height: 1.65;
-  color: rgba(245, 242, 235, 0.85);
-  max-width: 420px;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
-}
-
-.service-discover-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 12px;
-  padding: 12px 24px;
-  border: 1px solid rgba(229, 208, 169, 0.4);
-  color: #ffffff;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-  text-decoration: none;
-  background: rgba(11, 16, 25, 0.62);
-  width: fit-content;
-  transition: all 300ms ease;
-}
-
-.service-discover-btn:hover {
-  background: #c49c5c;
-  color: #0b111e;
-  border-color: #c49c5c;
-}
-
-.upcoming-cards-viewport {
-  flex: 1;
-  overflow: hidden;
-  padding: 30px 0;
-  mask-image: linear-gradient(to right, black 85%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to right, black 85%, transparent 100%);
-}
-
-.upcoming-cards-track {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  transition: transform 650ms cubic-bezier(0.25, 1, 0.4, 1);
+  gap: 22px;
+  width: max-content;
   will-change: transform;
 }
 
-.upcoming-card-item {
-  flex: 0 0 230px;
-  height: 350px;
-  position: relative;
-  border-radius: 8px;
+.vg-stage.is-ready .vg-marquee-track {
+  animation: vgScroll 45s linear infinite 1.4s;
+}
+
+.vg-marquee-track:hover,
+.vg-stage.is-walk .vg-marquee-track,
+.vg-stage.is-off .vg-marquee-track {
+  animation-play-state: paused;
+}
+
+@keyframes vgScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(calc(-50% - 11px)); }
+}
+
+/* pehle 5 cards ki entrance animation (baqi already screen ke bahar hain) */
+.vg-marquee .vg-card:nth-child(-n+5) { opacity: 0; }
+.vg-stage.is-ready .vg-marquee .vg-card:nth-child(-n+5) {
+  animation: vgCardIn .85s cubic-bezier(.16, 1, .3, 1) forwards;
+}
+.vg-stage.is-ready .vg-marquee .vg-card:nth-child(1) { animation-delay: .2s; }
+.vg-stage.is-ready .vg-marquee .vg-card:nth-child(2) { animation-delay: .35s; }
+.vg-stage.is-ready .vg-marquee .vg-card:nth-child(3) { animation-delay: .5s; }
+.vg-stage.is-ready .vg-marquee .vg-card:nth-child(4) { animation-delay: .65s; }
+.vg-stage.is-ready .vg-marquee .vg-card:nth-child(5) { animation-delay: .8s; }
+
+@keyframes vgCardIn {
+  0%   { opacity: 0; transform: translateY(45px) scale(.96); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+
+/* =========================================================
+   GALLERY — ek waqt mein 4 cards, > se agle 4
+========================================================= */
+.vg-pager {
+  --cw: 270px;
+  --ch: 400px;
+  --vw: 1130px;
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity .6s ease, visibility 0s linear .6s;
+}
+
+.vg-stage.is-walk .vg-pager {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition-delay: 0s;
+}
+
+.vg-pager-view {
+  width: var(--vw);
+  padding: 30px 0;
   overflow: hidden;
+}
+
+.vg-pager-track {
+  display: flex;
+  gap: 22px;
+  transform: translateX(var(--px, 0px));
+  transition: transform .75s cubic-bezier(.22, 1, .36, 1);
+  will-change: transform;
+}
+
+.vg-pager-track.no-anim { transition: none; }
+
+
+/* =========================================================
+   CARD (Production Layer card style, bina text ke)
+========================================================= */
+.vg-card {
+  position: relative;
+  display: block;
+  flex: 0 0 var(--cw);
+  width: var(--cw);
+  height: var(--ch);
+  padding: 0;
+  border: 0;
+  border-radius: 24px;
+  overflow: hidden;
+  isolation: isolate;
   cursor: pointer;
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  background: #111a2a;
-  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
-  transition: transform 400ms ease, border-color 300ms ease;
+  background: linear-gradient(160deg, #0c3558 0%, #061f38 100%);
+  box-shadow:
+    0 2px 2px rgba(255, 255, 255, 0.05) inset,
+    0 16px 36px rgba(3, 12, 22, 0.35);
   contain: layout paint;
 }
 
-.upcoming-card-item:hover {
-  transform: translateY(-8px) scale(1.02);
-  border-color: #c49c5c;
-}
-
-.upcoming-card-img {
+.vg-card::before {
+  content: "";
   position: absolute;
   inset: 0;
-  width: 100%;
-  height: 100%;
+  z-index: 6;
+  border-radius: inherit;
+  padding: 1.4px;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.1) 30%, rgba(255, 255, 255, 0.05) 60%, rgba(179, 139, 76, 0.4) 85%, rgba(255, 255, 255, 0.9) 100%);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0.7;
 }
 
-.upcoming-card-img img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 600ms ease;
-}
-
-.upcoming-card-item:hover .upcoming-card-img img {
-  transform: scale(1.08);
-}
-
-.upcoming-card-shade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, rgba(7, 12, 22, 0.1) 0%, rgba(7, 12, 22, 0.85) 100%);
-}
-
-.upcoming-card-content {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  padding: 18px 16px;
-  z-index: 3;
-}
-
-.upcoming-card-mini {
-  display: block;
-  font-size: 9px;
-  font-weight: 700;
-  color: #c49c5c;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  margin-bottom: 6px;
-}
-
-.upcoming-card-title {
-  margin: 0;
-  color: #ffffff;
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.25;
-}
-
-.services-nav-bar {
-  position: relative;
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  width: 100%;
-}
-
-.go-to-compare-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 16px;
-  border: 1px solid rgba(229, 208, 169, 0.35);
-  background: rgba(11, 16, 25, 0.5);
-  color: #eee5d5;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
-  cursor: pointer;
-  transition: all 300ms ease;
-}
-
-.go-to-compare-btn:hover {
-  background: #c49c5c;
-  border-color: #c49c5c;
-  color: #0b111e;
-}
-
-/* =========================================================
-   SCREEN 2: MODEL EXPERIENCE SECTION
-   ========================================================= */
-
-.model-experience-screen {
-  background: #0b111e;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 60px 8vw 30px;
-  box-sizing: border-box;
-  overflow-y: auto; /* Agar Screen chhoti par jaye to scrolling smooth rahe */
-}
-
-.model-experience-container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-}
-
-/* BACK TO GALLERY BUTTON FIX (Normal Flow Element) */
-.back-to-services-btn {
-  position: relative;
-  top: auto;
-  left: auto;
-  align-self: flex-start;
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 16px;
-  background: rgba(11, 16, 25, 0.7);
-  border: 1px solid rgba(229, 208, 169, 0.35);
-  color: #f5f2eb;
-  padding: 8px 16px;
-  font-size: 11px;
-  font-weight: 600;
-  cursor: pointer;
-  letter-spacing: 0.08em;
-  border-radius: 4px;
-  transition: all 300ms ease;
-  z-index: 10;
-}
-
-.back-to-services-btn:hover {
-  background: #b38b4c;
-  color: #0b111e;
-  border-color: #b38b4c;
-}
-
-.model-experience-heading {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 60px;
-  margin-bottom: 25px;
-}
-
-.section-eyebrow {
-  display: block;
-  margin-bottom: 12px;
-  color: #b38b4c;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.19em;
-  text-transform: uppercase;
-}
-
-.model-experience-heading h2 {
-  margin: 0;
-  color: #f4f1ea;
-  font-size: clamp(28px, 4vw, 48px);
-  line-height: 1.02;
-  font-weight: 700;
-  letter-spacing: -0.04em;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif !important;
-}
-
-.model-experience-heading h2 span {
-  display: block;
-  color: rgba(244, 241, 234, 0.4);
-}
-
-.model-experience-heading p {
-  max-width: 320px;
-  margin: 0;
-  color: rgba(244, 241, 234, 0.6);
-  font-size: 13px;
-  line-height: 1.65;
-}
-
-/* Comparison Wrapper - Custom Height maintained */
-.comparison-wrapper {
-  position: relative;
-  width: 100%;
-  height: min(600px, 62vh); /* Aapki badhai hui height retain kar li hai */
-  min-height: 380px;
-  overflow: hidden;
-  border-radius: 4px;
-  background: #15181a;
-  box-shadow: 0 35px 80px rgba(0, 0, 0, 0.4);
-  cursor: ew-resize;
-}
-
-.comparison-image {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-}
-
-.comparison-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-
-.comparison-final {
-  z-index: 1;
-}
-
-.comparison-before {
-  z-index: 2;
-  width: 100%;
-  clip-path: inset(0 50% 0 0);
-}
-
-.comparison-label {
-  position: absolute;
-  top: 20px;
-  z-index: 5;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 12px;
-  background: rgba(10, 12, 13, 0.75);
-  color: #f4f1ea;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.15em;
-}
-
-.comparison-label span {
-  color: #b38b4c;
-}
-
-.final-label { right: 20px; }
-.model-label { left: 20px; }
-
-.comparison-handle {
+.vg-card::after {
+  content: "";
   position: absolute;
   top: 0;
-  left: 50%;
-  z-index: 10;
-  width: 2px;
-  height: 100%;
-  transform: translateX(-50%);
+  left: 10%;
+  right: 10%;
+  height: 45%;
+  z-index: 1;
+  background: radial-gradient(ellipse at top, rgba(255, 255, 255, 0.14), transparent 70%);
   pointer-events: none;
 }
 
-.handle-line {
+.vg-card img {
   position: absolute;
   inset: 0;
-  width: 2px;
-  background: rgba(255, 255, 255, 0.85);
-}
-
-.handle-circle {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 50px;
-  height: 50px;
-  transform: translate(-50%, -50%);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 5px;
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  border-radius: 50%;
-  background: rgba(16, 18, 19, 0.85);
-  color: #f4f1ea;
-  font-size: 16px;
-}
-
-.comparison-range {
-  position: absolute;
-  inset: 0;
+  z-index: 0;
+  display: block;
   width: 100%;
   height: 100%;
-  z-index: 20;
-  opacity: 0;
-  cursor: ew-resize;
+  object-fit: cover;
+  object-position: center;
+  pointer-events: none;
+  filter: saturate(1.12) contrast(1.08) brightness(0.98);
+  transition: transform .8s cubic-bezier(.25, 1, .5, 1), filter .6s ease;
 }
 
-.comparison-footer {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 15px;
-  color: rgba(244, 241, 234, 0.4);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.16em;
+.vg-card:hover img {
+  transform: scale(1.10);
+  filter: saturate(1.18) contrast(1.12) brightness(1.04);
 }
 
-.comparison-progress {
-  display: flex;
-  gap: 5px;
+.vg-card-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(180deg, rgba(9, 29, 47, 0.05) 0%, rgba(9, 29, 47, 0.12) 50%, rgba(5, 18, 31, 0.45) 100%);
+  transition: opacity .5s ease;
+  pointer-events: none;
 }
 
-.comparison-progress span {
-  width: 4px;
-  height: 4px;
-  border-radius: 50%;
-  background: rgba(179, 139, 76, 0.7);
-}
+.vg-card:hover .vg-card-overlay { opacity: .6; }
 
-/* Responsive adjustments */
-@media (max-width: 900px) {
-  .services-main-layout {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0;
-  }
-  .active-service-details {
-    flex: none;
-    height: 310px;
-    max-width: none;
-    width: 100%;
-    margin-bottom: 8px;
-  }
-  .upcoming-cards-viewport {
-    width: 100%;
-    padding: 10px 0;
-  }
-  .upcoming-card-item { flex-basis: 170px; height: 220px; }
-  .services-screen { padding: 92px 6vw 4vh; }
-  .model-experience-heading { flex-direction: column; align-items: flex-start; gap: 14px; }
-}
-
-@media (max-width: 640px) {
-  .upcoming-cards-viewport { display: none; }
-  .active-service-details { height: 330px; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .horizontal-screen-slider,
-  .upcoming-cards-track,
-  .screen-bg-image,
-  .service-info-pane { transition-duration: 0.01ms !important; }
-}
-
-.gallery-header {
-  position: relative;
+/* ENTRANCE: cards ke upar halka dark overlay.
+   Gallery mein enter hote hi marquee fade-out hota hai, to overlay bhi hat jata hai. */
+.vg-marquee::after {
+  content: "";
+  position: absolute;
+  inset: 0;
   z-index: 5;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 24px;
-  flex-wrap: wrap;
+  background:
+    radial-gradient(60% 55% at 50% 50%, rgba(4, 16, 30, 0.35), transparent 100%),
+    rgba(4, 16, 30, 0.5);
+  pointer-events: none;
 }
 
-.gallery-eyebrow {
-  display: block;
-  margin-bottom: 6px;
-  color: #c49c5c;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.22em;
-  text-transform: uppercase;
-}
-
-.gallery-lead {
-  margin: 0;
-  max-width: 340px;
-  color: rgba(245, 242, 235, 0.75);
-  font-size: 13px;
-  line-height: 1.5;
-}
-
-.upcoming-card-item:focus-visible {
-  outline: 2px solid #c49c5c;
-  outline-offset: 3px;
-}
-
-@media (max-width: 900px) {
-  .gallery-header { flex-direction: column; align-items: flex-start; gap: 12px; }
-}
-
-.gallery-counter {
-  display: flex;
-  align-items: baseline;
-  flex-wrap: wrap;
-  gap: 8px;
-  min-width: 120px;
-  font-variant-numeric: tabular-nums;
-}
-
-.gallery-counter-now {
+/* GALLERY: card ke upar naam (entrance mein koi text nahi) */
+.vg-card-name {
+  position: absolute;
+  left: 20px;
+  right: 20px;
+  bottom: 20px;
+  z-index: 6;
   color: #ffffff;
-  font-size: 30px;
+  font-family: 'Inter', system-ui, sans-serif;
+  font-size: clamp(15px, 1.5vw, 19px);
   font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.5);
+  line-height: 1.25;
+  letter-spacing: -0.02em;
+  text-align: left;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+  pointer-events: none;
 }
 
-.gallery-counter-total {
-  color: rgba(245, 242, 235, 0.6);
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: 0.08em;
+.vg-pager .vg-card-overlay {
+  background: linear-gradient(180deg, rgba(9, 29, 47, 0.05) 0%, rgba(9, 29, 47, 0.18) 45%, rgba(5, 18, 31, 0.8) 100%);
 }
 
-.gallery-counter-bar {
-  flex-basis: 100%;
-  height: 2px;
-  margin-top: 6px;
-  background: rgba(255, 255, 255, 0.18);
-  overflow: hidden;
+.vg-card:focus-visible {
+  outline: 2px solid #f0a36a;
+  outline-offset: 4px;
 }
 
-.gallery-counter-bar i {
-  display: block;
-  height: 100%;
-  background: #c49c5c;
-  transform-origin: left;
-  transform: scaleX(0.125);
-  transition: transform 650ms cubic-bezier(0.25, 1, 0.4, 1);
+/* Top HUD Capsule (Fixed: video ke mutabiq neat pill badge) */
+.vg-hud { 
+  position: absolute; 
+  top: 18px; 
+  left: 20px; 
+  right: auto;
+  padding: 8px 18px; 
+  border-radius: 12px; 
+  background: rgba(7, 37, 64, 0.65); 
+  border: 1px solid rgba(255, 255, 255, 0.1); 
+  backdrop-filter: blur(8px);
+  font-family: 'JetBrains Mono', ui-monospace, monospace; 
+  font-weight: 600; 
+  font-size: clamp(.55rem, .65vw, .72rem); 
+  line-height: 1.5; 
+  letter-spacing: .24em; 
+  text-transform: uppercase; 
+  color: rgba(244, 241, 234, 0.75); 
+  pointer-events: none; 
+  z-index: 6;
 }
 
-@media (max-width: 900px) {
-  .gallery-header { flex-direction: row; align-items: center; justify-content: space-between; }
-  .gallery-counter-now { font-size: 24px; }
+/* Top Modes */
+.vg-modes { 
+  position: absolute; 
+  top: 20px; 
+  right: 28px; 
+  display: flex; 
+  gap: 14px; 
+  z-index: 6; 
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .gallery-counter-bar i { transition-duration: 0.01ms; }
+.vg-modes button { 
+  display: inline-flex; 
+  align-items: center; 
+  gap: 6px; 
+  background: none; 
+  border: 0; 
+  padding: 0; 
+  color: rgba(244, 241, 234, 0.55); 
+  font: 600 clamp(.72rem, .85vw, .95rem) 'Manrope', sans-serif; 
+  letter-spacing: -.01em; 
+  cursor: pointer; 
+  transition: color .3s; 
+}
+
+.vg-modes button.is-on, 
+.vg-modes button:hover { 
+  color: #f4f1ea; 
+}
+
+/* Center Entrance Overlay (Button + Subtitle) */
+.vg-enter { 
+  position: absolute; 
+  inset: 0; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  justify-content: center; 
+  gap: 13px; 
+  pointer-events: none; 
+  transition: opacity .6s ease, visibility .6s; 
+  z-index: 5; 
+}
+
+.vg-enter button { 
+  pointer-events: auto; 
+  padding: 13px 26px; 
+  border: 0; 
+  border-radius: 999px; 
+  background: #ffffff; 
+  color: #072540; 
+  font: 700 clamp(.82rem, .95vw, 1.02rem) 'Manrope', sans-serif; 
+  letter-spacing: -.01em; 
+  cursor: pointer; 
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.65), 0 0 20px rgba(255, 255, 255, 0.1); 
+  transition: transform .25s ease, box-shadow .25s ease; 
+}
+
+.vg-enter button:hover { 
+  transform: scale(1.04); 
+  box-shadow: 0 16px 38px rgba(0, 0, 0, 0.75), 0 0 25px rgba(255, 255, 255, 0.2); 
+}
+
+.vg-enter small { 
+  font-family: 'JetBrains Mono', ui-monospace, monospace; 
+  font-weight: 600; 
+  font-size: clamp(.55rem, .65vw, .72rem); 
+  letter-spacing: .25em; 
+  color: rgba(244, 241, 234, 0.5); 
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+}
+
+.vg-stage.is-walk .vg-enter { 
+  opacity: 0; 
+  visibility: hidden; 
+}
+
+/* Bottom Controls Capsule */
+.vg-ctrl { 
+  position: absolute; 
+  left: 50%; 
+  bottom: 22px; 
+  transform: translateX(-50%); 
+  z-index: 6; 
+  display: flex; 
+  align-items: center; 
+  gap: 18px; 
+  padding: 12px 20px; 
+  border-radius: 999px; 
+  background: rgba(8, 40, 70, 0.78); 
+  border: 1px solid rgba(255, 255, 255, 0.08); 
+  backdrop-filter: blur(12px); 
+}
+
+.vg-ctrl button { 
+  display: grid; 
+  place-items: center; 
+  background: none; 
+  border: 0; 
+  padding: 0; 
+  color: #f4f1ea; 
+  cursor: pointer; 
+  opacity: .85; 
+  transition: opacity .2s;
+}
+
+.vg-ctrl button:hover { 
+  opacity: 1; 
+}
+
+.vg-dots { 
+  display: flex; 
+  align-items: center; 
+  gap: 7px; 
+}
+
+.vg-dots i { 
+  width: 5px; 
+  height: 5px; 
+  border-radius: 99px; 
+  background: rgba(255, 255, 255, 0.28); 
+  transition: width .4s, background .4s; 
+}
+
+.vg-dots i.is-on { 
+  width: 18px; 
+  background: #f4f1ea; 
+}
+
+/* Tooltip & Detail Drawer (Unchanged) */
+.vg-tip { 
+  position: absolute; 
+  top: 0; 
+  left: 0; 
+  z-index: 7; 
+  padding: 12px 16px; 
+  border-radius: 12px; 
+  background: rgba(7, 37, 64, 0.88); 
+  border: 1px solid rgba(255, 255, 255, 0.08); 
+  backdrop-filter: blur(10px); 
+  opacity: 0; 
+  pointer-events: none; 
+  transition: opacity .2s; 
+  max-width: 260px; 
+}
+
+.vg-tip.is-on { opacity: 1; }
+.vg-tip b { display: block; font: 700 clamp(.8rem, 1vw, 1.1rem) 'Manrope', sans-serif; letter-spacing: -.02em; }
+.vg-tip small { display: block; margin-top: 4px; font: 500 10px ui-monospace, Menlo, monospace; letter-spacing: .16em; color: rgba(244,241,234,.5); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+.vg-detail { position: absolute; inset: 0; z-index: 10; display: grid; grid-template-columns: 62% 38%; background: #061f38; opacity: 0; visibility: hidden; transition: opacity .6s ease, visibility 0s linear .6s; }
+.vg-detail.is-open { opacity: 1; visibility: visible; transition-delay: 0s; }
+.vg-detail-img { position: relative; overflow: hidden; }
+.vg-detail-img img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; opacity: 0; transition: opacity .7s ease; }
+.vg-detail-img img.is-on { opacity: 1; }
+.vg-detail-info { position: relative; display: flex; flex-direction: column; justify-content: center; padding: 0 44px; }
+.vg-close { position: absolute; top: 16px; right: 16px; width: 30px; height: 30px; border-radius: 50%; border: 0; background: rgba(255,255,255,.08); color: #f4f1ea; font-size: 12px; cursor: pointer; }
+.vg-eyebrow { display: block; margin-bottom: 12px; font-family: 'JetBrains Mono', ui-monospace, monospace; font-weight: 500; font-size: clamp(.5rem, .6vw, .66rem); letter-spacing: .24em; color: rgba(244,241,234,.5); }
+.vg-detail-info h3 { margin: 0 0 10px; font-family: 'Inter', system-ui, sans-serif; font-size: clamp(1.4rem, 2.2vw, 2.3rem); line-height: 1.05; font-weight: 800; letter-spacing: -.05em; }
+.vg-detail-info p { margin: 0 0 20px; font-size: clamp(.72rem, .8vw, .85rem); line-height: 1.55; color: rgba(244,241,234,.6); max-width: 30ch; }
+.vg-detail-info dl { margin: 0 0 26px; display: grid; gap: 9px; }
+.vg-detail-info dl div { display: grid; grid-template-columns: 96px 1fr; font-size: clamp(.68rem, .75vw, .8rem); }
+.vg-detail-info dt { font-family: 'JetBrains Mono', ui-monospace, monospace; font-size: clamp(.45rem, .55vw, .6rem); letter-spacing: .2em; color: rgba(244,241,234,.4); padding-top: 3px; }
+.vg-detail-info dd { margin: 0; color: #f4f1ea; }
+.vg-actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.vg-btn-solid, .vg-btn-ghost { padding: 8px 16px; border-radius: 999px; font: 600 11.5px 'Manrope', sans-serif; cursor: pointer; text-decoration: none; transition: transform .3s; }
+.vg-btn-solid { background: #f3efe6; color: #072540; border: 1px solid #f3efe6; }
+.vg-btn-ghost { background: transparent; color: #f4f1ea; border: 1px solid rgba(255,255,255,.18); }
+.vg-btn-solid:hover, .vg-btn-ghost:hover { transform: translateY(-2px); }
+
+.vg-swap.hw-swap > * { animation: vgIn .55s cubic-bezier(.22,1,.36,1) both; }
+.vg-swap.hw-swap > *:nth-child(2) { animation-delay: .04s; } 
+.vg-swap.hw-swap > *:nth-child(3) { animation-delay: .08s; } 
+.vg-swap.hw-swap > *:nth-child(4) { animation-delay: .12s; }
+@keyframes vgIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+@media (max-width: 800px) {
+  .vg-head { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .vg-stage { aspect-ratio: 16 / 10; min-height: 420px; }
+  .vg-hud { top: 16px; left: 16px; }
+  .vg-modes { right: 16px; top: 16px; }
+  .vg-detail { grid-template-columns: 1fr; grid-template-rows: 42% 58%; }
+  .vg-detail-info { padding: 20px 24px; justify-content: flex-start; }
+}
+
+@media (prefers-reduced-motion: reduce) { 
+  .vg-detail { transition-duration: .01ms !important; } 
+  .vg-stage.is-ready .vg-marquee-track,
+  .vg-stage.is-ready .vg-marquee .vg-card:nth-child(-n+5) { animation: none; }
+  .vg-marquee .vg-card:nth-child(-n+5) { opacity: 1; }
+  .vg-pager-track, .vg-card img { transition: none; }
 }

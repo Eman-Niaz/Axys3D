@@ -29,6 +29,10 @@ import "../styles/Mission.css";
 import "../styles/HomeAbout.css";
 import Howitworks  from "../components/Howitworks.astro";
 import "../styles/Howitworks.css";
+import Marquee from "../components/Marquee.astro";
+import "../styles/Marquee.css";
+import Stages from "../components/Stages.astro";
+import "../styles/stages.css";
 ---
 
 <!doctype html>
@@ -53,15 +57,35 @@ import "../styles/Howitworks.css";
         <Hero />
       </div>
 
+      <!-- <div class="grad-zone">
+        <div class="reveal reveal-up">
+          <Marquee />
+        </div>
+      </div> -->
       <!-- Mission — own gradient zone -->
       <div class="grad-zone">
         <div class="reveal reveal-fade">
           <Mission />
         </div>
       </div>
+     
+      <div class="grad-zone">
+        <div class="reveal reveal-up">
+          <Stages />
+        </div>
 
+      </div>
       <!-- How it works — own gradient zone -->
     
+      <div class="reveal reveal-left">
+        <VisualGallery />
+      </div>
+ 
+       <div class="grad-zone">
+        <div class="reveal reveal-up">
+          <Howitworks />
+        </div> </div> 
+
 
       <!-- Production Layer — own gradient zone -->
       <div class="grad-zone">
@@ -70,21 +94,14 @@ import "../styles/Howitworks.css";
         </div>
       </div>
 
-       <div class="grad-zone">
+       <!-- <div class="grad-zone">
         <div class="reveal reveal-blur">
           <CaseStudies />
         </div>
-      </div>
+      </div> -->
 
 
-      <div class="grad-zone">
-        <div class="reveal reveal-up">
-          <Howitworks />
-        </div> </div>
-
-      <div class="reveal reveal-left">
-        <VisualGallery />
-      </div>
+     
 
       <!-- Buyer segments gradient zone -->
       <!-- <div class="grad-zone">
@@ -103,9 +120,9 @@ import "../styles/Howitworks.css";
         </div>
       </div> -->
 
-      <div class="reveal reveal-fade">
+      <!-- <div class="reveal reveal-fade">
         <About /> 
-      </div>
+      </div> -->
 
       <!-- FAQ gradient zone -->
       <div class="grad-zone">
