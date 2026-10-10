@@ -1,12 +1,13 @@
 /* =========================================================
-   FOOTER SECTION (Dark #0b111e Theme with Glow Gradients)
+   FOOTER — Black + Grey + Coffee Brown (60/30/10)
    ========================================================= */
 
 .site-footer {
-  --bg-dark: #0b111e;
-  --gold: #c6a775;
+  --bg-dark: #000000;
+  --brown: #5b3b27;
+  --brown-hi: #8f6444;
   --text-white: #ffffff;
-  --text-muted: rgba(255, 255, 255, 0.65);
+  --text-muted: #959595;
   --border-line: rgba(255, 255, 255, 0.08);
 
   position: relative;
@@ -20,7 +21,7 @@
   border-top: 1px solid var(--border-line);
 }
 
-/* Top Gold Linear Gradient Line */
+/* Top brown gradient line */
 .site-footer::before {
   content: "";
   position: absolute;
@@ -28,8 +29,8 @@
   left: 0;
   height: 1px;
   width: 100%;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  opacity: 0.8;
+  background: linear-gradient(90deg, transparent, var(--brown-hi), transparent);
+  opacity: 0.85;
 }
 
 .footer-inner {
@@ -40,7 +41,6 @@
   padding: 0 30px;
 }
 
-/* Top Main Grid */
 .footer-top {
   display: grid;
   grid-template-columns: 2fr 1fr 1.5fr;
@@ -48,7 +48,6 @@
   padding-bottom: 50px;
 }
 
-/* Brand */
 .footer-brand {
   display: flex;
   flex-direction: column;
@@ -64,7 +63,11 @@
 }
 
 .footer-logo span {
-  color: var(--gold);
+  background: linear-gradient(90deg, #b8946f, #8f6444 60%, #6b452c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
 }
 
 .footer-brand p {
@@ -84,22 +87,18 @@
   transition: color 0.2s ease;
 }
 
-.footer-contact:hover {
-  color: var(--gold);
-}
+.footer-contact:hover { color: var(--brown-hi); }
 
-/* Headings */
 .footer-heading {
   display: block;
   font-size: 11px;
   font-weight: 700;
   letter-spacing: 0.14em;
-  color: rgba(255, 255, 255, 0.45);
+  color: #6b6b6d;
   margin-bottom: 18px;
   text-transform: uppercase;
 }
 
-/* Page Links */
 .footer-links {
   list-style: none;
   padding: 0;
@@ -116,11 +115,8 @@
   transition: color 0.2s ease;
 }
 
-.footer-links a:hover {
-  color: var(--text-white);
-}
+.footer-links a:hover { color: var(--brown-hi); }
 
-/* Social Links */
 .footer-socials {
   display: flex;
   flex-wrap: wrap;
@@ -134,11 +130,8 @@
   transition: color 0.2s ease;
 }
 
-.footer-socials a:hover {
-  color: var(--text-white);
-}
+.footer-socials a:hover { color: var(--brown-hi); }
 
-/* Bottom Bar */
 .footer-bottom {
   border-top: 1px solid var(--border-line);
   padding-top: 25px;
@@ -147,11 +140,11 @@
 .footer-bottom p {
   margin: 0;
   font-size: 12px;
-  color: rgba(255, 255, 255, 0.35);
+  color: #6b6b6d;
 }
 
 /* =========================================================
-   CORNER GLOWS — Left Brown/Gold, Right Blue (Ditto Same)
+   CORNER GLOWS — Left Brown, Right Soft Grey
    ========================================================= */
 
 .footer-glow {
@@ -162,29 +155,24 @@
   filter: blur(8px);
 }
 
-/* Left corner — Brown/Gold */
 .footer-glow--left {
   left: -220px;
   bottom: -160px;
   width: 620px;
   height: 620px;
-  background:
-    radial-gradient(circle, rgba(179, 139, 90, 0.34) 0%, rgba(179, 139, 90, 0.12) 45%, transparent 72%);
+  background: radial-gradient(circle, rgba(110, 72, 48, 0.15) 0%, rgba(110, 72, 48, 0.05) 45%, transparent 72%);
   animation: footerGlowLeft 14s ease-in-out infinite alternate;
 }
 
-/* Right corner — Blue */
 .footer-glow--right {
   right: -220px;
   bottom: -160px;
   width: 620px;
   height: 620px;
-  background:
-    radial-gradient(circle, rgba(64, 140, 224, 0.32) 0%, rgba(64, 140, 224, 0.11) 45%, transparent 72%);
+  background: radial-gradient(circle, rgba(174, 167, 163, 0.05) 0%, rgba(174, 167, 163, 0.02) 45%, transparent 72%);
   animation: footerGlowRight 14s ease-in-out infinite alternate;
 }
 
-/* Inner light layers for depth */
 .footer-glow--left::after,
 .footer-glow--right::after {
   content: "";
@@ -197,23 +185,23 @@
 
 .footer-glow--left::after {
   left: 28%;
-  background: radial-gradient(circle, rgba(210, 180, 135, 0.22), transparent 70%);
+  background: radial-gradient(circle, rgba(110, 72, 48, 0.08), transparent 70%);
   animation: footerGlowInner 9s ease-in-out infinite alternate;
 }
 
 .footer-glow--right::after {
   right: 28%;
-  background: radial-gradient(circle, rgba(30, 90, 170, 0.32), transparent 70%);
+  background: radial-gradient(circle, rgba(149, 149, 149, 0.05), transparent 70%);
   animation: footerGlowInner 9s ease-in-out infinite alternate-reverse;
 }
 
 @keyframes footerGlowLeft {
-  0%   { transform: translate(0, 0) scale(1);        opacity: 0.8; }
+  0%   { transform: translate(0, 0) scale(1); opacity: 0.8; }
   100% { transform: translate(50px, -40px) scale(1.12); opacity: 1; }
 }
 
 @keyframes footerGlowRight {
-  0%   { transform: translate(0, 0) scale(1);         opacity: 0.8; }
+  0%   { transform: translate(0, 0) scale(1); opacity: 0.8; }
   100% { transform: translate(-50px, -40px) scale(1.12); opacity: 1; }
 }
 
@@ -222,23 +210,13 @@
   100% { transform: translate(24px, -18px) scale(1.15); }
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-  .footer-top {
-    grid-template-columns: 1fr;
-    gap: 36px;
-  }
-
+  .footer-top { grid-template-columns: 1fr; gap: 36px; }
   .footer-glow--left,
-  .footer-glow--right {
-    width: 380px;
-    height: 380px;
-  }
+  .footer-glow--right { width: 380px; height: 380px; }
 }
 
 @media (prefers-reduced-motion: reduce) {
   .footer-glow,
-  .footer-glow::after {
-    animation: none !important;
-  }
+  .footer-glow::after { animation: none !important; }
 }

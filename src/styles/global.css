@@ -4,10 +4,10 @@
    GLOBAL CSS VARIABLES & THEME SETUP
    ========================================================= */
 :root {
-  --color-black: #091d2f;
-  --color-card-bg: #f8f5ef;
+  --color-black: #00000;
+  --color-card-bg: #00000;
   --color-brown: #e5d0a9;
-  --color-text-primary: #ffffff;
+  --color-text-primary: black;
   --color-text-secondary: #9ca3af;
   --font-primary: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
   --font-heading: "Manrope", sans-serif;

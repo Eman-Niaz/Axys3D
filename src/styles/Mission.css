@@ -1,60 +1,36 @@
 /* =========================================================
-   MISSION / STATS SECTION (BENTO GRID STYLING)
+   MISSION / STATS (BENTO) — Black + Grey + Coffee Brown (60/30/10)
 ========================================================= */
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&display=swap');
 
 .mission {
   position: relative;
   width: 100%;
-  background: transparent;
+  background: #000000;
   padding: 100px 6% 60px;
   box-sizing: border-box;
   font-family: 'Inter', sans-serif;
   overflow: hidden;
 }
 
-/* Left-MIDDLE Brown Glow (top/bottom edge ko touch nahi karta) */
+/* Left Brown Glow */
 .mission::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: -280px;
-  width: 560px;
-  height: 560px;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(179, 139, 76, 0.28) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 1;
+  content: ""; position: absolute; top: 50%; left: -280px; width: 560px; height: 560px;
+  transform: translateY(-50%); border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(117, 90, 74, 0.13) 0%, transparent 100%);
+  pointer-events: none; z-index: 1;
 }
-
-/* Right-MIDDLE Blue Glow (top/bottom edge ko touch nahi karta) */
+/* Right Soft Grey Glow */
 .mission::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: -280px;
-  width: 560px;
-  height: 560px;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(90, 169, 230, 0.26) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 1;
+  content: ""; position: absolute; top: 50%; right: -280px; width: 560px; height: 560px;
+  transform: translateY(-50%); border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(174, 167, 163, 0.045) 0%, transparent 100%);
+  pointer-events: none; z-index: 1;
 }
 
-.mission-inner {
-  position: relative;
-  z-index: 2;
-  max-width: 1240px;
-  margin: 0 auto;
-}
+.mission-inner { position: relative; z-index: 2; max-width: 1240px; margin: 0 auto; }
 
-
-/* =========================================================
-   BENTO GRID LAYOUT
-========================================================= */
-
+/* ---------- GRID ---------- */
 .mission-grid {
   display: grid;
   grid-template-columns: 1fr 1.05fr 1.1fr;
@@ -62,31 +38,19 @@
   align-items: stretch;
 }
 
-.mission-col {
-  display: flex;
-  flex-direction: column;
-  gap: 20px;
-}
+.mission-col { display: flex; flex-direction: column; gap: 20px; }
 
-
-/* =========================================================
-   SHARED CARD STYLES & SHADOWS
-========================================================= */
-
+/* ---------- SHARED CARD ---------- */
 .mission-card {
   opacity: 0;
   transform: translateY(28px);
   border-radius: 24px;
-  border: 1px solid rgba(11, 29, 45, 0.06);
-  background: #ffffff;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(160deg, #161616 0%, #0c0c0c 100%);
   padding: 30px;
   box-sizing: border-box;
-  cursor: default; /* UX: cards click nahi hote, isliye pointer cursor hata diya */
-  
-  box-shadow:
-    0 4px 12px rgba(11, 29, 45, 0.03),
-    0 16px 32px rgba(11, 29, 45, 0.05);
-
+  cursor: default;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4), 0 16px 32px rgba(0, 0, 0, 0.45);
   transition:
     opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
     transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
@@ -94,17 +58,12 @@
     border-color 0.3s ease;
 }
 
-.mission-card.is-in {
-  opacity: 1;
-  transform: translateY(0);
-}
+.mission-card.is-in { opacity: 1; transform: translateY(0); }
 
 .mission-card:hover {
   transform: translateY(-6px);
-  border-color: rgba(179, 139, 76, 0.4);
-  box-shadow:
-    0 12px 24px rgba(179, 139, 76, 0.12),
-    0 30px 60px rgba(11, 29, 45, 0.12);
+  border-color: rgba(143, 100, 68, 0.55);
+  box-shadow: 0 12px 24px rgba(91, 59, 39, 0.2), 0 30px 60px rgba(0, 0, 0, 0.6);
 }
 
 .mission-card-tag {
@@ -112,327 +71,175 @@
   font-weight: 700;
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: #b38b4c;
+  color: #8f6444;
   display: inline-block;
   margin-bottom: 12px;
 }
 
-.mission-card-tag--light { color: #f8f5ef99; }
-.mission-card-tag--gold { color: #e2cda5; }
+.mission-card-tag--light { color: #959595; }
+.mission-card-tag--gold  { color: #b8946f; }
 
-.mission-card-copy {
-  margin: 0;
-  color: rgba(11, 29, 45, 0.6);
-  font-size: 13.5px;
-  line-height: 1.55;
-}
+.mission-card-copy { margin: 0; color: #959595; font-size: 13.5px; line-height: 1.55; }
+.mission-card-copy--light { color: #aea7a3; }
 
-.mission-card-copy--light {
-  color: rgba(248, 245, 239, 0.85);
-}
-
-
-/* =========================================================
-   COLUMN 1 CARDS
-========================================================= */
-
+/* ---------- COLUMN 1 ---------- */
 .mission-card--avatars {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 20px;
-  flex: 1;
+  display: flex; flex-direction: column; justify-content: space-between; gap: 20px; flex: 1;
 }
 
-.mission-card-row {
-  display: flex;
-  align-items: center;
-  gap: 14px;
-}
-
-.avatar-stack {
-  display: flex;
-}
+.mission-card-row { display: flex; align-items: center; gap: 14px; }
+.avatar-stack { display: flex; }
 
 .avatar-dot {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  width: 36px; height: 36px; border-radius: 50%;
   margin-left: -10px;
-  border: 2px solid #ffffff;
-  background: #0a2e4f;
-  color: #f8f5ef;
-  font-size: 11px;
-  font-weight: 700;
+  border: 2px solid #0c0c0c;
+  background: #363336;
+  color: #ffffff;
+  font-size: 11px; font-weight: 700;
 }
 
 .avatar-dot:first-child { margin-left: 0; }
 
-.avatar-dot--more {
-  background: #e2cda5;
-  color: #17202a;
-}
+.avatar-dot--more { background: linear-gradient(135deg, #8f6444, #5b3b27); color: #ffffff; }
 
-.mission-card-label {
-  color: rgba(11, 29, 45, 0.7);
-  font-size: 13px;
-  font-weight: 600;
-}
+.mission-card-label { color: #aea7a3; font-size: 13px; font-weight: 600; }
+.mission-stat-inline { color: #ffffff; font-weight: 800; }
 
-.mission-stat-inline {
-  color: #0b1d2d;
-  font-weight: 800;
-}
+.mission-card--stat { display: flex; flex-direction: column; justify-content: space-between; flex: 1.2; }
 
-.mission-card--stat {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  flex: 1.2;
-}
+.mission-stat { display: flex; align-items: baseline; gap: 2px; margin: 8px 0; }
 
-.mission-stat {
-  display: flex;
-  align-items: baseline;
-  gap: 2px;
-  margin: 8px 0;
-}
-
-/* Heading font — same as How it works / Gallery / Stages */
 .mission-stat-value {
   font-family: "Bricolage Grotesque", sans-serif;
   font-weight: 800;
   font-size: clamp(42px, 4vw, 56px);
   line-height: 1.02;
   letter-spacing: -0.01em;
-  color: #0b1d2d;
+  background: linear-gradient(180deg, #ffffff 0%, #aea7a3 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .mission-stat-suffix {
   font-family: "Bricolage Grotesque", sans-serif;
-  color: rgba(11, 29, 45, 0.45);
+  background: linear-gradient(90deg, #b8946f, #6b452c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   font-weight: 800;
   font-size: clamp(20px, 2vw, 26px);
 }
 
-
-/* =========================================================
-   COLUMN 2 (ACCENT TALL CARD)
-========================================================= */
-
+/* ---------- COLUMN 2 (ACCENT TALL CARD) ---------- */
 .mission-card--accent {
-  background: linear-gradient(160deg, #11456f 0%, #0a2e4f 100%);
-  border: 1px solid rgba(226, 207, 171, 0.2);
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  background: linear-gradient(160deg, #1a110a 0%, #0c0805 55%, #0a0a0a 100%);
+  border: 1px solid rgba(143, 100, 68, 0.4);
+  display: flex; flex-direction: column; justify-content: space-between;
   min-height: 380px;
 }
 
-.mission-stat--hero .mission-stat-value {
-  color: #f8f5ef;
-  font-size: clamp(54px, 5vw, 72px);
-}
-
-.mission-stat--hero .mission-stat-suffix {
-  color: #b38b4c;
-  font-size: clamp(30px, 3vw, 40px);
-}
+.mission-stat--hero .mission-stat-value { font-size: clamp(54px, 5vw, 72px); }
+.mission-stat--hero .mission-stat-suffix { font-size: clamp(30px, 3vw, 40px); }
 
 .mission-hero-title {
-  color: #f8f5ef;
+  color: #ffffff;
   font-family: "Bricolage Grotesque", sans-serif;
-  font-size: 18px;
-  font-weight: 800;
-  letter-spacing: -0.01em;
+  font-size: 18px; font-weight: 800; letter-spacing: -0.01em;
   margin: 4px 0 0;
 }
 
 .mission-booking-card {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: rgba(255, 255, 255, 0.06);
+  display: flex; align-items: center; gap: 12px;
+  background: rgba(255, 255, 255, 0.05);
   border: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 12px 18px;
-  border-radius: 14px;
-  margin-top: 16px;
+  padding: 12px 18px; border-radius: 14px; margin-top: 16px;
 }
 
 .mission-badge-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background: #4caf6d;
-  box-shadow: 0 0 0 4px rgba(76, 175, 109, 0.2);
+  width: 8px; height: 8px; border-radius: 50%;
+  background: #b8946f;
+  box-shadow: 0 0 0 4px rgba(184, 148, 111, 0.2);
 }
 
 .mission-booking-label {
-  display: block;
-  font-size: 9px;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  color: rgba(248, 245, 239, 0.5);
-  font-weight: 600;
+  display: block; font-size: 9px; text-transform: uppercase; letter-spacing: 1px;
+  color: #959595; font-weight: 600;
 }
 
-.mission-booking-val {
-  display: block;
-  color: #f8f5ef;
-  font-size: 12px;
-  font-weight: 700;
-}
+.mission-booking-val { display: block; color: #ffffff; font-size: 12px; font-weight: 700; }
 
-
-/* =========================================================
-   COLUMN 3 (ROYAL DARK CARD)
-========================================================= */
-
+/* ---------- COLUMN 3 (DARK CARD) ---------- */
 .mission-card--dark {
   grid-column: 3;
   min-height: 380px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  background: #06213a;
-  border: 1px solid rgba(179, 139, 76, 0.25);
+  display: flex; flex-direction: column; justify-content: space-between;
+  background: #090909;
+  border: 1px solid rgba(143, 100, 68, 0.3);
 }
 
-.mission-chart {
-  width: 100%;
-  height: 90px;
-  margin: 14px 0;
-}
+.mission-chart { width: 100%; height: 90px; margin: 14px 0; }
 
 .mission-chart-line,
 .mission-chart-arrowhead {
-  fill: none;
-  stroke: #b38b4c;
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-linejoin: round;
+  fill: none; stroke: #8f6444; stroke-width: 2.5; stroke-linecap: round; stroke-linejoin: round;
 }
 
 .mission-chart-line {
-  stroke-dasharray: 260;
-  stroke-dashoffset: 260;
+  stroke-dasharray: 260; stroke-dashoffset: 260;
   transition: stroke-dashoffset 1.4s cubic-bezier(0.16, 1, 0.3, 1) 0.2s;
 }
 
-.mission-chart-arrowhead {
-  opacity: 0;
-  transition: opacity 0.3s ease 1.5s;
-}
+.mission-chart-arrowhead { opacity: 0; transition: opacity 0.3s ease 1.5s; }
 
 .mission-card--dark.is-in .mission-chart-line { stroke-dashoffset: 0; }
 .mission-card--dark.is-in .mission-chart-arrowhead { opacity: 1; }
 
-.mission-dark-bottom {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 12px;
-}
+.mission-dark-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
 
-.mission-rating .mission-stat-value {
-  color: #f8f5ef;
-  font-size: clamp(34px, 3.4vw, 44px);
-}
-
-.mission-rating .mission-stat-suffix {
-  color: rgba(248, 245, 239, 0.4);
-}
+.mission-rating .mission-stat-value { font-size: clamp(34px, 3.4vw, 44px); }
+.mission-rating .mission-stat-suffix { background: none; -webkit-text-fill-color: #959595; color: #959595; }
 
 .mission-trust { text-align: right; }
 
-.mission-stars {
-  display: block;
-  color: #e2cda5;
-  font-size: 11px;
-  letter-spacing: 2px;
-  margin-bottom: 4px;
-}
+.mission-stars { display: block; color: #b8946f; font-size: 11px; letter-spacing: 2px; margin-bottom: 4px; }
 
 .mission-trust-label {
-  display: block;
-  color: rgba(248, 245, 239, 0.5);
-  font-size: 9.5px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  text-transform: uppercase;
-  max-width: 120px;
+  display: block; color: #959595; font-size: 9.5px; font-weight: 600;
+  letter-spacing: 0.3px; text-transform: uppercase; max-width: 120px;
 }
 
-
-/* =========================================================
-   RESPONSIVE
-========================================================= */
-
+/* ---------- RESPONSIVE ---------- */
 @media (max-width: 900px) {
-  .mission-grid {
-    grid-template-columns: 1fr;
-  }
-  .mission-card--dark {
-    grid-column: auto;
-  }
+  .mission-grid { grid-template-columns: 1fr; }
+  .mission-card--dark { grid-column: auto; }
 }
 
 @media (max-width: 600px) {
   .mission { padding: 70px 6% 80px; }
 }
 
-/* =========================================================
-   NEW (UX) — SHORT EXPLAINER NOTES INSIDE EXISTING CARDS
-========================================================= */
+/* ---------- EXPLAINER NOTES ---------- */
+.mission-card-note { margin: 8px 0 0; color: #7d7d7f; font-size: 12px; line-height: 1.5; }
+.mission-card-note--light { color: #959595; margin: 0 0 4px; }
 
-.mission-card-note {
-  margin: 8px 0 0;
-  color: rgba(11, 29, 45, 0.5);
-  font-size: 12px;
-  line-height: 1.5;
-}
-
-.mission-card-note--light {
-  color: rgba(248, 245, 239, 0.6);
-  margin: 0 0 4px;
-}
-
-.mission-chips {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 6px;
-  margin-top: 14px;
-}
+.mission-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 14px; }
 
 .mission-chips-label {
-  width: 100%;
-  color: rgba(248, 245, 239, 0.5);
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  width: 100%; color: #959595; font-size: 9px; font-weight: 700;
+  letter-spacing: 1px; text-transform: uppercase;
 }
 
 .mission-chip {
-  padding: 5px 11px;
-  border-radius: 999px;
-  background: rgba(226, 207, 171, 0.12);
-  border: 1px solid rgba(226, 207, 171, 0.28);
-  color: #e2cda5;
-  font-size: 11px;
-  font-weight: 600;
+  padding: 5px 11px; border-radius: 999px;
+  background: rgba(91, 59, 39, 0.2);
+  border: 1px solid rgba(143, 100, 68, 0.4);
+  color: #b8946f; font-size: 11px; font-weight: 600;
 }
 
 .mission-rating-label {
-  display: block;
-  margin-bottom: 2px;
-  color: rgba(248, 245, 239, 0.5);
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 1px;
-  text-transform: uppercase;
+  display: block; margin-bottom: 2px; color: #959595; font-size: 9px; font-weight: 600;
+  letter-spacing: 1px; text-transform: uppercase;
 }

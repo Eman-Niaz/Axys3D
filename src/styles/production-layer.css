@@ -1,19 +1,20 @@
 /* =========================================================
-   AXYS3D — THE FULL PIPELINE (SERVICES SECTION)
+   AXYS3D — THE FULL PIPELINE (SERVICES) — Black + Grey + Coffee Brown (60/30/10)
 ========================================================= */
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500&display=swap');
 
 .pl-section {
-  --pl-bg: transparent;
-  --pl-card-bg: #0a2e4f;
+  --pl-bg: #000000;
+  --pl-card-bg: #000000;
   --pl-border: rgba(255, 255, 255, 0.08);
-  --pl-border-hover: rgba(255, 255, 255, 0.22);
-  --pl-orange: #ff7038;
+  --pl-border-hover: rgba(143, 100, 68, 0.6);
+  --pl-brown: #5b3b27;
+  --pl-brown-hi: #8f6444;
   --pl-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 
   position: relative;
   width: 100%;
-  background: transparent;
+  background: var(--pl-bg);
   padding: 80px 5% 100px;
   box-sizing: border-box;
   font-family: var(--pl-font);
@@ -21,51 +22,13 @@
   overflow: hidden;
 }
 
-/* Left-MIDDLE Brown Glow (top/bottom edge ko touch nahi karta) */
-.pl-section::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: -280px;
-  width: 560px;
-  height: 560px;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(179, 139, 76, 0.28) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 1;
-}
 
-/* Right-MIDDLE Blue Glow (top/bottom edge ko touch nahi karta) */
-.pl-section::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: -280px;
-  width: 560px;
-  height: 560px;
-  transform: translateY(-50%);
-  border-radius: 50%;
-  background: radial-gradient(closest-side, rgba(90, 169, 230, 0.26) 0%, transparent 100%);
-  pointer-events: none;
-  z-index: 1;
-}
-
-.pl-container {
-  position: relative;
-  z-index: 2;
-  max-width: 1240px;
-  margin: 0 auto;
-}
+.pl-container { position: relative; z-index: 2; max-width: 1240px; margin: 0 auto; }
 
 /* ---------- Header ---------- */
-.pl-header {
-  text-align: left;
-  margin-bottom: 38px;
-}
+.pl-header { text-align: left; margin-bottom: 38px; }
 
-/* Chhoti heading ("SERVICES"): mono, grey, bina pill/background ke.
-   !important isliye ke kisi aur CSS ki pill (brown background) is par na chale. */
+/* Chhoti heading ("SERVICES"): mono, grey, bina pill/background ke. */
 .pl-header .pl-tag,
 .pl-header [class*="tag"],
 .pl-header [class*="badge"],
@@ -87,10 +50,11 @@
   font-weight: 400 !important;
   letter-spacing: 0.3em !important;
   text-transform: uppercase !important;
-  color: #747884 !important;
+  color: #959595 !important;
 }
 .pl-header .pl-tag * { margin: 0 !important; display: inline !important; }
 
+/* Title: white -> grey */
 .pl-title {
   margin: 0;
   font-family: "Bricolage Grotesque", sans-serif;
@@ -98,45 +62,31 @@
   font-size: clamp(2.6rem, 5.4vw, 6.5rem);
   line-height: 1.02;
   letter-spacing: -0.01em;
-  color: #f5f3ef;
-}
-
-/* White → Grey gradient */
-.pl-highlight {
-  background: linear-gradient(90deg, #ffffff 0%, #c9ccd2 40%, #6a6e78 100%);
+  color: #ffffff;
+  background: linear-gradient(180deg, #ffffff 0%, #aea7a3 100%);
   -webkit-background-clip: text;
   background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Highlight: coffee brown gradient */
+.pl-highlight {
+  background: linear-gradient(90deg, #b8946f 0%, #8f6444 55%, #6b452c 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
   color: transparent;
 }
 
-/* ---------- Grid Layout ---------- */
-.pl-grid {
-  display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  gap: 16px;
-}
+/* ---------- Grid ---------- */
+.pl-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
 
-.card-col-7 {
-  grid-column: span 7;
-  min-height: 250px;
-}
+.card-col-7  { grid-column: span 7;  min-height: 250px; }
+.card-col-5  { grid-column: span 5;  min-height: 250px; }
+.card-col-4  { grid-column: span 4;  min-height: 250px; }
+.card-col-12 { grid-column: span 12; min-height: 220px; }
 
-.card-col-5 {
-  grid-column: span 5;
-  min-height: 250px;
-}
-
-.card-col-4 {
-  grid-column: span 4;
-  min-height: 250px;
-}
-
-.card-col-12 {
-  grid-column: span 12;
-  min-height: 220px;
-}
-
-/* ---------- Card & Pop Hover Effect ---------- */
+/* ---------- Card ---------- */
 .pl-card {
   position: relative;
   background: var(--pl-card-bg);
@@ -151,64 +101,43 @@
   justify-content: flex-end;
   padding: 26px 28px;
   box-sizing: border-box;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.8);
   transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s ease;
 }
 
 .pl-card:hover,
 .pl-card:focus-visible {
   border-color: var(--pl-border-hover);
-  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.9), 0 0 24px rgba(91, 59, 39, 0.12);
   transform: translateY(-2px);
   outline: none;
 }
 
-/* Background Image: Default mein visible with dark contrast */
 .pl-card-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
+  position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover;
-  opacity: 0.65;
+  opacity: 0.6;
   transform: scale(1);
   transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
   z-index: 1;
 }
 
-/* Hover par pop aur brighten effect */
-.pl-card:hover .pl-card-img {
-  opacity: 0.95;
-  transform: scale(1.06);
-}
+.pl-card:hover .pl-card-img { opacity: 0.95; transform: scale(1.06); }
 
-/* Dark clean overlay for readability */
+/* Black overlay for readability */
 .pl-card-overlay {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg, 
-    rgba(7, 37, 64, 0.35) 0%, 
-    rgba(7, 37, 64, 0.55) 50%, 
-    rgba(6, 31, 56, 0.92) 100%
-  );
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, rgba(0, 0, 0,0.3) 0%, rgba(0, 0, 0,0.55) 50%, rgba(0, 0, 0,0.94) 100%);
   transition: opacity 0.45s ease;
   pointer-events: none;
   z-index: 2;
 }
 
-.pl-card:hover .pl-card-overlay {
-  opacity: 0.65;
-}
+.pl-card:hover .pl-card-overlay { opacity: 0.65; }
 
 /* ---------- Typography inside Card ---------- */
-.pl-card-content {
-  position: relative;
-  z-index: 3;
-  display: flex;
-  flex-direction: column;
-}
+.pl-card-content { position: relative; z-index: 3; display: flex; flex-direction: column; }
 
 .pl-card-title {
   margin: 0;
@@ -217,7 +146,7 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   color: #ffffff;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
 }
 
 .pl-card-desc {
@@ -225,50 +154,28 @@
   font-family: var(--pl-font);
   font-size: 13.5px;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.75);
+  color: #aea7a3;
   max-height: 0;
   opacity: 0;
   overflow: hidden;
   transform: translateY(6px);
   transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, transform 0.35s ease, margin-top 0.3s ease;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
 }
 
-.pl-card:hover .pl-card-desc {
-  max-height: 75px;
-  opacity: 1;
-  margin-top: 8px;
-  transform: translateY(0);
-}
+.pl-card:hover .pl-card-desc { max-height: 75px; opacity: 1; margin-top: 8px; transform: translateY(0); }
 
 /* ---------- Responsive ---------- */
 @media (max-width: 992px) {
-  .card-col-7,
-  .card-col-5 {
-    grid-column: span 12;
-  }
-  .card-col-4 {
-    grid-column: span 6;
-  }
-  .card-col-4:last-of-type {
-    grid-column: span 12;
-  }
+  .card-col-7, .card-col-5 { grid-column: span 12; }
+  .card-col-4 { grid-column: span 6; }
+  .card-col-4:last-of-type { grid-column: span 12; }
 }
 
 @media (max-width: 640px) {
-  .pl-section {
-    padding: 50px 4% 70px;
-  }
-  .pl-grid {
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  .card-col-7,
-  .card-col-5,
-  .card-col-4,
-  .card-col-12 {
-    grid-column: span 1;
-    min-height: 200px;
-    padding: 22px 20px;
+  .pl-section { padding: 50px 4% 70px; }
+  .pl-grid { grid-template-columns: 1fr; gap: 14px; }
+  .card-col-7, .card-col-5, .card-col-4, .card-col-12 {
+    grid-column: span 1; min-height: 200px; padding: 22px 20px;
   }
 }
