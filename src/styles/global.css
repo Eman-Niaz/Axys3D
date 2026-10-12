@@ -6,7 +6,7 @@
 :root {
   --color-black: #00000;
   --color-card-bg: #00000;
-  --color-brown: #e5d0a9;
+  --color-brown: #000000;
   --color-text-primary: black;
   --color-text-secondary: #9ca3af;
   --font-primary: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
@@ -30,7 +30,7 @@ body {
   max-width: 100% !important;
   min-height: 100vh;
   overflow-x: hidden !important;
-  background-color: var(--color-black);
+  background-color: black;
   color: var(--color-text-primary);
   font-family: var(--font-primary);
   scroll-behavior: smooth;

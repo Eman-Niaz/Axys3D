@@ -12,6 +12,9 @@
   --pl-brown-hi: #8f6444;
   --pl-font: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
 
+  --pl-gap: 16px;
+  --pl-per-view: 3;
+
   position: relative;
   width: 100%;
   background: var(--pl-bg);
@@ -22,11 +25,19 @@
   overflow: hidden;
 }
 
-
 .pl-container { position: relative; z-index: 2; max-width: 1240px; margin: 0 auto; }
 
+/* ---------- Top row: header + arrows ---------- */
+.pl-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  margin: 0 0 4px;
+}
+
 /* ---------- Header ---------- */
-.pl-header { text-align: left; margin-bottom: 38px; }
+.pl-header { text-align: left; margin: 0 !important; padding: 0 !important; }
 
 /* Chhoti heading ("SERVICES"): mono, grey, bina pill/background ke. */
 .pl-header .pl-tag,
@@ -56,17 +67,13 @@
 
 /* Title: white -> grey */
 .pl-title {
-  margin: 0;
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-weight: 800;
-  font-size: clamp(2.6rem, 5.4vw, 6.5rem);
-  line-height: 1.02;
-  letter-spacing: -0.01em;
-  color: #ffffff;
-  background: linear-gradient(180deg, #ffffff 0%, #aea7a3 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-family:  'Manrope', sans-serif;
+  font-size: clamp(2.3rem, 6vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.065em !important;
+  font-weight: 900 !important;
+  margin: 10px 0 0 !important;
+  padding: 0 !important;
 }
 
 /* Highlight: coffee brown gradient */
@@ -78,20 +85,75 @@
   color: transparent;
 }
 
-/* ---------- Grid ---------- */
-.pl-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 16px; }
+/* ---------- Arrows ---------- */
+.pl-nav { display: flex; align-items: center; gap: 10px; flex-shrink: 0; margin: 0; padding: 0; }
 
-.card-col-7  { grid-column: span 7;  min-height: 250px; }
-.card-col-5  { grid-column: span 5;  min-height: 250px; }
-.card-col-4  { grid-column: span 4;  min-height: 250px; }
-.card-col-12 { grid-column: span 12; min-height: 220px; }
+.pl-arrow {
+  width: 46px;
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  border: 1px solid var(--pl-border);
+  background: #000000;
+  color: #ffffff;
+  cursor: pointer;
+  padding: 0;
+  transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease, opacity 0.3s ease, transform 0.3s ease;
+}
+
+.pl-arrow:hover:not(:disabled),
+.pl-arrow:focus-visible {
+  border-color: var(--pl-border-hover);
+  background: rgba(91, 59, 39, 0.35);
+  outline: none;
+}
+
+.pl-arrow,
+.pl-arrow:focus,
+.pl-arrow:focus-visible,
+.pl-arrow:active {
+  outline: none !important;
+  box-shadow: none;
+  -webkit-tap-highlight-color: transparent;
+}
+.pl-arrow::-moz-focus-inner { border: 0; }
+.pl-arrow::before,
+.pl-arrow::after { content: none !important; display: none !important; }
+.pl-arrow { appearance: none; -webkit-appearance: none; background-image: none; border-style: solid; text-decoration: none; }
+.pl-nav::before,
+.pl-nav::after { content: none !important; display: none !important; }
+
+.pl-arrow:active:not(:disabled) { transform: scale(0.94); }
+
+.pl-arrow:disabled { opacity: 0.3; cursor: default; }
+
+/* ---------- Carousel track (ek time par 3 cards) ---------- */
+.pl-track {
+  display: flex;
+  gap: var(--pl-gap);
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  /* hover lift aur shadow clip na hon */
+  padding: 12px 0 28px;
+  margin: 20px 0 -28px;
+}
+.pl-track::-webkit-scrollbar { display: none; }
 
 /* ---------- Card ---------- */
 .pl-card {
+  flex: 0 0 calc((100% - (var(--pl-per-view) - 1) * var(--pl-gap)) / var(--pl-per-view));
+  scroll-snap-align: start;
+  min-height: 490px;
   position: relative;
   background: var(--pl-card-bg);
   border: 1px solid var(--pl-border);
-  border-radius: 20px;
+  border-radius: 8px;
   overflow: hidden;
   text-decoration: none;
   color: #ffffff;
@@ -116,25 +178,19 @@
 .pl-card-img {
   position: absolute; inset: 0; width: 100%; height: 100%;
   object-fit: cover;
-  opacity: 0.6;
+  opacity: 1;
   transform: scale(1);
   transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   pointer-events: none;
   z-index: 1;
 }
 
-.pl-card:hover .pl-card-img { opacity: 0.95; transform: scale(1.06); }
+.pl-card:hover .pl-card-img,
+.pl-card:focus-visible .pl-card-img { opacity: 1; transform: scale(1.06); }
 
-/* Black overlay for readability */
-.pl-card-overlay {
-  position: absolute; inset: 0;
-  background: linear-gradient(180deg, rgba(0, 0, 0,0.3) 0%, rgba(0, 0, 0,0.55) 50%, rgba(0, 0, 0,0.94) 100%);
-  transition: opacity 0.45s ease;
-  pointer-events: none;
-  z-index: 2;
-}
+/* Black overlay hata diya */
+.pl-card-overlay { display: none; }
 
-.pl-card:hover .pl-card-overlay { opacity: 0.65; }
 
 /* ---------- Typography inside Card ---------- */
 .pl-card-content { position: relative; z-index: 3; display: flex; flex-direction: column; }
@@ -146,36 +202,24 @@
   font-weight: 700;
   letter-spacing: -0.02em;
   color: #ffffff;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.9), 0 2px 16px rgba(0, 0, 0, 0.85);
 }
 
-.pl-card-desc {
-  margin: 0;
-  font-family: var(--pl-font);
-  font-size: 13.5px;
-  line-height: 1.5;
-  color: #aea7a3;
-  max-height: 0;
-  opacity: 0;
-  overflow: hidden;
-  transform: translateY(6px);
-  transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.35s ease, transform 0.35s ease, margin-top 0.3s ease;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
-}
+.pl-card-desc { display: none; }
 
-.pl-card:hover .pl-card-desc { max-height: 75px; opacity: 1; margin-top: 8px; transform: translateY(0); }
+.pl-card:hover .pl-card-title,
+.pl-card:focus-visible .pl-card-title {
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.95), 0 2px 14px rgba(0, 0, 0, 0.9);
+}
 
 /* ---------- Responsive ---------- */
 @media (max-width: 992px) {
-  .card-col-7, .card-col-5 { grid-column: span 12; }
-  .card-col-4 { grid-column: span 6; }
-  .card-col-4:last-of-type { grid-column: span 12; }
+  .pl-section { --pl-per-view: 2; }
 }
 
 @media (max-width: 640px) {
-  .pl-section { padding: 50px 4% 70px; }
-  .pl-grid { grid-template-columns: 1fr; gap: 14px; }
-  .card-col-7, .card-col-5, .card-col-4, .card-col-12 {
-    grid-column: span 1; min-height: 200px; padding: 22px 20px;
-  }
+  .pl-section { --pl-per-view: 1; padding: 50px 4% 70px; }
+  .pl-top { align-items: center; margin-bottom: 4px; }
+  .pl-arrow { width: 40px; height: 40px; }
+  .pl-card { min-height: 460px; padding: 22px 20px; }
 }

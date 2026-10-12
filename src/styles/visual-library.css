@@ -1,19 +1,20 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 /* =========================================================
    AXYS3D — VISUAL LIBRARY PAGE
    ========================================================= */
 
 .library-page {
-  --lib-blue: #072540;
-  --lib-blue-soft: #0b1d2c;
-  --lib-blue-panel: #102637;
+  --lib-blue: #000000;
+  --lib-blue-soft: #000000;
+  --lib-blue-panel: #0f0f0f;
 
-  --lib-brown: #b38b5a;
-  --lib-brown-light: #d2b487;
+  --lib-brown: #8f6444;
+  --lib-brown-light: #a07350;
 
   --lib-white: #ffffff;
-  --lib-text: #d8dde0;
-  --lib-muted: #8997a1;
+  --lib-text: #d6d3d0;
+  --lib-muted: #959595;
 
   --lib-dark-line: rgba(255, 255, 255, 0.1);
 
@@ -40,9 +41,12 @@
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  background: linear-gradient(160deg, var(--lib-blue-panel) 0%, var(--lib-blue-soft) 50%, var(--lib-blue) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
+  background:
+    radial-gradient(ellipse 55% 45% at 82% 18%, rgba(143, 100, 68, 0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 45% at 8% 62%, rgba(91, 59, 39, 0.26) 0%, transparent 70%),
+    linear-gradient(180deg, #0a0706 0%, #000000 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
 }
 
 .lib-wrap {
@@ -52,7 +56,7 @@
   z-index: 2;
 }
 
-/* Hero Row Layout (DITO About Page) */
+/* Hero Row Layout */
 .lib-intro {
   padding: 64px 0 70px;
   position: relative;
@@ -91,12 +95,12 @@
 }
 
 .lib-h1 {
-  max-width: 820px;
-  margin: 0 0 20px;
-  font-size: clamp(25px, 6vw, 70px);
-  line-height: 1.1 !important;
+  font-family: 'Manrope', sans-serif !important;
+  font-size: clamp(2.5rem, 6vw, 5rem);
+  line-height: 1.05 !important;
   letter-spacing: -0.05em !important;
-  transition: opacity 0.2s ease;
+  font-weight: 700 !important;
+  margin-top: 10px;
 }
 
 .lib-h1-visual {
@@ -144,7 +148,7 @@
 }
 
 /* =========================================================
-   HERO — ROTATING SPHERE GALLERY (DITO ABOUT.CSS)
+   HERO — ROTATING SPHERE GALLERY
    ========================================================= */
 
 .ind-sphere-stage {
@@ -178,7 +182,7 @@
   height: var(--tht, 96px);
   margin: calc(var(--tht, 96px) / -2) 0 0 calc(var(--tw, 90px) / -2);
   overflow: hidden;
-  background: linear-gradient(155deg, var(--lib-blue-panel) 0%, var(--lib-blue) 100%);
+  background: #0c0c0c;
   backface-visibility: hidden;
   -webkit-backface-visibility: hidden;
   transform: rotateY(var(--yaw)) rotateX(var(--pitch)) translateZ(var(--R, 300px));
@@ -232,10 +236,11 @@
 
 .lib-sec-h2 {
   margin: 0;
+  font-family: 'Manrope', sans-serif !important;
   font-size: clamp(26px, 3.4vw, 44px);
-  font-weight: 700;
-  letter-spacing: -0.045em;
-  line-height: 1.2;
+  font-weight: 700 !important;
+  letter-spacing: -0.05em !important;
+  line-height: 1.05 !important;
   color: var(--lib-white);
 }
 
@@ -263,7 +268,7 @@
 }
 
 .lib-filter:hover {
-  border-color: rgba(210, 180, 135, 0.55);
+  border-color: rgba(143, 100, 68, 0.55);
   color: var(--lib-white);
   transform: translateY(-2px);
 }
@@ -290,7 +295,7 @@
   overflow: hidden;
   cursor: pointer;
   color: var(--lib-white);
-  background: linear-gradient(155deg, var(--lib-blue-panel) 0%, var(--lib-blue-soft) 55%, var(--lib-blue) 100%);
+  background: #0c0c0c;
   border: 1px solid rgba(255, 255, 255, 0.08);
   isolation: isolate;
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s ease, box-shadow 0.5s ease;
@@ -299,7 +304,7 @@
 .lib-card:hover,
 .lib-card:focus-visible {
   transform: translateY(-8px);
-  border-color: rgba(210, 180, 135, 0.45);
+  border-color: rgba(143, 100, 68, 0.45);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
 }
 
@@ -323,7 +328,7 @@
   position: absolute;
   inset: 0;
   z-index: -2;
-  background: linear-gradient(180deg, rgba(7, 21, 34, 0.45) 0%, rgba(7, 21, 34, 0.35) 45%, rgba(7, 21, 34, 0.9) 100%);
+  background: rgba(0, 0, 0, 0.57);
   opacity: 0;
   transition: opacity 0.45s ease;
 }
@@ -336,7 +341,7 @@
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: radial-gradient(340px circle at var(--mx) var(--my), rgba(210, 180, 135, 0.22), transparent 60%);
+  background: transparent;
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
@@ -394,7 +399,7 @@
 .lib-card-tag {
   padding: 6px 12px;
   border-radius: 999px;
-  background: rgba(7, 21, 34, 0.6);
+  background: rgba(0, 0, 0, 0.6);
   border: 1px solid rgba(255, 255, 255, 0.18);
   font-size: 10px;
   letter-spacing: 0.1em;
@@ -404,8 +409,10 @@
 
 .lib-card-title {
   margin: 0;
+  font-family: 'Manrope', sans-serif !important;
   font-size: clamp(17px, 1.6vw, 22px);
-  letter-spacing: -0.02em;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
   line-height: 1.2;
   color: var(--lib-white);
 }
@@ -446,7 +453,7 @@
   align-items: center;
   justify-content: center;
   padding: 24px;
-  background: rgba(7, 21, 34, 0.92);
+  background: rgba(0, 0, 0, 0.92);
   backdrop-filter: blur(10px);
   opacity: 0;
   visibility: hidden;
@@ -464,7 +471,7 @@
   max-height: 76vh;
   margin: 0 auto;
   border-radius: 14px;
-  border: 1px solid rgba(210, 180, 135, 0.3);
+  border: 1px solid rgba(143, 100, 68, 0.3);
 }
 
 .lib-lightbox-caption {
@@ -490,50 +497,73 @@
   cursor: pointer;
 }
 
-/* Final CTA Section */
+/* =========================================================
+   FINAL CTA SECTION — CLEAN GAP & BALANCED WEIGHT
+   ========================================================= */
+
 .lib-final-cta {
   padding: 120px 0 140px;
   background: var(--lib-blue);
+  border-top: none !important;
   position: relative;
   z-index: 2;
   overflow: hidden;
+  isolation: isolate;
 }
 
 .lib-final-inner {
-  max-width: 800px;
+  max-width: 820px;
   margin: 0 auto;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .lib-final-inner h2 {
-  margin: 0 0 20px;
-  font-size: clamp(38px, 5.5vw, 68px);
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 1.18;
+  font-family: 'Manrope', sans-serif !important;
+  margin: 0 0 36px 0 !important; /* Button aur heading ke darmiyan wazeh gap */
+  padding: 0 !important;
+  font-size: clamp(2.3rem, 6vw, 4.2rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.05em !important;
+  line-height: 1.05 !important;
 }
 
 .lib-final-inner h2 span {
-  color: var(--lib-muted);
+  color: #8f6444;
 }
 
 .lib-final-inner p {
   margin: 0 auto 32px;
   color: var(--lib-muted);
   font-size: 15px;
+  max-width: 500px;
 }
 
 .lib-final-button {
   display: inline-flex;
   align-items: center;
-  gap: 20px;
-  padding: 16px 28px;
+  gap: 16px;
+  padding: 16px 32px;
   border-radius: 999px;
-  color: var(--lib-blue);
-  background: var(--lib-brown-light);
+  color: #ffffff !important;
+  background: #5b3b27 !important;
+  border: 1px solid #5b3b27;
   text-decoration: none;
-  font-size: 12px;
-  font-weight: 800;
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 13.5px;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  margin-top: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+}
+
+.lib-final-button:hover {
+  background: #6b452c !important;
+  transform: translateY(-3px);
+  box-shadow: 0 20px 45px rgba(143, 100, 68, 0.25);
 }
 
 /* Responsive */
@@ -560,6 +590,12 @@
   }
 }
 
+@media (max-width: 680px) {
+  .lib-final-inner h2 {
+    margin-bottom: 24px !important;
+  }
+}
+
 @media (max-width: 640px) {
   .lib-card {
     grid-column: span 6;
@@ -567,48 +603,46 @@
 }
 
 /* =========================================================
-   AXYS3D DESIGN SYSTEM — Howitworks jaisi styling
-   (colors: brown/gold wahi jo pehle tha)
+   AXYS3D DESIGN SYSTEM — HEADINGS & BUTTONS OVERRIDES
    ========================================================= */
+
 .library-page,
 .page-visual-library { font-family: 'Manrope', system-ui, sans-serif !important; }
 
-/* Headings */
+/* Tamam Headings clean bold (700) */
 .library-page h1,
 .page-visual-library h1,
 .library-page h2,
 .page-visual-library h2,
+.library-page h3,
+.page-visual-library h3,
 .library-page [class*="-h1"],
 .page-visual-library [class*="-h1"],
 .library-page [class*="-h2"],
 .page-visual-library [class*="-h2"] {
-  font-family: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif !important;
-  font-weight: 800 !important;
-  letter-spacing: -0.02em !important;
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.05em !important;
   line-height: 1.05 !important;
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
-  color: #f3efe6;
+  color: #ffffff;
 }
 
-/* Heading ka highlight = white -> grey gradient */
+/* Heading Highlights */
 .library-page [class*="word--muted"],
 .page-visual-library [class*="word--muted"],
 .library-page h2 span,
 .page-visual-library h2 span,
 .library-page [class*="-h2"] span,
 .page-visual-library [class*="-h2"] span {
-  background: linear-gradient(90deg, #ffffff 0%, #8e919c 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
   padding-right: .06em;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
+  color: #8f6444;
 }
 
-/* Chhoti heading / kicker: mono, grey, spaced */
+/* Kickers */
 .library-page [class*="kicker"],
 .page-visual-library [class*="kicker"],
 .library-page [class*="eyebrow"],
@@ -618,7 +652,7 @@
   font-weight: 400 !important;
   letter-spacing: 0.3em !important;
   text-transform: uppercase !important;
-  color: #747884 !important;
+  color: #959595 !important;
 }
 
 /* Lead paragraphs */
@@ -628,28 +662,28 @@
   letter-spacing: -0.01em;
 }
 
-/* CTA buttons = grey */
-[class*="final-button"], [class*="final-btn"], .final-cta-button, .ins-btn-primary, .cnt-submit {
-  background: #a3a5ad !important;
-  border-color: #a3a5ad !important;
-  color: #0b0c0e !important;
+/* CTA buttons = solid brown theme */
+[class*="final-button"], [class*="final-btn"], .final-cta-button, .lib-final-button, .ins-btn-primary, .cnt-submit {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  background: #5b3b27 !important;
+  border-color: #5b3b27 !important;
+  color: #ffffff !important;
   box-shadow: none !important;
 }
-[class*="final-button"]:hover, [class*="final-btn"]:hover, .final-cta-button:hover, .ins-btn-primary:hover, .cnt-submit:hover {
-  background: #bbbdc5 !important;
-  border-color: #bbbdc5 !important;
-  color: #0b0c0e !important;
+
+[class*="final-button"]:hover, [class*="final-btn"]:hover, .final-cta-button:hover, .lib-final-button:hover, .ins-btn-primary:hover, .cnt-submit:hover {
+  background: #6b452c !important;
+  border-color: #6b452c !important;
+  color: #ffffff !important;
 }
 
-/* =========================================================
-   CTA BACKGROUND — image + navy overlay (har CTA par same)
-   Image badalni ho to :root mein --cta-image set karein,
-   jaise:  :root { --cta-image: url('/images/hero.jpg'); }
-   ========================================================= */
+/* CTA Background Overlay */
 .lib-final-cta {
-  background-image:
-    linear-gradient(135deg, rgba(20, 29, 49, 0.94) 0%, rgba(20, 29, 49, 0.82) 50%, rgba(20, 29, 49, 0.95) 100%),
-    var(--cta-image, url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')) !important;
+  background-image: var(--cta-image, url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')) !important;
+  background-color: #262626 !important;
+  background-blend-mode: multiply !important;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;

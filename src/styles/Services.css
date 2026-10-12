@@ -1,19 +1,19 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+/* @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap'); */
 /* =========================================================
    AXYS3D — SERVICES PAGE
    ========================================================= */
 
 .services-page {
-  --svc-blue: #072540;
-  --svc-blue-soft: #0b1d2c;
-  --svc-blue-panel: #102637;
+  --svc-blue: #000000;
+  --svc-blue-soft: #000000;
+  --svc-blue-panel: #0f0f0f;
 
-  --svc-brown: #b38b5a;
-  --svc-brown-light: #d2b487;
+  --svc-brown: #8f6444;
+  --svc-brown-light: #a07350;
 
   --svc-white: #ffffff;
-  --svc-text: #d8dde0;
-  --svc-muted: #8997a1;
+  --svc-text: #d6d3d0;
+  --svc-muted: #959595;
 
   --svc-dark-line: rgba(255, 255, 255, 0.1);
 
@@ -45,9 +45,7 @@
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  background: linear-gradient(160deg, var(--svc-blue-panel) 0%, var(--svc-blue-soft) 50%, var(--svc-blue) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
+  background: #000000;
 }
 
 /* =========================================================
@@ -69,7 +67,7 @@
   width: 620px;
   height: 620px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(179, 139, 90, 0.28) 0%, rgba(179, 139, 90, 0.1) 45%, transparent 72%);
+  background: transparent;
   filter: blur(6px);
   animation: svcGlowDrift 16s ease-in-out infinite alternate;
   z-index: 1;
@@ -83,7 +81,7 @@
   width: 380px;
   height: 380px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(16, 38, 55, 0.55) 0%, rgba(16, 38, 55, 0.2) 50%, transparent 75%);
+  background: transparent;
   animation: svcGlowDrift 16s ease-in-out infinite alternate-reverse;
   z-index: 1;
 }
@@ -138,7 +136,7 @@
   width: 620px;
   height: 620px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(64, 140, 224, 0.30) 0%, rgba(64, 140, 224, 0.11) 45%, transparent 72%);
+  background: transparent;
   filter: blur(6px);
   animation: svcGlowDriftLeft 16s ease-in-out infinite alternate;
   z-index: -1;
@@ -153,7 +151,7 @@
   width: 380px;
   height: 380px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(30, 90, 170, 0.40) 0%, rgba(30, 90, 170, 0.14) 50%, transparent 75%);
+  background: transparent;
   animation: svcGlowDriftLeft 16s ease-in-out infinite alternate-reverse;
   z-index: -1;
   pointer-events: none;
@@ -188,13 +186,12 @@
 
 .svc-h1 {
   max-width: 820px;
-  margin: 0;
-  /* color: #ffffff !important; */
-  font-size: clamp(35px, 6vw, 80px);
-  line-height: 1.1 !important;
-  letter-spacing: -0.05em !important;
-  transition: opacity 0.2s ease;
-  margin-bottom: 20px;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(2.3rem, 6vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.065em !important;
+  font-weight: 900 !important;
+  margin-top: 10px;
 }
 
 .svc-h1-visual {
@@ -273,183 +270,17 @@ html {
   scroll-behavior: smooth;
 }
 
-.svc-reel {
-  position: relative;
-  z-index: 2;
-  margin-top: 56px;
-}
-
-/* section = card ki height + text ko sarakne ki jagah */
-.svc-panel {
-  position: relative;
-  width: calc(100% - 2 * var(--svc-side));
-  margin-left: auto;
-  margin-right: auto;
-  height: calc(var(--svc-ph) * 2 + var(--svc-gap));
-}
-
-/* agla card pichle card ke upar se shuru ho (overlap) */
-.svc-panel + .svc-panel {
-  margin-top: calc(var(--svc-ph) * -1);
-}
-
-.svc-panel:last-child {
-  height: var(--svc-ph);
-}
-
-.svc-panel-stage {
-  position: sticky;
-  top: var(--svc-top);
-  height: var(--svc-ph);
-  overflow: hidden;
-  border-radius: var(--svc-radius);
-  background: var(--svc-blue-soft);
-  box-shadow: 0 -16px 50px rgba(0, 0, 0, 0.4);
-}
-
-.svc-panel-img {
-  position: absolute;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  display: block;
-  background: linear-gradient(155deg, var(--svc-blue-panel) 0%, var(--svc-blue-soft) 55%, var(--svc-blue) 100%);
-}
-
-.svc-panel-overlay {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background:
-    linear-gradient(90deg, rgba(7, 21, 34, 0.7) 0%, rgba(7, 21, 34, 0.34) 45%, rgba(7, 21, 34, 0) 78%),
-    linear-gradient(180deg, rgba(7, 21, 34, 0.18) 0%, rgba(7, 21, 34, 0) 30%, rgba(7, 21, 34, 0.35) 100%);
-}
-
-/* ---- text: left, beech mein (JS isay scroll k sath upar sarkata hai) ---- */
-
-.svc-panel-content {
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  display: flex;
-  align-items: center;
-  padding: 0 clamp(24px, 6vw, 96px);
-  box-sizing: border-box;
-  will-change: transform;
-}
-
-.svc-panel-text {
-  max-width: 560px;
-  opacity: 0;
-  transform: translateY(18px);
-  transition: opacity 0.8s ease 0.1s, transform 0.8s cubic-bezier(0.22, 1, 0.36, 1) 0.1s;
-}
-
-.js .svc-panel-text.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.svc-panel-num {
-  display: block;
-  margin-bottom: 14px;
-  color: var(--svc-brown-light);
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 0.2em;
-}
-
-.svc-panel-title {
-  margin: 0 0 14px;
-  color: var(--svc-white);
-  font-size: clamp(28px, 3.4vw, 46px);
-  font-weight: 700;
-  letter-spacing: -0.03em;
-  line-height: 1.12;
-  text-shadow: 0 4px 24px rgba(0, 0, 0, 0.35);
-}
-
-.svc-panel-blurb {
-  margin: 0 0 14px;
-  max-width: 480px;
-  color: rgba(255, 255, 255, 0.9);
-  font-size: 15px;
-  line-height: 1.65;
-  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.4);
-}
-
-.svc-panel-includes {
-  margin: 0 0 24px;
-  color: rgba(255, 255, 255, 0.62);
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  white-space: pre-wrap;
-}
-
-.svc-panel-actions {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-}
-
-/* white pill buttons (reference jaise) */
-.svc-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 11px 18px;
-  border-radius: 999px;
-  background: #ffffff;
-  color: #0b1d2c;
-  text-decoration: none;
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  white-space: nowrap;
-  transition: background 0.3s ease, transform 0.3s ease;
-}
-
-.svc-pill:hover,
-.svc-pill:focus-visible {
-  background: var(--svc-brown-light);
-  transform: translateY(-2px);
-}
-
-@media (max-width: 900px) {
-  html { scroll-behavior: auto; }
-  .svc-panel-overlay {
-    background:
-      linear-gradient(180deg, rgba(7, 21, 34, 0.25) 0%, rgba(7, 21, 34, 0.55) 45%, rgba(7, 21, 34, 0.92) 100%);
-  }
-  .svc-panel-content { align-items: flex-end; padding: 0 22px 32px; }
-  .svc-panel-text { max-width: 100%; }
-  .svc-panel-title { font-size: clamp(24px, 6.4vw, 34px); }
-  .svc-panel-blurb { font-size: 14px; max-width: 100%; }
-}
-
-@media (max-width: 380px) {
-  .svc-pill { width: 100%; justify-content: space-between; }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .svc-panel-text { opacity: 1 !important; transform: none !important; transition: none !important; }
-  .svc-panel-content { transform: none !important; }
-}
-
 /* =========================================================
    FINAL CTA
    ========================================================= */
 
 .svc-final-cta {
   padding: 120px 0 140px;
-  background: #072540;
+  background: #000000;
   border-top: none !important;
   position: relative;
   z-index: 3;
-  margin-top: calc(var(--svc-gap) * -1);          /* last card ke upar halka sa charhta hai */
+  margin-top: 20px;
   border-radius: var(--svc-radius) var(--svc-radius) 0 0;
 }
 
@@ -468,11 +299,13 @@ html {
 }
 
 .svc-final-inner h2 {
-  margin: 0 0 20px;
-  font-size: clamp(38px, 5.5vw, 68px);
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 1.18;
+  font-family: 'Manrope', sans-serif;
+  font-size: clamp(2.3rem, 6vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.065em !important;
+  font-weight: 900 !important;
+  margin: 10px 0 0 !important;
+  padding: 0 !important;
 }
 
 .svc-final-inner h2 span {
@@ -492,18 +325,20 @@ html {
   gap: 20px;
   padding: 16px 28px;
   border-radius: 999px;
-  color: var(--svc-blue);
+  color: #ffffff;
   background: var(--svc-brown-light);
   text-decoration: none;
-  font-size: 12px;
-  font-weight: 800;
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.065em !important;
+  font-size: 13px;
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
 .final-cta-button:hover {
-  background: #dfc39a;
+  background: #b8946f;
   transform: translateY(-3px);
-  box-shadow: 0 20px 45px rgba(179, 139, 90, 0.25);
+  box-shadow: 0 20px 45px rgba(143, 100, 68, 0.25);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -544,10 +379,7 @@ html {
 .svc-final-cta::before,
 .site-footer::before {
   left: -220px;
-  background: radial-gradient(circle,
-    rgba(64, 140, 224, 0.30) 0%,
-    rgba(64, 140, 224, 0.11) 45%,
-    transparent 72%);
+  background: transparent;
   animation: glowLeft 16s ease-in-out infinite alternate;
 }
 
@@ -555,10 +387,7 @@ html {
 .svc-final-cta::after,
 .site-footer::after {
   right: -220px;
-  background: radial-gradient(circle,
-    rgba(179, 139, 90, 0.28) 0%,
-    rgba(179, 139, 90, 0.10) 45%,
-    transparent 72%);
+  background: transparent;
   animation: glowRight 16s ease-in-out infinite alternate;
 }
 
@@ -605,16 +434,13 @@ html {
     flex: 0 0 auto;
     max-width: 100%;
   }
-
 }
-
 
 /* =========================================================
    HERO — animated production visual (card ki jagah)
    ========================================================= */
 
 html:has(.page-services) { scroll-behavior: smooth; }
-.svc-panel { scroll-margin-top: var(--svc-top, 96px); }
 
 .svc-intro-media {
   flex: 1 1 0;
@@ -633,29 +459,29 @@ html:has(.page-services) { scroll-behavior: smooth; }
 .svc-viz-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 
 /* ---- scene (15s loop: 0-33% Build, 33-66% Visualize, 66-100% Experience) ---- */
-.vz-grid path { fill: none; stroke: rgba(210, 180, 135, 0.22); stroke-width: 1; }
+.vz-grid path { fill: none; stroke: rgba(143, 100, 68, 0.22); stroke-width: 1; }
 .vz-sun { opacity: 0; animation: vzSun 15s ease-in-out infinite; }
 
-.vz-wire { fill: none; stroke: var(--svc-brown-light); stroke-width: 1.3; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
+.vz-wire { fill: none; stroke: #8f6444; stroke-width: 1.3; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; }
 .vz-wa { animation: vzDrawA 15s ease-in-out infinite; }
 .vz-wb { animation: vzDrawB 15s ease-in-out infinite; }
 
 .vz-mep { fill: none; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 1; stroke-dashoffset: 1; opacity: 0; animation: vzMep 15s ease-in-out infinite; }
-.vz-mep-blue { stroke: #5aaeff; }
-.vz-mep-red { stroke: #ff7a6b; }
-.vz-mep-gold { stroke: #f2c14e; }
+.vz-mep-blue { stroke: #959595; }
+.vz-mep-red { stroke: #6b452c; }
+.vz-mep-gold { stroke: #8f6444; }
 
-.vz-occ polygon { fill: #0b1d2c; }
+.vz-occ polygon { fill: #000000; }
 .vz-fill { opacity: 0; animation: vzFill 15s ease-in-out infinite; }
 .vz-win { opacity: 0; animation: vzWin 15s ease-in-out infinite; }
-.vz-win polygon { fill: #f6dca4; opacity: 0.55; animation: vzTw 3.6s ease-in-out infinite; animation-delay: var(--w, 0s); }
+.vz-win polygon { fill: #8f6444; opacity: 0.55; animation: vzTw 3.6s ease-in-out infinite; animation-delay: var(--w, 0s); }
 
 .vz-orbit { opacity: 0; animation: vzOrbit 15s ease-in-out infinite; }
-.vz-orbit-path { fill: none; stroke: var(--svc-brown-light); stroke-width: 1.4; stroke-dasharray: 2 7; stroke-linecap: round; opacity: 0.75; }
-.vz-cam-dot { filter: drop-shadow(0 0 7px rgba(210, 180, 135, 0.95)); }
+.vz-orbit-path { fill: none; stroke: #8f6444; stroke-width: 1.4; stroke-dasharray: 2 7; stroke-linecap: round; opacity: 0.75; }
+.vz-cam-dot { filter: drop-shadow(0 0 7px rgba(143, 100, 68, 0.95)); }
 
 /* ---- connector lines icon -> building ---- */
-.vz-link { stroke: var(--svc-brown-light); stroke-width: 1.2; stroke-dasharray: 3 6; opacity: 0.1; }
+.vz-link { stroke: #8f6444; stroke-width: 1.2; stroke-dasharray: 3 6; opacity: 0.1; }
 .vz-l-a { animation: vzFlow 1s linear infinite, vzLinkA 15s ease-in-out infinite; }
 .vz-l-b { animation: vzFlow 1s linear infinite, vzLinkB 15s ease-in-out infinite; }
 .vz-l-c { animation: vzFlow 1s linear infinite, vzLinkC 15s ease-in-out infinite; }
@@ -670,9 +496,9 @@ html:has(.page-services) { scroll-behavior: smooth; }
   display: grid;
   place-items: center;
   border-radius: 15px;
-  border: 1px solid rgba(210, 180, 135, 0.4);
-  background: rgba(11, 29, 44, 0.9);
-  color: var(--svc-brown-light);
+  border: 1px solid rgba(143, 100, 68, 0.4);
+  background: rgba(12, 12, 12, 0.9);
+  color: #8f6444;
   text-decoration: none;
   -webkit-backdrop-filter: blur(6px);
   backdrop-filter: blur(6px);
@@ -686,8 +512,8 @@ html:has(.page-services) { scroll-behavior: smooth; }
 .vz-node:focus-visible {
   z-index: 5;
   transform: translate(-50%, -50%) scale(1.12);
-  background: var(--svc-brown-light) !important;
-  color: var(--svc-blue) !important;
+  background: #5b3b27 !important;
+  color: #ffffff !important;
   outline: none;
 }
 .vz-node::after {
@@ -695,8 +521,8 @@ html:has(.page-services) { scroll-behavior: smooth; }
   position: absolute;
   padding: 6px 11px;
   border-radius: 9px;
-  background: var(--svc-brown-light);
-  color: var(--svc-blue);
+  background: #5b3b27;
+  color: #ffffff;
   font-size: 12px;
   font-weight: 600;
   white-space: nowrap;
@@ -715,7 +541,7 @@ html:has(.page-services) { scroll-behavior: smooth; }
 .vz-st { display: flex; flex-direction: column; gap: 8px; }
 .vz-st b { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--svc-muted); }
 .vz-st i { display: block; height: 3px; border-radius: 3px; background: rgba(255, 255, 255, 0.1); position: relative; overflow: hidden; }
-.vz-st i::after { content: ""; position: absolute; inset: 0; background: var(--svc-brown-light); transform: scaleX(0); transform-origin: left; }
+.vz-st i::after { content: ""; position: absolute; inset: 0; background: #8f6444; transform: scaleX(0); transform-origin: left; }
 .vz-st-a i::after { animation: vzBarA 15s linear infinite; }
 .vz-st-b i::after { animation: vzBarB 15s linear infinite; }
 .vz-st-c i::after { animation: vzBarC 15s linear infinite; }
@@ -736,19 +562,19 @@ html:has(.page-services) { scroll-behavior: smooth; }
 @keyframes vzLinkC { 0%, 63% { opacity: 0.1; } 69%, 96% { opacity: 0.85; } 100% { opacity: 0.1; } }
 
 @keyframes vzNodeA {
-  0%, 30% { background: var(--svc-brown-light); color: var(--svc-blue); box-shadow: 0 0 22px rgba(210, 180, 135, 0.55); }
-  36%, 96% { background: rgba(11, 29, 44, 0.9); color: var(--svc-brown-light); box-shadow: none; }
-  100% { background: var(--svc-brown-light); color: var(--svc-blue); box-shadow: 0 0 22px rgba(210, 180, 135, 0.55); }
+  0%, 30% { background: var(--svc-brown-light); color: var(--svc-blue); box-shadow: 0 0 22px rgba(143, 100, 68, 0.55); }
+  36%, 96% { background: rgba(12, 12, 12, 0.9); color: var(--svc-brown-light); box-shadow: none; }
+  100% { background: var(--svc-brown-light); color: var(--svc-blue); box-shadow: 0 0 22px rgba(143, 100, 68, 0.55); }
 }
 @keyframes vzNodeB {
-  0%, 30% { background: rgba(11, 29, 44, 0.9); color: var(--svc-brown-light); box-shadow: none; }
-  36%, 63% { background: var(--svc-brown-light); color: var(--svc-blue); box-shadow: 0 0 22px rgba(210, 180, 135, 0.55); }
-  69%, 100% { background: rgba(11, 29, 44, 0.9); color: var(--svc-brown-light); box-shadow: none; }
+  0%, 30% { background: rgba(12, 12, 12, 0.9); color: var(--svc-brown-light); box-shadow: none; }
+  36%, 63% { background: var(--svc-brown-light); color: var(--svc-blue); box-shadow: 0 0 22px rgba(143, 100, 68, 0.55); }
+  69%, 100% { background: rgba(12, 12, 12, 0.9); color: var(--svc-brown-light); box-shadow: none; }
 }
 @keyframes vzNodeC {
-  0%, 63% { background: rgba(11, 29, 44, 0.9); color: var(--svc-brown-light); box-shadow: none; }
-  69%, 96% { background: var(--svc-brown-light); color: var(--svc-blue); box-shadow: 0 0 22px rgba(210, 180, 135, 0.55); }
-  100% { background: rgba(11, 29, 44, 0.9); color: var(--svc-brown-light); box-shadow: none; }
+  0%, 63% { background: rgba(12, 12, 12, 0.9); color: var(--svc-brown-light); box-shadow: none; }
+  69%, 96% { background: var(--svc-brown-light); color: var(--svc-blue); box-shadow: 0 0 22px rgba(143, 100, 68, 0.55); }
+  100% { background: rgba(12, 12, 12, 0.9); color: var(--svc-brown-light); box-shadow: none; }
 }
 @keyframes vzBarA { 0% { transform: scaleX(0); } 33%, 96% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
 @keyframes vzBarB { 0%, 33% { transform: scaleX(0); } 66%, 96% { transform: scaleX(1); } 100% { transform: scaleX(0); } }
@@ -803,7 +629,6 @@ html:has(.page-services) { scroll-behavior: smooth; }
   .svc-h1 { font-size: clamp(32px, 9.4vw, 44px); margin-bottom: 14px; }
   .svc-lead { font-size: 15px; }
   .svc-intro-media { width: 100%; max-width: 100%; }
-  .svc-reel { margin-top: 32px; }
   .svc-final-cta { padding: 70px 0 90px; }
   .svc-final-inner h2 { font-size: clamp(30px, 9vw, 40px); }
   .svc-final-inner p { font-size: 14px; }
@@ -834,21 +659,17 @@ html:has(.page-services) { scroll-behavior: smooth; }
   color: #f3efe6;
 }
 
-/* Heading ka highlight = white -> grey gradient */
+/* Heading ka highlight = white -> grey */
 .services-page [class*="word--muted"],
 .page-services [class*="word--muted"],
 .services-page h2 span,
 .page-services h2 span,
 .services-page [class*="-h2"] span,
 .page-services [class*="-h2"] span {
-  background: linear-gradient(90deg, #ffffff 0%, #8e919c 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
   padding-right: .06em;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
+  color: #8f6444;
 }
 
 /* Chhoti heading / kicker: mono, grey, spaced */
@@ -861,7 +682,7 @@ html:has(.page-services) { scroll-behavior: smooth; }
   font-weight: 400 !important;
   letter-spacing: 0.3em !important;
   text-transform: uppercase !important;
-  color: #747884 !important;
+  color: #959595 !important;
 }
 
 /* Lead paragraphs */
@@ -871,29 +692,258 @@ html:has(.page-services) { scroll-behavior: smooth; }
   letter-spacing: -0.01em;
 }
 
-/* CTA buttons = grey */
+/* CTA buttons = heading font + tight letter-spacing */
 [class*="final-button"], [class*="final-btn"], .final-cta-button, .ins-btn-primary, .cnt-submit {
-  background: #a3a5ad !important;
-  border-color: #a3a5ad !important;
-  color: #0b0c0e !important;
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 900 !important;
+  letter-spacing: -0.065em !important;
+  background: #5b3b27 !important;
+  border-color: #5b3b27 !important;
+  color: #ffffff !important;
   box-shadow: none !important;
 }
 [class*="final-button"]:hover, [class*="final-btn"]:hover, .final-cta-button:hover, .ins-btn-primary:hover, .cnt-submit:hover {
-  background: #bbbdc5 !important;
-  border-color: #bbbdc5 !important;
-  color: #0b0c0e !important;
+  background: #6b452c !important;
+  border-color: #6b452c !important;
+  color: #ffffff !important;
 }
 
 /* =========================================================
    CTA BACKGROUND — image + navy overlay (har CTA par same)
    Image badalni ho to :root mein --cta-image set karein,
-   jaise:  :root { --cta-image: url('/images/hero.jpg'); }
+   jaise: :root mein --cta-image variable set karein
    ========================================================= */
 .svc-final-cta {
-  background-image:
-    linear-gradient(135deg, rgba(20, 29, 49, 0.94) 0%, rgba(20, 29, 49, 0.82) 50%, rgba(20, 29, 49, 0.95) 100%),
-    var(--cta-image, url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')) !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
+  position: relative;
+  isolation: isolate;
+  background: transparent !important;
+}
+
+.svc-final-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  transform: none;
+  filter: none;
+  animation: none;
+  opacity: 1;
+  z-index: -1;
+  pointer-events: none;
+  background: transparent;
+  background-image: var(--cta-image, url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop'));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #262626;
+  background-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
+}
+
+/* =========================================================
+   HERO — heading style + visual alag section mein
+   ========================================================= */
+.services-page .svc-h1 {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: clamp(2.5rem, 4.4vw, 4.2rem) !important;
+  font-weight: 700 !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.065em !important;
+  max-width: 100%;
+  color: #ffffff;
+}
+/* purani `[class*="-h1"]` rule inner span par letter-spacing/color force kar rahi thi */
+.services-page .svc-h1-visual {
+  font: inherit !important;
+  letter-spacing: inherit !important;
+  line-height: inherit !important;
+  color: #ffffff !important;
+}
+.services-page .svc-word { margin-right: 0.22em; }
+.svc-intro-header { flex: none; max-width: none; }
+.svc-lead { margin-top: 28px; max-width: 560px; }
+
+/* hero: sirf text + visual dikhein, cards fold ke neeche */
+.svc-kicker { margin-top: 0; }
+.svc-intro { padding-bottom: clamp(60px, 10vh, 120px); }
+@media (min-width: 901px) {
+  .svc-intro { min-height: calc(100svh - 150px); display: flex; align-items: center; padding-bottom: 0; }
+}
+.svc-list { margin-top: clamp(40px, 8vh, 100px); }
+
+/* text aur visual parallel, lekin alag alag cells: ek ka size doosre ko nahi hilata */
+.svc-intro-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+}
+.svc-intro-header { min-width: 0; }
+.svc-intro-media { flex: none; width: 100%; max-width: 440px; margin: 0; justify-self: center; }
+@media (max-width: 900px) {
+  .svc-intro-row { grid-template-columns: minmax(0, 1fr); }
+  .svc-intro-media { justify-self: center; max-width: 420px; margin: 0 auto; }
+}
+
+/* =========================================================
+   SERVICES — accordion cards (4 rows x 2 columns)
+   Ek column mein ek card bara (grey), baqi chhote rows.
+   ========================================================= */
+.svc-list { position: relative; z-index: 2; padding: 0 0 80px; }
+.svc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
+.svc-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
+
+.svc-card {
+  --m: clamp(150px, 15vw, 200px);          /* bari image ki width */
+  position: relative;
+  display: grid;
+  grid-template-columns: clamp(40px, 4vw, 60px) var(--m) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(12px, 1.6vw, 24px);
+  padding: clamp(18px, 2vw, 26px) clamp(16px, 2.2vw, 30px);
+  background: #1b1b1b;                       /* bara card: thora grey */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 14px;
+  cursor: pointer;
+  scroll-margin-top: calc(var(--svc-nav) + 16px);
+  transition: background-color 0.45s ease, border-color 0.35s ease, padding 0.45s ease;
+}
+.svc-card:hover { border-color: rgba(143, 100, 68, 0.5); }
+
+.svc-card-num {
+  font-size: clamp(22px, 2.2vw, 32px);
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: #5a5a5a;
+}
+
+.svc-card-media {
+  justify-self: center;
+  width: var(--m);
+  height: calc(var(--m) * 1.3333);
+  border-radius: 6px;
+  overflow: hidden;
+  background: #0c0c0c;
+  transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1), height 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.svc-card-media img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+.svc-card-body { min-width: 0; display: flex; flex-direction: column; }
+.svc-card-title {
+  margin: 0;
+  font-size: clamp(20px, 1.8vw, 26px);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: #ffffff;
+  transition: font-size 0.45s ease;
+}
+
+/* andar ka hissa: smooth khulta / band hota hai */
+.svc-card-more {
+  display: grid;
+  grid-template-rows: 1fr;
+  opacity: 1;
+  transition: grid-template-rows 0.5s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.4s ease;
+}
+.svc-card-more-inner { min-height: 0; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; gap: 10px; }
+.svc-card-more-inner > :first-child { margin-top: 10px; }
+.svc-card-blurb { margin: 0; font-size: 13px; line-height: 1.55; color: #b4aeaa; }
+.svc-card-tags { margin: 0; display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 11.5px; color: #aea7a3; }
+.svc-card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 4px;
+  padding: 9px 16px;
+  border-radius: 999px;
+  background: #5b3b27;
+  color: #ffffff;
+  text-decoration: none;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background 0.3s ease;
+}
+.svc-card-link:hover,
+.svc-card-link:focus-visible { background: #6b452c; outline: none; }
+
+/* chhota (band) card — sirf JS ke saath, warna sab khule rehte hain */
+.js .svc-card:not(.is-open) { background: #0f0f0f; border-color: rgba(255, 255, 255, 0.08); padding-block: 16px; }
+.js .svc-card:not(.is-open):hover { border-color: rgba(143, 100, 68, 0.5); }
+.js .svc-card:not(.is-open) .svc-card-media { width: calc(var(--m) * 0.56); height: calc(var(--m) * 0.38); }
+.js .svc-card:not(.is-open) .svc-card-title { font-size: clamp(17px, 1.5vw, 21px); }
+.js .svc-card:not(.is-open) .svc-card-more { grid-template-rows: 0fr; opacity: 0; }
+
+/* reveal */
+.js .svc-card[data-reveal] {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease var(--d, 0s), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1) var(--d, 0s), background-color 0.45s ease, border-color 0.35s ease, padding 0.45s ease;
+}
+.js .svc-card[data-reveal].is-visible { opacity: 1; transform: none; }
+
+@media (max-width: 900px) {
+  .svc-grid { grid-template-columns: 1fr; gap: 12px; }
+}
+@media (max-width: 560px) {
+  .svc-card { --m: 108px; grid-template-columns: 28px var(--m) minmax(0, 1fr); gap: 12px; padding-inline: 14px; }
+  .svc-card-num { font-size: 18px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .svc-card, .svc-card-media, .svc-card-title, .svc-card-more { transition: none !important; }
+  .js .svc-card[data-reveal] { opacity: 1 !important; transform: none !important; }
+}
+
+/* =========================================================
+   HERO — halka brown gradient
+   ========================================================= */
+.svc-page-bg {
+  background:
+    radial-gradient(ellipse 55% 45% at 82% 18%, rgba(143, 100, 68, 0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 45% at 8% 62%, rgba(91, 59, 39, 0.26) 0%, transparent 70%),
+    linear-gradient(180deg, #0a0706 0%, #000000 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+}
+.svc-page-bg::before {
+  top: -120px; right: -100px;
+  background: radial-gradient(circle at center, rgba(143, 100, 68, 0.28) 0%, rgba(143, 100, 68, 0.1) 45%, transparent 70%);
+}
+.svc-page-bg::after {
+  top: 420px; right: auto; left: -160px; width: 520px; height: 520px;
+  background: radial-gradient(circle at center, rgba(91, 59, 39, 0.3) 0%, transparent 70%);
+}
+
+
+/* =========================================================
+   AXYS3D — CTA TYPOGRAPHY
+   Same font style as the main hero heading
+   ========================================================= */
+
+/* CTA heading */
+.services-page .svc-final-inner h2,
+.services-page .svc-final-inner h2 span,
+.page-services .svc-final-inner h2,
+.page-services .svc-final-inner h2 span {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: clamp(2.3rem, 6vw, 4rem) !important;
+  font-weight: 700 !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.065em !important;
+  margin-bottom: 0.4em !important;
+}
+
+/* CTA button */
+.services-page .final-cta-button,
+.services-page .final-cta-button *,
+.page-services .final-cta-button,
+.page-services .final-cta-button * {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.065em !important;
 }

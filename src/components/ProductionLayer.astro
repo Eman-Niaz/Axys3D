@@ -7,71 +7,87 @@ const services = [
     desc: "A coordinated model that carries every piece of building data, plus drawing sets. RVT, IFC, NWD.",
     image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
     slug: "bim-production",
-    gridClass: "card-col-7",
+  },
+  {
+    title: "MEP coordination",
+    desc: "Services modelled and clash checked before site.",
+    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
+    slug: "mep-coordination",
   },
   {
     title: "Revit production",
     desc: "Construction drawing sets, plans, sections and schedules drafted directly in Revit.",
     image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?auto=format&fit=crop&w=1200&q=80",
     slug: "revit-production",
-    gridClass: "card-col-5",
   },
   {
-    title: "MEP coordination",
-    desc: "Services modelled and clash checked before site.",
-    // New high-detail MEP / Industrial Piping & Ductwork image
-    image: "https://images.unsplash.com/photo-1581092160607-ee22621dd758?auto=format&fit=crop&w=1200&q=80",
-    slug: "mep-coordination",
-    gridClass: "card-col-4",
-  },
-  {
-    title: "Archviz stills",
-    desc: "Photoreal interiors and exteriors for sales and planning.",
-    image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
-    slug: "archviz-stills",
-    gridClass: "card-col-4",
-  },
-  {
-    title: "Animation",
+    title: "Animation & motion",
     desc: "Cinematic walkthrough films in 4K.",
     image: "https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1200&q=80",
     slug: "animation",
-    gridClass: "card-col-4",
   },
   {
-    title: "Real time & VR",
+    title: "Real-time",
     desc: "Unreal Engine tours for web, screens and headsets.",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1600&q=80",
+    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=80",
     slug: "real-time-vr",
-    gridClass: "card-col-12",
+  },
+  {
+    title: "3D modeling",
+    desc: "Clean, production-ready 3D models of buildings, interiors and furniture.",
+    // TODO: replace with your own 3D modeling image
+    image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
+    slug: "3d-modeling",
+  },
+  {
+    title: "3ds Max production",
+    desc: "Scene setup, lighting and materials built in 3ds Max for final renders.",
+    // TODO: replace with your own 3ds Max image
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1200&q=80",
+    slug: "3ds-max-production",
+  },
+  {
+    title: "Architectural visualization",
+    desc: "Photoreal interiors and exteriors for sales and planning.",
+    image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1200&q=80",
+    slug: "architectural-visualization",
   },
 ];
 ---
 
 <section class="pl-section" id="services">
-  <div class="pl-container">
-    
-    <!-- Header with Screenshot Monospace Style -->
-    <div class="pl-header">
-      <span class="pl-tag">SERVICES</span>
-      <h2 class="pl-title">
-        The full <span class="pl-highlight">pipeline.</span>
-      </h2>
+  <div class="pl-container" data-pl-carousel>
+
+    <div class="pl-top">
+      <div class="pl-header">
+        <span class="pl-tag">SERVICES</span>
+        <h2 class="pl-title">
+          The full <span class="pl-highlight">pipeline.</span>
+        </h2>
+      </div>
+
+      <div class="pl-nav">
+        <button type="button" class="pl-arrow" data-dir="prev" aria-label="Previous services">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 18l-6-6 6-6" /></svg>
+        </button>
+        <button type="button" class="pl-arrow" data-dir="next" aria-label="Next services">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M9 18l6-6-6-6" /></svg>
+        </button>
+      </div>
     </div>
 
-    <!-- Cards Grid -->
-    <div class="pl-grid">
+    <div class="pl-track">
       {services.map((item) => (
-        <a href={`/services/${item.slug}`} class={`pl-card ${item.gridClass}`} aria-label={item.title}>
-          <img 
-            src={item.image} 
-            alt={item.title} 
-            class="pl-card-img" 
-            loading="lazy" 
-            decoding="async" 
+        <a href={`/services/${item.slug}`} class="pl-card" aria-label={item.title}>
+          <img
+            src={item.image}
+            alt={item.title}
+            class="pl-card-img"
+            loading="lazy"
+            decoding="async"
           />
           <div class="pl-card-overlay" aria-hidden="true"></div>
-          
+
           <div class="pl-card-content">
             <h3 class="pl-card-title">{item.title}</h3>
             <p class="pl-card-desc">{item.desc}</p>
@@ -82,3 +98,29 @@ const services = [
 
   </div>
 </section>
+
+<script>
+  document.querySelectorAll<HTMLElement>("[data-pl-carousel]").forEach((root) => {
+    const track = root.querySelector<HTMLElement>(".pl-track");
+    const prev = root.querySelector<HTMLButtonElement>('[data-dir="prev"]');
+    const next = root.querySelector<HTMLButtonElement>('[data-dir="next"]');
+    if (!track || !prev || !next) return;
+
+    const step = () => {
+      const card = track.querySelector<HTMLElement>(".pl-card");
+      const gap = parseFloat(getComputedStyle(track).columnGap) || 16;
+      return (card ? card.getBoundingClientRect().width : track.clientWidth) + gap;
+    };
+
+    const update = () => {
+      prev.disabled = track.scrollLeft <= 2;
+      next.disabled = track.scrollLeft + track.clientWidth >= track.scrollWidth - 2;
+    };
+
+    prev.addEventListener("click", () => track.scrollBy({ left: -step(), behavior: "smooth" }));
+    next.addEventListener("click", () => track.scrollBy({ left: step(), behavior: "smooth" }));
+    track.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("resize", update);
+    update();
+  });
+</script>

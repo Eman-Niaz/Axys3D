@@ -95,17 +95,12 @@
 
 /* Title: white -> grey (top to bottom) */
 .faq-header h2 {
-  margin: 0 0 14px 0;
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-weight: 800;
-  font-size: clamp(2.2rem, 5.4vw, 4rem);
-  line-height: 1.02;
-  letter-spacing: -0.01em;
-  color: #ffffff;
-  background: linear-gradient(180deg, #ffffff 0%, #aea7a3 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
+  font-family:  'Manrope', sans-serif;
+  font-size: clamp(2.3rem, 6vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.065em !important;
+  font-weight: 900 !important;
+  margin-top: 10px;
 }
 
 /* Highlight word: coffee brown gradient */
@@ -124,6 +119,7 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+  margin-top: 10px;
 }
 
 .faq-card {

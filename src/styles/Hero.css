@@ -1,11 +1,9 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=JetBrains+Mono:wght@400;500&display=swap');
-
-/* =========================================================
+/*
    FONT VARIABLES (FORCE OVERRIDE)
 ========================================================= */
 
 :root {
-  --font-heading: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
+  --font-heading: 'Manrope', sans-serif;
   --font-body: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif !important;
 }
 
@@ -271,8 +269,11 @@
 }
 
 .hero h1, .hero h1 span, .hero h1 .line {
-  font-family: "Bricolage Grotesque", sans-serif !important;
-  font-weight: 800 !important;
+  font-family:  'Manrope', sans-serif;
+  font-size: clamp(2.9rem, 7vw, 5rem);
+  line-height: 0.95;
+  letter-spacing: -0.065em !important;
+  font-weight: 900 !important;
 }
 
 .hero h1 {
@@ -283,6 +284,7 @@
   line-height: 1.02 !important;
   letter-spacing: -0.01em !important;
   transition: opacity 0.2s ease;
+  font-weight: 900 !important;
 }
 
 .hero h1 .line {

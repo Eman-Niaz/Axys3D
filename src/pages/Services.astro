@@ -26,7 +26,7 @@ const orbitImages = {
    Kisi service ki image badalni ho to sirf us ka `image` link badlo.
    ========================================================= */
 
-const big = (u: string) => u.replace(/w=\d+&h=\d+&q=\d+/, "w=2000&q=80");
+const thumb = (u: string) => u.replace(/w=\d+&h=\d+&q=\d+/, "w=600&h=800&q=75");
 
 const services = [
   {
@@ -36,7 +36,7 @@ const services = [
     blurb:
       "Coordinated BIM models built to firm standards, from concept development through construction-ready detail.",
     includes: ["BIM Modeling", "Model Development", "Model Setup & Standards"],
-    image: big(orbitImages.bim),
+    image: thumb(orbitImages.bim),
   },
   {
     num: "02",
@@ -45,7 +45,7 @@ const services = [
     blurb:
       "Production-ready Revit documentation and drawing sets, coordinated across disciplines and issued on schedule.",
     includes: ["Construction Drawings", "Revit Documentation", "Drawing Coordination"],
-    image: big(orbitImages.revit),
+    image: thumb(orbitImages.revit),
   },
   {
     num: "03",
@@ -54,7 +54,7 @@ const services = [
     blurb:
       "Clash-checked mechanical, electrical and plumbing coordination that keeps every system resolved before it hits site.",
     includes: ["Mechanical", "Electrical", "Plumbing"],
-    image: big(orbitImages.mep),
+    image: thumb(orbitImages.mep),
   },
   {
     num: "04",
@@ -63,7 +63,7 @@ const services = [
     blurb:
       "Accurate architectural, interior and object models built to support every downstream visualization need.",
     includes: ["Architectural Modeling", "Interior Modeling", "Furniture & Objects"],
-    image: big(orbitImages.model3d),
+    image: thumb(orbitImages.model3d),
   },
   {
     num: "05",
@@ -71,7 +71,7 @@ const services = [
     title: "3ds Max Production",
     blurb: "Scene setup, materials and lighting built in 3ds Max to a consistent, production-grade pipeline.",
     includes: ["Scene Setup", "Materials & Texturing", "Lighting & Camera"],
-    image: big(orbitImages.max3ds),
+    image: thumb(orbitImages.max3ds),
   },
   {
     num: "06",
@@ -79,7 +79,7 @@ const services = [
     title: "Architectural Visualization",
     blurb: "Exterior, interior and site visualizations that read as photography long before the building exists.",
     includes: ["Exterior Visualization", "Interior Visualization", "Site Visualization"],
-    image: big(orbitImages.visualization),
+    image: thumb(orbitImages.visualization),
   },
   {
     num: "07",
@@ -87,7 +87,7 @@ const services = [
     title: "Animation & Motion",
     blurb: "Walkthroughs, fly-throughs and camera sequences that move a project through space with intent.",
     includes: ["Walkthroughs", "Fly-through Animations", "Camera & Motion"],
-    image: big(orbitImages.motion),
+    image: thumb(orbitImages.motion),
   },
   {
     num: "08",
@@ -96,7 +96,7 @@ const services = [
     blurb:
       "Real-time environments in Unreal Engine — interactive walkthroughs and virtual showrooms your clients can explore.",
     includes: ["Interactive Walkthroughs", "Real-time Visualization", "Virtual Showrooms"],
-    image: big(orbitImages.unreal),
+    image: thumb(orbitImages.unreal),
   },
 ];
 
@@ -278,20 +278,20 @@ const stages = [
                 <svg class="svc-viz-svg" viewBox="0 0 600 560" aria-hidden="true" focusable="false">
                   <defs>
                     <linearGradient id="vzR" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0" stop-color="#2b6089" />
-                      <stop offset="1" stop-color="#143550" />
+                      <stop offset="0" stop-color="#5c5c5c" />
+                      <stop offset="1" stop-color="#262626" />
                     </linearGradient>
                     <linearGradient id="vzL" x1="1" y1="0" x2="0" y2="1">
-                      <stop offset="0" stop-color="#173f5e" />
-                      <stop offset="1" stop-color="#0c2234" />
+                      <stop offset="0" stop-color="#3b3b3b" />
+                      <stop offset="1" stop-color="#141414" />
                     </linearGradient>
                     <linearGradient id="vzT" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0" stop-color="#d2b487" />
-                      <stop offset="1" stop-color="#8a6a43" />
+                      <stop offset="0" stop-color="#a07350" />
+                      <stop offset="1" stop-color="#5b3b27" />
                     </linearGradient>
                     <radialGradient id="vzSunG">
-                      <stop offset="0" stop-color="#d2b487" stop-opacity="0.55" />
-                      <stop offset="1" stop-color="#d2b487" stop-opacity="0" />
+                      <stop offset="0" stop-color="#8f6444" stop-opacity="0.55" />
+                      <stop offset="1" stop-color="#8f6444" stop-opacity="0" />
                     </radialGradient>
                     <radialGradient id="vzFade">
                       <stop offset="0.35" stop-color="#fff" />
@@ -360,13 +360,13 @@ const stages = [
                   <g class="vz-orbit vz-cam">
                     <g>
                       <animate attributeName="opacity" dur="7s" repeatCount="indefinite" calcMode="discrete" keyTimes="0;0.5" values="0.35;1" />
-                      <circle r="3.5" fill="#d2b487" fill-opacity="0.25">
+                      <circle r="3.5" fill="#a07350" fill-opacity="0.25">
                         <animateMotion dur="7s" begin="-0.4s" repeatCount="indefinite" path="M70,385 A230,120 0 0 1 530,385 A230,120 0 0 1 70,385" />
                       </circle>
-                      <circle r="5" fill="#d2b487" fill-opacity="0.5">
+                      <circle r="5" fill="#a07350" fill-opacity="0.5">
                         <animateMotion dur="7s" begin="-0.2s" repeatCount="indefinite" path="M70,385 A230,120 0 0 1 530,385 A230,120 0 0 1 70,385" />
                       </circle>
-                      <circle r="7.5" fill="#d2b487" class="vz-cam-dot">
+                      <circle r="7.5" fill="#a07350" class="vz-cam-dot">
                         <animateMotion dur="7s" repeatCount="indefinite" path="M70,385 A230,120 0 0 1 530,385 A230,120 0 0 1 70,385" />
                       </circle>
                     </g>
@@ -398,45 +398,50 @@ const stages = [
         </div>
       </section>
 
-      <!-- ================= SERVICE PANELS (stacking image cards) =================
-           Har card scroll par apni jagah ruk jata hai (image), uska text upar ko sarakta hai,
-           aur agla card rounded corners ke sath uske upar charh jata hai.
-           Har service ka button /services/<slug> par le jata hai. -->
-      <section class="svc-reel" aria-label="Our services">
-        {services.map((s, idx) => (
-          <article class="svc-panel" id={s.slug}>
-            <div class="svc-panel-stage">
-              <img
-                class="svc-panel-img"
-                src={s.image}
-                alt={`${s.title} — ${s.includes.join(", ")}`}
-                loading={idx === 0 ? "eager" : "lazy"}
-                decoding="async"
-                onerror="this.style.display='none'"
-              />
-              <div class="svc-panel-overlay"></div>
-
-              <div class="svc-panel-content">
-                <div class="svc-panel-text" data-reveal>
-                  <span class="svc-panel-num">{s.num}</span>
-                  <h2 class="svc-panel-title">{s.title}</h2>
-                  <p class="svc-panel-blurb">{s.blurb}</p>
-                  <p class="svc-panel-includes">{s.includes.join("  ·  ")}</p>
-
-                  <div class="svc-panel-actions">
-                    <a href={`/services/${s.slug}`} class="svc-pill" aria-label={`Explore ${s.title}`}>
-                      <span>Explore service</span>
-                      <span aria-hidden="true">↗</span>
-                    </a>
-                    <a href="/Contact" class="svc-pill">
-                      <span>Discuss this scope</span>
-                    </a>
-                  </div>
-                </div>
+      <!-- ================= SERVICES GRID (4 rows x 2 columns) =================
+           Har card: number | image | title + text. Card par click -> /services/<slug>. -->
+      <section class="svc-list" aria-label="Our services">
+        <div class="svc-wrap">
+          <h2 class="sr-only">Our services</h2>
+          <div class="svc-grid">
+            {[services.slice(0, 4), services.slice(4)].map((col) => (
+              <div class="svc-col">
+                {col.map((s, idx) => (
+                  <article
+                    class={`svc-card${idx === 0 ? " is-open" : ""}`}
+                    id={s.slug}
+                    data-reveal
+                    style={`--d:${idx * 0.08}s`}
+                  >
+                    <span class="svc-card-num">{s.num}</span>
+                    <div class="svc-card-media">
+                      <img
+                        src={s.image}
+                        alt={`${s.title} — ${s.includes.join(", ")}`}
+                        loading="lazy"
+                        decoding="async"
+                        onerror="this.style.display='none'"
+                      />
+                    </div>
+                    <div class="svc-card-body">
+                      <h3 class="svc-card-title">{s.title}</h3>
+                      <div class="svc-card-more">
+                        <div class="svc-card-more-inner">
+                          <p class="svc-card-blurb">{s.blurb}</p>
+                          <p class="svc-card-tags">{s.includes.map((t) => <span>{t}</span>)}</p>
+                          <a href={`/services/${s.slug}`} class="svc-card-link" aria-label={`Explore ${s.title}`}>
+                            <span>Explore service</span>
+                            <span aria-hidden="true">↗</span>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </article>
+                ))}
               </div>
-            </div>
-          </article>
-        ))}
+            ))}
+          </div>
+        </div>
       </section>
 
       <!-- ================= FINAL CTA ================= -->
@@ -472,42 +477,25 @@ const stages = [
       );
       revealItems.forEach((item) => revealObserver.observe(item));
 
-      /* ===== Service panels: image pinned, text drifts up with the scroll ===== */
-      (() => {
-        const panels = Array.from(document.querySelectorAll(".svc-panel"));
-        if (!panels.length) return;
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-
-        let pinTop = 0;
-        const measure = () => {
-          const stage = panels[0].querySelector(".svc-panel-stage");
-          pinTop = parseFloat(getComputedStyle(stage).top) || 0;
-        };
-
-        let ticking = false;
-        const update = () => {
-          ticking = false;
-          const vh = window.innerHeight;
-          panels.forEach((p) => {
-            const stage = p.querySelector(".svc-panel-stage");
-            const content = p.querySelector(".svc-panel-content");
-            const extra = p.offsetHeight - stage.offsetHeight; // kitna scroll text ko milta hai
-            if (extra <= 0) return;
-            const r = p.getBoundingClientRect();
-            if (r.bottom < -50 || r.top > vh + 50) return;
-            const shift = Math.min(Math.max(pinTop - r.top, 0), extra);
-            content.style.transform = `translate3d(0, ${-shift}px, 0)`;
+      /* ===== Service cards: ek column mein ek hi card bara hota hai (hover / focus / tap) ===== */
+      document.querySelectorAll(".svc-col").forEach((col) => {
+        const cards = Array.from(col.querySelectorAll(".svc-card"));
+        const open = (card) => cards.forEach((c) => c.classList.toggle("is-open", c === card));
+        cards.forEach((card) => {
+          let t;
+          card.addEventListener("mouseenter", () => {
+            if (!window.matchMedia("(hover: hover)").matches) return;
+            clearTimeout(t);
+            t = setTimeout(() => open(card), 70); // halka delay: flicker na ho
           });
-        };
-        const onScroll = () => {
-          if (!ticking) { ticking = true; requestAnimationFrame(update); }
-        };
+          card.addEventListener("mouseleave", () => clearTimeout(t));
+          card.addEventListener("focusin", () => open(card));
+          card.addEventListener("click", (e) => {
+            if (!e.target.closest("a")) open(card);
+          });
+        });
+      });
 
-        measure();
-        update();
-        window.addEventListener("scroll", onScroll, { passive: true });
-        window.addEventListener("resize", () => { measure(); update(); }, { passive: true });
-      })();
     </script>
   </body>
 </html>

@@ -4,16 +4,16 @@
    ========================================================= */
 
 .industries-page {
-  --ind-blue: #072540;
-  --ind-blue-soft: #0b1d2c;
-  --ind-blue-panel: #102637;
+  --ind-blue: #000000;
+  --ind-blue-soft: #000000;
+  --ind-blue-panel: #0f0f0f;
 
-  --ind-brown: #b38b5a;
-  --ind-brown-light: #d2b487;
+  --ind-brown: #8f6444;
+  --ind-brown-light: #a07350;
 
   --ind-white: #ffffff;
-  --ind-text: #d8dde0;
-  --ind-muted: #8997a1;
+  --ind-text: #d6d3d0;
+  --ind-muted: #959595;
 
   --ind-dark-line: rgba(255, 255, 255, 0.1);
 
@@ -43,9 +43,9 @@
   z-index: 0;
   overflow: hidden;
   pointer-events: none;
-  background: linear-gradient(160deg, var(--ind-blue-panel) 0%, var(--ind-blue-soft) 50%, var(--ind-blue) 100%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 0%, #000 50%, rgba(0, 0, 0, 0.5) 75%, transparent 100%);
+  background: #000000;
+  
+  
 }
 
 /* Background Drifting Glows */
@@ -57,7 +57,7 @@
   width: 620px;
   height: 620px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(179, 139, 90, 0.28) 0%, rgba(179, 139, 90, 0.1) 45%, transparent 72%);
+  background: transparent;
   filter: blur(6px);
   animation: indGlowDrift 16s ease-in-out infinite alternate;
   z-index: 1;
@@ -71,7 +71,7 @@
   width: 380px;
   height: 380px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(16, 38, 55, 0.55) 0%, rgba(16, 38, 55, 0.2) 50%, transparent 75%);
+  background: transparent;
   animation: indGlowDrift 16s ease-in-out infinite alternate-reverse;
   z-index: 1;
 }
@@ -142,7 +142,7 @@
   width: 620px;
   height: 620px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(64, 140, 224, 0.30) 0%, rgba(64, 140, 224, 0.11) 45%, transparent 72%);
+  background: transparent;
   filter: blur(6px);
   animation: indGlowDriftLeft 16s ease-in-out infinite alternate;
   z-index: -1;
@@ -157,7 +157,7 @@
   width: 380px;
   height: 380px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(30, 90, 170, 0.40) 0%, rgba(30, 90, 170, 0.14) 50%, transparent 75%);
+  background: transparent;
   animation: indGlowDriftLeft 16s ease-in-out infinite alternate-reverse;
   z-index: -1;
   pointer-events: none;
@@ -298,7 +298,7 @@ html {
   position: relative;
   padding: 22px 24px 26px;
   border-radius: 16px;
-  background: linear-gradient(160deg, rgba(255, 255, 255, 0.09), rgba(255, 255, 255, 0.03));
+  background: rgba(255, 255, 255, 0.06);
   border: 1px solid rgba(255, 255, 255, 0.08);
   overflow: hidden;
   transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s ease, background 0.4s ease;
@@ -312,7 +312,7 @@ html {
   width: 200px;
   height: 140px;
   transform: translateX(-50%);
-  background: radial-gradient(circle, rgba(210, 180, 135, 0.35), transparent 70%);
+  background: transparent;
   opacity: 0;
   transition: opacity 0.5s ease;
   pointer-events: none;
@@ -320,7 +320,7 @@ html {
 
 .ind-stat:hover {
   transform: translateY(-6px);
-  border-color: rgba(210, 180, 135, 0.4);
+  border-color: rgba(143, 100, 68, 0.4);
 }
 
 .ind-stat:hover::after {
@@ -429,7 +429,7 @@ html {
   overflow: hidden;
   color: var(--ind-white);
   text-decoration: none;
-  background: linear-gradient(155deg, var(--ind-blue-panel) 0%, var(--ind-blue-soft) 55%, var(--ind-blue) 100%);
+  background: #0c0c0c;
   border: 1px solid rgba(255, 255, 255, 0.08);
   isolation: isolate;
   transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.4s ease, box-shadow 0.5s ease;
@@ -438,7 +438,7 @@ html {
 .ind-card:hover,
 .ind-card:focus-visible {
   transform: translateY(-8px);
-  border-color: rgba(210, 180, 135, 0.45);
+  border-color: rgba(143, 100, 68, 0.45);
   box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
   outline: none;
 }
@@ -463,7 +463,7 @@ html {
   position: absolute;
   inset: 0;
   z-index: -2;
-  background: linear-gradient(180deg, rgba(7, 21, 34, 0.25) 0%, rgba(7, 21, 34, 0.55) 45%, rgba(7, 21, 34, 0.92) 100%);
+  background: rgba(0, 0, 0, 0.57);
   transition: opacity 0.5s ease;
 }
 
@@ -471,7 +471,7 @@ html {
   position: absolute;
   inset: 0;
   z-index: -1;
-  background: radial-gradient(360px circle at var(--mx) var(--my), rgba(210, 180, 135, 0.22), transparent 60%);
+  background: transparent;
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
@@ -641,9 +641,9 @@ html {
 }
 
 .ind-final-button:hover {
-  background: #dfc39a;
+  background: #b8946f;
   transform: translateY(-3px);
-  box-shadow: 0 20px 45px rgba(179, 139, 90, 0.25);
+  box-shadow: 0 20px 45px rgba(143, 100, 68, 0.25);
 }
 
 .ind-final-cta::before,
@@ -661,13 +661,13 @@ html {
 
 .ind-final-cta::before {
   left: -220px;
-  background: radial-gradient(circle, rgba(64, 140, 224, 0.30) 0%, rgba(64, 140, 224, 0.11) 45%, transparent 72%);
+  background: transparent;
   animation: indGlowLeft 16s ease-in-out infinite alternate;
 }
 
 .ind-final-cta::after {
   right: -220px;
-  background: radial-gradient(circle, rgba(179, 139, 90, 0.28) 0%, rgba(179, 139, 90, 0.10) 45%, transparent 72%);
+  background: transparent;
   animation: indGlowRight 16s ease-in-out infinite alternate;
 }
 
@@ -798,21 +798,17 @@ html {
   color: #f3efe6;
 }
 
-/* Heading ka highlight = white -> grey gradient */
+/* Heading ka highlight = white -> grey */
 .industries-page [class*="word--muted"],
 .page-industries [class*="word--muted"],
 .industries-page h2 span,
 .page-industries h2 span,
 .industries-page [class*="-h2"] span,
 .page-industries [class*="-h2"] span {
-  background: linear-gradient(90deg, #ffffff 0%, #8e919c 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  color: transparent;
   padding-right: .06em;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;
+  color: #8f6444;
 }
 
 /* Chhoti heading / kicker: mono, grey, spaced */
@@ -825,7 +821,7 @@ html {
   font-weight: 400 !important;
   letter-spacing: 0.3em !important;
   text-transform: uppercase !important;
-  color: #747884 !important;
+  color: #959595 !important;
 }
 
 /* Lead paragraphs */
@@ -837,27 +833,280 @@ html {
 
 /* CTA buttons = grey */
 [class*="final-button"], [class*="final-btn"], .final-cta-button, .ins-btn-primary, .cnt-submit {
-  background: #a3a5ad !important;
-  border-color: #a3a5ad !important;
-  color: #0b0c0e !important;
+  background: #5b3b27 !important;
+  border-color: #5b3b27 !important;
+  color: #ffffff !important;
   box-shadow: none !important;
 }
 [class*="final-button"]:hover, [class*="final-btn"]:hover, .final-cta-button:hover, .ins-btn-primary:hover, .cnt-submit:hover {
-  background: #bbbdc5 !important;
-  border-color: #bbbdc5 !important;
-  color: #0b0c0e !important;
+  background: #6b452c !important;
+  border-color: #6b452c !important;
+  color: #ffffff !important;
 }
 
 /* =========================================================
    CTA BACKGROUND — image + navy overlay (har CTA par same)
    Image badalni ho to :root mein --cta-image set karein,
-   jaise:  :root { --cta-image: url('/images/hero.jpg'); }
+   jaise: :root mein --cta-image variable set karein
    ========================================================= */
 .ind-final-cta {
-  background-image:
-    linear-gradient(135deg, rgba(20, 29, 49, 0.94) 0%, rgba(20, 29, 49, 0.82) 50%, rgba(20, 29, 49, 0.95) 100%),
-    var(--cta-image, url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')) !important;
-  background-size: cover !important;
-  background-position: center !important;
-  background-repeat: no-repeat !important;
+  position: relative;
+  isolation: isolate;
+  background: transparent !important;
+}
+
+.ind-final-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  width: auto;
+  height: auto;
+  border-radius: 0;
+  transform: none;
+  filter: none;
+  animation: none;
+  opacity: 1;
+  z-index: -1;
+  pointer-events: none;
+  background: transparent;
+  background-image: var(--cta-image, url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop'));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #262626;
+  background-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
+}
+
+/* =========================================================
+   HERO — Services page jaisi styling
+   (heading font, parallel text + visual, brown gradient)
+   ========================================================= */
+.industries-page .ind-h1 {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: clamp(2.5rem, 4.4vw, 4.2rem) !important;
+  font-weight: 700 !important;
+  line-height: 0.95 !important;
+  letter-spacing: -0.065em !important;
+  max-width: 100%;
+  margin: 10px 0 0 !important;
+  color: #ffffff;
+}
+/* purani `[class*="-h1"]` rule inner span par letter-spacing/color force kar rahi thi */
+.industries-page .ind-h1-visual {
+  font: inherit !important;
+  letter-spacing: inherit !important;
+  line-height: inherit !important;
+  color: #ffffff !important;
+}
+.industries-page .ind-word { margin-right: 0.22em; }
+.ind-lead { margin-top: 28px; max-width: 560px; }
+
+/* text aur visual parallel, alag alag cells */
+.ind-intro-row {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  align-items: center;
+  gap: clamp(24px, 4vw, 64px);
+}
+.ind-intro-header { flex: none; max-width: none; min-width: 0; }
+.ind-intro-media { flex: none; width: 100%; max-width: 640px; justify-self: center; }
+
+/* hero: screen bhar, text + visual beech mein */
+@media (min-width: 901px) {
+  .ind-intro { min-height: calc(100svh - 150px); display: flex; align-items: center; padding: 40px 0; }
+}
+@media (max-width: 900px) {
+  .ind-intro-row { grid-template-columns: minmax(0, 1fr); }
+  .ind-intro-media { margin: 0 auto; }
+}
+
+/* stats ka "+" bhi theme brown */
+.ind-stat-plus { color: #8f6444; }
+
+/* halka brown gradient (Services jaisa) */
+.ind-page-bg {
+  background:
+    radial-gradient(ellipse 55% 45% at 82% 18%, rgba(143, 100, 68, 0.22) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 45% at 8% 62%, rgba(91, 59, 39, 0.26) 0%, transparent 70%),
+    linear-gradient(180deg, #0a0706 0%, #000000 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+}
+.ind-page-bg::before {
+  top: -120px; right: -100px;
+  background: radial-gradient(circle at center, rgba(143, 100, 68, 0.28) 0%, rgba(143, 100, 68, 0.1) 45%, transparent 70%);
+}
+.ind-page-bg::after {
+  top: 420px; right: auto; left: -160px; width: 520px; height: 520px;
+  background: radial-gradient(circle at center, rgba(91, 59, 39, 0.3) 0%, transparent 70%);
+}
+
+/* =========================================================
+   AXYS3D — INDUSTRIES PAGE
+   UNIFIED TYPOGRAPHY: HEADINGS + SUBHEADINGS + CTA
+   ========================================================= */
+
+/* Main headings and section headings */
+.industries-page h1,
+.industries-page h2,
+.industries-page h3,
+.industries-page h4,
+.page-industries h1,
+.page-industries h2,
+.page-industries h3,
+.page-industries h4 {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.065em !important;
+  line-height: 0.95 !important;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Main hero heading */
+.industries-page .ind-h1,
+.page-industries .ind-h1 {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: clamp(2.5rem, 4.4vw, 4.2rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.065em !important;
+  line-height: 0.95 !important;
+  color: #ffffff !important;
+}
+
+/* Hero heading inner spans and animated words */
+.industries-page .ind-h1 span,
+.industries-page .ind-h1-visual,
+.industries-page .ind-word,
+.page-industries .ind-h1 span,
+.page-industries .ind-h1-visual,
+.page-industries .ind-word {
+  font-family: inherit !important;
+  font-weight: inherit !important;
+  letter-spacing: inherit !important;
+  line-height: inherit !important;
+}
+
+/* Two subheadings — same font style */
+.industries-page .ind-subheading,
+.industries-page .ind-subheading-2,
+.page-industries .ind-subheading,
+.page-industries .ind-subheading-2 {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.055em !important;
+  line-height: 1.05 !important;
+  color: #ffffff !important;
+}
+
+/* General section headings */
+.industries-page .ind-sec-h2,
+.page-industries .ind-sec-h2 {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: clamp(2rem, 3.8vw, 3.5rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.065em !important;
+  line-height: 0.98 !important;
+  color: #ffffff !important;
+}
+
+/* Highlighted words in headings */
+.industries-page h1 span,
+.industries-page h2 span,
+.industries-page .ind-sec-h2 span,
+.page-industries h1 span,
+.page-industries h2 span,
+.page-industries .ind-sec-h2 span {
+  font-family: inherit !important;
+  font-weight: inherit !important;
+  letter-spacing: inherit !important;
+}
+
+/* Industry card headings */
+.industries-page .ind-card h2,
+.industries-page .ind-card h3,
+.industries-page .ind-card-title,
+.page-industries .ind-card h2,
+.page-industries .ind-card h3,
+.page-industries .ind-card-title {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.055em !important;
+  line-height: 1.05 !important;
+  color: #ffffff !important;
+}
+
+/* CTA heading */
+.industries-page .ind-final-inner h2,
+.industries-page .ind-final-cta h2,
+.industries-page .ind-cta h2,
+.page-industries .ind-final-inner h2,
+.page-industries .ind-final-cta h2,
+.page-industries .ind-cta h2 {
+  font-family: 'Manrope', sans-serif !important;
+  font-size: clamp(2.3rem, 6vw, 4rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.065em !important;
+  line-height: 0.95 !important;
+  color: #ffffff !important;
+}
+
+/* CTA heading highlighted text */
+.industries-page .ind-final-inner h2 span,
+.industries-page .ind-final-cta h2 span,
+.industries-page .ind-cta h2 span,
+.page-industries .ind-final-inner h2 span,
+.page-industries .ind-final-cta h2 span,
+.page-industries .ind-cta h2 span {
+  font: inherit !important;
+  color: #8f6444 !important;
+}
+
+/* CTA buttons */
+.industries-page .ind-final-cta a,
+.industries-page .ind-cta a,
+.industries-page .ind-final-button,
+.industries-page .ind-final-btn,
+.page-industries .ind-final-cta a,
+.page-industries .ind-cta a,
+.page-industries .ind-final-button,
+.page-industries .ind-final-btn {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
+}
+
+/* Responsive typography */
+@media (max-width: 680px) {
+  .industries-page .ind-h1,
+  .page-industries .ind-h1 {
+    font-size: clamp(2rem, 9.4vw, 2.75rem) !important;
+    line-height: 0.98 !important;
+  }
+
+  .industries-page .ind-sec-h2,
+  .page-industries .ind-sec-h2 {
+    font-size: clamp(1.8rem, 8vw, 2.5rem) !important;
+    line-height: 1 !important;
+  }
+
+  .industries-page .ind-final-inner h2,
+  .industries-page .ind-final-cta h2,
+  .industries-page .ind-cta h2,
+  .page-industries .ind-final-inner h2,
+  .page-industries .ind-final-cta h2,
+  .page-industries .ind-cta h2 {
+    font-size: clamp(1.9rem, 8vw, 2.6rem) !important;
+  }
+}
+
+/* Accessibility: reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .industries-page .ind-word,
+  .page-industries .ind-word {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
+  }
 }

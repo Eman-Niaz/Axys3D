@@ -66,11 +66,12 @@
 .cta-main h2 {
   margin: 0;
   color: #ffffff;
-  font-family: "Bricolage Grotesque", sans-serif;
-  font-size: clamp(2.1rem, 4.1vw, 3.9rem);
-  font-weight: 800;
-  line-height: 1.04;
-  letter-spacing: -0.01em;
+  font-family:  'Manrope', sans-serif;
+  font-size: clamp(2.3rem, 6vw, 4rem);
+  line-height: 0.95;
+  letter-spacing: -0.065em !important;
+  font-weight: 900 !important;
+  margin-top: 10px;
 }
 
 /* Highlight: Coffee brown gradient */
