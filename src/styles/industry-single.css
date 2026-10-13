@@ -1,8 +1,7 @@
-@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 /* =========================================================
    AXYS3D — INDUSTRY SINGLE PAGE
-   Styled from Services.css (same palette, Inter, heading
-   scale, word animation, drifting glows, reveal, CTA)
    ========================================================= */
 
 .page-industry-single {
@@ -62,7 +61,7 @@
 }
 
 /* =========================================================
-   PAGE BACKGROUND + DRIFTING GLOWS (Reaches absolute top)
+   PAGE BACKGROUND + DRIFTING GLOWS
    ========================================================= */
 
 .ind-page-bg {
@@ -73,8 +72,6 @@
   overflow: hidden;
   pointer-events: none;
   background: #000000;
-  
-  
 }
 
 .ind-page-bg::before {
@@ -171,13 +168,16 @@
   margin-bottom: 20px;
 }
 
-/* HERO MAIN HEADING — Dominant Size */
+/* HERO MAIN HEADING */
 .ind-h1 {
   max-width: 980px;
   margin: 0 0 24px;
+  font-family: 'Manrope', sans-serif !important;
   font-size: clamp(38px, 6vw, 76px);
-  line-height: 1.1 !important;
+  font-weight: 700 !important;
+  line-height: 1.05 !important;
   letter-spacing: -0.05em !important;
+  color: #ffffff;
 }
 
 .ind-h1-visual { display: inline; }
@@ -191,7 +191,7 @@
   animation-delay: calc(var(--i) * 0.14s);
 }
 
-.ind-word--muted { color: var(--svc-muted); }
+.ind-word--muted { color: #8f6444; }
 
 @keyframes indWordIn {
   to { opacity: 1; transform: translateY(0); }
@@ -206,7 +206,7 @@
 }
 
 /* =========================================================
-   SECTIONS + REFINED HEADINGS (Smaller than Hero)
+   SECTIONS + HEADINGS
    ========================================================= */
 
 .ind-section {
@@ -215,7 +215,6 @@
   padding: 85px 0;
 }
 
-/* Extra spacing for the first section below hero */
 .ind-section--first {
   padding-top: 105px;
   margin-top: 110px;
@@ -229,14 +228,15 @@
   margin-bottom: 42px;
 }
 
-/* SECTION HEADINGS — Noticeably Smaller than Hero .ind-h1 */
 .ind-h2 {
   margin: 0;
   max-width: 780px;
+  font-family: 'Manrope', sans-serif !important;
   font-size: clamp(24px, 3.2vw, 38px);
-  font-weight: 700;
-  letter-spacing: -0.035em;
-  line-height: 1.2;
+  font-weight: 700 !important;
+  letter-spacing: -0.05em !important;
+  line-height: 1.15;
+  color: #ffffff;
 }
 
 .ind-h2 span { color: var(--svc-muted); }
@@ -258,7 +258,7 @@
 .js .ind-reveal.is-visible { opacity: 1; transform: translateY(0); }
 
 /* =========================================================
-   CARDS (bento) — cream + dark glass
+   CARDS (BENTO)
    ========================================================= */
 
 .ind-bento {
@@ -303,7 +303,7 @@
   padding: 6px 12px;
   border-radius: 8px;
   font-size: 10.5px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.16em;
   text-transform: uppercase;
 }
@@ -313,12 +313,12 @@
 
 .ind-card-num { font-size: 16px; font-weight: 700; color: var(--svc-brown); }
 
-/* BENTO CARD TITLES — Smaller and proportionate */
 .ind-card-title {
   margin: 0 0 10px;
+  font-family: 'Manrope', sans-serif !important;
   font-size: clamp(20px, 2.2vw, 25px);
-  font-weight: 700;
-  letter-spacing: -0.025em;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
   line-height: 1.2;
 }
 
@@ -331,7 +331,7 @@
 .ind-card--cream .ind-card-desc { color: #959595; }
 .ind-card--dark .ind-card-desc { color: var(--svc-muted); }
 
-/* rows with moving highlight */
+/* rows */
 .ind-rows {
   list-style: none;
   margin: auto 0 0;
@@ -378,8 +378,8 @@
 .ind-stat-num {
   display: block;
   font-size: clamp(56px, 6vw, 84px);
-  font-weight: 800;
-  letter-spacing: -0.06em;
+  font-weight: 700;
+  letter-spacing: -0.05em;
   line-height: 1;
 }
 
@@ -388,7 +388,7 @@
 .ind-card--dark .ind-stat-sub { color: var(--svc-muted); }
 
 /* =========================================================
-   ENGAGEMENT STEPS — auto-cycling process cards
+   ENGAGEMENT STEPS
    ========================================================= */
 
 .ind-steps {
@@ -417,7 +417,7 @@
   padding: 4px 11px;
   border-radius: 999px;
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 700;
   letter-spacing: 0.06em;
   background: rgba(255, 255, 255, 0.08);
   border: 1px solid rgba(255, 255, 255, 0.14);
@@ -425,7 +425,7 @@
   transition: background 0.4s ease, color 0.4s ease, border-color 0.4s ease;
 }
 
-.ind-step.is-active .ind-step-pill { background: var(--svc-brown); border-color: var(--svc-brown); color: var(--svc-blue); }
+.ind-step.is-active .ind-step-pill { background: var(--svc-brown); border-color: var(--svc-brown); color: #ffffff; }
 
 .ind-step-count { font-size: 11px; font-weight: 700; letter-spacing: 0.12em; color: var(--svc-muted); }
 
@@ -449,9 +449,10 @@
 
 .ind-step-title {
   margin: 0 0 10px;
+  font-family: 'Manrope', sans-serif !important;
   font-size: 19px;
-  font-weight: 700;
-  letter-spacing: -0.025em;
+  font-weight: 700 !important;
+  letter-spacing: -0.04em !important;
   transition: color 0.4s ease;
 }
 
@@ -466,7 +467,7 @@
 
 @keyframes indFill { to { width: 100%; } }
 
-/* connector between cards */
+/* connector */
 .ind-step-link {
   position: absolute;
   top: 50%; right: -41px;
@@ -484,7 +485,7 @@
 }
 
 .ind-step.is-active .ind-step-link {
-  color: var(--svc-blue);
+  color: #ffffff;
   background: var(--svc-brown);
   border-color: var(--svc-brown-light);
   box-shadow: 0 0 0 6px rgba(143, 100, 68, 0.18), 0 0 26px rgba(143, 100, 68, 0.4);
@@ -514,7 +515,7 @@
 .ind-chip:hover {
   background: var(--svc-brown-light);
   border-color: var(--svc-brown-light);
-  color: var(--svc-blue);
+  color: #ffffff;
   transform: translateY(-2px);
 }
 
@@ -528,7 +529,7 @@
 }
 
 /* =========================================================
-   FINAL CTA — Retains prominent large size
+   FINAL CTA — PROMINENT WITH CLEAN GAP
    ========================================================= */
 
 .ind-final-cta {
@@ -536,38 +537,57 @@
   background: #000000;
   position: relative;
   z-index: 2;
+  overflow: hidden;
+  isolation: isolate;
 }
 
-.ind-final-inner { max-width: 800px; margin: 0 auto; padding: 0 20px; text-align: center; }
+.ind-final-inner {
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 0 20px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
 
-/* Large CTA Headline Kept Intact as Requested */
 .ind-final-inner h2 {
-  margin: 0 0 20px;
-  font-size: clamp(36px, 5.2vw, 66px);
-  font-weight: 700;
-  letter-spacing: -0.05em;
-  line-height: 1.18;
+  font-family: 'Manrope', sans-serif !important;
+  margin: 0 0 36px 0 !important; /* Button aur heading ke darmiyan clear gap */
+  padding: 0 !important;
+  font-size: clamp(2.3rem, 5.5vw, 4.2rem) !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.05em !important;
+  line-height: 1.05 !important;
 }
 
-.ind-final-inner h2 span { color: var(--svc-muted); }
-
+.ind-final-inner h2 span { color: #8f6444; }
 .ind-final-inner p { margin: 0 auto 32px; color: var(--svc-muted); font-size: 15px; max-width: 500px; }
 
 .ind-final-btn {
   display: inline-flex;
   align-items: center;
-  gap: 20px;
-  padding: 16px 28px;
+  gap: 16px;
+  padding: 16px 32px;
   border-radius: 999px;
-  color: var(--svc-blue);
-  background: var(--svc-brown-light);
+  color: #ffffff !important;
+  background: #5b3b27 !important;
+  border: 1px solid #5b3b27;
   text-decoration: none;
-  font-size: 12px;
-  font-weight: 800;
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 13.5px;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  margin-top: 8px;
   transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
 }
 
-.ind-final-btn:hover { background: #b8946f; transform: translateY(-3px); box-shadow: 0 20px 45px rgba(143, 100, 68, 0.25); }
+.ind-final-btn:hover {
+  background: #6b452c !important;
+  transform: translateY(-3px);
+  box-shadow: 0 20px 45px rgba(143, 100, 68, 0.25);
+}
 
 .ind-final-cta,
 .site-footer { position: relative; overflow: hidden; isolation: isolate; }
@@ -645,34 +665,37 @@
   .ind-final-cta { padding: 80px 0 100px; }
   .ind-final-cta::before, .ind-final-cta::after,
   .site-footer::before, .site-footer::after { width: 340px; height: 340px; }
+  .ind-final-inner h2 { margin-bottom: 24px !important; }
 }
 
 /* =========================================================
-   AXYS3D DESIGN SYSTEM — Howitworks jaisi styling
-   (colors: brown/gold wahi jo pehle tha)
+   AXYS3D DESIGN SYSTEM — HEADINGS & BUTTONS OVERRIDES
    ========================================================= */
+
 .page-industry-single,
 .ind-page { font-family: 'Manrope', system-ui, sans-serif !important; }
 
-/* Headings */
+/* Tamam Headings clean bold (700) */
 .page-industry-single h1,
 .ind-page h1,
 .page-industry-single h2,
 .ind-page h2,
+.page-industry-single h3,
+.ind-page h3,
 .page-industry-single [class*="-h1"],
 .ind-page [class*="-h1"],
 .page-industry-single [class*="-h2"],
 .ind-page [class*="-h2"] {
-  font-family: 'Bricolage Grotesque', 'Inter', system-ui, sans-serif !important;
-  font-weight: 800 !important;
-  letter-spacing: -0.02em !important;
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.05em !important;
   line-height: 1.05 !important;
   font-optical-sizing: auto;
   -webkit-font-smoothing: antialiased;
-  color: #f3efe6;
+  color: #ffffff;
 }
 
-/* Heading ka highlight = white -> grey */
+/* Heading Highlights */
 .page-industry-single [class*="word--muted"],
 .ind-page [class*="word--muted"],
 .page-industry-single h2 span,
@@ -685,7 +708,7 @@
   color: #8f6444;
 }
 
-/* Chhoti heading / kicker: mono, grey, spaced */
+/* Kickers */
 .page-industry-single [class*="kicker"],
 .ind-page [class*="kicker"],
 .page-industry-single [class*="eyebrow"],
@@ -698,87 +721,41 @@
   color: #959595 !important;
 }
 
-/* Lead paragraphs */
+/* Lead */
 .page-industry-single [class*="-lead"],
 .ind-page [class*="-lead"] {
   color: rgba(243, 239, 230, 0.6);
   letter-spacing: -0.01em;
 }
 
-/* CTA buttons = grey */
-[class*="final-button"], [class*="final-btn"], .final-cta-button, .ins-btn-primary, .cnt-submit {
+/* CTA buttons */
+[class*="final-button"], [class*="final-btn"], .final-cta-button, .ind-final-btn, .ins-btn-primary, .cnt-submit {
+  font-family: 'Manrope', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
   background: #5b3b27 !important;
   border-color: #5b3b27 !important;
   color: #ffffff !important;
   box-shadow: none !important;
 }
-[class*="final-button"]:hover, [class*="final-btn"]:hover, .final-cta-button:hover, .ins-btn-primary:hover, .cnt-submit:hover {
+
+[class*="final-button"]:hover, [class*="final-btn"]:hover, .final-cta-button:hover, .ind-final-btn:hover, .ins-btn-primary:hover, .cnt-submit:hover {
   background: #6b452c !important;
   border-color: #6b452c !important;
   color: #ffffff !important;
 }
 
-/* =========================================================
-   CTA BACKGROUND — image + navy overlay (har CTA par same)
-   Image badalni ho to :root mein --cta-image set karein,
-   jaise: :root mein --cta-image variable set karein
-   ========================================================= */
+/* CTA Background Overlay */
 .ind-final-cta {
-  position: relative;
-  isolation: isolate;
-  background: transparent !important;
+  background-image: var(--cta-image, url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop')) !important;
+  background-color: #262626 !important;
+  background-blend-mode: multiply !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
 }
 
-.ind-final-cta::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  width: auto;
-  height: auto;
-  border-radius: 0;
-  transform: none;
-  filter: none;
-  animation: none;
-  opacity: 1;
-  z-index: -1;
-  pointer-events: none;
-  background: transparent;
-  background-image: var(--cta-image, url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop'));
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  background-color: #262626;
-  background-blend-mode: multiply;
-  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
-  mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
-}
-
-/* =========================================================
-   HERO — Services page jaisi styling (Industry detail)
-   ========================================================= */
-/* ---- heading (Services jaisa) ---- */
-.ind-page .ind-h1 {
-  font-family: 'Manrope', sans-serif !important;
-  font-size: clamp(2.5rem, 4.4vw, 4.2rem) !important;
-  font-weight: 700 !important;
-  line-height: 0.95 !important;
-  letter-spacing: -0.065em !important;
-  max-width: 100%;
-  margin: 10px 0 24px !important;
-  color: #ffffff;
-}
-/* purani `[class*="-h1"]` rule inner span par letter-spacing/color force kar rahi thi */
-.ind-page .ind-h1-visual {
-  font: inherit !important;
-  letter-spacing: inherit !important;
-  line-height: inherit !important;
-  color: #ffffff !important;
-}
-.ind-page .ind-word { margin-right: 0.22em; }
-.ind-page .ind-word--muted { color: #8f6444; }
-.ind-page .ind-lead { margin-top: 28px; }
-
-/* ---- halka brown gradient ---- */
+/* Background Gradients */
 .ind-page-bg {
   overflow: hidden;
   background:
@@ -788,6 +765,7 @@
   -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
   mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
 }
+
 .ind-page-bg::before {
   content: "";
   position: absolute;
@@ -798,6 +776,7 @@
   z-index: 1;
   background: radial-gradient(circle at center, rgba(143, 100, 68, 0.28) 0%, rgba(143, 100, 68, 0.1) 45%, transparent 70%);
 }
+
 .ind-page-bg::after {
   content: "";
   position: absolute;

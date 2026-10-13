@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* =========================================================
-   AXYS3D — ABOUT PAGE (CENTERED & REALISTIC BUILDING VISUAL)
+   AXYS3D — ABOUT PAGE
    ========================================================= */
 
 .about-page {
@@ -47,10 +47,10 @@
   z-index: 2;
 }
 
-/* ================= HERO & BALANCED LAYOUT ================= */
+/* ================= HERO (SPACING ADJUSTED) ================= */
 
 .abt-intro {
-  padding: 20px 0 60px;
+  padding: 30px 0 90px;
   position: relative;
   z-index: 2;
 }
@@ -60,14 +60,13 @@
   grid-template-columns: 1fr 1fr;
   align-items: center;
   justify-content: center;
-  gap: clamp(20px, 3vw, 40px);
+  gap: clamp(24px, 3.5vw, 48px);
 }
 
 .abt-intro-header {
   max-width: 540px;
 }
 
-/* Centered Visual Container */
 .abt-intro-media {
   display: flex;
   justify-content: center;
@@ -90,7 +89,6 @@
   overflow: visible;
 }
 
-/* Glass Façade & Architectural Glow Effects */
 .abt-grid path { 
   fill: none; 
   stroke: rgba(143, 100, 68, 0.25); 
@@ -111,7 +109,6 @@
   stroke-linejoin: round; 
 }
 
-/* Blue -> Grey, Golden -> Brown */
 .abt-mep-cyan { stroke: #959595 !important; }
 .abt-mep-gold { stroke: #8f6444 !important; }
 
@@ -148,12 +145,7 @@
   to { opacity: 1; transform: none; } 
 }
 
-/* =========================================================
-   VISUAL COLOR OVERRIDES (Blue -> Grey, Golden -> Brown)
-   NO BLUES ANYWHERE
-   ========================================================= */
-
-/* Blue / Cyan strokes -> Grey */
+/* Color overrides */
 .abt-viz-svg [stroke*="grey" i],
 .abt-viz-svg [stroke*="cyan" i],
 .abt-viz-svg [stroke="#3b82f6"],
@@ -161,58 +153,31 @@
 .abt-viz-svg [stroke="#00d2ff"],
 .abt-viz-svg [stroke="#00e5ff"],
 .abt-viz-svg [stroke="#60a5fa"],
-.abt-viz-svg .abt-blue {
-  stroke: #959595 !important;
-}
+.abt-viz-svg .abt-blue { stroke: #959595 !important; }
 
-/* Blue / Cyan fills -> Dark Grey */
 .abt-viz-svg [fill*="grey" i],
 .abt-viz-svg [fill*="cyan" i],
 .abt-viz-svg [fill="#3b82f6"],
 .abt-viz-svg [fill="#2563eb"],
 .abt-viz-svg [fill="#00d2ff"],
-.abt-viz-svg [fill="#00e5ff"] {
-  fill: #525254 !important;
-}
+.abt-viz-svg [fill="#00e5ff"] { fill: #525254 !important; }
 
-/* Golden / Yellow strokes -> Brown */
 .abt-viz-svg [stroke*="gold" i],
 .abt-viz-svg [stroke*="yellow" i],
 .abt-viz-svg [stroke="#ffd700"],
 .abt-viz-svg [stroke="#f59e0b"],
 .abt-viz-svg [stroke="#eab308"],
 .abt-viz-svg [stroke="#d97706"],
-.abt-viz-svg .abt-gold {
-  stroke: #8f6444 !important;
-}
+.abt-viz-svg .abt-gold { stroke: #8f6444 !important; }
 
-/* Golden / Yellow fills -> Brown */
 .abt-viz-svg [fill*="gold" i],
 .abt-viz-svg [fill*="yellow" i],
 .abt-viz-svg [fill="#ffd700"],
 .abt-viz-svg [fill="#f59e0b"],
 .abt-viz-svg [fill="#eab308"],
-.abt-viz-svg [fill="#d97706"] {
-  fill: #8f6444 !important;
-}
+.abt-viz-svg [fill="#d97706"] { fill: #8f6444 !important; }
 
-/* Gradients */
-.abt-viz-svg stop[stop-color*="grey" i],
-.abt-viz-svg stop[stop-color*="cyan" i],
-.abt-viz-svg stop[stop-color="#00d2ff"],
-.abt-viz-svg stop[stop-color="#00e5ff"],
-.abt-viz-svg stop[stop-color="#3b82f6"] {
-  stop-color: #959595 !important;
-}
-
-.abt-viz-svg stop[stop-color*="brown" i],
-.abt-viz-svg stop[stop-color="#ffd700"],
-.abt-viz-svg stop[stop-color="#f59e0b"],
-.abt-viz-svg stop[stop-color="#eab308"] {
-  stop-color: #8f6444 !important;
-}
-
-/* ================= TYPOGRAPHY & SECTIONS ================= */
+/* ================= TYPOGRAPHY & PILLS ================= */
 
 .abt-kicker {
   display: block;
@@ -258,124 +223,601 @@
   max-width: 520px;
 }
 
-/* WHY SECTION */
-.abt-why {
+.abt-pill-badge {
+  display: inline-block;
+  padding: 6px 18px;
+  border-radius: 999px;
+  background: #1c1c1f;
+  border: 1px solid #2e2e33;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #a07350;
+  margin-bottom: 18px;
+}
+
+.abt-section-title-wrap {
+  text-align: center;
+  max-width: 720px;
+  margin: 0 auto 54px;
+}
+
+.abt-section-title-wrap h2 {
+  font-size: clamp(30px, 4.2vw, 54px);
+  font-weight: 700;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+  color: #ffffff;
+  margin: 0 0 16px;
+}
+
+.abt-section-title-wrap h2 span {
+  color: #8f6444;
+}
+
+.abt-section-title-wrap p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #959595;
+  margin: 0;
+}
+
+/* ================= 1. TRUSTED BY LOGO STRIP ================= */
+
+.abt-trust-strip {
   position: relative;
   z-index: 2;
-  padding: 0 0 100px;
-  margin-top: 40px;
+  margin-top: 30px;
+  padding: 44px 0 64px;
+  border-top: 1px solid #222225;
+  border-bottom: 1px solid #222225;
+  margin-bottom: 90px;
 }
 
-.abt-why-panel {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: clamp(32px, 4vw, 60px);
+.abt-trust-strip-inner {
+  text-align: center;
+}
+
+.abt-trust-strip-text {
+  font-size: 13.5px;
+  color: #8a8a8e;
+  margin-bottom: 28px;
+  letter-spacing: -0.01em;
+}
+
+.abt-trust-logos-row {
+  display: flex;
   align-items: center;
-  padding: clamp(28px, 4vw, 56px);
-  border-radius: 24px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 1s ease-out, transform 1s cubic-bezier(0.25, 1, 0.5, 1);
+  justify-content: space-between;
+  gap: 36px;
+  flex-wrap: wrap;
 }
 
-.abt-why-panel.is-visible { opacity: 1; transform: translateY(0); }
+.abt-trust-logo-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'Manrope', sans-serif;
+  font-size: 19px;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: #717178;
+  transition: color 0.3s ease;
+}
 
-.abt-why-h2 {
-  margin: 0;
-  font-family: 'Manrope', sans-serif !important;
-  font-size: clamp(22px, 2.8vw, 38px);
-  font-weight: 700 !important;
-  letter-spacing: -0.04em !important;
-  line-height: 1.15;
+.abt-trust-logo-item:hover {
   color: #ffffff;
 }
 
-.abt-why-h2 span { color: var(--abt-muted); }
+/* ================= 2. BENTO GRID (DIFFERENT COLORS & FULL IMAGE OVERLAY) ================= */
 
-.abt-why-desc {
-  margin: 0;
-  padding-left: 24px;
-  border-left: 1px solid var(--abt-gold-light);
-  font-size: 15px;
-  line-height: 1.75;
-  color: var(--abt-text);
+.abt-bento-section {
+  position: relative;
+  z-index: 2;
+  padding: 20px 0 110px;
 }
 
-/* PRINCIPLES SECTION */
+.abt-bento-grid {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr 1fr;
+  grid-template-rows: auto auto;
+  gap: 24px;
+}
+
+.abt-bento-card {
+  border-radius: 28px;
+  overflow: hidden;
+  transition: border-color 0.4s ease, transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.abt-bento-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
+}
+
+/* Card 1: Left Tall Card (Dark Charcoal Tone) */
+.abt-bento-card--tall {
+  grid-column: 1;
+  grid-row: 1 / 3;
+  background: #171719;
+  border: 1px solid #2a2a2f;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 34px 32px 36px;
+}
+
+.abt-bento-tall-media {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 28px;
+  background: #202024;
+}
+
+.abt-bento-tall-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: grayscale(0.2) contrast(1.05);
+}
+
+.abt-bento-card--tall h3 {
+  font-size: clamp(21px, 2.2vw, 27px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  margin: 0 0 26px;
+}
+
+.abt-bento-pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  align-self: flex-start;
+  padding: 12px 26px;
+  border-radius: 999px;
+  background: #2a1f18;
+  border: 1px solid #8f6444;
+  color: #ffffff;
+  font-size: 13.5px;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+
+.abt-bento-pill-btn:hover {
+  background: #8f6444;
+  transform: translateX(4px);
+}
+
+/* Card 2: Top Center (Muted Bronze Dark Tint) */
+.abt-bento-card--handshake {
+  grid-column: 2;
+  grid-row: 1;
+  background: #1c1815;
+  border: 1px solid #362922;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 26px;
+}
+
+.abt-bento-handshake-media {
+  width: 100%;
+  height: 140px;
+  border-radius: 18px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.abt-bento-handshake-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.abt-bento-card--handshake h4 {
+  margin: 0;
+  font-size: 19px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: #ffffff;
+}
+
+.abt-bento-card--handshake h4 span {
+  color: #a07350;
+}
+
+/* Card 3: Top Right Stats (Warm Deep Brown Tint) */
+.abt-bento-card--stats {
+  grid-column: 3;
+  grid-row: 1;
+  background: #1f1612;
+  border: 1px solid #3d2a1f;
+  padding: 26px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.abt-bento-stats-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 22px 18px;
+}
+
+.abt-bento-stat-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.abt-bento-stat-item .abt-stat-num {
+  font-family: 'Bricolage Grotesque', 'Manrope', sans-serif;
+  font-size: clamp(28px, 2.8vw, 38px);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+}
+
+.abt-bento-stat-item .abt-stat-num em {
+  font-style: normal;
+  font-size: 0.55em;
+  color: #a07350;
+}
+
+.abt-bento-stat-item .abt-stat-label {
+  font-size: 12px;
+  color: #b5b0ab;
+  margin-top: 6px;
+  line-height: 1.35;
+}
+
+/* Card 4: Bottom Wide Card (Full Size Image Background with Dark Overlay) */
+.abt-bento-card--wide {
+  grid-column: 2 / 4;
+  grid-row: 2;
+  position: relative;
+  min-height: 290px;
+  border: 1px solid #3a3a40;
+  display: flex;
+  align-items: center;
+  padding: 44px 48px;
+}
+
+.abt-bento-wide-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+  filter: contrast(1.1);
+}
+
+.abt-bento-wide-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(12, 10, 10, 0.94) 0%, rgba(12, 10, 10, 0.88) 55%, rgba(12, 10, 10, 0.5) 100%);
+  z-index: 1;
+}
+
+.abt-bento-wide-content {
+  position: relative;
+  z-index: 2;
+  max-width: 620px;
+}
+
+.abt-bento-wide-content h3 {
+  font-size: clamp(24px, 2.6vw, 34px);
+  font-weight: 700;
+  line-height: 1.25;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  margin: 0 0 16px;
+}
+
+.abt-bento-wide-content h3 span {
+  color: #d69865;
+}
+
+.abt-bento-wide-content p {
+  font-size: 15px;
+  line-height: 1.7;
+  color: #e5e2de;
+  margin: 0;
+}
+
+/* ================= 3. PRINCIPLES (SPLIT: LEFT HEADING + RIGHT 2x2 GREY CARDS) ================= */
+
 .abt-principles {
-  padding: 60px 0 100px;
+  padding: 60px 0 120px;
   position: relative;
   z-index: 2;
 }
 
-.abt-principles-header {
-  margin-bottom: 32px;
+.abt-principles-split {
+  display: grid;
+  grid-template-columns: 0.85fr 1.15fr;
+  gap: clamp(36px, 5vw, 76px);
+  align-items: start;
+}
+
+.abt-principles-left {
+  position: sticky;
+  top: 140px;
 }
 
 .abt-principles-h2 {
-  margin: 0;
+  margin: 0 0 18px;
   font-family: 'Manrope', sans-serif !important;
-  font-size: clamp(26px, 3.4vw, 44px);
+  font-size: clamp(30px, 3.8vw, 50px);
   font-weight: 700 !important;
   letter-spacing: -0.05em !important;
   line-height: 1.05 !important;
   color: #ffffff;
 }
 
-.abt-principles-h2 span { color: var(--abt-muted); }
+.abt-principles-h2 span { 
+  color: #8f6444; 
+}
 
-.abt-principles-grid {
+.abt-principles-lead {
+  font-size: 15px;
+  line-height: 1.75;
+  color: #959595;
+  margin: 0;
+  max-width: 38ch;
+}
+
+/* Right Side: 2x2 Compact Grey Cards Grid */
+.abt-principles-grid-2x2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 18px;
+}
+
+/* Sleek Compact Grey Card */
+.abt-principle-card-grey {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding: 24px 22px; /* Thoda chota aur compact */
+  border-radius: 18px;
+  background: #1e1e22; /* Clean Grey Background */
+  border: 1px solid #2e2e34;
+  transition: transform 0.4s ease, border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+}
+
+.abt-principle-card-grey:hover {
+  transform: translateY(-5px);
+  border-color: #8f6444;
+  background: #25252b;
+  box-shadow: 0 14px 32px rgba(0, 0, 0, 0.45);
+}
+
+.abt-principle-card-grey .abt-card-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 26px;
+  font-weight: 700;
+  color: #8f6444;
+  margin-bottom: 14px;
+  line-height: 1;
+}
+
+.abt-principle-card-grey .abt-card-title {
+  margin: 0 0 10px;
+  font-family: 'Manrope', sans-serif !important;
+  font-size: 17px;
+  font-weight: 700 !important;
+  letter-spacing: -0.03em !important;
+  line-height: 1.25;
+  color: #ffffff;
+}
+
+.abt-principle-card-grey .abt-card-desc {
+  font-size: 13px;
+  line-height: 1.65;
+  color: #b5b5ba;
+  margin: 0;
+}
+
+/* ================= 4. TEAM MEMBERS (FULL PHOTO + FLOATING BADGE) ================= */
+
+.abt-team {
+  position: relative;
+  z-index: 2;
+  padding: 0 0 110px;
+}
+
+.abt-team-grid { 
+  display: grid; 
+  grid-template-columns: repeat(4, 1fr); 
+  gap: 24px; 
+}
+
+.abt-team-card-image {
+  position: relative;
+  aspect-ratio: 1 / 1.15;
+  border-radius: 22px;
+  overflow: hidden;
+  background: #19191c;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.4);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+
+.abt-team-card-image:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+}
+
+.abt-team-card-image img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: contrast(1.05);
+}
+
+/* Floating White Pill Badge */
+.abt-team-floating-badge {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  right: 16px;
+  background: #ffffff;
+  border-radius: 14px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+  z-index: 2;
+}
+
+.abt-team-badge-info h4 {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 700;
+  color: #111111;
+  letter-spacing: -0.02em;
+}
+
+.abt-team-badge-info span {
+  display: block;
+  font-size: 12px;
+  color: #6c6c70;
+  margin-top: 2px;
+}
+
+.abt-team-linkedin-btn {
+  display: grid;
+  place-items: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: #f2f2f4;
+  color: #0a66c2;
+  text-decoration: none;
+  font-size: 12px;
+  font-weight: 800;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.abt-team-linkedin-btn:hover {
+  background: #0a66c2;
+  color: #ffffff;
+  transform: scale(1.06);
+}
+
+.abt-team-linkedin-btn svg {
+  width: 16px;
+  height: 16px;
+  fill: currentColor;
+}
+
+/* ================= 5. TESTIMONIALS (SPEECH BUBBLES) ================= */
+
+.abt-quotes {
+  position: relative;
+  z-index: 2;
+  padding: 30px 0 110px;
+}
+
+.abt-quotes-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
 }
 
-.abt-principle-card {
-  position: relative;
+.abt-quote-bubble-card {
   display: flex;
   flex-direction: column;
-  padding: clamp(20px, 2.2vw, 30px);
+}
+
+.abt-bubble-box {
+  position: relative;
+  background: #ffffff;
   border-radius: 20px;
-  background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  transition: transform 0.5s ease, border-color 0.4s ease;
+  padding: 28px 24px 22px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.45);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 250px;
 }
 
-.abt-principle-card:hover {
-  transform: translateY(-8px);
-  border-color: var(--abt-gold-light);
+.abt-bubble-box::after {
+  content: "";
+  position: absolute;
+  bottom: -12px;
+  left: 32px;
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 13px solid #ffffff;
 }
 
-.abt-card-num {
-  font-size: clamp(34px, 3.2vw, 48px);
-  font-weight: 700;
-  color: transparent;
-  -webkit-text-stroke: 1px #8f6444;
-  margin-bottom: 20px;
-}
-
-.abt-card-title {
-  margin: 0 0 10px;
-  font-family: 'Manrope', sans-serif !important;
-  font-size: clamp(18px, 1.6vw, 21px);
-  font-weight: 700 !important;
-  letter-spacing: -0.03em !important;
-  line-height: 1.2;
-  color: #ffffff;
-}
-
-.abt-card-desc {
+.abt-bubble-text {
+  margin: 0 0 18px;
   font-size: 14px;
-  line-height: 1.65;
-  color: var(--abt-text);
-  margin: 0;
+  line-height: 1.68;
+  color: #2b2b2e;
+  font-weight: 500;
+  letter-spacing: -0.01em;
 }
 
-/* =========================================================
-   FINAL CTA — WITH CLEAN SPACING & BALANCED WEIGHT
-   ========================================================= */
+.abt-bubble-stars {
+  color: #00b67a;
+  font-size: 18px;
+  letter-spacing: 3px;
+  user-select: none;
+}
+
+.abt-bubble-author {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 24px;
+  padding-left: 10px;
+}
+
+.abt-bubble-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid #5b3b27;
+  flex-shrink: 0;
+}
+
+.abt-bubble-meta b {
+  display: block;
+  font-size: 15px;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.abt-bubble-meta small {
+  display: block;
+  font-size: 12px;
+  color: #959595;
+  margin-top: 3px;
+}
+
+/* ================= FINAL CTA ================= */
 
 .abt-final-cta {
   padding: 120px 0 140px;
@@ -401,7 +843,7 @@
   font-weight: 700 !important;
   letter-spacing: -0.05em !important;
   line-height: 1.05 !important;
-  margin: 0 0 36px 0 !important; /* Button aur heading ke darmiyan clear gap */
+  margin: 0 0 36px 0 !important;
   padding: 0 !important;
   color: #ffffff;
 }
@@ -432,7 +874,6 @@
   box-shadow: 0 20px 45px rgba(143, 100, 68, 0.25);
 }
 
-/* CTA BACKGROUND */
 .abt-final-cta::before {
   content: "";
   position: absolute;
@@ -457,129 +898,53 @@
   mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
 }
 
-/* RESPONSIVE MEDIA QUERIES */
-@media (max-width: 1024px) {
-  .abt-principles-grid { grid-template-columns: repeat(2, 1fr); }
+/* Reveal */
+[data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s ease-out var(--d, 0ms), transform 0.8s cubic-bezier(0.25, 1, 0.5, 1) var(--d, 0ms);
+}
+[data-reveal].is-visible { 
+  opacity: 1; 
+  transform: none; 
 }
 
-@media (max-width: 900px) {
-  .abt-intro-row { grid-template-columns: 1fr; gap: 40px; }
-  .abt-intro-header { max-width: 100%; text-align: center; }
-  .abt-lead { margin: 0 auto; }
-  .abt-why-panel { grid-template-columns: 1fr; }
+/* Responsive */
+@media (max-width: 1024px) {
+  .abt-bento-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .abt-bento-card--tall {
+    grid-column: 1 / 3;
+    grid-row: auto;
+  }
+  .abt-bento-card--wide {
+    grid-column: 1 / 3;
+  }
+  .abt-principles-split {
+    grid-template-columns: 1fr;
+    gap: 36px;
+  }
+  .abt-principles-left {
+    position: static;
+  }
+  .abt-quotes-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .abt-team-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
 @media (max-width: 680px) {
-  .abt-principles-grid { grid-template-columns: 1fr; }
-  .abt-final-inner h2 { margin-bottom: 24px !important; }
-}
-
-/* =========================================================
-   AXYS3D DESIGN SYSTEM — HEADINGS & BUTTONS OVERRIDES
-   ========================================================= */
-
-.about-page,
-.page-about { font-family: 'Manrope', system-ui, sans-serif !important; }
-
-/* All Headings clean bold (700) */
-.about-page h1,
-.page-about h1,
-.about-page h2,
-.page-about h2,
-.about-page h3,
-.page-about h3,
-.about-page [class*="-h1"],
-.page-about [class*="-h1"],
-.about-page [class*="-h2"],
-.page-about [class*="-h2"] {
-  font-family: 'Manrope', sans-serif !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.05em !important;
-  line-height: 1.05 !important;
-  font-optical-sizing: auto;
-  -webkit-font-smoothing: antialiased;
-  color: #ffffff;
-}
-
-/* Heading Highlights */
-.about-page [class*="word--muted"],
-.page-about [class*="word--muted"],
-.about-page h2 span,
-.page-about h2 span,
-.about-page [class*="-h2"] span,
-.page-about [class*="-h2"] span {
-  padding-right: .06em;
-  -webkit-box-decoration-break: clone;
-  box-decoration-break: clone;
-  color: #8f6444;
-}
-
-/* Kickers */
-.about-page [class*="kicker"],
-.page-about [class*="kicker"],
-.about-page [class*="eyebrow"],
-.page-about [class*="eyebrow"] {
-  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
-  font-size: clamp(0.55rem, 0.65vw, 0.72rem) !important;
-  font-weight: 400 !important;
-  letter-spacing: 0.3em !important;
-  text-transform: uppercase !important;
-  color: #959595 !important;
-}
-
-/* Lead paragraphs */
-.about-page [class*="-lead"],
-.page-about [class*="-lead"] {
-  color: rgba(243, 239, 230, 0.6);
-  letter-spacing: -0.01em;
-}
-
-/* CTA buttons = solid brown theme */
-[class*="final-button"], [class*="final-btn"], .final-cta-button, .abt-final-button, .ins-btn-primary, .cnt-submit {
-  font-family: 'Manrope', sans-serif !important;
-  font-weight: 700 !important;
-  letter-spacing: -0.03em !important;
-  background: #5b3b27 !important;
-  border-color: #5b3b27 !important;
-  color: #ffffff !important;
-  box-shadow: none !important;
-}
-
-[class*="final-button"]:hover, [class*="final-btn"]:hover, .final-cta-button:hover, .abt-final-button:hover, .ins-btn-primary:hover, .cnt-submit:hover {
-  background: #6b452c !important;
-  border-color: #6b452c !important;
-  color: #ffffff !important;
-}
-
-/* Background Gradients */
-.abt-page-bg {
-  overflow: hidden;
-  background:
-    radial-gradient(ellipse 55% 45% at 82% 18%, rgba(143, 100, 68, 0.22) 0%, transparent 70%),
-    radial-gradient(ellipse 50% 45% at 8% 62%, rgba(91, 59, 39, 0.26) 0%, transparent 70%),
-    linear-gradient(180deg, #0a0706 0%, #000000 100%);
-  -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
-  mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
-}
-
-.abt-page-bg::before {
-  content: "";
-  position: absolute;
-  top: -120px; right: -100px; left: auto;
-  width: 620px; height: 620px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 1;
-  background: radial-gradient(circle at center, rgba(143, 100, 68, 0.28) 0%, rgba(143, 100, 68, 0.1) 45%, transparent 70%);
-}
-
-.abt-page-bg::after {
-  content: "";
-  position: absolute;
-  top: 420px; right: auto; left: -160px;
-  width: 520px; height: 520px;
-  border-radius: 50%;
-  pointer-events: none;
-  z-index: 1;
-  background: radial-gradient(circle at center, rgba(91, 59, 39, 0.3) 0%, transparent 70%);
+  .abt-bento-grid,
+  .abt-quotes-grid,
+  .abt-team-grid,
+  .abt-principles-grid-2x2 {
+    grid-template-columns: 1fr;
+  }
+  .abt-trust-logos-row {
+    justify-content: center;
+    gap: 24px;
+  }
 }

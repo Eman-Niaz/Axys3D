@@ -1,8 +1,5 @@
 ---
 // src/pages/insights/[slug].astro
-// Single Insight / Article page — styled 1:1 like the Industry single page
-// (all styles live in ../../styles/insights.css under the .isd- prefix)
-
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import "../../styles/token.css";
@@ -23,15 +20,58 @@ export async function getStaticPaths() {
 const { article } = Astro.props;
 const { Content } = await render(article);
 
-/* Hero title: first half white, second half muted (same as Industries) */
-const titleWords = article.data.title.trim().split(/\s+/);
-const mutedFrom = Math.ceil(titleWords.length / 2);
+/* ---------- Saare articles (sidebar + related ke liye) ---------- */
+const allArticles = await getCollection("insights");
+const others = allArticles.filter((a) => a.id !== article.id);
+const recent = others.slice(0, 3);
+const sameCategory = others.filter((a) => a.data.category === article.data.category);
+const related = (sameCategory.length >= 2 ? sameCategory : others).slice(0, 2);
 
-/* "6 min read" -> big "6" + small "min read" */
+/* Categories + counts (right sidebar) */
+const categoryCounts = Object.entries(
+  allArticles.reduce((acc: Record<string, number>, a) => {
+    acc[a.data.category] = (acc[a.data.category] || 0) + 1;
+    return acc;
+  }, {})
+);
+
+/* ---------- Images (listing page wali hi list, taake same image aaye) ---------- */
+const q = "?auto=format&fit=crop&w=1400&q=80";
+const articleImages = [
+  `https://images.unsplash.com/photo-1486406146926-c627a92ad1ab${q}`,
+  `https://images.unsplash.com/photo-1600585154340-be6161a56a0c${q}`,
+  `https://images.unsplash.com/photo-1487958449943-2429e8be8625${q}`,
+  `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9${q}`,
+  `https://images.unsplash.com/photo-1518005020951-eccb494ad742${q}`,
+  `https://images.unsplash.com/photo-1613977257363-707ba9348227${q}`,
+  `https://images.unsplash.com/photo-1497366216548-37526070297c${q}`,
+  `https://images.unsplash.com/photo-1600585154526-990dced4db0d${q}`,
+];
+const imageFor = (a: any) => {
+  const idx = Math.max(0, allArticles.findIndex((x) => x.id === a.id));
+  return (a.data as any).image ?? articleImages[idx % articleImages.length];
+};
+const heroImage = imageFor(article);
+const aboutImage = `https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=700&q=80`;
+
+/* ---------- Meta ---------- */
 const rt = String(article.data.readTime ?? "").trim();
-const rtMatch = rt.match(/^(\d+)\s*(.*)$/);
-const rtNum = rtMatch ? rtMatch[1] : rt;
-const rtUnit = rtMatch ? rtMatch[2] || "min" : "";
+const author = (article.data as any).author ?? "AXYS3D Editorial";
+const rawDate = (article.data as any).date ?? (article.data as any).pubDate ?? (article.data as any).publishedAt;
+const dateText = rawDate
+  ? new Date(rawDate).toLocaleDateString("en-GB", { day: "numeric", month: "short", year: "numeric" })
+  : "";
+const metaParts = [article.data.category, rt, dateText].filter(Boolean);
+
+/* ---------- Share links ---------- */
+const pageUrl = encodeURIComponent(Astro.url.href);
+const pageTitle = encodeURIComponent(article.data.title);
+const shareLinks = [
+  { label: "LinkedIn", href: `https://www.linkedin.com/sharing/share-offsite/?url=${pageUrl}` },
+  { label: "X", href: `https://twitter.com/intent/tweet?url=${pageUrl}&text=${pageTitle}` },
+  { label: "WhatsApp", href: `https://wa.me/?text=${pageTitle}%20${pageUrl}` },
+];
+const initials = author.split(/\s+/).map((w: string) => w[0]).join("").slice(0, 2).toUpperCase();
 ---
 
 <!doctype html>
@@ -47,103 +87,129 @@ const rtUnit = rtMatch ? rtMatch[2] || "min" : "";
   </head>
 
   <body class="page-insight-single">
-    <!-- PAGE BACKGROUND — soft gradient with drifting corner glows -->
     <div class="isd-page-bg" aria-hidden="true"></div>
 
     <Navbar variant="transparent" />
 
     <main class="isd-page">
-      <!-- ================= HERO ================= -->
-      <section class="isd-hero isd-hero--article">
+      <!-- ================= TITLE + META (center) ================= -->
+      <header class="isd-head">
         <div class="isd-wrap">
-          <span class="isd-kicker isd-kicker--pill">{article.data.category}</span>
-
-          <div class="isd-hero-row">
-            <h1 class="isd-h1 isd-h1--article">
-              <span class="isd-h1-visual" aria-hidden="true">
-                {titleWords.map((w, i) => (
-                  <Fragment>
-                    <span
-                      class:list={["isd-word", { "isd-word--dim": i < mutedFrom }]}
-                      style={`--i:${i}`}
-                    >{w}</span>
-                    {i === mutedFrom - 1 && <br />}
-                  </Fragment>
-                ))}
-              </span>
-              <span class="sr-only">{article.data.title}</span>
-            </h1>
-
-            <p class="isd-lead isd-lead--side">{article.data.summary}</p>
-          </div>
+          <h1 class="isd-title">{article.data.title}</h1>
+          <p class="isd-meta">
+            {metaParts.map((m, i) => (
+              <Fragment>
+                {i > 0 && <span class="isd-meta-dot" aria-hidden="true">·</span>}
+                <span>{m}</span>
+              </Fragment>
+            ))}
+            <span class="isd-meta-dot" aria-hidden="true">·</span>
+            <span>By {author}</span>
+          </p>
         </div>
-      </section>
+      </header>
 
-      <!-- ================= BENTO: META + NEXT ================= -->
-      <section class="isd-section isd-article-sec">
-        <div class="isd-wrap">
-          <div class="isd-abento">
-            <!-- LEFT: light cards -->
-            <div class="isd-acol isd-acol--left">
-              <div class="isd-card isd-card--cream isd-meta-card isd-reveal">
-                <p class="isd-meta-note">Filed under</p>
-                <div class="isd-meta-foot">
-                  <span class="isd-meta-big">{article.data.category}</span>
-                  {article.data.badgeText && <span class="isd-meta-pill">{article.data.badgeText}</span>}
-                </div>
-              </div>
+      <!-- ================= 3 COLUMN LAYOUT ================= -->
+      <div class="isd-wrap isd-layout">
+        <!-- LEFT SIDEBAR -->
+        <aside class="isd-side isd-side--left">
+          <section class="isd-widget">
+            <h4 class="isd-widget-title">About AXYS3D</h4>
+            <img class="isd-about-img" src={aboutImage} alt="" loading="lazy" decoding="async" />
+            <p class="isd-widget-text">
+              We turn drawings, sketches and BIM models into checked 3D models, photoreal renders and walkthroughs.
+            </p>
+          </section>
 
-              <div class="isd-card isd-card--white isd-meta-card isd-reveal" style="--d: 120ms">
-                <span class="isd-meta-label">READ TIME</span>
-                <div class="isd-meta-num">
-                  <span>{rtNum}</span>
-                  {rtUnit && <small>{rtUnit}</small>}
-                </div>
-                <p class="isd-meta-sub">Estimated time to read this article</p>
-              </div>
-            </div>
+          <section class="isd-widget">
+            <h4 class="isd-widget-title">Let's connect</h4>
+            <ul class="isd-links">
+              <li><a href="/contact">Contact us <span>↗</span></a></li>
+              <li><a href="/work">Our work <span>↗</span></a></li>
+              <li><a href="/insights">All insights <span>↗</span></a></li>
+            </ul>
+          </section>
+        </aside>
 
-            <!-- RIGHT: deep card -->
-            <div class="isd-acol isd-acol--right">
-              <div class="isd-card isd-card--deep isd-next-card isd-reveal" style="--d: 180ms">
-                <span class="isd-next-label">KEEP READING</span>
-                <p class="isd-next-text">More practical notes for controlled AEC delivery, straight from our team.</p>
+        <!-- MAIN ARTICLE -->
+        <article class="isd-main">
+          <figure class="isd-hero-img">
+            <img src={heroImage} alt={article.data.title} loading="eager" decoding="async" />
+          </figure>
 
-                <svg class="isd-next-arrow" viewBox="0 0 300 120" fill="none" aria-hidden="true">
-                  <path d="M4 104 C 50 106, 90 78, 138 66 C 176 57, 206 70, 246 52 C 266 44, 282 38, 294 34" stroke="#b38b5a" stroke-width="3" stroke-linecap="round"/>
-                  <path d="M268 32 L294 34 L286 58" stroke="#b38b5a" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                </svg>
+          <p class="isd-summary">{article.data.summary}</p>
 
-                <div class="isd-next-foot">
-                  <a href="/Insights" class="isd-final-btn">
-                    <span>All insights</span>
-                    <span>↗</span>
-                  </a>
-                  <span class="isd-next-caption">AXYS3D<br />KNOWLEDGE BASE</span>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= ARTICLE AS STEP CARDS ================= -->
-      <section class="isd-section isd-flow-sec">
-        <div class="isd-wrap">
-          <div class="isd-head isd-reveal">
-            <div>
-              <span class="isd-kicker">IN THIS ARTICLE</span>
-              <h2 class="isd-h2">Key points, <br /><span>one step at a time.</span></h2>
-            </div>
-          </div>
-
-          <!-- Markdown renders here; the script below turns each H2 into a card.
-               Without JS it simply shows as a normal styled article. -->
-          <article class="isd-card isd-card--dark isd-article isd-flow-src" data-flow-src>
+          <div class="isd-prose">
             <Content />
-          </article>
-        </div>
-      </section>
+          </div>
+
+          <!-- Share -->
+          <div class="isd-share">
+            <span class="isd-share-label">Share this</span>
+            <div class="isd-share-list">
+              {shareLinks.map((s) => (
+                <a href={s.href} target="_blank" rel="noopener noreferrer">{s.label}</a>
+              ))}
+              <button type="button" id="isdCopy" data-label="Copy link">Copy link</button>
+            </div>
+          </div>
+
+          <!-- Author -->
+          <div class="isd-author">
+            <div class="isd-author-avatar" aria-hidden="true">{initials}</div>
+            <div>
+              <h4>{author}</h4>
+              <p>Technical notes from the AXYS3D team on controlled BIM, MEP and visualization delivery for architects and developers.</p>
+            </div>
+          </div>
+
+          <!-- Related -->
+          {related.length > 0 && (
+            <section class="isd-related">
+              <h4 class="isd-widget-title">Related posts</h4>
+              <div class="isd-related-grid">
+                {related.map((r) => (
+                  <a class="isd-rel" href={`/insights/${r.id}`}>
+                    <span class="isd-rel-img">
+                      <img src={imageFor(r)} alt="" loading="lazy" decoding="async" />
+                    </span>
+                    <span class="isd-rel-cat">{r.data.category}</span>
+                    <span class="isd-rel-title">{r.data.title}</span>
+                  </a>
+                ))}
+              </div>
+            </section>
+          )}
+        </article>
+
+        <!-- RIGHT SIDEBAR -->
+        <aside class="isd-side isd-side--right">
+          {recent.length > 0 && (
+            <section class="isd-widget">
+              <h4 class="isd-widget-title">Recent posts</h4>
+              <ul class="isd-recent">
+                {recent.map((r) => (
+                  <li>
+                    <a href={`/insights/${r.id}`}>
+                      <span class="isd-recent-cat">{r.data.category}</span>
+                      <span class="isd-recent-title">{r.data.title}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
+          )}
+
+          <section class="isd-widget">
+            <h4 class="isd-widget-title">Categories</h4>
+            <ul class="isd-cats">
+              {categoryCounts.map(([name, n]) => (
+                <li><span>{name}</span><em>{n}</em></li>
+              ))}
+            </ul>
+          </section>
+        </aside>
+      </div>
 
       <!-- ================= FINAL CTA ================= -->
       <section class="isd-final-cta">
@@ -151,7 +217,7 @@ const rtUnit = rtMatch ? rtMatch[2] || "min" : "";
           <div class="isd-final-inner isd-reveal">
             <h2>Want these workflows <br /><span>in your firm?</span></h2>
             <p>Schedule a workflow review session with our technical leads.</p>
-            <a href="/Contact/" class="isd-final-btn">
+            <a href="/contact" class="isd-final-btn">
               <span>Book technical session</span>
               <span>↗</span>
             </a>
@@ -163,85 +229,22 @@ const rtUnit = rtMatch ? rtMatch[2] || "min" : "";
     <Footer />
 
     <script is:inline>
-      // ---- Turn the markdown article into step cards (one card per H2) ----
+      // Copy link
       (function () {
-        const src = document.querySelector("[data-flow-src]");
-        if (!src) return;
-        const nodes = Array.from(src.children);
-        const intro = [];
-        const groups = [];
-        nodes.forEach((n) => {
-          if (n.tagName === "H2") groups.push({ title: n.textContent, nodes: [] });
-          else if (groups.length) groups[groups.length - 1].nodes.push(n);
-          else intro.push(n);
+        const btn = document.getElementById("isdCopy");
+        if (!btn) return;
+        btn.addEventListener("click", async () => {
+          try {
+            await navigator.clipboard.writeText(location.href);
+            btn.textContent = "Copied ✓";
+          } catch (e) {
+            btn.textContent = "Copy failed";
+          }
+          setTimeout(() => (btn.textContent = btn.dataset.label), 1800);
         });
-        if (!groups.length) return; // no headings -> keep plain article
-
-        const icons = [
-          '<path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h6"/>',
-          '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M2 12h3M19 12h3M4.9 19.1L7 17M17 7l2.1-2.1"/>',
-          '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>',
-          '<path d="M21 8l-9-5-9 5v8l9 5 9-5z"/><path d="M3 8l9 5 9-5M12 13v8"/>',
-        ];
-        const pad = (n) => String(n).padStart(2, "0");
-        const n = groups.length;
-        const cols = n <= 4 ? n : 3;
-
-        const wrap = document.createElement("div");
-        wrap.className = "isd-flow";
-
-        if (intro.length) {
-          const box = document.createElement("div");
-          box.className = "isd-flow-intro isd-reveal";
-          intro.forEach((el) => box.appendChild(el));
-          wrap.appendChild(box);
-        }
-
-        const grid = document.createElement("div");
-        grid.className = "isd-flow-grid" + (n <= 4 ? " isd-flow-grid--row" : "");
-        grid.style.setProperty("--cols", cols);
-
-        const cards = groups.map((g, i) => {
-          const card = document.createElement("div");
-          card.className = "isd-sc isd-reveal";
-          card.style.setProperty("--d", i * 90 + "ms");
-          card.innerHTML =
-            '<div class="isd-sc-top"><span class="isd-sc-pill">' + pad(i + 1) + '</span>' +
-            '<span class="isd-sc-count">' + pad(i + 1) + " / " + pad(n) + "</span></div>" +
-            '<div class="isd-sc-icon"><svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' +
-            icons[i % icons.length] + "</svg></div>" +
-            '<h3 class="isd-sc-title"></h3><div class="isd-sc-content"></div>' +
-            '<div class="isd-sc-bar"><span></span></div>' +
-            (i < n - 1 && n <= 4 ? '<span class="isd-sc-link" aria-hidden="true">→</span>' : "");
-          card.querySelector(".isd-sc-title").textContent = g.title;
-          const c = card.querySelector(".isd-sc-content");
-          g.nodes.forEach((el) => c.appendChild(el));
-          grid.appendChild(card);
-          return card;
-        });
-        wrap.appendChild(grid);
-        src.replaceWith(wrap);
-
-        // ---- auto-cycling highlight (pauses on hover) ----
-        let cur = -1, timer = null;
-        const setActive = (i) => {
-          cards.forEach((c, k) => c.classList.toggle("is-active", k === i));
-          cur = i;
-        };
-        const start = () => {
-          if (timer || matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-          setActive((cur + 1) % n);
-          timer = setInterval(() => setActive((cur + 1) % n), 3600);
-        };
-        const stop = () => { clearInterval(timer); timer = null; };
-        cards.forEach((c, i) => {
-          c.addEventListener("mouseenter", () => { stop(); setActive(i); });
-          c.addEventListener("mouseleave", () => { cur = i - 1; start(); });
-        });
-        new IntersectionObserver((es) => es.forEach((e) => (e.isIntersecting ? start() : stop())), { threshold: 0.25 }).observe(grid);
       })();
 
-      // ---- Reveal on scroll ----
+      // Reveal on scroll (sirf CTA)
       const revealItems = document.querySelectorAll(".isd-reveal");
       const revealObserver = new IntersectionObserver(
         (entries) => {

@@ -15,7 +15,6 @@ if (!pageData) {
   throw new Error("Could not find index.md in src/content/aboutPage/");
 }
 
-/* Hero title formatting */
 const heroWords = pageData.heroTitle.trim().split(/\s+/);
 const mutedFrom = Math.ceil(heroWords.length / 2);
 
@@ -28,7 +27,7 @@ const splitHalf = (text: string = "") => {
 const [whyA, whyB] = splitHalf(pageData.whySubtitle);
 const [delA, delB] = splitHalf(pageData.deliveryTitle);
 
-/* Refined Centered Isometric Architectural Building Model */
+/* Skyscraper Visual Geometry */
 type P = [number, number];
 const U: P = [28, -16];
 const V: P = [-28, -16];
@@ -62,26 +61,16 @@ function makeDetailedTower(F: P, dx: number, dy: number, H: number, rows: number
     floorLines.push(pts([up(L, (H * r) / rows), up(F, (H * r) / rows), up(R, (H * r) / rows)]));
   }
 
-  // Spire / Crown Top Accent
-  const crownF = up(F, H);
-  const crownR = up(R, H);
-  const crownL = up(L, H);
-  const crownB = up(B, H);
-  const spireTip = up(add(crownF, [0, -25]), 40);
-
   return {
     right: pts([F, R, up(R, H), up(F, H)]),
     left: pts([F, L, up(L, H), up(F, H)]),
     top: pts([up(F, H), up(R, H), up(B, H), up(L, H)]),
-    crown: pts([crownF, crownR, crownB, crownL]),
-    spire: pts([add(crownF, [0, -10]), spireTip]),
     floorLines,
     glassPanels,
     at,
   };
 }
 
-// Center Offset Adjusted Visual Geometry (Base center around ~260, 390)
 const mainTower = makeDetailedTower([250, 390], 3.5, 3.5, 250, 11, 4, 4);
 const podiumWing = makeDetailedTower([340, 415], 3.0, 2.2, 110, 4, 3, 2);
 
@@ -101,6 +90,80 @@ const gridLines: string[] = [];
     gridLines.push(`M${a1[0]},${a1[1]}L${a2[0]},${a2[1]}`, `M${b1[0]},${b1[1]}L${b2[0]},${b2[1]}`);
   }
 }
+
+const IMG = {
+  tallBento: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
+  handshake: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80",
+  wideBento: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?auto=format&fit=crop&w=1600&q=80",
+};
+
+const stats = [
+  { value: 50, suffix: "+", label: "Projects delivered" },
+  { value: 40, suffix: "+", label: "Studio partners" },
+  { value: 7, suffix: " days", label: "To first draft" },
+  { value: 4.8, suffix: "/5", label: "Average rating", decimals: 1 },
+];
+
+const clientLogos = [
+  { name: "Verisure", symbol: "◆" },
+  { name: "Layerise", symbol: "⚡" },
+  { name: "GamerPay", symbol: "◉" },
+  { name: "Collective", symbol: "❖" },
+  { name: "Studio MEP", symbol: "▲" },
+  { name: "Axis Arch", symbol: "◼" },
+];
+
+/* Team Members with Headshots matching Image 13 */
+const team = [
+  { 
+    name: "Marcus Mango", 
+    role: "Head of Marketing",
+    image: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    name: "Marcus Mango", 
+    role: "Head of Marketing",
+    image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    name: "Marcus Mango", 
+    role: "Head of Marketing",
+    image: "https://images.unsplash.com/photo-1517841905240-472988babdf9?auto=format&fit=crop&w=600&q=80"
+  },
+  { 
+    name: "Marcus Mango", 
+    role: "Head of Marketing",
+    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=600&q=80"
+  },
+];
+
+/* Testimonials (Image 12 speech bubbles) */
+const quotes = [
+  { 
+    text: "My buying experience is so nice, and received me very politely. Riding experience is also very good. Very good performance. I never experienced such a kind of performance. Very good service.", 
+    name: "Karan", 
+    time: "1 week ago",
+    avatar: "https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?auto=format&fit=crop&w=200&q=80"
+  },
+  { 
+    text: "I love my e-bike and the customer service is excellent. They respond in a timely manner with loads of information about e-bikes, accessories and maintenance information.", 
+    name: "Catherine", 
+    time: "10 days ago",
+    avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80"
+  },
+  { 
+    text: "Delivered first draft within 7 days exactly as promised. Our developers were blown away by the lighting and precision. Truly dependable team.", 
+    name: "Marcus Aurel", 
+    time: "2 weeks ago",
+    avatar: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&w=200&q=80"
+  },
+  { 
+    text: "The MEP clash checks resolved over 20 critical site conflicts before pouring concrete. Best decision we made was partnering with AXYS3D.", 
+    name: "Sophia Martinez", 
+    time: "3 weeks ago",
+    avatar: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=200&q=80"
+  },
+];
 ---
 
 <!doctype html>
@@ -146,34 +209,10 @@ const gridLines: string[] = [];
               <p class="abt-lead">{pageData.heroDescription}</p>
             </div>
 
-            <!-- Centered & Realistic Architectural Glass Skyscraper Visual -->
             <div class="abt-intro-media">
               <div class="abt-viz">
                 <svg class="abt-viz-svg" viewBox="0 0 540 520" aria-hidden="true" focusable="false">
                   <defs>
-                    <!-- Realistic Glass Façade Gradients -->
-                    <linearGradient id="glassRight" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stop-color="#3b729f" stop-opacity="0.9" />
-                      <stop offset="50%" stop-color="#1e486b" stop-opacity="0.95" />
-                      <stop offset="100%" stop-color="#0f2940" stop-opacity="1" />
-                    </linearGradient>
-
-                    <linearGradient id="glassLeft" x1="1" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stop-color="#1d4d75" stop-opacity="0.9" />
-                      <stop offset="50%" stop-color="#10324f" stop-opacity="0.95" />
-                      <stop offset="100%" stop-color="#071b2d" stop-opacity="1" />
-                    </linearGradient>
-
-                    <linearGradient id="glassRoof" x1="0" y1="0" x2="1" y2="1">
-                      <stop offset="0%" stop-color="#e2c89d" />
-                      <stop offset="100%" stop-color="#8c6d46" />
-                    </linearGradient>
-
-                    <radialGradient id="buildingGlow" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stop-color="#4a90e2" stop-opacity="0.25" />
-                      <stop offset="100%" stop-color="#4a90e2" stop-opacity="0" />
-                    </radialGradient>
-
                     <radialGradient id="gridFade">
                       <stop offset="0.3" stop-color="#fff" />
                       <stop offset="1" stop-color="#000" />
@@ -181,20 +220,14 @@ const gridLines: string[] = [];
                     <mask id="gridMask"><rect width="540" height="520" fill="url(#gridFade)" /></mask>
                   </defs>
 
-                  <!-- Ambient Architectural Glow -->
-                  <circle cx="270" cy="270" r="210" fill="url(#buildingGlow)" />
-
-                  <!-- Structural Grid Ground -->
                   <g class="abt-grid" mask="url(#gridMask)">{gridLines.map((d) => <path d={d} />)}</g>
 
-                  <!-- Main Tower Base Volume -->
                   <g class="abt-fill">
-                    <polygon points={mainTower.left} fill="url(#glassLeft)" />
-                    <polygon points={mainTower.right} fill="url(#glassRight)" />
-                    <polygon points={mainTower.top} fill="url(#glassRoof)" />
+                    <polygon points={mainTower.left} fill="#3a3a3d" />
+                    <polygon points={mainTower.right} fill="#525254" />
+                    <polygon points={mainTower.top} fill="#5b3b27" />
                   </g>
 
-                  <!-- Wireframe Structural Lines -->
                   <g class="abt-wires">
                     <polygon class="abt-wire abt-wa" pathLength="1" points={mainTower.left} />
                     <polygon class="abt-wire abt-wa" pathLength="1" points={mainTower.right} />
@@ -202,21 +235,18 @@ const gridLines: string[] = [];
                     {mainTower.floorLines.map((f) => <polyline class="abt-wire abt-wb" pathLength="1" points={f} />)}
                   </g>
 
-                  <!-- Realistic Glass Window Panels with Subtle Glow -->
                   <g class="abt-win">
                     {mainTower.glassPanels.map((w, i) => <polygon points={w} style={`--w:${((i * 19) % 11) / 4}s`} />)}
                   </g>
 
-                  <!-- Building MEP & Structural Details -->
                   <g class="abt-mepg">
                     {pipePaths.slice(0, 3).map((m) => <polyline class={`abt-mep abt-mep-${m.c}`} pathLength="1" points={m.d} />)}
                   </g>
 
-                  <!-- Podium Wing Volume -->
                   <g class="abt-fill">
-                    <polygon points={podiumWing.left} fill="url(#glassLeft)" />
-                    <polygon points={podiumWing.right} fill="url(#glassRight)" />
-                    <polygon points={podiumWing.top} fill="url(#glassRoof)" />
+                    <polygon points={podiumWing.left} fill="#3a3a3d" />
+                    <polygon points={podiumWing.right} fill="#525254" />
+                    <polygon points={podiumWing.top} fill="#5b3b27" />
                   </g>
                   <g class="abt-wires">
                     <polygon class="abt-wire abt-wa" pathLength="1" points={podiumWing.left} />
@@ -228,12 +258,11 @@ const gridLines: string[] = [];
                     {podiumWing.glassPanels.map((w, i) => <polygon points={w} style={`--w:${((i * 13) % 7) / 3}s`} />)}
                   </g>
 
-                  <!-- Animated Drone / Camera Orbit Ring -->
                   <g class="abt-orbit">
                     <path class="abt-orbit-path" d="M60,350 A210,110 0 0 1 480,350 A210,110 0 0 1 60,350" />
                   </g>
                   <g class="abt-orbit abt-cam">
-                    <circle r="6" fill="#d2b487" class="abt-cam-dot">
+                    <circle r="6" fill="#8f6444" class="abt-cam-dot">
                       <animateMotion dur="8s" repeatCount="indefinite" path="M60,350 A210,110 0 0 1 480,350 A210,110 0 0 1 60,350" />
                     </circle>
                   </g>
@@ -244,40 +273,164 @@ const gridLines: string[] = [];
         </div>
       </section>
 
-      <!-- ================= WHY ================= -->
-      <section class="abt-why">
+      <!-- ================= 1. TRUSTED BY LOGO STRIP ================= -->
+      <section class="abt-trust-strip">
         <div class="abt-wrap">
-          <div class="abt-why-panel" data-reveal>
-            <div>
-              <span class="abt-kicker">{pageData.whyTitle}</span>
-              <h2 class="abt-why-h2">{whyA} <span>{whyB}</span></h2>
+          <div class="abt-trust-strip-inner" data-reveal>
+            <p class="abt-trust-strip-text">Join 40+ studios and developers trusting AXYS3D for their architectural visualization needs.</p>
+            <div class="abt-trust-logos-row">
+              {clientLogos.map((c) => (
+                <div class="abt-trust-logo-item">
+                  <span>{c.symbol}</span>
+                  <span>{c.name}</span>
+                </div>
+              ))}
             </div>
-            <p class="abt-why-desc">{pageData.whyDescription}</p>
           </div>
         </div>
       </section>
 
-      <!-- ================= PRINCIPLES ================= -->
-      <section class="abt-principles">
+      <!-- ================= 2. BENTO SECTION ================= -->
+      <section class="abt-bento-section">
         <div class="abt-wrap">
-          <div class="abt-principles-header" data-reveal>
-            <div class="abt-principles-header-left">
-              <span class="abt-kicker">Principles</span>
-              <h2 class="abt-principles-h2">What guides <span>our work</span></h2>
-            </div>
+          <div class="abt-section-title-wrap" data-reveal>
+            <span class="abt-pill-badge">WHY AXYS3D</span>
+            <h2>Why architectural leaders <span>choose AXYS3D</span></h2>
+            <p>{pageData.whyDescription || "Exceptional 3D coordination and unmatched photorealism that set the benchmark for modern architecture."}</p>
           </div>
 
-          <div class="abt-principles-grid">
-            {
-              pageData.principles &&
-                pageData.principles.map((item) => (
-                  <div class="abt-principle-card" data-reveal>
-                    <span class="abt-card-num">{item.num}</span>
-                    <h3 class="abt-card-title">{item.title}</h3>
-                    <p class="abt-card-desc">{item.description}</p>
+          <div class="abt-bento-grid">
+            <!-- Left Tall Card -->
+            <div class="abt-bento-card abt-bento-card--tall" data-reveal>
+              <div>
+                <div class="abt-bento-tall-media">
+                  <img src={IMG.tallBento} alt="3D Coordination" loading="lazy" />
+                </div>
+                <h3>Precision-crafted BIM & visual coordination to deliver unmatched architectural clarity.</h3>
+              </div>
+              <a href="/Process" class="abt-bento-pill-btn">
+                <span>Explore Process</span>
+                <span>→</span>
+              </a>
+            </div>
+
+            <!-- Top Center Card -->
+            <div class="abt-bento-card abt-bento-card--handshake" data-reveal style="--d:80ms">
+              <div class="abt-bento-handshake-media">
+                <img src={IMG.handshake} alt="Partnership" loading="lazy" />
+              </div>
+              <h4>Trusted by <span>studios & developers</span> worldwide.</h4>
+            </div>
+
+            <!-- Top Right Card (Stats with warm tint) -->
+            <div class="abt-bento-card--stats abt-bento-card" data-reveal style="--d:160ms">
+              <div class="abt-bento-stats-grid">
+                {stats.map((s) => (
+                  <div class="abt-bento-stat-item">
+                    <div class="abt-stat-num">
+                      <span data-count-to={s.value} data-decimals={s.decimals ?? 0}>0</span>
+                      <em>{s.suffix}</em>
+                    </div>
+                    <span class="abt-stat-label">{s.label}</span>
                   </div>
-                ))
-            }
+                ))}
+              </div>
+            </div>
+
+            <!-- Bottom Wide Card with Full Image & Gradient Overlay -->
+            <div class="abt-bento-card abt-bento-card--wide" data-reveal style="--d:220ms">
+              <img src={IMG.wideBento} alt="Architectural space" class="abt-bento-wide-bg" loading="lazy" />
+              <div class="abt-bento-wide-overlay" aria-hidden="true"></div>
+              <div class="abt-bento-wide-content">
+                <h3>Elevates design clarity and <span>transforms intent</span> into reality.</h3>
+                <p>Our role is to add dependable production capability without blurring authorship or structure. Every engagement starts with checked scope, MEP coordination, and zero site clash risk.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 3. PRINCIPLES (LEFT HEADING + RIGHT 2x2 COMPACT GREY CARDS) ================= -->
+      <section class="abt-principles">
+        <div class="abt-wrap">
+          <div class="abt-principles-split">
+            <!-- Left Side: Main Heading -->
+            <div class="abt-principles-left" data-reveal>
+              <span class="abt-kicker">Principles</span>
+              <h2 class="abt-principles-h2">What guides <span>our work</span></h2>
+              <p class="abt-principles-lead">Our foundational guidelines for delivering checked architectural models, seamless workflows, and reliable visualizations.</p>
+            </div>
+
+            <!-- Right Side: 2 Up 2 Down Compact Grey Cards -->
+            <div class="abt-principles-grid-2x2">
+              {
+                pageData.principles &&
+                  pageData.principles.map((item, idx) => (
+                    <div class="abt-principle-card-grey" data-reveal style={`--d:${idx * 80}ms`}>
+                      <span class="abt-card-num">{item.num}</span>
+                      <h3 class="abt-card-title">{item.title}</h3>
+                      <p class="abt-card-desc">{item.description}</p>
+                    </div>
+                  ))
+              }
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 4. THE TEAM (IMAGE 13 STYLE) ================= -->
+      {team.length > 0 && (
+        <section class="abt-team">
+          <div class="abt-wrap">
+            <div class="abt-section-title-wrap" data-reveal style="margin-bottom: 40px;">
+              <span class="abt-pill-badge">THE TEAM</span>
+              <h2>The people <span>behind the work</span></h2>
+            </div>
+            <div class="abt-team-grid">
+              {team.map((m, i) => (
+                <div class="abt-team-card-image" data-reveal style={`--d:${i * 80}ms`}>
+                  <img src={m.image} alt={m.name} loading="lazy" />
+                  <div class="abt-team-floating-badge">
+                    <div class="abt-team-badge-info">
+                      <h4>{m.name}</h4>
+                      <span>{m.role}</span>
+                    </div>
+                    <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer" class="abt-team-linkedin-btn" aria-label="LinkedIn profile">
+                      <svg viewBox="0 0 24 24"><path d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.28 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.75M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.94v-8.37H5.5v8.37h2.77z"/></svg>
+                    </a>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <!-- ================= 5. TESTIMONIALS ================= -->
+      <section class="abt-quotes">
+        <div class="abt-wrap">
+          <div class="abt-section-title-wrap" data-reveal>
+            <span class="abt-pill-badge">TESTIMONIALS</span>
+            <h2>What our clients <span>say</span></h2>
+            <p>Hear from architectural studios and developers who trust AXYS3D for their most critical project milestones.</p>
+          </div>
+
+          <div class="abt-quotes-grid">
+            {quotes.map((q, i) => (
+              <div class="abt-quote-bubble-card" data-reveal style={`--d:${i * 90}ms`}>
+                <div class="abt-bubble-box">
+                  <p class="abt-bubble-text">{q.text}</p>
+                  <div class="abt-bubble-stars" aria-label="5 stars rating">★★★★★</div>
+                </div>
+                <div class="abt-bubble-author">
+                  <img src={q.avatar} alt={q.name} class="abt-bubble-avatar" loading="lazy" />
+                  <div class="abt-bubble-meta">
+                    <b>{q.name}</b>
+                    <small>{q.time}</small>
+                  </div>
+                </div>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -300,7 +453,6 @@ const gridLines: string[] = [];
     <Footer />
 
     <script is:inline>
-      // Scroll Reveal Observer
       const revealObserver = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
@@ -313,6 +465,32 @@ const gridLines: string[] = [];
         { threshold: 0.12 }
       );
       document.querySelectorAll("[data-reveal]").forEach((el) => revealObserver.observe(el));
+
+      function animateCount(el) {
+        const target = parseFloat(el.dataset.countTo || "0");
+        const decimals = parseInt(el.dataset.decimals || "0", 10);
+        const duration = 1400;
+        const start = performance.now();
+        function tick(now) {
+          const p = Math.min((now - start) / duration, 1);
+          const v = target * (1 - Math.pow(1 - p, 3));
+          el.textContent = decimals > 0 ? v.toFixed(decimals) : String(Math.round(v));
+          if (p < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      }
+      const countObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              animateCount(entry.target);
+              countObserver.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.4 }
+      );
+      document.querySelectorAll("[data-count-to]").forEach((el) => countObserver.observe(el));
     </script>
   </body>
 </html>

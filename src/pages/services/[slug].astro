@@ -1,7 +1,5 @@
 ---
 // src/pages/services/[slug].astro
-// Dynamic detail page for individual architectural/AEC services
-
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import "../../styles/token.css";
@@ -9,7 +7,7 @@ import "../../styles/global.css";
 import "../../styles/Navbar.css";
 import "../../styles/service-details.css";
 import "../../styles/footer.css";
-import { getCollection, render } from "astro:content";
+import { getCollection } from "astro:content";
 
 export async function getStaticPaths() {
   const services = await getCollection("services");
@@ -31,141 +29,66 @@ const {
   serviceNumber,
   serviceLabel,
   description,
-  bestFitBuyers = [],
-  projectStages = [],
-  engagementContext = [],
 } = service.data;
-const p = service.data as any;
-const stageCount = projectStages.length;
-
-const { Content } = await render(service);
-
-// --- helpers ---
-const titleWords: string[] = title.split(/\s+/).filter(Boolean);
-const titleSplit = Math.ceil(titleWords.length / 2);
 
 const pad = (n: number | string) => String(n).padStart(2, "0");
 
+/* Heading Split: Pehla hissa white, doosra brown */
+const titleWords: string[] = title.split(/\s+/).filter(Boolean);
+const titleSplit = Math.ceil(titleWords.length / 2);
+const titleA = titleWords.slice(0, titleSplit).join(" ");
+const titleB = titleWords.slice(titleSplit).join(" ");
 
-// --- markdown body -> modules (cream / dark cards) ---
-const escapeHtml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-const inline = (s: string) =>
-  escapeHtml(s)
-    .replace(/`([^`]+)`/g, "<code>$1</code>")
-    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
-    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<em>$2</em>")
-    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>');
+/* Trusted Studios */
+const trustedLogos = [
+  { name: "Verisure", sym: "◆" },
+  { name: "Layerise", sym: "⚡" },
+  { name: "Collective", sym: "❖" },
+  { name: "Axis Studio", sym: "▲" },
+  { name: "BIM Co", sym: "◉" },
+];
 
-type Block = { t: "p" | "h3"; html: string } | { t: "ul"; items: string[] };
-type Module = { title: string; blocks: Block[] };
+/* Real High-Res Architectural Imagery for Case Studies */
+const q = "?auto=format&fit=crop&w=1200&q=80";
+const caseStudies = [
+  {
+    title: "Skyline Residential Tower",
+    type: "Full BIM & Facade Coordination",
+    result: "Zero on-site clashes across 42 floors",
+    image: `https://images.unsplash.com/photo-1486406146926-c627a92ad1ab${q}`,
+  },
+  {
+    title: "Nordic Cultural Pavilion",
+    type: "Photoreal Exterior Stills & Tour",
+    result: "Competition winner render package",
+    image: `https://images.unsplash.com/photo-1600585154340-be6161a56a0c${q}`,
+  },
+  {
+    title: "Metropolitan Mixed-Use",
+    type: "MEP Routing & Spatial Audit",
+    result: "7-day turnaround delivery",
+    image: `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9${q}`,
+  },
+];
 
-function parseBody(md: string) {
-  const intro: Block[] = [];
-  const mods: Module[] = [];
-  let cur: Module | null = null;
-  let para: string[] = [];
-  let list: string[] | null = null;
-  const target = () => (cur ? cur.blocks : intro);
-  const flushPara = () => { if (para.length) { target().push({ t: "p", html: inline(para.join(" ")) }); para = []; } };
-  const flushList = () => { if (list) { target().push({ t: "ul", items: list }); list = null; } };
-
-  for (const raw of md.replace(/\r/g, "").split("\n")) {
-    const line = raw.trim();
-    let m: RegExpMatchArray | null;
-    if ((m = line.match(/^##\s+(.*)$/))) {
-      flushPara(); flushList();
-      cur = { title: m[1].replace(/[*_`]/g, ""), blocks: [] };
-      mods.push(cur);
-    } else if ((m = line.match(/^#{3,6}\s+(.*)$/))) {
-      flushPara(); flushList();
-      target().push({ t: "h3", html: inline(m[1]) });
-    } else if ((m = line.match(/^(?:[-*+]|\d+\.)\s+(.*)$/))) {
-      flushPara();
-      if (!list) list = [];
-      list.push(inline(m[1]));
-    } else if (line === "") {
-      flushPara(); flushList();
-    } else if (list && /^\s/.test(raw)) {
-      list[list.length - 1] += " " + inline(line);
-    } else if (/^#\s/.test(line) || /^(---|\*\*\*|___)$/.test(line)) {
-      // ignore h1 and rules
-    } else {
-      flushList();
-      para.push(line);
-    }
-  }
-  flushPara(); flushList();
-  return { intro, mods };
-}
-
-const rawBody: string = ((service as any).body as string) ?? "";
-const tooComplex = /^\s*(```|\||>|!\[|import\s|export\s|<[A-Za-z])/m.test(rawBody);
-const parsed = rawBody && !tooComplex ? parseBody(rawBody) : { intro: [] as Block[], mods: [] as Module[] };
-const useModules = parsed.mods.length > 0;
-const introHtml = parsed.intro
-  .filter((b): b is { t: "p" | "h3"; html: string } => b.t !== "ul")
-  .map((b) => b.html)
-  .join(" ");
-// checkerboard: cream/dark alternate across 2 columns
-const isCream = (i: number) => (i + Math.floor(i / 2)) % 2 === 0;
-
-// ---------- FAQs ----------
-// 1) frontmatter:  faqs: [{ question: "...", answer: "..." }]
-// 2) otherwise a markdown section called FAQ / Frequently asked questions / Common questions
-const stripTags = (s: string) => s.replace(/<[^>]+>/g, "").trim();
-const isFaqTitle = (t: string) => /faq|frequently asked|common questions/i.test(t);
-const faqModule = parsed.mods.find((m: Module) => isFaqTitle(m.title));
-
-const faqFromModule = (m: Module): Array<{ q: string; a: string }> => {
-  const out: Array<{ q: string; a: string }> = [];
-  let cur: { q: string; a: string[] } | null = null;
-  const push = () => { if (cur && cur.a.length) out.push({ q: cur.q, a: cur.a.join("</p><p>") }); cur = null; };
-  for (const b of m.blocks) {
-    if (b.t === "h3") { push(); cur = { q: stripTags(b.html), a: [] }; }
-    else if (b.t === "p") {
-      const mm = b.html.match(/^<strong>(.+?)<\/strong>\s*[—–:\-]?\s*(.*)$/);
-      if (!cur && mm) { push(); out.push({ q: stripTags(mm[1]), a: mm[2] }); }
-      else if (cur) cur.a.push(b.html);
-    } else if (b.t === "ul") {
-      push();
-      for (const it of b.items) {
-        const s = it.match(/^<strong>(.+?)<\/strong>\s*[—–:\-]?\s*(.*)$/);
-        if (s && s[2]) out.push({ q: stripTags(s[1]), a: s[2] });
-        else {
-          const k = it.indexOf("?");
-          if (k > 0 && k < it.length - 1) out.push({ q: stripTags(it.slice(0, k + 1)), a: it.slice(k + 1).trim() });
-        }
-      }
-    }
-  }
-  push();
-  return out.filter((f) => f.q && f.a);
-};
-
-const dataFaqs: Array<{ q: string; a: string }> = (Array.isArray(p.faqs) ? p.faqs : Array.isArray(p.faq) ? p.faq : [])
-  .map((f: any) => ({ q: String(f.question ?? f.q ?? ""), a: escapeHtml(String(f.answer ?? f.a ?? "")) }))
-  .filter((f: { q: string; a: string }) => f.q && f.a);
-
-const faqs = dataFaqs.length > 0 ? dataFaqs : faqModule ? faqFromModule(faqModule) : [];
-const detailMods: Module[] = parsed.mods.filter((m: Module) => m !== faqModule || faqs.length === 0);
-
-// ---------- detail section: module -> { intro paragraphs, groups (label + content) } ----------
-type Group = { label: string; blocks: Block[]; wide: boolean };
-const specOf = (m: Module) => {
-  const intro: string[] = [];
-  const groups: Group[] = [];
-  let cur: Group | null = null;
-  for (const b of m.blocks) {
-    if (b.t === "h3") { cur = { label: b.html, blocks: [], wide: false }; groups.push(cur); }
-    else if (!cur) { if (b.t === "p") intro.push(b.html); else { cur = { label: "", blocks: [b], wide: false }; groups.push(cur); } }
-    else cur.blocks.push(b);
-  }
-  // groups that contain prose (e.g. "Review gate: ...") read better full width
-  groups.forEach((g) => { g.wide = g.blocks.some((b) => b.t === "p"); });
-  return { intro, groups };
-};
-const specMods = detailMods.map((m: Module) => ({ title: m.title, ...specOf(m) }));
-
+/* Key Deliverables Overview */
+const deliverables = [
+  {
+    num: "01",
+    title: "Checked 3D Models",
+    desc: "Clean geometry authoring in Revit & CAD adhering to strict LOD standards.",
+  },
+  {
+    num: "02",
+    title: "Clash & MEP Audits",
+    desc: "Complete clash detection reports before documentation reaches the site.",
+  },
+  {
+    num: "03",
+    title: "Cinematic Visuals",
+    desc: "4K photoreal renders, real-time walkthroughs, and presentation materials.",
+  },
+];
 ---
 
 <!doctype html>
@@ -174,252 +97,161 @@ const specMods = detailMods.map((m: Module) => ({ title: m.title, ...specOf(m) }
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <title>{title} — Axys3D</title>
+    <title>{title} — AXYS3D</title>
     <script is:inline>
       document.documentElement.classList.add("js");
     </script>
   </head>
 
   <body class="page-service-detail">
-    <!-- background reaches the very top (behind the transparent navbar) -->
+    <!-- Subtle Background Gradient -->
     <div class="svcd-page-bg" aria-hidden="true"></div>
 
     <Navbar variant="solid" />
 
     <main class="svcd-page">
-
-      <!-- =========== HERO (text only, left) =========== -->
+      <!-- ================= 1. HERO (CONCISE & IMPACTFUL) ================= -->
       <section class="svcd-hero">
         <div class="svcd-wrap">
-          <a class="svcd-back" href="/Services/"><span>←</span> All services</a>
-          <span class="svcd-kicker">Service {pad(serviceNumber)} / {serviceLabel}</span>
+          <div class="svcd-hero-inner">
+            <span class="svcd-kicker">SERVICE {pad(serviceNumber)} / {serviceLabel}</span>
 
-          <h1 class="svcd-h1">
-            <span class="svcd-h1-visual" aria-hidden="true">
-              {titleWords.map((w: string, i: number) => (
-                <span class={`svcd-word${i >= titleSplit ? " svcd-word--muted" : ""}`} style={`--i:${i}`}>{w}</span>
-              ))}
-            </span>
-            <span class="sr-only">{title}</span>
-          </h1>
+            <h1 class="svcd-h1">
+              {titleA} <span>{titleB}</span>
+            </h1>
 
-          <p class="svcd-lead">{description}</p>
+            <p class="svcd-lead">{description}</p>
+
+            <div class="svcd-hero-actions">
+              <a href="#case-studies" class="svcd-btn-primary">
+                <span>See Case Studies</span>
+                <span>↓</span>
+              </a>
+              <a href="/Contact/" class="svcd-btn-ghost">
+                <span>Start a Project</span>
+                <span>↗</span>
+              </a>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- =========== FIT & CONTEXT (bento) =========== -->
-      {(bestFitBuyers.length > 0 || engagementContext.length > 0) && (
-        <section class="svcd-section svcd-section--first">
-          <div class="svcd-wrap">
-            <div class="svcd-head svcd-reveal">
-              <div>
-                <span class="svcd-kicker">Fit &amp; context</span>
-                <h2 class="svcd-h2">Built for the right buyers, <span>in the right context.</span></h2>
-              </div>
-              <p class="svcd-head-note">Who this service fits best, and the context it is delivered in.</p>
-            </div>
-
-            <div class="svcd-bento">
-              {bestFitBuyers.length > 0 && (
-                <article class="svcd-card svcd-card--cream svcd-reveal" style="--d:0.05s">
-                  <div class="svcd-card-top">
-                    <span class="svcd-tag">Best-fit buyers</span>
-                    <span class="svcd-card-num">01</span>
-                  </div>
-                  <h3 class="svcd-card-title">Who it's built for</h3>
-                  <p class="svcd-card-desc">{bestFitBuyers.length} buyer types this service fits best.</p>
-                  <ul class="svcd-rows" data-rows>
-                    {bestFitBuyers.map((t: string, i: number) => (
-                      <li class={`svcd-row${i === 0 ? " is-active" : ""}`}>{t}</li>
-                    ))}
-                  </ul>
-                </article>
-              )}
-
-              {engagementContext.length > 0 && (
-                <article class="svcd-card svcd-card--dark svcd-reveal" style="--d:0.12s">
-                  <div class="svcd-card-top">
-                    <span class="svcd-tag">Engagement context</span>
-                    <span class="svcd-card-num">02</span>
-                  </div>
-                  <h3 class="svcd-card-title">How it's delivered</h3>
-                  <p class="svcd-card-desc">{engagementContext.length} points that shape how we work with you.</p>
-                  <ul class="svcd-rows" data-rows>
-                    {engagementContext.map((t: string, i: number) => (
-                      <li class={`svcd-row${i === 0 ? " is-active" : ""}`}>{t}</li>
-                    ))}
-                  </ul>
-                </article>
-              )}
-
-              <div class="svcd-stack">
-                <article class="svcd-card svcd-card--cream svcd-stat svcd-reveal" style="--d:0.19s">
-                  <span class="svcd-tag">Project stages</span>
-                  <div>
-                    <span class="svcd-stat-num">{pad(stageCount)}</span>
-                    <p class="svcd-stat-sub">Stages from first brief to structured handoff.</p>
-                  </div>
-                </article>
-                <article class="svcd-card svcd-card--dark svcd-stat svcd-reveal" style="--d:0.26s">
-                  <span class="svcd-tag">Service</span>
-                  <div>
-                    <span class="svcd-stat-num">{pad(serviceNumber)}</span>
-                    <p class="svcd-stat-sub">{serviceLabel}</p>
-                  </div>
-                </article>
-              </div>
-            </div>
-          </div>
-        </section>
-      )}
-
-      <!-- =========== PROCESS (stage viewer + stepper) =========== -->
-      {stageCount > 0 && (
-        <section class="svcd-section">
-          <div class="svcd-wrap">
-            <div class="svcd-head svcd-reveal">
-              <div>
-                <span class="svcd-kicker">Process</span>
-                <h2 class="svcd-h2">{stageCount} stages, <span>brief to handoff.</span></h2>
-              </div>
-              <p class="svcd-head-note">Every package moves through the same ordered stages. Hover a stage to pause.</p>
-            </div>
-
-            <div class="svcd-process" data-process>
-              <article class="svcd-card svcd-card--cream svcd-focus svcd-reveal">
-                <div class="svcd-card-top">
-                  <span class="svcd-tag">Current stage</span>
-                  <span class="svcd-card-num"><span data-focus-count>01</span> / {pad(stageCount)}</span>
-                </div>
-                <span class="svcd-focus-num" data-focus-num>01</span>
-                <h3 class="svcd-focus-title" data-focus-title>{projectStages[0]}</h3>
-                <div class="svcd-focus-dots" aria-hidden="true">
-                  {projectStages.map((_: string, i: number) => <span class={i === 0 ? "is-active" : ""}></span>)}
-                </div>
-              </article>
-
-              <ol class="svcd-stepper">
-                {projectStages.map((stage: string, i: number) => (
-                  <li class={`svcd-stage svcd-reveal${i === 0 ? " is-active" : ""}`} data-stage data-title={stage} style={`--d:${i * 0.06}s`}>
-                    <span class="svcd-stage-node">{pad(i + 1)}</span>
-                    <span class="svcd-stage-title">{stage}</span>
-                    <span class="svcd-stage-bar" aria-hidden="true"><span></span></span>
-                  </li>
-                ))}
-              </ol>
-            </div>
-          </div>
-        </section>
-      )}
-
-      <!-- =========== SERVICE DETAIL (markdown -> modules) =========== -->
-      {(!useModules || detailMods.length > 0) && (
-      <section class="svcd-section">
+      <!-- ================= 2. TRUSTED BY LOGO STRIP ================= -->
+      <section class="svcd-trust-sec">
         <div class="svcd-wrap">
-          <div class="svcd-head svcd-reveal">
-            <div>
-              <span class="svcd-kicker">Service detail</span>
-              <h2 class="svcd-h2">Scope and delivery, <span>in detail.</span></h2>
-            </div>
-            {useModules && detailMods.length > 0 && introHtml
-              ? <p class="svcd-head-note" set:html={introHtml}></p>
-              : <p class="svcd-head-note">What this service covers and how the work is run.</p>}
-          </div>
-
-          {useModules ? (
-            <div class="svcd-spec">
-              <nav class="svcd-spec-nav" aria-label="Sections in this service">
-                <span class="svcd-spec-nav-label">In this section</span>
-                <ol>
-                  {specMods.map((m, i) => (
-                    <li>
-                      <a href={`#detail-${i + 1}`} data-spec-link class={i === 0 ? "is-active" : ""}>
-                        <span class="svcd-spec-nav-num">{pad(i + 1)}</span>
-                        <span>{m.title}</span>
-                      </a>
-                    </li>
-                  ))}
-                </ol>
-              </nav>
-
-              <div class="svcd-spec-body">
-                {specMods.map((m, i) => (
-                  <article class="svcd-spec-item svcd-reveal" id={`detail-${i + 1}`} data-spec-item>
-                    <header class="svcd-spec-top">
-                      <span class="svcd-spec-num">{pad(i + 1)}</span>
-                      <h3 class="svcd-spec-title">{m.title}</h3>
-                    </header>
-
-                    {m.intro.length > 0 && <p class="svcd-spec-intro" set:html={m.intro.join(" ")}></p>}
-
-                    {m.groups.length > 0 && (
-                      <div class="svcd-spec-groups">
-                        {m.groups.map((g) => (
-                          <section class={`svcd-spec-group${g.wide ? " is-wide" : ""}`}>
-                            {g.label && <h4 class="svcd-spec-label" set:html={g.label}></h4>}
-                            {g.blocks.map((blk) =>
-                              blk.t === "ul" ? (
-                                <ul class="svcd-spec-items">
-                                  {blk.items.map((it: string) => <li set:html={it}></li>)}
-                                </ul>
-                              ) : blk.t === "p" ? (
-                                <p class="svcd-spec-text" set:html={blk.html}></p>
-                              ) : null
-                            )}
-                          </section>
-                        ))}
-                      </div>
-                    )}
-                  </article>
-                ))}
-              </div>
-            </div>
-          ) : (
-            <div class="svcd-prose">
-              <Content />
-            </div>
-          )}
-        </div>
-      </section>
-      )}
-
-      <!-- =========== FAQ =========== -->
-      {faqs.length > 0 && (
-        <section class="svcd-section svcd-faq-section" id="faq">
-          <div class="svcd-wrap">
-            <div class="svcd-faq-head svcd-reveal">
-              <span class="svcd-kicker">Technical fit</span>
-              <h2 class="svcd-h2">Common questions <span>before scope is fixed.</span></h2>
-            </div>
-
-            <div class="svcd-faq" data-faq>
-              {faqs.map((f, i) => (
-                <div class="svcd-faq-item svcd-reveal" style={`--d:${i * 0.07}s`}>
-                  <button class="svcd-faq-q" type="button" aria-expanded="false" aria-controls={`faq-a-${i}`} id={`faq-q-${i}`}>
-                    <span class="svcd-faq-idx">{i + 1}</span>
-                    <span class="svcd-faq-text">{f.q}</span>
-                    <span class="svcd-faq-plus" aria-hidden="true"></span>
-                  </button>
-                  <div class="svcd-faq-a" id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`}>
-                    <div class="svcd-faq-a-inner"><p set:html={f.a}></p></div>
-                  </div>
+          <div class="svcd-trust-inner" data-reveal>
+            <span class="svcd-trust-label">TRUSTED BY TEAMS ACROSS AEC & REAL ESTATE</span>
+            <div class="svcd-trust-logos">
+              {trustedLogos.map((item) => (
+                <div class="svcd-trust-item">
+                  <span class="svcd-trust-sym">{item.sym}</span>
+                  <span class="svcd-trust-name">{item.name}</span>
                 </div>
               ))}
             </div>
           </div>
-        </section>
-      )}
+        </div>
+      </section>
 
+      <!-- ================= 3. VIDEO & INTERACTIVE WALKTHROUGH ================= -->
+      <section class="svcd-video-sec">
+        <div class="svcd-wrap">
+          <div class="svcd-sec-head" data-reveal>
+            <div>
+              <span class="svcd-kicker">MOTION &amp; EXECUTION</span>
+              <h2 class="svcd-h2">Experience the production, <span>in motion.</span></h2>
+            </div>
+            <p class="svcd-sec-desc">Explore live render fidelity, spatial walkthroughs, and precise coordinated modeling.</p>
+          </div>
 
-      <!-- =========== FINAL CTA =========== -->
+          <div class="svcd-video-card" data-reveal>
+            <img
+              src="https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1800&q=80"
+              alt="3D Walkthrough preview"
+              class="svcd-video-cover"
+              loading="lazy"
+            />
+            <div class="svcd-video-overlay"></div>
+
+            <div class="svcd-video-badge">
+              <span class="svcd-pulse-dot"></span>
+              <span>4K REAL-TIME FLYTHROUGH</span>
+            </div>
+
+            <div class="svcd-play-btn-wrap">
+              <div class="svcd-play-btn" aria-label="Play Walkthrough Preview">
+                <svg viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M8 5v14l11-7z" />
+                </svg>
+              </div>
+              <span class="svcd-play-label">WATCH 60-SEC WALKTHROUGH REEL</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 4. CASE STUDIES & VISUAL GALLERY ================= -->
+      <section class="svcd-cases-sec" id="case-studies">
+        <div class="svcd-wrap">
+          <div class="svcd-sec-head" data-reveal>
+            <div>
+              <span class="svcd-kicker">SELECTED WORK</span>
+              <h2 class="svcd-h2">Recent projects &amp; <span>deliverables.</span></h2>
+            </div>
+            <p class="svcd-sec-desc">Real case studies executed under strict timelines with verified delivery standards.</p>
+          </div>
+
+          <div class="svcd-cases-grid">
+            {caseStudies.map((item, idx) => (
+              <div class="svcd-case-card" data-reveal style={`--d:${idx * 90}ms`}>
+                <div class="svcd-case-thumb">
+                  <img src={item.image} alt={item.title} loading="lazy" />
+                  <span class="svcd-case-tag">{item.type}</span>
+                </div>
+                <div class="svcd-case-info">
+                  <h3 class="svcd-case-title">{item.title}</h3>
+                  <p class="svcd-case-res">✓ {item.result}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 5. WHAT WE DELIVER (COMPACT CARDS) ================= -->
+      <section class="svcd-deliver-sec">
+        <div class="svcd-wrap">
+          <div class="svcd-sec-head" data-reveal>
+            <div>
+              <span class="svcd-kicker">SCOPE OVERVIEW</span>
+              <h2 class="svcd-h2">What you receive in <span>every package.</span></h2>
+            </div>
+            <p class="svcd-sec-desc">Clear, audited assets ready for immediate presentation, client sign-off, or site coordination.</p>
+          </div>
+
+          <div class="svcd-deliver-grid">
+            {deliverables.map((d, i) => (
+              <div class="svcd-deliver-card" data-reveal style={`--d:${i * 80}ms`}>
+                <span class="svcd-deliver-num">{d.num}</span>
+                <h3 class="svcd-deliver-title">{d.title}</h3>
+                <p class="svcd-deliver-desc">{d.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= 6. FINAL CTA ================= -->
       <section class="svcd-final-cta">
-        <div class="svcd-final-inner svcd-reveal">
-          <h2>Ready to configure this <span>production workflow?</span></h2>
-          <p>Align model authoring, technical requirements, and deliverable standards with our studio team.</p>
-          <a href="/Contact/" class="svcd-final-btn">
-            <span>Define production package</span>
-            <span>↗</span>
-          </a>
+        <div class="svcd-wrap">
+          <div class="svcd-final-inner" data-reveal>
+            <h2>Ready to configure this <span>production workflow?</span></h2>
+            <p>Align model authoring, technical requirements, and deliverable standards with our studio leads.</p>
+            <a href="/Contact/" class="svcd-final-btn">
+              <span>Book technical session</span>
+              <span>↗</span>
+            </a>
+          </div>
         </div>
       </section>
     </main>
@@ -427,99 +259,19 @@ const specMods = detailMods.map((m: Module) => ({ title: m.title, ...specOf(m) }
     <Footer />
 
     <script is:inline>
-      // every block of the markdown body reveals on its own (tall pages never trigger one big observer)
-      document.querySelectorAll(".svcd-prose > *").forEach((el) => el.classList.add("svcd-reveal"));
-
-      // scroll reveal
-      const revealEls = document.querySelectorAll(".svcd-reveal");
-      if ("IntersectionObserver" in window) {
-        const io = new IntersectionObserver(
-          (entries) => entries.forEach((e) => {
-            if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); }
-          }),
-          { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
-        );
-        revealEls.forEach((el) => io.observe(el));
-      } else {
-        revealEls.forEach((el) => el.classList.add("is-visible"));
-      }
-
-      // list rows: highlight follows the mouse
-      document.querySelectorAll("[data-rows]").forEach((list) => {
-        const rows = list.querySelectorAll(".svcd-row");
-        rows.forEach((row) => row.addEventListener("mouseenter", () => {
-          rows.forEach((r) => r.classList.remove("is-active"));
-          row.classList.add("is-active");
-        }));
-      });
-
-      // service detail: highlight the index link for the section in view
-      (function () {
-        const links = Array.from(document.querySelectorAll("[data-spec-link]"));
-        const items = Array.from(document.querySelectorAll("[data-spec-item]"));
-        if (!links.length || !("IntersectionObserver" in window)) return;
-        const io = new IntersectionObserver(
-          (entries) => entries.forEach((e) => {
-            if (!e.isIntersecting) return;
-            const id = e.target.id;
-            links.forEach((l) => l.classList.toggle("is-active", l.getAttribute("href") === "#" + id));
-          }),
-          { rootMargin: "-25% 0px -60% 0px" }
-        );
-        items.forEach((el) => io.observe(el));
-      })();
-
-      // process: stage viewer + stepper (auto-cycle, hover to take control)
-      (function () {
-        const root = document.querySelector("[data-process]");
-        if (!root) return;
-        const stages = Array.from(root.querySelectorAll("[data-stage]"));
-        const dots = Array.from(root.querySelectorAll(".svcd-focus-dots span"));
-        const numEl = root.querySelector("[data-focus-num]");
-        const countEl = root.querySelector("[data-focus-count]");
-        const titleEl = root.querySelector("[data-focus-title]");
-        if (!stages.length) return;
-        const pad = (n) => String(n).padStart(2, "0");
-        let cur = 0, timer;
-
-        const set = (n) => {
-          cur = n;
-          stages.forEach((s, k) => s.classList.toggle("is-active", k === n));
-          dots.forEach((d, k) => d.classList.toggle("is-active", k === n));
-          if (numEl) numEl.textContent = pad(n + 1);
-          if (countEl) countEl.textContent = pad(n + 1);
-          if (titleEl) {
-            titleEl.textContent = stages[n].getAttribute("data-title");
-            titleEl.classList.remove("is-swap"); void titleEl.offsetWidth; titleEl.classList.add("is-swap");
-          }
-        };
-        const stop = () => clearInterval(timer);
-        const start = () => { stop(); timer = setInterval(() => set((cur + 1) % stages.length), 3400); };
-
-        set(0);
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        start();
-        stages.forEach((s, k) => {
-          s.addEventListener("mouseenter", () => { stop(); set(k); });
-          s.addEventListener("mouseleave", start);
-        });
-      })();
-
-      // faq accordion: one open at a time
-      (function () {
-        const items = document.querySelectorAll(".svcd-faq-item");
-        items.forEach((item) => {
-          const btn = item.querySelector(".svcd-faq-q");
-          btn.addEventListener("click", () => {
-            const open = item.classList.contains("is-open");
-            items.forEach((o) => {
-              o.classList.remove("is-open");
-              o.querySelector(".svcd-faq-q").setAttribute("aria-expanded", "false");
-            });
-            if (!open) { item.classList.add("is-open"); btn.setAttribute("aria-expanded", "true"); }
+      const revealItems = document.querySelectorAll("[data-reveal]");
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+              observer.unobserve(entry.target);
+            }
           });
-        });
-      })();
+        },
+        { threshold: 0.1 }
+      );
+      revealItems.forEach((el) => observer.observe(el));
     </script>
   </body>
 </html>
