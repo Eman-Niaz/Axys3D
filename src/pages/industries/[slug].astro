@@ -1,7 +1,5 @@
 ---
 // src/pages/industries/[slug].astro
-// Single industry workflow page with active hero background image & animations
-
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import "../../styles/token.css";
@@ -29,7 +27,7 @@ export async function getStaticPaths() {
   }
 
   return industries.map((entry) => ({
-    params: { slug: entry.id },  
+    params: { slug: entry.id },
     props: { entry },
   }));
 }
@@ -47,14 +45,13 @@ if (!entry && slug) {
 
 const data = entry?.data || ({} as Partial<CollectionEntry<"industries">["data"]>);
 
-// Safe type extraction with fallbacks
+// ---------- Content ----------
 const title: string = data.title || "Architecture & Design Practices";
 const serviceLabel: string = data.serviceLabel || "ARCHITECTURE-DESIGN-PRACTICES";
 const description: string =
   data.description ||
   "Extend BIM, Revit, modeling and visual communication capacity while the appointed practice retains design authorship, client leadership and professional issue.";
-const operatingContext: string =
-  data.operatingContext || "Production pressure needs a governed response.";
+const operatingContext: string = data.operatingContext || "Production pressure needs a governed response.";
 
 const buyerPressures: string[] = data.buyerPressures || [
   "Compressed submission and documentation programmes",
@@ -94,20 +91,167 @@ const responsibilityBoundary: string =
   data.responsibilityBoundary ||
   "The appointed practice retains design authorship, statutory responsibility and professional sign-off.";
 
-// --- helpers for the new layout ---
+// ---------- Helpers ----------
+const pad = (n: number | string) => String(n).padStart(2, "0");
+const norm = (s: any) => String(s ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+const flat = (v: any): string[] => (Array.isArray(v) ? v.flatMap(flat) : v ? [String(v)] : []);
+const asUrl = (v: any) => (v && typeof v === "object" ? v.src ?? "" : v ?? "");
+const pick = (d: any, keys: string[]) => { for (const k of keys) if (d?.[k]) return d[k]; return undefined; };
+
+const titleWords: string[] = title.split(/\s+/).filter(Boolean);
+const titleSplit = Math.max(1, Math.ceil(titleWords.length / 2));
+const lead = String(description).split(/(?<=[.!?])\s/)[0].slice(0, 190);
 const prettyLabel: string = serviceLabel
   .replace(/[-_]+/g, " ")
   .toLowerCase()
   .replace(/\b\w/g, (c: string) => c.toUpperCase());
 
-const titleWords: string[] = title.split(/\s+/).filter(Boolean);
-const titleSplit = Math.ceil(titleWords.length / 2);
+// ---------- Industry images ----------
+const industryImages = [
+  "https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?auto=format&fit=crop&w=1600&q=85",
+  "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=1600&q=85",
+  "https://images.unsplash.com/photo-1600566753086-00f18fb6b3ea?auto=format&fit=crop&w=1600&q=85",
+  "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?auto=format&fit=crop&w=1600&q=85",
+  "https://images.unsplash.com/photo-1600607688969-a5bfcd646154?auto=format&fit=crop&w=1600&q=85",
+  "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?auto=format&fit=crop&w=1600&q=85",
+  "https://images.unsplash.com/photo-1504307651254-35680f356dfd?auto=format&fit=crop&w=1600&q=85",
+  "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=85",
+];
 
-const ctxWords: string[] = operatingContext.split(/\s+/).filter(Boolean);
-const ctxSplit = Math.ceil(ctxWords.length / 2);
+let imgIndex = -1;
+try {
+  const pageEntry = await getEntry("industriesPage", "index");
+  const sections: any[] = (pageEntry?.data as any)?.industrySections ?? [];
+  const mySlug = norm(slug);
+  imgIndex = sections.findIndex(
+    (s: any) => norm(s.ctaLink).endsWith(mySlug) || norm(s.id) === mySlug || norm(s.title) === norm(title)
+  );
+} catch (e) {}
+if (imgIndex < 0) {
+  try {
+    const all = await getCollection("industries");
+    imgIndex = all.findIndex((e: any) => e.id === slug);
+  } catch (e) {}
+}
+if (imgIndex < 0) imgIndex = 0;
 
-const stageNames = ["Inputs", "Production", "Review", "Handoff"];
-const stageIcons = [
+const imgAt = (k: number) => industryImages[(imgIndex + k) % industryImages.length];
+const heroImage = imgAt(0);
+const collage = [imgAt(0), imgAt(1), imgAt(2)];
+
+// ---------- Services (3 Services for Horizontal View) ----------
+const q = "?auto=format&fit=crop&w=900&q=80";
+const U = (id: string) => `https://images.unsplash.com/${id}${q}`;
+const serviceImages: Record<string, string> = {
+  "bim-production": U("photo-1600585154340-be6161a56a0c"),
+  "mep-coordination": U("photo-1581092160607-ee22621dd758"),
+  "revit-production": U("photo-1600596542815-ffad4c1539a9"),
+  "animation": U("photo-1613977257363-707ba9348227"),
+  "real-time-vr": U("photo-1600607687939-ce8a6c25118c"),
+  "archviz-stills": U("photo-1600585154526-990dced4db0d"),
+  "architectural-visualization": U("photo-1600585154526-990dced4db0d"),
+  "3d-modeling": U("photo-1486406146926-c627a92ad1ab"),
+  "3ds-max-production": U("photo-1487958449943-2429e8be8625"),
+};
+const fallbackImages = Object.values(serviceImages);
+
+const serviceDescriptions: Record<string, string> = {
+  "bim-production": "Comprehensive BIM authoring, model coordination, and documentation aligned to client protocols.",
+  "mep-coordination": "Multidisciplinary clash detection, spatial coordination, and verified MEP system models.",
+  "revit-production": "High-efficiency Revit drafting, parametric family creation, and CD sheet generation.",
+  "3d-modeling": "Precise architectural and spatial 3D modeling for design validation and planning.",
+  "architectural-visualization": "High-fidelity photorealistic stills and lighting studies for planning and marketing.",
+  "animation": "Cinematic sequences and walkthroughs illustrating scale, materiality, and spatial flow.",
+};
+
+const serviceTags: Record<string, string[]> = {
+  "bim-production": ["BIM execution", "LOD 300-400", "Coordination"],
+  "mep-coordination": ["Clash detection", "MEP models", "Navisworks"],
+  "revit-production": ["Revit drafting", "CD sets", "Templates"],
+  "3d-modeling": ["Parametric", "Spatial 3D", "Rhino/3ds"],
+  "architectural-visualization": ["CGI stills", "Lighting", "Photoreal"],
+  "animation": ["Cinematics", "Walkthrough", "Real-time"],
+};
+
+let svcList: Array<{ slug: string; title: string; image: string }> = [];
+try {
+  const all = await getCollection("services");
+  svcList = all.map((s: any) => {
+    const sl = s.id.replace(/^\d+-/, "");
+    return { slug: sl, title: String(s.data.title ?? sl), image: s.data.image ?? serviceImages[sl] ?? "" };
+  });
+} catch (e) {}
+
+const slugHints: Array<[RegExp, string]> = [
+  [/bim/i, "bim"],
+  [/revit/i, "revit"],
+  [/mep/i, "mep"],
+  [/3ds/i, "3ds"],
+  [/3d.?model/i, "3d-model"],
+  [/visuali[sz]ation|archviz/i, "visual"],
+  [/animation/i, "animation"],
+  [/real.?time|vr/i, "real-time"],
+];
+const matchService = (name: string) => {
+  const k = norm(name);
+  let hit = svcList.find((s) => norm(s.title) === k || norm(s.title).includes(k) || k.includes(norm(s.title)));
+  if (hit) return hit;
+  for (const [re, part] of slugHints) {
+    if (re.test(name)) {
+      hit = svcList.find((s) => s.slug.includes(part) || norm(s.title).includes(norm(part)));
+      if (hit) return hit;
+    }
+  }
+  return undefined;
+};
+
+const svcCards = typicalServices.slice(0, 3).map((name: string, i: number) => {
+  const m = matchService(name);
+  const slugKey = m ? m.slug : "bim-production";
+  const desc = (m && serviceDescriptions[m.slug]) || "Extend production capacity with governed, template-aligned deliverables.";
+  const tags = (m && serviceTags[m.slug]) || ["Production", "Standard", "Governed"];
+  return {
+    name,
+    desc,
+    tags,
+    href: m ? `/services/${m.slug}` : "/Services/",
+    image: (m && (m.image || serviceImages[m.slug])) || fallbackImages[(i + imgIndex) % fallbackImages.length],
+  };
+});
+
+// ---------- Related projects ----------
+async function loadWork() {
+  for (const name of ["work", "caseStudies", "projects"]) {
+    try {
+      const items = await (getCollection as any)(name);
+      if (items && items.length) return items as any[];
+    } catch (e) {}
+  }
+  return [] as any[];
+}
+const workAll = await loadWork();
+const myKeys = [norm(slug), norm(title), norm(prettyLabel)].filter(Boolean);
+const isRelated = (e: any) => {
+  const d = e.data || {};
+  const hay = [
+    ...flat(d.industry), ...flat(d.industries), ...flat(d.sector), ...flat(d.sectors),
+    ...flat(d.category), ...flat(d.categories), ...flat(d.tags), ...flat(d.type),
+  ].map(norm);
+  return hay.some((h) => h && myKeys.some((k) => k === h || k.includes(h) || h.includes(k)));
+};
+const matched = workAll.filter(isRelated);
+const projects = (matched.length ? matched : workAll).slice(0, 6).map((e: any) => ({
+  title: e.data.title ?? e.data.name ?? "Project",
+  tag: flat(e.data.category ?? e.data.type ?? e.data.sector)[0] ?? "",
+  meta: flat(e.data.client ?? e.data.location)[0] ?? "",
+  image: asUrl(pick(e.data, ["poster", "image", "thumbnail", "cover", "coverImage", "heroImage", "hero"])),
+  video: asUrl(pick(e.data, ["video", "videoUrl", "videoSrc", "heroVideo", "previewVideo", "cardVideo", "preview"])),
+  href: `/work/${e.id.replace(/^\d+-/, "")}`,
+}));
+
+// ---------- Icons ----------
+const stepNames = ["Inputs", "Production", "Review", "Handoff"];
+const stepIcons = [
   '<path d="M14 3H7a2 2 0 00-2 2v14a2 2 0 002 2h10a2 2 0 002-2V8z"/><path d="M14 3v5h5"/>',
   '<circle cx="12" cy="12" r="3.2"/><path d="M12 3v2.5M12 18.5V21M3 12h2.5M18.5 12H21M5.6 5.6l1.8 1.8M16.6 16.6l1.8 1.8M18.4 5.6l-1.8 1.8M7.4 16.6l-1.8 1.8"/>',
   '<path d="M2 12s3.6-6.5 10-6.5S22 12 22 12s-3.6 6.5-10 6.5S2 12 2 12z"/><circle cx="12" cy="12" r="2.8"/>',
@@ -128,165 +272,218 @@ const stageIcons = [
   </head>
 
   <body class="page-industry-single">
-    <!-- PAGE BACKGROUND — Top tak seamless gradient and glow -->
-    <div class="ind-page-bg" aria-hidden="true"></div>
-
     <Navbar variant="solid" />
 
-    <main class="ind-page">
-      <!-- =========== HERO (text only, left) =========== -->
-      <section class="ind-hero">
-        <div class="ind-wrap">
-          <a class="ind-back" href="/Industries/">All industries</a>
-          <span class="ind-kicker">Industries / {prettyLabel}</span>
+    <main class="indd-page">
 
-          <h1 class="ind-h1">
-            <span class="ind-h1-visual" aria-hidden="true">
-              {titleWords.map((w: string, i: number) => (
-                <span class={`ind-word${i >= titleSplit ? " ind-word--muted" : ""}`} style={`--i:${i}`}>{w}</span>
-              ))}
-            </span>
-            <span class="sr-only">{title}</span>
+      <!-- =========== BANNER =========== -->
+      <section class="indd-banner">
+        <img class="indd-banner-img" src={heroImage} alt="" loading="eager" decoding="async" />
+        <div class="indd-banner-shade" aria-hidden="true"></div>
+        <div class="indd-wrap indd-banner-inner">
+          <nav class="indd-crumbs" aria-label="Breadcrumb">
+            <a href="/">Home</a><span>/</span><a href="/Industries/">Industries</a><span>/</span><em>{title}</em>
+          </nav>
+          <h1 class="indd-h1">
+            {titleWords.map((w: string, i: number) => (
+              <Fragment><span class={i >= titleSplit ? "indd-hl" : ""}>{w}</span>{" "}</Fragment>
+            ))}
           </h1>
-
-          <p class="ind-lead">{description}</p>
-        </div>
-      </section>
-
-      <!-- =========== OPERATING CONTEXT (bento) =========== -->
-      <section class="ind-section ind-section--first">
-        <div class="ind-wrap">
-          <div class="ind-head ind-reveal">
-            <div>
-              <span class="ind-kicker">Operating context</span>
-              <h2 class="ind-h2">
-                {ctxWords.slice(0, ctxSplit).join(" ")} <span>{ctxWords.slice(ctxSplit).join(" ")}</span>
-              </h2>
-            </div>
-            <p class="ind-head-note">Where the pressure comes from, and what the production response has to cover.</p>
-          </div>
-
-          <div class="ind-bento">
-            <article class="ind-card ind-card--cream ind-reveal" style="--d:0.05s">
-              <div class="ind-card-top">
-                <span class="ind-tag">Buyer pressures</span>
-                <span class="ind-card-num">01</span>
-              </div>
-              <h3 class="ind-card-title">Typical buyer pressures</h3>
-              <p class="ind-card-desc">{buyerPressures.length} constraints this workflow has to absorb.</p>
-              <ul class="ind-rows" data-rows>
-                {buyerPressures.map((t: string, i: number) => (
-                  <li class={`ind-row${i === 0 ? " is-active" : ""}`}>{t}</li>
-                ))}
-              </ul>
-            </article>
-
-            <article class="ind-card ind-card--dark ind-reveal" style="--d:0.12s">
-              <div class="ind-card-top">
-                <span class="ind-tag">Requirements</span>
-                <span class="ind-card-num">02</span>
-              </div>
-              <h3 class="ind-card-title">Production requirements</h3>
-              <p class="ind-card-desc">{productionRequirements.length} controls the package is built around.</p>
-              <ul class="ind-rows" data-rows>
-                {productionRequirements.map((t: string, i: number) => (
-                  <li class={`ind-row${i === 0 ? " is-active" : ""}`}>{t}</li>
-                ))}
-              </ul>
-            </article>
-
-            <div class="ind-stack">
-              <article class="ind-card ind-card--cream ind-stat ind-reveal" style="--d:0.19s">
-                <span class="ind-tag">Pressures mapped</span>
-                <div>
-                  <span class="ind-stat-num">{String(buyerPressures.length).padStart(2, "0")}</span>
-                  <p class="ind-stat-sub">Buyer-side constraints identified for this workflow.</p>
-                </div>
-              </article>
-              <article class="ind-card ind-card--dark ind-stat ind-reveal" style="--d:0.26s">
-                <span class="ind-tag">Governed steps</span>
-                <div>
-                  <span class="ind-stat-num">{String(engagementModel.length).padStart(2, "0")}</span>
-                  <p class="ind-stat-sub">Named approvals from first brief to handoff.</p>
-                </div>
-              </article>
-            </div>
+          <p class="indd-lead">{lead}</p>
+          <div class="indd-actions">
+            <a href="/Contact/" class="indd-btn indd-btn--solid"><span>Start a project</span><span>↗</span></a>
+            {projects.length > 0 && <a href="#projects" class="indd-btn indd-btn--ghost">See projects</a>}
           </div>
         </div>
       </section>
 
-      <!-- =========== ENGAGEMENT MODEL (auto-cycling steps) =========== -->
-      <section class="ind-section">
-        <div class="ind-wrap">
-          <div class="ind-head ind-reveal">
-            <div>
-              <span class="ind-kicker">Engagement model</span>
-              <h2 class="ind-h2">One brief, named approvals, <span>structured handoff.</span></h2>
+      <!-- =========== OPERATING CONTEXT =========== -->
+      <section class="indd-sec">
+        <div class="indd-wrap">
+          <div class="indd-ctx">
+            <div class="indd-ctx-text indd-reveal">
+              <span class="indd-label">Operating context</span>
+              <h2 class="indd-h2">{operatingContext}</h2>
+              <p>Where the pressure comes from, and what the production response has to cover.</p>
+              <a href="/Contact/" class="indd-btn indd-btn--solid"><span>Discuss your brief</span><span>↗</span></a>
+
+              <div class="indd-collage" aria-hidden="true">
+                {collage.map((src: string) => <span><img src={src} alt="" loading="lazy" decoding="async" /></span>)}
+              </div>
             </div>
-            <p class="ind-head-note">The same governed sequence on every package, from first brief to structured handoff.</p>
+
+            <div class="indd-bento">
+              <article class="indd-card indd-reveal" style="--d:60ms">
+                <span class="indd-tag">Buyer pressures</span>
+                <h3>Typical buyer pressures</h3>
+                <ul class="indd-list">
+                  {buyerPressures.map((t: string) => (
+                    <li>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4L19 7" /></svg>
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+
+              <article class="indd-card indd-reveal" style="--d:120ms">
+                <span class="indd-tag">Requirements</span>
+                <h3>Production requirements</h3>
+                <ul class="indd-list">
+                  {productionRequirements.map((t: string) => (
+                    <li>
+                      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4L19 7" /></svg>
+                      <span>{t}</span>
+                    </li>
+                  ))}
+                </ul>
+              </article>
+
+              <article class="indd-tile indd-tile--black indd-reveal" style="--d:180ms">
+                <span class="indd-tag">Pressures mapped</span>
+                <div>
+                  <b>{pad(buyerPressures.length)}</b>
+                  <p>Buyer-side constraints identified for this workflow.</p>
+                </div>
+              </article>
+
+              <article class="indd-tile indd-tile--grey indd-reveal" style="--d:240ms">
+                <span class="indd-tag">Governed steps</span>
+                <div>
+                  <b>{pad(engagementModel.length)}</b>
+                  <p>Named approvals from first brief to handoff.</p>
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- =========== ENGAGEMENT MODEL =========== -->
+      <section class="indd-sec">
+        <div class="indd-wrap">
+          <div class="indd-head indd-reveal">
+            <div>
+              <span class="indd-label">Engagement model</span>
+              <h2 class="indd-h2">One brief, named approvals, <span class="indd-hl">structured handoff</span></h2>
+            </div>
+            <p class="indd-head-note">The same governed sequence on every package, from first brief to structured handoff.</p>
           </div>
 
-          <div class="ind-steps" data-steps>
+          <div class="indd-steps">
             {engagementModel.map((item: { step: string; description: string }, i: number) => (
-              <article class={`ind-step ind-reveal${i === 0 ? " is-active" : ""}`} data-step style={`--d:${i * 0.09}s`}>
-                <div class="ind-step-top">
-                  <span class="ind-step-pill">{item.step}</span>
-                  <span class="ind-step-count">{i + 1} / {engagementModel.length}</span>
+              <article class="indd-step indd-reveal" style={`--d:${i * 80}ms`}>
+                <div class="indd-step-top">
+                  <span class="indd-step-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" set:html={stepIcons[i % stepIcons.length]}></svg>
+                  </span>
+                  <span class="indd-step-num">{item.step}</span>
                 </div>
-                <div class="ind-step-icon">
-                  <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" set:html={stageIcons[i % stageIcons.length]}></svg>
-                </div>
-                <h3 class="ind-step-title">{stageNames[i] ?? `Step ${item.step}`}</h3>
-                <p class="ind-step-desc">{item.description}</p>
-                <div class="ind-step-bar"><span></span></div>
-                {i < engagementModel.length - 1 && <span class="ind-step-link" aria-hidden="true">→</span>}
+                <h3>{stepNames[i] ?? `Step ${item.step}`}</h3>
+                <p>{item.description}</p>
               </article>
             ))}
           </div>
         </div>
       </section>
 
-      <!-- =========== CAPABILITIES + BOUNDARY =========== -->
-      <section class="ind-section">
-        <div class="ind-wrap">
-          <div class="ind-head ind-reveal">
+      <!-- =========== CONNECTED SERVICES (3 Horizontal Cards - 3rd SS Style) =========== -->
+      <section class="indd-sec">
+        <div class="indd-wrap">
+          <div class="indd-head indd-reveal">
             <div>
-              <span class="ind-kicker">Relevant capabilities</span>
-              <h2 class="ind-h2">Connected <span>service packages.</span></h2>
+              <span class="indd-label">Relevant capabilities</span>
+              <h2 class="indd-h2">Connected <span class="indd-hl">service packages</span></h2>
             </div>
-            <p class="ind-head-note">Service packages typically connected to this workflow.</p>
+            <p class="indd-head-note">Service packages typically connected to this workflow.</p>
           </div>
 
-          <div class="ind-duo">
-            <article class="ind-card ind-card--dark ind-reveal" style="--d:0.05s">
-              <div class="ind-card-top">
-                <span class="ind-tag">Capabilities</span>
-                <span class="ind-card-num">{String(typicalServices.length).padStart(2, "0")}</span>
-              </div>
-              <h3 class="ind-card-title">Where we plug in</h3>
-              <div class="ind-chips">
-                {typicalServices.map((svc: string) => (
-                  <span class="ind-chip">{svc}</span>
-                ))}
-              </div>
-            </article>
+          <div class="indd-svc-list">
+            {svcCards.map((c: { name: string; desc: string; tags: string[]; href: string; image: string }, i: number) => (
+              <article class="indd-svc-row indd-reveal" style={`--d:${i * 80}ms`}>
+                <div class="indd-svc-row-media">
+                  <img src={c.image} alt={c.name} loading="lazy" decoding="async" />
+                </div>
+                <div class="indd-svc-row-content">
+                  <div class="indd-svc-row-top">
+                    <h3>{c.name}</h3>
+                    <a href={c.href} class="indd-svc-row-link">View specs <i>↗</i></a>
+                  </div>
+                  <p>{c.desc}</p>
+                  <div class="indd-svc-row-bottom">
+                    <div class="indd-svc-row-tags">
+                      {c.tags.map((t: string) => <span>{t}</span>)}
+                    </div>
+                    <a href={c.href} class="indd-svc-row-btn">
+                      <span>View service</span>
+                      <i>↗</i>
+                    </a>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
 
-            <article class="ind-card ind-card--cream ind-reveal" style="--d:0.12s">
-              <div class="ind-card-top">
-                <span class="ind-tag">Responsibility boundary</span>
+      <!-- =========== PROJECTS =========== -->
+      {projects.length > 0 && (
+        <section class="indd-sec" id="projects">
+          <div class="indd-wrap">
+            <div class="indd-head indd-reveal">
+              <div>
+                <span class="indd-label">Projects</span>
+                <h2 class="indd-h2">Work for <span class="indd-hl">{title}</span></h2>
               </div>
-              <p class="ind-boundary">{responsibilityBoundary}</p>
+              <a class="indd-link" href="/work">All projects <span>↗</span></a>
+            </div>
+
+            <div class="indd-projects" data-n={projects.length}>
+              {projects.map((w: any, i: number) => (
+                <a class="indd-proj indd-reveal" style={`--d:${i * 70}ms`} href={w.href} data-tile>
+                  <span class="indd-proj-media">
+                    {w.video
+                      ? <video src={w.video} poster={w.image || undefined} muted loop playsinline preload="metadata"></video>
+                      : <img src={w.image || imgAt(i + 1)} alt="" loading="lazy" decoding="async" />}
+                    {w.video && <span class="indd-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" /></svg></span>}
+                  </span>
+                  <span class="indd-proj-body">
+                    {w.tag && <em>{w.tag}</em>}
+                    <strong>{w.title}</strong>
+                    {w.meta && <small>{w.meta}</small>}
+                    <span class="indd-proj-go">View project <i>↗</i></span>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <!-- =========== RESPONSIBILITY BOUNDARY (Updated Grey Card) =========== -->
+      <section class="indd-sec">
+        <div class="indd-wrap">
+          <div class="indd-boundary">
+            <div class="indd-reveal">
+              <span class="indd-label">Responsibility boundary</span>
+              <h2 class="indd-h2">Clear roles, <span class="indd-hl">clear sign-off</span></h2>
+            </div>
+            <article class="indd-card indd-card--wide indd-reveal" style="--d:80ms">
+              <span class="indd-shield" aria-hidden="true">
+                <svg viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 4.5-3.2 8-8 9-4.8-1-8-4.5-8-9V6z" /><path d="M9 12l2.2 2.2L15.5 10" /></svg>
+              </span>
+              <p>{responsibilityBoundary}</p>
             </article>
           </div>
         </div>
       </section>
 
       <!-- =========== FINAL CTA =========== -->
-      <section class="ind-final-cta">
-        <div class="ind-final-inner ind-reveal">
-          <h2>Ready to configure this <span>production workflow?</span></h2>
+      <section class="indd-final-cta">
+        <div class="indd-final-inner indd-reveal">
+          <h2>Ready to configure this <span class="indd-hl">production workflow?</span></h2>
           <p>Align model authoring and deliverable standards with our studio team.</p>
-          <a href="/Contact/" class="ind-final-btn">
+          <a href="/Contact/" class="indd-final-btn">
             <span>Define production package</span>
             <span>↗</span>
           </a>
@@ -297,47 +494,25 @@ const stageIcons = [
     <Footer />
 
     <script is:inline>
-      // scroll reveal
-      const revealEls = document.querySelectorAll(".ind-reveal");
+      const revealEls = document.querySelectorAll(".indd-reveal");
       if ("IntersectionObserver" in window) {
         const io = new IntersectionObserver(
           (entries) => entries.forEach((e) => {
             if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); }
           }),
-          { threshold: 0.15, rootMargin: "0px 0px -40px 0px" }
+          { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
         );
         revealEls.forEach((el) => io.observe(el));
       } else {
         revealEls.forEach((el) => el.classList.add("is-visible"));
       }
 
-      // list rows: highlight follows the mouse
-      document.querySelectorAll("[data-rows]").forEach((list) => {
-        const rows = list.querySelectorAll(".ind-row");
-        rows.forEach((row) => row.addEventListener("mouseenter", () => {
-          rows.forEach((r) => r.classList.remove("is-active"));
-          row.classList.add("is-active");
-        }));
+      document.querySelectorAll("[data-tile]").forEach((tile) => {
+        const v = tile.querySelector("video");
+        if (!v) return;
+        tile.addEventListener("mouseenter", () => { v.play().catch(() => {}); });
+        tile.addEventListener("mouseleave", () => { v.pause(); v.currentTime = 0; });
       });
-
-      // engagement steps: auto-cycle, hover to take control
-      (function () {
-        const wrap = document.querySelector("[data-steps]");
-        if (!wrap) return;
-        const steps = Array.from(wrap.querySelectorAll("[data-step]"));
-        if (!steps.length) return;
-        let cur = 0, timer;
-        const set = (n) => { cur = n; steps.forEach((s, k) => s.classList.toggle("is-active", k === n)); };
-        const stop = () => clearInterval(timer);
-        const start = () => { stop(); timer = setInterval(() => set((cur + 1) % steps.length), 3600); };
-        set(0);
-        if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-        start();
-        steps.forEach((s, k) => {
-          s.addEventListener("mouseenter", () => { stop(); set(k); });
-          s.addEventListener("mouseleave", start);
-        });
-      })();
     </script>
   </body>
 </html>

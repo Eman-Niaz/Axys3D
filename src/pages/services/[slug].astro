@@ -1,5 +1,8 @@
 ---
 // src/pages/services/[slug].astro
+// Presentable service page: banner, overview cards, stats band, why/fit, projects, FAQs.
+// Content wahi use hota hai jo service ke frontmatter + markdown mein pehle se hai (nayi details nahi bharni).
+
 import Navbar from "../../components/Navbar.astro";
 import Footer from "../../components/Footer.astro";
 import "../../styles/token.css";
@@ -7,88 +10,249 @@ import "../../styles/global.css";
 import "../../styles/Navbar.css";
 import "../../styles/service-details.css";
 import "../../styles/footer.css";
-import { getCollection } from "astro:content";
+import { getCollection, render } from "astro:content";
 
 export async function getStaticPaths() {
   const services = await getCollection("services");
-
   return services.map((service) => {
     const slug = service.id.replace(/^\d+-/, "");
-
-    return {
-      params: { slug },
-      props: { service },
-    };
+    return { params: { slug }, props: { service } };
   });
 }
 
 const { service } = Astro.props;
-
+const p = service.data as any;
 const {
   title,
   serviceNumber,
   serviceLabel,
-  description,
-} = service.data;
+  description = "",
+  bestFitBuyers = [],
+  projectStages = [],
+  engagementContext = [],
+} = service.data as any;
 
+const slug = service.id.replace(/^\d+-/, "");
 const pad = (n: number | string) => String(n).padStart(2, "0");
+const stageCount = projectStages.length;
 
-/* Heading Split: Pehla hissa white, doosra brown */
-const titleWords: string[] = title.split(/\s+/).filter(Boolean);
-const titleSplit = Math.ceil(titleWords.length / 2);
-const titleA = titleWords.slice(0, titleSplit).join(" ");
-const titleB = titleWords.slice(titleSplit).join(" ");
+// title: pehla aadha white, doosra aadha halka brown gradient
+const titleWords: string[] = String(title).split(/\s+/).filter(Boolean);
+const titleSplit = Math.max(1, Math.ceil(titleWords.length / 2));
+const lead = String(description).split(/(?<=[.!?])\s/)[0].slice(0, 190);
 
-/* Trusted Studios */
-const trustedLogos = [
-  { name: "Verisure", sym: "◆" },
-  { name: "Layerise", sym: "⚡" },
-  { name: "Collective", sym: "❖" },
-  { name: "Axis Studio", sym: "▲" },
-  { name: "BIM Co", sym: "◉" },
+// --- markdown body -> modules (cards ke liye) ---
+const escapeHtml = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const inline = (s: string) =>
+  escapeHtml(s)
+    .replace(/`([^`]+)`/g, "<code>$1</code>")
+    .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    .replace(/(^|[^*])\*([^*\s][^*]*)\*/g, "$1<em>$2</em>")
+    .replace(/\[([^\]]+)\]\(([^)\s]+)\)/g, '<a href="$2">$1</a>');
+
+type Block = { t: "p" | "h3"; html: string } | { t: "ul"; items: string[] };
+type Module = { title: string; blocks: Block[] };
+
+function parseBody(md: string) {
+  const intro: Block[] = [];
+  const mods: Module[] = [];
+  let cur: Module | null = null;
+  let para: string[] = [];
+  let list: string[] | null = null;
+  const target = () => (cur ? cur.blocks : intro);
+  const flushPara = () => { if (para.length) { target().push({ t: "p", html: inline(para.join(" ")) }); para = []; } };
+  const flushList = () => { if (list) { target().push({ t: "ul", items: list }); list = null; } };
+
+  for (const raw of md.replace(/\r/g, "").split("\n")) {
+    const line = raw.trim();
+    let m: RegExpMatchArray | null;
+    if ((m = line.match(/^##\s+(.*)$/))) {
+      flushPara(); flushList();
+      cur = { title: m[1].replace(/[*_`]/g, ""), blocks: [] };
+      mods.push(cur);
+    } else if ((m = line.match(/^#{3,6}\s+(.*)$/))) {
+      flushPara(); flushList();
+      target().push({ t: "h3", html: inline(m[1]) });
+    } else if ((m = line.match(/^(?:[-*+]|\d+\.)\s+(.*)$/))) {
+      flushPara();
+      if (!list) list = [];
+      list.push(inline(m[1]));
+    } else if (line === "") {
+      flushPara(); flushList();
+    } else if (list && /^\s/.test(raw)) {
+      list[list.length - 1] += " " + inline(line);
+    } else if (/^#\s/.test(line) || /^(---|\*\*\*|___)$/.test(line)) {
+      // ignore h1 and rules
+    } else {
+      flushList();
+      para.push(line);
+    }
+  }
+  flushPara(); flushList();
+  return { intro, mods };
+}
+
+const rawBody: string = ((service as any).body as string) ?? "";
+const tooComplex = /^\s*(```|\||>|!\[|import\s|export\s|<[A-Za-z])/m.test(rawBody);
+const parsed = rawBody && !tooComplex ? parseBody(rawBody) : { intro: [] as Block[], mods: [] as Module[] };
+const useModules = parsed.mods.length > 0;
+const introHtml = parsed.intro
+  .filter((b): b is { t: "p" | "h3"; html: string } => b.t !== "ul")
+  .map((b) => b.html)
+  .join(" ");
+// checkerboard: cream/dark alternate across 2 columns
+const isCream = (i: number) => (i + Math.floor(i / 2)) % 2 === 0;
+
+// ---------- FAQs ----------
+// 1) frontmatter:  faqs: [{ question: "...", answer: "..." }]
+// 2) otherwise a markdown section called FAQ / Frequently asked questions / Common questions
+const stripTags = (s: string) => s.replace(/<[^>]+>/g, "").trim();
+const isFaqTitle = (t: string) => /faq|frequently asked|common questions/i.test(t);
+const faqModule = parsed.mods.find((m: Module) => isFaqTitle(m.title));
+
+const faqFromModule = (m: Module): Array<{ q: string; a: string }> => {
+  const out: Array<{ q: string; a: string }> = [];
+  let cur: { q: string; a: string[] } | null = null;
+  const push = () => { if (cur && cur.a.length) out.push({ q: cur.q, a: cur.a.join("</p><p>") }); cur = null; };
+  for (const b of m.blocks) {
+    if (b.t === "h3") { push(); cur = { q: stripTags(b.html), a: [] }; }
+    else if (b.t === "p") {
+      const mm = b.html.match(/^<strong>(.+?)<\/strong>\s*[—–:\-]?\s*(.*)$/);
+      if (!cur && mm) { push(); out.push({ q: stripTags(mm[1]), a: mm[2] }); }
+      else if (cur) cur.a.push(b.html);
+    } else if (b.t === "ul") {
+      push();
+      for (const it of b.items) {
+        const s = it.match(/^<strong>(.+?)<\/strong>\s*[—–:\-]?\s*(.*)$/);
+        if (s && s[2]) out.push({ q: stripTags(s[1]), a: s[2] });
+        else {
+          const k = it.indexOf("?");
+          if (k > 0 && k < it.length - 1) out.push({ q: stripTags(it.slice(0, k + 1)), a: it.slice(k + 1).trim() });
+        }
+      }
+    }
+  }
+  push();
+  return out.filter((f) => f.q && f.a);
+};
+
+const dataFaqs: Array<{ q: string; a: string }> = (Array.isArray(p.faqs) ? p.faqs : Array.isArray(p.faq) ? p.faq : [])
+  .map((f: any) => ({ q: String(f.question ?? f.q ?? ""), a: escapeHtml(String(f.answer ?? f.a ?? "")) }))
+  .filter((f: { q: string; a: string }) => f.q && f.a);
+
+const faqs = dataFaqs.length > 0 ? dataFaqs : faqModule ? faqFromModule(faqModule) : [];
+const detailMods: Module[] = parsed.mods.filter((m: Module) => m !== faqModule || faqs.length === 0);
+
+
+// ---------- Overview cards: markdown modules (FAQ ke siwa) ----------
+const stripHtml = (s: string) => s.replace(/<[^>]+>/g, "").trim();
+const clip = (s: string, n: number) => (s.length > n ? s.slice(0, n - 1).trimEnd() + "…" : s);
+
+type Group = { label: string; blocks: Block[] };
+const groupsOf = (m: Module) => {
+  const intro: string[] = [];
+  const groups: Group[] = [];
+  let cur: Group | null = null;
+  for (const b of m.blocks) {
+    if (b.t === "h3") { cur = { label: b.html, blocks: [] }; groups.push(cur); }
+    else if (!cur) { if (b.t === "p") intro.push(b.html); else { cur = { label: "", blocks: [b] }; groups.push(cur); } }
+    else cur.blocks.push(b);
+  }
+  return { intro, groups };
+};
+
+const cardMods = parsed.mods
+  .filter((m: Module) => m !== faqModule || faqs.length === 0)
+  .slice(0, 6)
+  .map((m: Module) => {
+    const { intro, groups } = groupsOf(m);
+    const firstList = m.blocks.find((b) => b.t === "ul") as { t: "ul"; items: string[] } | undefined;
+    const preview = intro.length
+      ? clip(stripHtml(intro[0]), 120)
+      : firstList
+        ? clip(firstList.items.slice(0, 2).map(stripHtml).join(" · "), 120)
+        : "";
+    return { title: m.title, preview, intro, groups };
+  });
+
+// markdown nahi hai to stages se cards banao
+const stageCards = cardMods.length === 0
+  ? projectStages.slice(0, 6).map((s: string, i: number) => ({ title: s, preview: "", intro: [] as string[], groups: [] as Group[] }))
+  : [];
+const cards = cardMods.length ? cardMods : stageCards;
+
+// ---------- Images ----------
+const q = "?auto=format&fit=crop&w=1600&q=80";
+const U = (id: string) => `https://images.unsplash.com/${id}${q}`;
+const serviceImages: Record<string, string> = {
+  "bim-production": U("photo-1600585154340-be6161a56a0c"),
+  "mep-coordination": U("photo-1581092160607-ee22621dd758"),
+  "revit-production": U("photo-1600596542815-ffad4c1539a9"),
+  "animation": U("photo-1613977257363-707ba9348227"),
+  "real-time-vr": U("photo-1600607687939-ce8a6c25118c"),
+  "archviz-stills": U("photo-1600585154526-990dced4db0d"),
+  "3d-modeling": U("photo-1486406146926-c627a92ad1ab"),
+  "3ds-max-production": U("photo-1487958449943-2429e8be8625"),
+};
+const fallbackImages = Object.values(serviceImages);
+const imageForService = (s: any, i = 0) => {
+  const sl = s.id.replace(/^\d+-/, "");
+  return (s.data as any).image ?? serviceImages[sl] ?? fallbackImages[i % fallbackImages.length];
+};
+const idx = Number(serviceNumber) || 0;
+const bannerImage = imageForService(service, idx);
+const statsImage = U("photo-1497366216548-37526070297c");
+const whyImage = fallbackImages[(idx + 3) % fallbackImages.length];
+
+// ---------- Icons (line, 24x24) ----------
+const icons = [
+  "M12 3l8 4.5v9L12 21l-8-4.5v-9zM12 12l8-4.5M12 12v9M12 12L4 7.5",        // cube
+  "M3 7l9-4 9 4-9 4zM3 12l9 4 9-4M3 17l9 4 9-4",                            // layers
+  "M4 20L20 4M8 8l-3 3M12 12l-3 3M16 6l-3 3M20 10l-3 3",                    // ruler
+  "M5 12l4 4L19 7M3 3h18v18H3z",                                            // check box
+  "M12 7v5l3 2M21 12a9 9 0 11-18 0 9 9 0 0118 0z",                          // clock
+  "M7 3h8l4 4v14H7zM15 3v4h4M10 12h6M10 16h6",                              // file
 ];
 
-/* Real High-Res Architectural Imagery for Case Studies */
-const q = "?auto=format&fit=crop&w=1200&q=80";
-const caseStudies = [
-  {
-    title: "Skyline Residential Tower",
-    type: "Full BIM & Facade Coordination",
-    result: "Zero on-site clashes across 42 floors",
-    image: `https://images.unsplash.com/photo-1486406146926-c627a92ad1ab${q}`,
-  },
-  {
-    title: "Nordic Cultural Pavilion",
-    type: "Photoreal Exterior Stills & Tour",
-    result: "Competition winner render package",
-    image: `https://images.unsplash.com/photo-1600585154340-be6161a56a0c${q}`,
-  },
-  {
-    title: "Metropolitan Mixed-Use",
-    type: "MEP Routing & Spatial Audit",
-    result: "7-day turnaround delivery",
-    image: `https://images.unsplash.com/photo-1600596542815-ffad4c1539a9${q}`,
-  },
-];
+// ---------- Other services ----------
+const allServices = await getCollection("services");
 
-/* Key Deliverables Overview */
-const deliverables = [
-  {
-    num: "01",
-    title: "Checked 3D Models",
-    desc: "Clean geometry authoring in Revit & CAD adhering to strict LOD standards.",
-  },
-  {
-    num: "02",
-    title: "Clash & MEP Audits",
-    desc: "Complete clash detection reports before documentation reaches the site.",
-  },
-  {
-    num: "03",
-    title: "Cinematic Visuals",
-    desc: "4K photoreal renders, real-time walkthroughs, and presentation materials.",
-  },
-];
+// ---------- Related projects ----------
+async function loadWork() {
+  for (const name of ["work", "caseStudies", "projects"]) {
+    try {
+      const items = await (getCollection as any)(name);
+      if (items && items.length) return items as any[];
+    } catch (e) {}
+  }
+  return [] as any[];
+}
+const workAll = await loadWork();
+const pick = (d: any, keys: string[]) => { for (const k of keys) if (d?.[k]) return d[k]; return undefined; };
+const asUrl = (v: any) => (v && typeof v === "object" ? v.src ?? "" : v ?? "");
+const norm = (s: any) => String(s ?? "").toLowerCase().replace(/[^a-z0-9]+/g, "");
+const flat = (v: any): string[] => (Array.isArray(v) ? v.flatMap(flat) : v ? [String(v)] : []);
+const myKeys = [norm(slug), norm(title), norm(serviceLabel)].filter(Boolean);
+const isRelated = (e: any) => {
+  const d = e.data || {};
+  const hay = [
+    ...flat(d.services), ...flat(d.service), ...flat(d.relatedServices), ...flat(d.serviceSlugs),
+    ...flat(d.category), ...flat(d.categories), ...flat(d.tags), ...flat(d.type), ...flat(d.scope),
+  ].map(norm);
+  return hay.some((h) => h && myKeys.some((k) => k === h || k.includes(h) || h.includes(k)));
+};
+const matched = workAll.filter(isRelated);
+const projects = (matched.length ? matched : workAll).slice(0, 3).map((e: any) => ({
+  title: e.data.title ?? e.data.name ?? "Project",
+  tag: flat(e.data.category ?? e.data.type ?? e.data.sector)[0] ?? "",
+  meta: flat(e.data.client ?? e.data.location)[0] ?? "",
+  image: asUrl(pick(e.data, ["poster", "image", "thumbnail", "cover", "coverImage", "heroImage", "hero"])),
+  video: asUrl(pick(e.data, ["video", "videoUrl", "videoSrc", "heroVideo", "previewVideo", "cardVideo", "preview"])),
+  href: `/work/${e.id.replace(/^\d+-/, "")}`,
+}));
+
+const buyers = bestFitBuyers.slice(0, 4);
+const context = engagementContext.slice(0, 4);
 ---
 
 <!doctype html>
@@ -97,161 +261,224 @@ const deliverables = [
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content={description} />
-    <title>{title} — AXYS3D</title>
+    <title>{title} — Axys3D</title>
     <script is:inline>
       document.documentElement.classList.add("js");
     </script>
   </head>
 
   <body class="page-service-detail">
-    <!-- Subtle Background Gradient -->
-    <div class="svcd-page-bg" aria-hidden="true"></div>
-
     <Navbar variant="solid" />
 
     <main class="svcd-page">
-      <!-- ================= 1. HERO (CONCISE & IMPACTFUL) ================= -->
-      <section class="svcd-hero">
+
+      <!-- =========== BANNER =========== -->
+      <section class="svcd-banner">
+        <img class="svcd-banner-img" src={bannerImage} alt="" loading="eager" decoding="async" />
+        <div class="svcd-banner-shade" aria-hidden="true"></div>
+        <div class="svcd-wrap svcd-banner-inner">
+          <nav class="svcd-crumbs" aria-label="Breadcrumb">
+            <a href="/">Home</a><span>/</span><a href="/Services/">Services</a><span>/</span><em>{title}</em>
+          </nav>
+          <h1 class="svcd-h1">
+            {titleWords.map((w: string, i: number) => (
+              <Fragment><span class={i >= titleSplit ? "svcd-hl" : ""}>{w}</span>{" "}</Fragment>
+            ))}
+          </h1>
+          <p class="svcd-lead">{lead}</p>
+          <div class="svcd-actions">
+            <a href="/Contact/" class="svcd-btn svcd-btn--solid"><span>Start a project</span><span>↗</span></a>
+            {projects.length > 0 && <a href="#projects" class="svcd-btn svcd-btn--ghost">See projects</a>}
+          </div>
+        </div>
+      </section>
+
+      <!-- =========== OVERVIEW CARDS =========== -->
+      {cards.length > 0 && (
+        <section class="svcd-sec" id="overview">
+          <div class="svcd-wrap">
+            <div class="svcd-head svcd-reveal">
+              <div>
+                <span class="svcd-label">What's included</span>
+                <h2 class="svcd-h2">Solutions in <span class="svcd-hl">{title}</span></h2>
+              </div>
+              <p class="svcd-head-note">{description}</p>
+            </div>
+
+            <div class="svcd-cards">
+              {cards.map((c: any, i: number) => (
+                <article class={`svcd-card svcd-reveal${i === 0 ? " is-feature" : ""}`} style={`--d:${i * 70}ms`} data-card>
+                  <span class="svcd-card-icon">
+                    <svg viewBox="0 0 24 24" aria-hidden="true"><path d={icons[i % icons.length]} /></svg>
+                  </span>
+                  <span class="svcd-card-num">{pad(i + 1)}</span>
+                  <h3 class="svcd-card-title">{c.title}</h3>
+                  {c.preview && <p class="svcd-card-text">{c.preview}</p>}
+
+                  {(c.groups.length > 0 || c.intro.length > 1) && (
+                    <Fragment>
+                      <div class="svcd-card-more" data-more>
+                        <div class="svcd-card-more-inner">
+                          {c.intro.slice(1).map((t: string) => <p set:html={t}></p>)}
+                          {c.groups.map((g: any) => (
+                            <div class="svcd-grp">
+                              {g.label && <h4 set:html={g.label}></h4>}
+                              {g.blocks.map((blk: any) =>
+                                blk.t === "ul"
+                                  ? <ul>{blk.items.map((it: string) => <li set:html={it}></li>)}</ul>
+                                  : blk.t === "p" ? <p set:html={blk.html}></p> : null
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                      <button class="svcd-more-btn" type="button" aria-expanded="false" data-more-btn>
+                        <span data-more-label>Read more</span><i aria-hidden="true">+</i>
+                      </button>
+                    </Fragment>
+                  )}
+                </article>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <!-- =========== STATS BAND =========== -->
+      <section class="svcd-band-sec">
         <div class="svcd-wrap">
-          <div class="svcd-hero-inner">
-            <span class="svcd-kicker">SERVICE {pad(serviceNumber)} / {serviceLabel}</span>
-
-            <h1 class="svcd-h1">
-              {titleA} <span>{titleB}</span>
-            </h1>
-
-            <p class="svcd-lead">{description}</p>
-
-            <div class="svcd-hero-actions">
-              <a href="#case-studies" class="svcd-btn-primary">
-                <span>See Case Studies</span>
-                <span>↓</span>
-              </a>
-              <a href="/Contact/" class="svcd-btn-ghost">
-                <span>Start a Project</span>
-                <span>↗</span>
-              </a>
+          <div class="svcd-band svcd-reveal">
+            <img src={statsImage} alt="" loading="lazy" decoding="async" />
+            <div class="svcd-band-shade" aria-hidden="true"></div>
+            <div class="svcd-band-grid">
+              <div><b><span data-count-to="7">0</span></b><span>Days to first draft</span></div>
+              {stageCount > 0 && <div><b><span data-count-to={stageCount}>0</span></b><span>Project stages</span></div>}
+              <div><b><span data-count-to="50">0</span>+</b><span>Projects delivered</span></div>
+              <div><b><span data-count-to="4.8" data-decimals="1">0</span><small>/5</small></b><span>Client rating</span></div>
             </div>
           </div>
         </div>
       </section>
 
-      <!-- ================= 2. TRUSTED BY LOGO STRIP ================= -->
-      <section class="svcd-trust-sec">
-        <div class="svcd-wrap">
-          <div class="svcd-trust-inner" data-reveal>
-            <span class="svcd-trust-label">TRUSTED BY TEAMS ACROSS AEC & REAL ESTATE</span>
-            <div class="svcd-trust-logos">
-              {trustedLogos.map((item) => (
-                <div class="svcd-trust-item">
-                  <span class="svcd-trust-sym">{item.sym}</span>
-                  <span class="svcd-trust-name">{item.name}</span>
+      <!-- =========== WHY / FIT =========== -->
+      {(buyers.length > 0 || context.length > 0) && (
+        <section class="svcd-sec">
+          <div class="svcd-wrap">
+            <div class="svcd-why">
+              <div class="svcd-why-media svcd-reveal">
+                <img src={whyImage} alt="" loading="lazy" decoding="async" />
+                <a class="svcd-why-badge" href="/Contact/">
+                  <span>Have a brief?</span>
+                  <b>Talk to the team ↗</b>
+                </a>
+              </div>
+
+              <div class="svcd-why-main svcd-reveal" style="--d:80ms">
+                <span class="svcd-label">Why this service</span>
+                <h2 class="svcd-h2">Built for the <span class="svcd-hl">right buyers</span></h2>
+                {buyers.length > 0 && (
+                  <ul class="svcd-checks">
+                    {buyers.map((b: string) => (
+                      <li>
+                        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12l4 4L19 7" /></svg>
+                        <span>{b}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </div>
+
+              <div class="svcd-why-side">
+                {context.length > 0 && (
+                  <div class="svcd-note svcd-reveal" style="--d:140ms">
+                    <h3>How it's delivered</h3>
+                    <ul>
+                      {context.map((c: string) => <li>{c}</li>)}
+                    </ul>
+                  </div>
+                )}
+                <div class="svcd-note svcd-note--brown svcd-reveal" style="--d:200ms">
+                  <h3>First draft in 7 days</h3>
+                  <p>Send your drawings, sketches or model. We reply with a clear scope.</p>
+                  <a href="/Contact/">Start a project ↗</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <!-- =========== PROJECTS =========== -->
+      {projects.length > 0 && (
+        <section class="svcd-sec" id="projects">
+          <div class="svcd-wrap">
+            <div class="svcd-head svcd-reveal">
+              <div>
+                <span class="svcd-label">Projects</span>
+                <h2 class="svcd-h2">Work that shows <span class="svcd-hl">{title}</span></h2>
+              </div>
+              <a class="svcd-link" href="/work">All projects <span>↗</span></a>
+            </div>
+
+            <div class="svcd-projects" data-n={projects.length}>
+              {projects.map((w: any, i: number) => (
+                <a class="svcd-proj svcd-reveal" style={`--d:${i * 80}ms`} href={w.href} data-tile>
+                  <span class="svcd-proj-media">
+                    {w.video
+                      ? <video src={w.video} poster={w.image || undefined} muted loop playsinline preload="metadata"></video>
+                      : <img src={w.image || fallbackImages[(i + idx) % fallbackImages.length]} alt="" loading="lazy" decoding="async" />}
+                    {w.video && <span class="svcd-play" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M8 5l11 7-11 7z" /></svg></span>}
+                  </span>
+                  <span class="svcd-proj-body">
+                    {w.tag && <em>{w.tag}</em>}
+                    <strong>{w.title}</strong>
+                    {w.meta && <small>{w.meta}</small>}
+                    <span class="svcd-proj-go">View project <i>↗</i></span>
+                  </span>
+                </a>
+              ))}
+            </div>
+          </div>
+        </section>
+      )}
+
+      <!-- =========== FAQ =========== -->
+      {faqs.length > 0 && (
+        <section class="svcd-sec svcd-faq-sec" id="faq">
+          <div class="svcd-wrap svcd-faq-grid">
+            <div class="svcd-faq-head svcd-reveal">
+              <span class="svcd-label">FAQ</span>
+              <h2 class="svcd-h2">Common questions <span class="svcd-hl">before scope is fixed</span></h2>
+              <a class="svcd-link" href="/Contact/">Still unsure? Ask us <span>↗</span></a>
+            </div>
+
+            <div class="svcd-faq" data-faq>
+              {faqs.map((f, i) => (
+                <div class="svcd-faq-item svcd-reveal" style={`--d:${i * 60}ms`}>
+                  <button class="svcd-faq-q" type="button" aria-expanded="false" aria-controls={`faq-a-${i}`} id={`faq-q-${i}`}>
+                    <span class="svcd-faq-idx">{pad(i + 1)}</span>
+                    <span class="svcd-faq-text">{f.q}</span>
+                    <span class="svcd-faq-plus" aria-hidden="true"></span>
+                  </button>
+                  <div class="svcd-faq-a" id={`faq-a-${i}`} role="region" aria-labelledby={`faq-q-${i}`}>
+                    <div class="svcd-faq-a-inner"><p set:html={f.a}></p></div>
+                  </div>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
 
-      <!-- ================= 3. VIDEO & INTERACTIVE WALKTHROUGH ================= -->
-      <section class="svcd-video-sec">
-        <div class="svcd-wrap">
-          <div class="svcd-sec-head" data-reveal>
-            <div>
-              <span class="svcd-kicker">MOTION &amp; EXECUTION</span>
-              <h2 class="svcd-h2">Experience the production, <span>in motion.</span></h2>
-            </div>
-            <p class="svcd-sec-desc">Explore live render fidelity, spatial walkthroughs, and precise coordinated modeling.</p>
-          </div>
-
-          <div class="svcd-video-card" data-reveal>
-            <img
-              src="https://images.unsplash.com/photo-1613977257363-707ba9348227?auto=format&fit=crop&w=1800&q=80"
-              alt="3D Walkthrough preview"
-              class="svcd-video-cover"
-              loading="lazy"
-            />
-            <div class="svcd-video-overlay"></div>
-
-            <div class="svcd-video-badge">
-              <span class="svcd-pulse-dot"></span>
-              <span>4K REAL-TIME FLYTHROUGH</span>
-            </div>
-
-            <div class="svcd-play-btn-wrap">
-              <div class="svcd-play-btn" aria-label="Play Walkthrough Preview">
-                <svg viewBox="0 0 24 24" fill="currentColor">
-                  <path d="M8 5v14l11-7z" />
-                </svg>
-              </div>
-              <span class="svcd-play-label">WATCH 60-SEC WALKTHROUGH REEL</span>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= 4. CASE STUDIES & VISUAL GALLERY ================= -->
-      <section class="svcd-cases-sec" id="case-studies">
-        <div class="svcd-wrap">
-          <div class="svcd-sec-head" data-reveal>
-            <div>
-              <span class="svcd-kicker">SELECTED WORK</span>
-              <h2 class="svcd-h2">Recent projects &amp; <span>deliverables.</span></h2>
-            </div>
-            <p class="svcd-sec-desc">Real case studies executed under strict timelines with verified delivery standards.</p>
-          </div>
-
-          <div class="svcd-cases-grid">
-            {caseStudies.map((item, idx) => (
-              <div class="svcd-case-card" data-reveal style={`--d:${idx * 90}ms`}>
-                <div class="svcd-case-thumb">
-                  <img src={item.image} alt={item.title} loading="lazy" />
-                  <span class="svcd-case-tag">{item.type}</span>
-                </div>
-                <div class="svcd-case-info">
-                  <h3 class="svcd-case-title">{item.title}</h3>
-                  <p class="svcd-case-res">✓ {item.result}</p>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= 5. WHAT WE DELIVER (COMPACT CARDS) ================= -->
-      <section class="svcd-deliver-sec">
-        <div class="svcd-wrap">
-          <div class="svcd-sec-head" data-reveal>
-            <div>
-              <span class="svcd-kicker">SCOPE OVERVIEW</span>
-              <h2 class="svcd-h2">What you receive in <span>every package.</span></h2>
-            </div>
-            <p class="svcd-sec-desc">Clear, audited assets ready for immediate presentation, client sign-off, or site coordination.</p>
-          </div>
-
-          <div class="svcd-deliver-grid">
-            {deliverables.map((d, i) => (
-              <div class="svcd-deliver-card" data-reveal style={`--d:${i * 80}ms`}>
-                <span class="svcd-deliver-num">{d.num}</span>
-                <h3 class="svcd-deliver-title">{d.title}</h3>
-                <p class="svcd-deliver-desc">{d.desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <!-- ================= 6. FINAL CTA ================= -->
+      <!-- =========== FINAL CTA =========== -->
       <section class="svcd-final-cta">
-        <div class="svcd-wrap">
-          <div class="svcd-final-inner" data-reveal>
-            <h2>Ready to configure this <span>production workflow?</span></h2>
-            <p>Align model authoring, technical requirements, and deliverable standards with our studio leads.</p>
-            <a href="/Contact/" class="svcd-final-btn">
-              <span>Book technical session</span>
-              <span>↗</span>
-            </a>
-          </div>
+        <div class="svcd-final-inner svcd-reveal">
+          <h2>Ready to start <span class="svcd-hl">your project?</span></h2>
+          <p>Send us your brief. We reply with a clear scope and a 7-day first draft.</p>
+          <a href="/Contact/" class="svcd-final-btn">
+            <span>Start a project</span>
+            <span>↗</span>
+          </a>
         </div>
       </section>
     </main>
@@ -259,19 +486,76 @@ const deliverables = [
     <Footer />
 
     <script is:inline>
-      const revealItems = document.querySelectorAll("[data-reveal]");
-      const observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              entry.target.classList.add("is-visible");
-              observer.unobserve(entry.target);
-            }
+      // scroll reveal
+      const revealEls = document.querySelectorAll(".svcd-reveal");
+      if ("IntersectionObserver" in window) {
+        const io = new IntersectionObserver(
+          (entries) => entries.forEach((e) => {
+            if (e.isIntersecting) { e.target.classList.add("is-visible"); io.unobserve(e.target); }
+          }),
+          { threshold: 0.1, rootMargin: "0px 0px -40px 0px" }
+        );
+        revealEls.forEach((el) => io.observe(el));
+      } else {
+        revealEls.forEach((el) => el.classList.add("is-visible"));
+      }
+
+      // count-up (stats band)
+      function animateCount(el) {
+        const target = parseFloat(el.dataset.countTo || "0");
+        const decimals = parseInt(el.dataset.decimals || "0", 10);
+        const start = performance.now();
+        (function tick(now) {
+          const p = Math.min((now - start) / 1400, 1);
+          const v = target * (1 - Math.pow(1 - p, 3));
+          el.textContent = decimals > 0 ? v.toFixed(decimals) : String(Math.round(v));
+          if (p < 1) requestAnimationFrame(tick);
+        })(start);
+      }
+      if ("IntersectionObserver" in window) {
+        const co = new IntersectionObserver((entries) => entries.forEach((e) => {
+          if (e.isIntersecting) { animateCount(e.target); co.unobserve(e.target); }
+        }), { threshold: 0.6 });
+        document.querySelectorAll("[data-count-to]").forEach((el) => co.observe(el));
+      } else {
+        document.querySelectorAll("[data-count-to]").forEach((el) => (el.textContent = el.dataset.countTo));
+      }
+
+      // overview cards: Read more
+      document.querySelectorAll("[data-card]").forEach((card) => {
+        const btn = card.querySelector("[data-more-btn]");
+        const label = card.querySelector("[data-more-label]");
+        if (!btn) return;
+        btn.addEventListener("click", () => {
+          const open = card.classList.toggle("is-open");
+          btn.setAttribute("aria-expanded", open ? "true" : "false");
+          if (label) label.textContent = open ? "Show less" : "Read more";
+        });
+      });
+
+      // project tiles: hover par video play
+      document.querySelectorAll("[data-tile]").forEach((tile) => {
+        const v = tile.querySelector("video");
+        if (!v) return;
+        tile.addEventListener("mouseenter", () => { v.play().catch(() => {}); });
+        tile.addEventListener("mouseleave", () => { v.pause(); v.currentTime = 0; });
+      });
+
+      // faq accordion: ek time par ek open
+      (function () {
+        const items = document.querySelectorAll(".svcd-faq-item");
+        items.forEach((item) => {
+          const btn = item.querySelector(".svcd-faq-q");
+          btn.addEventListener("click", () => {
+            const open = item.classList.contains("is-open");
+            items.forEach((o) => {
+              o.classList.remove("is-open");
+              o.querySelector(".svcd-faq-q").setAttribute("aria-expanded", "false");
+            });
+            if (!open) { item.classList.add("is-open"); btn.setAttribute("aria-expanded", "true"); }
           });
-        },
-        { threshold: 0.1 }
-      );
-      revealItems.forEach((el) => observer.observe(el));
+        });
+      })();
     </script>
   </body>
 </html>
