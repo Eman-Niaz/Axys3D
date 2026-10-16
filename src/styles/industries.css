@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 /* =========================================================
    AXYS3D — INDUSTRIES PAGE
@@ -44,8 +45,6 @@
   overflow: hidden;
   pointer-events: none;
   background: #000000;
-  
-  
 }
 
 /* Background Drifting Glows */
@@ -775,12 +774,10 @@ html {
 
 /* =========================================================
    AXYS3D DESIGN SYSTEM — Howitworks jaisi styling
-   (colors: brown/gold wahi jo pehle tha)
    ========================================================= */
 .industries-page,
 .page-industries { font-family: 'Manrope', system-ui, sans-serif !important; }
 
-/* Headings */
 .industries-page h1,
 .page-industries h1,
 .industries-page h2,
@@ -798,7 +795,6 @@ html {
   color: #f3efe6;
 }
 
-/* Heading ka highlight = white -> grey */
 .industries-page [class*="word--muted"],
 .page-industries [class*="word--muted"],
 .industries-page h2 span,
@@ -811,7 +807,6 @@ html {
   color: #8f6444;
 }
 
-/* Chhoti heading / kicker: mono, grey, spaced */
 .industries-page [class*="kicker"],
 .page-industries [class*="kicker"],
 .industries-page [class*="eyebrow"],
@@ -824,14 +819,12 @@ html {
   color: #959595 !important;
 }
 
-/* Lead paragraphs */
 .industries-page [class*="-lead"],
 .page-industries [class*="-lead"] {
   color: rgba(243, 239, 230, 0.6);
   letter-spacing: -0.01em;
 }
 
-/* CTA buttons = grey */
 [class*="final-button"], [class*="final-btn"], .final-cta-button, .ins-btn-primary, .cnt-submit {
   background: #5b3b27 !important;
   border-color: #5b3b27 !important;
@@ -845,9 +838,7 @@ html {
 }
 
 /* =========================================================
-   CTA BACKGROUND — image + navy overlay (har CTA par same)
-   Image badalni ho to :root mein --cta-image set karein,
-   jaise: :root mein --cta-image variable set karein
+   CTA BACKGROUND — image + navy overlay
    ========================================================= */
 .ind-final-cta {
   position: relative;
@@ -881,7 +872,6 @@ html {
 
 /* =========================================================
    HERO — Services page jaisi styling
-   (heading font, parallel text + visual, brown gradient)
    ========================================================= */
 .industries-page .ind-h1 {
   font-family: 'Manrope', sans-serif !important;
@@ -893,7 +883,6 @@ html {
   margin: 10px 0 0 !important;
   color: #ffffff;
 }
-/* purani `[class*="-h1"]` rule inner span par letter-spacing/color force kar rahi thi */
 .industries-page .ind-h1-visual {
   font: inherit !important;
   letter-spacing: inherit !important;
@@ -903,7 +892,6 @@ html {
 .industries-page .ind-word { margin-right: 0.22em; }
 .ind-lead { margin-top: 28px; max-width: 560px; }
 
-/* text aur visual parallel, alag alag cells */
 .ind-intro-row {
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
@@ -913,7 +901,6 @@ html {
 .ind-intro-header { flex: none; max-width: none; min-width: 0; }
 .ind-intro-media { flex: none; width: 100%; max-width: 640px; justify-self: center; }
 
-/* hero: screen bhar, text + visual beech mein */
 @media (min-width: 901px) {
   .ind-intro { min-height: calc(100svh - 150px); display: flex; align-items: center; padding: 40px 0; }
 }
@@ -922,10 +909,8 @@ html {
   .ind-intro-media { margin: 0 auto; }
 }
 
-/* stats ka "+" bhi theme brown */
 .ind-stat-plus { color: #8f6444; }
 
-/* halka brown gradient (Services jaisa) */
 .ind-page-bg {
   background:
     radial-gradient(ellipse 55% 45% at 82% 18%, rgba(143, 100, 68, 0.22) 0%, transparent 70%),
@@ -944,11 +929,9 @@ html {
 }
 
 /* =========================================================
-   AXYS3D — INDUSTRIES PAGE
-   UNIFIED TYPOGRAPHY: HEADINGS + SUBHEADINGS + CTA
+   AXYS3D — INDUSTRIES PAGE UNIFIED TYPOGRAPHY
    ========================================================= */
 
-/* Main headings and section headings */
 .industries-page h1,
 .industries-page h2,
 .industries-page h3,
@@ -964,7 +947,6 @@ html {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Main hero heading */
 .industries-page .ind-h1,
 .page-industries .ind-h1 {
   font-family: 'Manrope', sans-serif !important;
@@ -975,7 +957,6 @@ html {
   color: #ffffff !important;
 }
 
-/* Hero heading inner spans and animated words */
 .industries-page .ind-h1 span,
 .industries-page .ind-h1-visual,
 .industries-page .ind-word,
@@ -988,7 +969,6 @@ html {
   line-height: inherit !important;
 }
 
-/* Two subheadings — same font style */
 .industries-page .ind-subheading,
 .industries-page .ind-subheading-2,
 .page-industries .ind-subheading,
@@ -1000,7 +980,6 @@ html {
   color: #ffffff !important;
 }
 
-/* General section headings */
 .industries-page .ind-sec-h2,
 .page-industries .ind-sec-h2 {
   font-family: 'Manrope', sans-serif !important;
@@ -1011,7 +990,6 @@ html {
   color: #ffffff !important;
 }
 
-/* Highlighted words in headings */
 .industries-page h1 span,
 .industries-page h2 span,
 .industries-page .ind-sec-h2 span,
@@ -1023,7 +1001,6 @@ html {
   letter-spacing: inherit !important;
 }
 
-/* Industry card headings */
 .industries-page .ind-card h2,
 .industries-page .ind-card h3,
 .industries-page .ind-card-title,
@@ -1037,7 +1014,6 @@ html {
   color: #ffffff !important;
 }
 
-/* CTA heading */
 .industries-page .ind-final-inner h2,
 .industries-page .ind-final-cta h2,
 .industries-page .ind-cta h2,
@@ -1052,7 +1028,6 @@ html {
   color: #ffffff !important;
 }
 
-/* CTA heading highlighted text */
 .industries-page .ind-final-inner h2 span,
 .industries-page .ind-final-cta h2 span,
 .industries-page .ind-cta h2 span,
@@ -1063,7 +1038,6 @@ html {
   color: #8f6444 !important;
 }
 
-/* CTA buttons */
 .industries-page .ind-final-cta a,
 .industries-page .ind-cta a,
 .industries-page .ind-final-button,
@@ -1077,7 +1051,6 @@ html {
   letter-spacing: -0.04em !important;
 }
 
-/* Responsive typography */
 @media (max-width: 680px) {
   .industries-page .ind-h1,
   .page-industries .ind-h1 {
@@ -1101,7 +1074,6 @@ html {
   }
 }
 
-/* Accessibility: reduced motion */
 @media (prefers-reduced-motion: reduce) {
   .industries-page .ind-word,
   .page-industries .ind-word {
@@ -1109,4 +1081,58 @@ html {
     opacity: 1 !important;
     transform: none !important;
   }
+}
+
+/* =========================================================
+   SAB HEADINGS + CTA — Inter Tight (work.css ke mutabiq)
+   Font: Inter Tight 800, letter-spacing -0.015em.
+   ========================================================= */
+html body h1:not(#a):not(#b),
+html body h2:not(#a):not(#b),
+html body h3:not(#a):not(#b),
+html body h4:not(#a):not(#b),
+html body h5:not(#a):not(#b),
+html body h6:not(#a):not(#b),
+html body .ind-h1:not(#a):not(#b),
+html body .ind-sec-h2:not(#a):not(#b),
+html body .ind-card-title:not(#a):not(#b),
+html body .ind-subheading:not(#a):not(#b),
+html body .ind-subheading-2:not(#a):not(#b),
+html body .ind-stat-num:not(#a):not(#b),
+html body h1:not(#a):not(#b) *,
+html body h2:not(#a):not(#b) *,
+html body h3:not(#a):not(#b) *,
+html body h4:not(#a):not(#b) *,
+html body h5:not(#a):not(#b) *,
+html body h6:not(#a):not(#b) *,
+html body .ind-h1:not(#a):not(#b) *,
+html body .ind-sec-h2:not(#a):not(#b) *,
+html body .ind-card-title:not(#a):not(#b) * {
+  font-family: 'Inter Tight', sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.015em !important;
+}
+
+/* HERO TITLE size (work.css jaisa) */
+html body .ind-h1:not(#a):not(#b) {
+  font-size: clamp(1.5rem, 5vw, 4.5rem) !important;
+  line-height: 0.92 !important;
+  max-width: none !important;
+  overflow-wrap: break-word;
+}
+html body .ind-h1:not(#a):not(#b) * {
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* CTA buttons — sirf font family + spacing */
+html body [class*="final-button"]:not(#a):not(#b),
+html body [class*="final-btn"]:not(#a):not(#b),
+html body .final-cta-button:not(#a):not(#b),
+html body .ind-final-button:not(#a):not(#b),
+html body .ind-final-btn:not(#a):not(#b),
+html body .ins-btn-primary:not(#a):not(#b),
+html body .cnt-submit:not(#a):not(#b) {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: -0.015em !important;
 }

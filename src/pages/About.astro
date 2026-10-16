@@ -27,70 +27,6 @@ const splitHalf = (text: string = "") => {
 const [whyA, whyB] = splitHalf(pageData.whySubtitle);
 const [delA, delB] = splitHalf(pageData.deliveryTitle);
 
-/* Skyscraper Visual Geometry */
-type P = [number, number];
-const U: P = [28, -16];
-const V: P = [-28, -16];
-const add = (a: P, d: P, k = 1): P => [a[0] + d[0] * k, a[1] + d[1] * k];
-const up = (p: P, h: number): P => [p[0], p[1] - h];
-const pts = (a: P[]) => a.map((p) => `${p[0].toFixed(1)},${p[1].toFixed(1)}`).join(" ");
-
-function makeDetailedTower(F: P, dx: number, dy: number, H: number, rows: number, colsR: number, colsL: number) {
-  const R = add(F, U, dx);
-  const L = add(F, V, dy);
-  const B = add(R, V, dy);
-  
-  const at = (side: "l" | "r", s: number, hf: number): P =>
-    side === "r" ? up(add(F, U, s * dx), H * hf) : up(add(F, V, s * dy), H * hf);
-
-  const glassPanels: string[] = [];
-  const addPanels = (side: "l" | "r", cols: number) => {
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        const s0 = (c + 0.12) / cols, s1 = (c + 0.88) / cols;
-        const h0 = (r + 0.18) / rows, h1 = (r + 0.82) / rows;
-        glassPanels.push(pts([at(side, s0, h0), at(side, s1, h0), at(side, s1, h1), at(side, s0, h1)]));
-      }
-    }
-  };
-  addPanels("r", colsR);
-  addPanels("l", colsL);
-
-  const floorLines: string[] = [];
-  for (let r = 1; r < rows; r++) {
-    floorLines.push(pts([up(L, (H * r) / rows), up(F, (H * r) / rows), up(R, (H * r) / rows)]));
-  }
-
-  return {
-    right: pts([F, R, up(R, H), up(F, H)]),
-    left: pts([F, L, up(L, H), up(F, H)]),
-    top: pts([up(F, H), up(R, H), up(B, H), up(L, H)]),
-    floorLines,
-    glassPanels,
-    at,
-  };
-}
-
-const mainTower = makeDetailedTower([250, 390], 3.5, 3.5, 250, 11, 4, 4);
-const podiumWing = makeDetailedTower([340, 415], 3.0, 2.2, 110, 4, 3, 2);
-
-const pipePaths = [
-  { c: "cyan", d: pts([mainTower.at("l", 1, 0.2), mainTower.at("l", 0, 0.2), mainTower.at("r", 0.8, 0.2)]) },
-  { c: "gold", d: pts([mainTower.at("r", 0.2, 0), mainTower.at("r", 0.2, 1)]) },
-  { c: "gold", d: pts([mainTower.at("r", 0.2, 0.5), mainTower.at("r", 0.95, 0.5)]) },
-  { c: "cyan", d: pts([podiumWing.at("l", 1, 0.35), podiumWing.at("l", 0, 0.35), podiumWing.at("r", 0.85, 0.35)]) },
-];
-
-const gridLines: string[] = [];
-{
-  const O: P = [250, 480], N = 11;
-  for (let i = 0; i <= N; i++) {
-    const a1 = add(O, V, i), a2 = add(a1, U, N);
-    const b1 = add(O, U, i), b2 = add(b1, V, N);
-    gridLines.push(`M${a1[0]},${a1[1]}L${a2[0]},${a2[1]}`, `M${b1[0]},${b1[1]}L${b2[0]},${b2[1]}`);
-  }
-}
-
 const IMG = {
   tallBento: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=900&q=80",
   handshake: "https://images.unsplash.com/photo-1521791136064-7986c2920216?auto=format&fit=crop&w=800&q=80",
@@ -113,7 +49,6 @@ const clientLogos = [
   { name: "Axis Arch", symbol: "◼" },
 ];
 
-/* Team Members with Headshots matching Image 13 */
 const team = [
   { 
     name: "Marcus Mango", 
@@ -137,7 +72,6 @@ const team = [
   },
 ];
 
-/* Testimonials (Image 12 speech bubbles) */
 const quotes = [
   { 
     text: "My buying experience is so nice, and received me very politely. Riding experience is also very good. Very good performance. I never experienced such a kind of performance. Very good service.", 
@@ -187,11 +121,11 @@ const quotes = [
     <Navbar variant="solid" />
 
     <main class="about-page">
-      <!-- ================= HERO ================= -->
+      <!-- ================= HERO (IMAGE REMOVED, CENTERED) ================= -->
       <section class="abt-intro">
         <div class="abt-wrap">
-          <div class="abt-intro-row">
-            <div class="abt-intro-header">
+          <div class="abt-intro-row" style="display: block; text-align: center;">
+            <div class="abt-intro-header" style="max-width: 780px; margin: 0 auto;">
               <span class="abt-kicker">{pageData.heroEyebrow}</span>
               <h1 class="abt-h1">
                 <span class="abt-h1-visual">
@@ -206,68 +140,7 @@ const quotes = [
                   ))}
                 </span>
               </h1>
-              <p class="abt-lead">{pageData.heroDescription}</p>
-            </div>
-
-            <div class="abt-intro-media">
-              <div class="abt-viz">
-                <svg class="abt-viz-svg" viewBox="0 0 540 520" aria-hidden="true" focusable="false">
-                  <defs>
-                    <radialGradient id="gridFade">
-                      <stop offset="0.3" stop-color="#fff" />
-                      <stop offset="1" stop-color="#000" />
-                    </radialGradient>
-                    <mask id="gridMask"><rect width="540" height="520" fill="url(#gridFade)" /></mask>
-                  </defs>
-
-                  <g class="abt-grid" mask="url(#gridMask)">{gridLines.map((d) => <path d={d} />)}</g>
-
-                  <g class="abt-fill">
-                    <polygon points={mainTower.left} fill="#3a3a3d" />
-                    <polygon points={mainTower.right} fill="#525254" />
-                    <polygon points={mainTower.top} fill="#5b3b27" />
-                  </g>
-
-                  <g class="abt-wires">
-                    <polygon class="abt-wire abt-wa" pathLength="1" points={mainTower.left} />
-                    <polygon class="abt-wire abt-wa" pathLength="1" points={mainTower.right} />
-                    <polygon class="abt-wire abt-wa" pathLength="1" points={mainTower.top} />
-                    {mainTower.floorLines.map((f) => <polyline class="abt-wire abt-wb" pathLength="1" points={f} />)}
-                  </g>
-
-                  <g class="abt-win">
-                    {mainTower.glassPanels.map((w, i) => <polygon points={w} style={`--w:${((i * 19) % 11) / 4}s`} />)}
-                  </g>
-
-                  <g class="abt-mepg">
-                    {pipePaths.slice(0, 3).map((m) => <polyline class={`abt-mep abt-mep-${m.c}`} pathLength="1" points={m.d} />)}
-                  </g>
-
-                  <g class="abt-fill">
-                    <polygon points={podiumWing.left} fill="#3a3a3d" />
-                    <polygon points={podiumWing.right} fill="#525254" />
-                    <polygon points={podiumWing.top} fill="#5b3b27" />
-                  </g>
-                  <g class="abt-wires">
-                    <polygon class="abt-wire abt-wa" pathLength="1" points={podiumWing.left} />
-                    <polygon class="abt-wire abt-wa" pathLength="1" points={podiumWing.right} />
-                    <polygon class="abt-wire abt-wa" pathLength="1" points={podiumWing.top} />
-                    {podiumWing.floorLines.map((f) => <polyline class="abt-wire abt-wb" pathLength="1" points={f} />)}
-                  </g>
-                  <g class="abt-win">
-                    {podiumWing.glassPanels.map((w, i) => <polygon points={w} style={`--w:${((i * 13) % 7) / 3}s`} />)}
-                  </g>
-
-                  <g class="abt-orbit">
-                    <path class="abt-orbit-path" d="M60,350 A210,110 0 0 1 480,350 A210,110 0 0 1 60,350" />
-                  </g>
-                  <g class="abt-orbit abt-cam">
-                    <circle r="6" fill="#8f6444" class="abt-cam-dot">
-                      <animateMotion dur="8s" repeatCount="indefinite" path="M60,350 A210,110 0 0 1 480,350 A210,110 0 0 1 60,350" />
-                    </circle>
-                  </g>
-                </svg>
-              </div>
+              <p class="abt-lead" style="margin: 0 auto; max-width: 640px;">{pageData.heroDescription}</p>
             </div>
           </div>
         </div>
@@ -300,7 +173,6 @@ const quotes = [
           </div>
 
           <div class="abt-bento-grid">
-            <!-- Left Tall Card -->
             <div class="abt-bento-card abt-bento-card--tall" data-reveal>
               <div>
                 <div class="abt-bento-tall-media">
@@ -314,7 +186,6 @@ const quotes = [
               </a>
             </div>
 
-            <!-- Top Center Card -->
             <div class="abt-bento-card abt-bento-card--handshake" data-reveal style="--d:80ms">
               <div class="abt-bento-handshake-media">
                 <img src={IMG.handshake} alt="Partnership" loading="lazy" />
@@ -322,7 +193,6 @@ const quotes = [
               <h4>Trusted by <span>studios & developers</span> worldwide.</h4>
             </div>
 
-            <!-- Top Right Card (Stats with warm tint) -->
             <div class="abt-bento-card--stats abt-bento-card" data-reveal style="--d:160ms">
               <div class="abt-bento-stats-grid">
                 {stats.map((s) => (
@@ -337,7 +207,6 @@ const quotes = [
               </div>
             </div>
 
-            <!-- Bottom Wide Card with Full Image & Gradient Overlay -->
             <div class="abt-bento-card abt-bento-card--wide" data-reveal style="--d:220ms">
               <img src={IMG.wideBento} alt="Architectural space" class="abt-bento-wide-bg" loading="lazy" />
               <div class="abt-bento-wide-overlay" aria-hidden="true"></div>
@@ -350,18 +219,16 @@ const quotes = [
         </div>
       </section>
 
-      <!-- ================= 3. PRINCIPLES (LEFT HEADING + RIGHT 2x2 COMPACT GREY CARDS) ================= -->
+      <!-- ================= 3. PRINCIPLES ================= -->
       <section class="abt-principles">
         <div class="abt-wrap">
           <div class="abt-principles-split">
-            <!-- Left Side: Main Heading -->
             <div class="abt-principles-left" data-reveal>
               <span class="abt-kicker">Principles</span>
               <h2 class="abt-principles-h2">What guides <span>our work</span></h2>
               <p class="abt-principles-lead">Our foundational guidelines for delivering checked architectural models, seamless workflows, and reliable visualizations.</p>
             </div>
 
-            <!-- Right Side: 2 Up 2 Down Compact Grey Cards -->
             <div class="abt-principles-grid-2x2">
               {
                 pageData.principles &&
@@ -378,7 +245,7 @@ const quotes = [
         </div>
       </section>
 
-      <!-- ================= 4. THE TEAM (IMAGE 13 STYLE) ================= -->
+      <!-- ================= 4. THE TEAM ================= -->
       {team.length > 0 && (
         <section class="abt-team">
           <div class="abt-wrap">
@@ -492,5 +359,5 @@ const quotes = [
       );
       document.querySelectorAll("[data-count-to]").forEach((el) => countObserver.observe(el));
     </script>
-  </body>
+  </body> 
 </html>

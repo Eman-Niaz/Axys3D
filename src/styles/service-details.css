@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 /* =========================================================
    AXYS3D — SERVICE DETAIL PAGE (presentable, image-led)
@@ -272,7 +273,7 @@ html:not(.js) .svcd-reveal { opacity: 1; transform: none; }
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
-  min-height: calc(3 * 1.6em); /* sab collapsed cards ki height barabar */
+  min-height: calc(3 * 1.6em);
 }
 
 .svcd-card-more { display: grid; grid-template-rows: 0fr; transition: grid-template-rows 0.45s ease; }
@@ -442,7 +443,7 @@ html:not(.js) .svcd-reveal { opacity: 1; transform: none; }
 .svcd-note {
   padding: 26px 26px 24px;
   border-radius: 22px;
-  background: #313131;          /* ek card black */
+  background: #313131;
   border: 0;
   color: #ffffff;
 }
@@ -452,7 +453,6 @@ html:not(.js) .svcd-reveal { opacity: 1; transform: none; }
 .svcd-note li::marker { color: var(--brown); }
 .svcd-note p { margin: 0 0 14px; font-size: 13px; line-height: 1.65; color: #b4b0ac; }
 
-/* doosra card grey */
 .svcd-note--brown { flex: 1; background: #beb8ae; }
 .svcd-note--brown h3 { color: #1a1511; font-size: 18px; letter-spacing: -0.03em; }
 .svcd-note--brown p { color: #4b433c; }
@@ -656,4 +656,56 @@ html:not(.js) .svcd-reveal { opacity: 1; transform: none; }
 @media (prefers-reduced-motion: reduce) {
   .svcd-reveal { opacity: 1; transform: none; transition: none; }
   .svcd-card-more, .svcd-faq-a { transition: none; }
+}
+
+/* =========================================================
+   SAB HEADINGS + CTA — Inter Tight (work.css ke mutabiq)
+   Font: Inter Tight 800, letter-spacing -0.015em.
+   ========================================================= */
+html body h1:not(#a):not(#b),
+html body h2:not(#a):not(#b),
+html body h3:not(#a):not(#b),
+html body h4:not(#a):not(#b),
+html body h5:not(#a):not(#b),
+html body h6:not(#a):not(#b),
+html body .svcd-h1:not(#a):not(#b),
+html body .svcd-h2:not(#a):not(#b),
+html body .svcd-card-title:not(#a):not(#b),
+html body .svcd-proj-body strong:not(#a):not(#b),
+html body .svcd-faq-text:not(#a):not(#b),
+html body .svcd-band-grid b:not(#a):not(#b),
+html body h1:not(#a):not(#b) *,
+html body h2:not(#a):not(#b) *,
+html body h3:not(#a):not(#b) *,
+html body h4:not(#a):not(#b) *,
+html body h5:not(#a):not(#b) *,
+html body h6:not(#a):not(#b) *,
+html body .svcd-h1:not(#a):not(#b) *,
+html body .svcd-h2:not(#a):not(#b) *,
+html body .svcd-card-title:not(#a):not(#b) * {
+  font-family: 'Inter Tight', sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.015em !important;
+}
+
+/* HERO TITLE size (work.css jaisa) */
+html body .svcd-h1:not(#a):not(#b) {
+  font-size: clamp(1.5rem, 5vw, 4.5rem) !important;
+  line-height: 0.92 !important;
+  max-width: none !important;
+  overflow-wrap: break-word;
+}
+html body .svcd-h1:not(#a):not(#b) * {
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* CTA & Action buttons — sirf font family + spacing */
+html body [class*="final-button"]:not(#a):not(#b),
+html body [class*="final-btn"]:not(#a):not(#b),
+html body .svcd-final-btn:not(#a):not(#b),
+html body .svcd-btn:not(#a):not(#b),
+html body .svcd-more-btn:not(#a):not(#b) {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: -0.015em !important;
 }

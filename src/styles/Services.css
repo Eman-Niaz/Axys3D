@@ -1,4 +1,6 @@
-/* @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
 /* =========================================================
    AXYS3D — SERVICES PAGE
    ========================================================= */
@@ -248,17 +250,13 @@
 
 /* =========================================================
    SERVICE PANELS — STACKING IMAGE CARDS
-   - image (stage) scroll par apni jagah ruki rehti hai
-   - text 1:1 upar sarakta hai (JS)
-   - agla card rounded corners ke sath neeche se charhta hai
-   Height badalni ho to sirf --svc-ph badlo.
    ========================================================= */
 
 .services-page {
-  --svc-nav: 84px;                                /* fixed navbar ki height */
-  --svc-top: calc(var(--svc-nav) + 12px);         /* card yahan par ruk jata hai */
-  --svc-ph: clamp(460px, 72svh, 700px);           /* <-- CARD KI HEIGHT (pehle poori screen thi) */
-  --svc-gap: 40px;                                /* ruke hue card ke neeche agla card kitna dur se shuru ho */
+  --svc-nav: 84px;
+  --svc-top: calc(var(--svc-nav) + 12px);
+  --svc-ph: clamp(460px, 72svh, 700px);
+  --svc-gap: 40px;
   --svc-side: clamp(10px, 1.6vw, 28px);
   --svc-radius: clamp(22px, 2.6vw, 36px);
 }
@@ -354,9 +352,9 @@ html {
    ========================================================= */
 
 .svc-final-cta,
-.site-footer {            /* <- apne footer ki class yahan likhein */
+.site-footer {
   position: relative;
-  overflow: hidden;       /* glow andar hi rahe, koi line na aye */
+  overflow: hidden;
   isolation: isolate;
 }
 
@@ -375,7 +373,6 @@ html {
   filter: blur(6px);
 }
 
-/* left — blue */
 .svc-final-cta::before,
 .site-footer::before {
   left: -220px;
@@ -383,7 +380,6 @@ html {
   animation: glowLeft 16s ease-in-out infinite alternate;
 }
 
-/* right — brown */
 .svc-final-cta::after,
 .site-footer::after {
   right: -220px;
@@ -458,7 +454,6 @@ html:has(.page-services) { scroll-behavior: smooth; }
 }
 .svc-viz-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; }
 
-/* ---- scene (15s loop: 0-33% Build, 33-66% Visualize, 66-100% Experience) ---- */
 .vz-grid path { fill: none; stroke: rgba(143, 100, 68, 0.22); stroke-width: 1; }
 .vz-sun { opacity: 0; animation: vzSun 15s ease-in-out infinite; }
 
@@ -480,13 +475,11 @@ html:has(.page-services) { scroll-behavior: smooth; }
 .vz-orbit-path { fill: none; stroke: #8f6444; stroke-width: 1.4; stroke-dasharray: 2 7; stroke-linecap: round; opacity: 0.75; }
 .vz-cam-dot { filter: drop-shadow(0 0 7px rgba(143, 100, 68, 0.95)); }
 
-/* ---- connector lines icon -> building ---- */
 .vz-link { stroke: #8f6444; stroke-width: 1.2; stroke-dasharray: 3 6; opacity: 0.1; }
 .vz-l-a { animation: vzFlow 1s linear infinite, vzLinkA 15s ease-in-out infinite; }
 .vz-l-b { animation: vzFlow 1s linear infinite, vzLinkB 15s ease-in-out infinite; }
 .vz-l-c { animation: vzFlow 1s linear infinite, vzLinkC 15s ease-in-out infinite; }
 
-/* ---- service icons ---- */
 .vz-node {
   position: absolute;
   z-index: 2;
@@ -536,7 +529,6 @@ html:has(.page-services) { scroll-behavior: smooth; }
 .vz-side-l::after { right: calc(100% + 12px); top: 50%; transform: translateY(-50%); }
 .vz-side-t::after { bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); }
 
-/* ---- stage progress bar ---- */
 .svc-viz-stages { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 18px; }
 .vz-st { display: flex; flex-direction: column; gap: 8px; }
 .vz-st b { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--svc-muted); }
@@ -546,7 +538,6 @@ html:has(.page-services) { scroll-behavior: smooth; }
 .vz-st-b i::after { animation: vzBarB 15s linear infinite; }
 .vz-st-c i::after { animation: vzBarC 15s linear infinite; }
 
-/* ---- keyframes ---- */
 @keyframes svcFlowIn { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
 @keyframes vzDrawA { 0% { stroke-dashoffset: 1; opacity: 1; } 18%, 90% { stroke-dashoffset: 0; opacity: 1; } 97% { stroke-dashoffset: 0; opacity: 0; } 100% { stroke-dashoffset: 1; opacity: 0; } }
 @keyframes vzDrawB { 0%, 8% { stroke-dashoffset: 1; opacity: 1; } 28%, 90% { stroke-dashoffset: 0; opacity: 1; } 97% { stroke-dashoffset: 0; opacity: 0; } 100% { stroke-dashoffset: 1; opacity: 0; } }
@@ -603,7 +594,6 @@ html:has(.page-services) { scroll-behavior: smooth; }
 
 .svc-h1 { line-height: 1.1 !important; overflow-wrap: break-word; }
 
-/* laptop / small desktop: keep the two-column hero but let the text column breathe */
 @media (max-width: 1100px) {
   .svc-wrap { width: min(100% - 56px, 1320px); }
   .svc-kicker { margin-top: 0; }
@@ -613,7 +603,6 @@ html:has(.page-services) { scroll-behavior: smooth; }
   .svc-intro-media { flex: 1 1 54%; max-width: 560px; margin-bottom: 0; }
 }
 
-/* tablet: stack text above sphere (same top spacing as the other pages) */
 @media (max-width: 900px) {
   .svc-intro { padding: 48px 0 24px; }
   .svc-intro-row { flex-direction: column; align-items: flex-start; gap: 28px; }
@@ -636,7 +625,6 @@ html:has(.page-services) { scroll-behavior: smooth; }
 
 /* =========================================================
    AXYS3D DESIGN SYSTEM — Howitworks jaisi styling
-   (colors: brown/gold wahi jo pehle tha)
    ========================================================= */
 .services-page,
 .page-services { font-family: 'Manrope', system-ui, sans-serif !important; }
@@ -710,8 +698,6 @@ html:has(.page-services) { scroll-behavior: smooth; }
 
 /* =========================================================
    CTA BACKGROUND — image + navy overlay (har CTA par same)
-   Image badalni ho to :root mein --cta-image set karein,
-   jaise: :root mein --cta-image variable set karein
    ========================================================= */
 .svc-final-cta {
   position: relative;
@@ -755,7 +741,6 @@ html:has(.page-services) { scroll-behavior: smooth; }
   max-width: 100%;
   color: #ffffff;
 }
-/* purani `[class*="-h1"]` rule inner span par letter-spacing/color force kar rahi thi */
 .services-page .svc-h1-visual {
   font: inherit !important;
   letter-spacing: inherit !important;
@@ -766,7 +751,6 @@ html:has(.page-services) { scroll-behavior: smooth; }
 .svc-intro-header { flex: none; max-width: none; }
 .svc-lead { margin-top: 28px; max-width: 560px; }
 
-/* hero: sirf text + visual dikhein, cards fold ke neeche */
 .svc-kicker { margin-top: 0; }
 .svc-intro { padding-bottom: clamp(60px, 10vh, 120px); }
 @media (min-width: 901px) {
@@ -774,7 +758,6 @@ html:has(.page-services) { scroll-behavior: smooth; }
 }
 .svc-list { margin-top: clamp(40px, 8vh, 100px); }
 
-/* text aur visual parallel, lekin alag alag cells: ek ka size doosre ko nahi hilata */
 .svc-intro-row {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
@@ -790,21 +773,20 @@ html:has(.page-services) { scroll-behavior: smooth; }
 
 /* =========================================================
    SERVICES — accordion cards (4 rows x 2 columns)
-   Ek column mein ek card bara (grey), baqi chhote rows.
    ========================================================= */
 .svc-list { position: relative; z-index: 2; padding: 0 0 80px; }
 .svc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; align-items: start; }
 .svc-col { display: flex; flex-direction: column; gap: 12px; min-width: 0; }
 
 .svc-card {
-  --m: clamp(150px, 15vw, 200px);          /* bari image ki width */
+  --m: clamp(150px, 15vw, 200px);
   position: relative;
   display: grid;
   grid-template-columns: clamp(40px, 4vw, 60px) var(--m) minmax(0, 1fr);
   align-items: center;
   gap: clamp(12px, 1.6vw, 24px);
   padding: clamp(18px, 2vw, 26px) clamp(16px, 2.2vw, 30px);
-  background: #1b1b1b;                       /* bara card: thora grey */
+  background: #1b1b1b;
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 14px;
   cursor: pointer;
@@ -842,7 +824,6 @@ html:has(.page-services) { scroll-behavior: smooth; }
   transition: font-size 0.45s ease;
 }
 
-/* andar ka hissa: smooth khulta / band hota hai */
 .svc-card-more {
   display: grid;
   grid-template-rows: 1fr;
@@ -872,14 +853,12 @@ html:has(.page-services) { scroll-behavior: smooth; }
 .svc-card-link:hover,
 .svc-card-link:focus-visible { background: #6b452c; outline: none; }
 
-/* chhota (band) card — sirf JS ke saath, warna sab khule rehte hain */
 .js .svc-card:not(.is-open) { background: #0f0f0f; border-color: rgba(255, 255, 255, 0.08); padding-block: 16px; }
 .js .svc-card:not(.is-open):hover { border-color: rgba(143, 100, 68, 0.5); }
 .js .svc-card:not(.is-open) .svc-card-media { width: calc(var(--m) * 0.56); height: calc(var(--m) * 0.38); }
 .js .svc-card:not(.is-open) .svc-card-title { font-size: clamp(17px, 1.5vw, 21px); }
 .js .svc-card:not(.is-open) .svc-card-more { grid-template-rows: 0fr; opacity: 0; }
 
-/* reveal */
 .js .svc-card[data-reveal] {
   opacity: 0;
   transform: translateY(18px);
@@ -919,13 +898,10 @@ html:has(.page-services) { scroll-behavior: smooth; }
   background: radial-gradient(circle at center, rgba(91, 59, 39, 0.3) 0%, transparent 70%);
 }
 
-
 /* =========================================================
    AXYS3D — CTA TYPOGRAPHY
-   Same font style as the main hero heading
    ========================================================= */
 
-/* CTA heading */
 .services-page .svc-final-inner h2,
 .services-page .svc-final-inner h2 span,
 .page-services .svc-final-inner h2,
@@ -938,7 +914,6 @@ html:has(.page-services) { scroll-behavior: smooth; }
   margin-bottom: 0.4em !important;
 }
 
-/* CTA button */
 .services-page .final-cta-button,
 .services-page .final-cta-button *,
 .page-services .final-cta-button,
@@ -946,4 +921,52 @@ html:has(.page-services) { scroll-behavior: smooth; }
   font-family: 'Manrope', sans-serif !important;
   font-weight: 700 !important;
   letter-spacing: -0.065em !important;
+}
+
+/* =========================================================
+   SAB HEADINGS + CTA — Inter Tight (work.css ke mutabiq)
+   Font: Inter Tight 800, letter-spacing -0.015em.
+   ========================================================= */
+html body h1:not(#a):not(#b),
+html body h2:not(#a):not(#b),
+html body h3:not(#a):not(#b),
+html body h4:not(#a):not(#b),
+html body h5:not(#a):not(#b),
+html body h6:not(#a):not(#b),
+html body .svc-h1:not(#a):not(#b),
+html body .svc-card-title:not(#a):not(#b),
+html body h1:not(#a):not(#b) *,
+html body h2:not(#a):not(#b) *,
+html body h3:not(#a):not(#b) *,
+html body h4:not(#a):not(#b) *,
+html body h5:not(#a):not(#b) *,
+html body h6:not(#a):not(#b) *,
+html body .svc-h1:not(#a):not(#b) *,
+html body .svc-card-title:not(#a):not(#b) * {
+  font-family: 'Inter Tight', sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.015em !important;
+}
+
+/* HERO TITLE size (work.css jaisa) */
+html body .svc-h1:not(#a):not(#b) {
+  font-size: clamp(1.5rem, 5vw, 4.5rem) !important;
+  line-height: 0.92 !important;
+  max-width: none !important;
+  overflow-wrap: break-word;
+}
+html body .svc-h1:not(#a):not(#b) * {
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* CTA buttons — sirf font family + spacing */
+html body [class*="final-button"]:not(#a):not(#b),
+html body [class*="final-btn"]:not(#a):not(#b),
+html body .final-cta-button:not(#a):not(#b),
+html body .svc-card-link:not(#a):not(#b),
+html body .ins-btn-primary:not(#a):not(#b),
+html body .cnt-submit:not(#a):not(#b) {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: -0.015em !important;
 }

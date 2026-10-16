@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* ==========================================================================
@@ -216,7 +217,7 @@
   position: relative;
   z-index: 2;
   padding: 40px 0 120px;
-  margin-top: 150px; /* Neeche wali heading ko kafi neeche kiya */
+  margin-top: 150px;
 }
 
 .isl-sec-head--row {
@@ -484,8 +485,7 @@
 }
 
 /* ==========================================================================
-   ARTICLE PAGE ([slug].astro) — BLOG LAYOUT (3 columns, neat & compact)
-   Left: About / connect  |  Center: article  |  Right: recent posts / categories
+   ARTICLE PAGE ([slug].astro) — BLOG LAYOUT
 ========================================================================== */
 
 .isd-wrap { width: min(1180px, calc(100% - 64px)); }
@@ -880,4 +880,59 @@
   .isd-final-inner h2 {
     margin-bottom: 24px !important;
   }
+}
+
+/* =========================================================
+   SAB HEADINGS + CTA — Inter Tight (work.css ke mutabiq)
+   Font: Inter Tight 800, letter-spacing -0.015em.
+   ========================================================= */
+html body h1:not(#a):not(#b),
+html body h2:not(#a):not(#b),
+html body h3:not(#a):not(#b),
+html body h4:not(#a):not(#b),
+html body h5:not(#a):not(#b),
+html body h6:not(#a):not(#b),
+html body .isl-h1:not(#a):not(#b),
+html body .isl-sec-h2:not(#a):not(#b),
+html body .isl-card-title:not(#a):not(#b),
+html body .isd-title:not(#a):not(#b),
+html body .isd-rel-title:not(#a):not(#b),
+html body .isd-recent-title:not(#a):not(#b),
+html body h1:not(#a):not(#b) *,
+html body h2:not(#a):not(#b) *,
+html body h3:not(#a):not(#b) *,
+html body h4:not(#a):not(#b) *,
+html body h5:not(#a):not(#b) *,
+html body h6:not(#a):not(#b) *,
+html body .isl-h1:not(#a):not(#b) *,
+html body .isl-sec-h2:not(#a):not(#b) *,
+html body .isl-card-title:not(#a):not(#b) *,
+html body .isd-title:not(#a):not(#b) * {
+  font-family: 'Inter Tight', sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.015em !important;
+}
+
+/* HERO TITLE size (work.css jaisa) */
+html body .isl-h1:not(#a):not(#b) {
+  font-size: clamp(1.5rem, 5vw, 4.5rem) !important;
+  line-height: 0.92 !important;
+  max-width: none !important;
+  overflow-wrap: break-word;
+}
+html body .isl-h1:not(#a):not(#b) * {
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* CTA & Action buttons — sirf font family + spacing */
+html body [class*="final-button"]:not(#a):not(#b),
+html body [class*="final-btn"]:not(#a):not(#b),
+html body .isl-final-button:not(#a):not(#b),
+html body .isd-final-btn:not(#a):not(#b),
+html body .isl-card-cta-label:not(#a):not(#b),
+html body .isd-share-list a:not(#a):not(#b),
+html body .isd-share-list button:not(#a):not(#b) {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: -0.015em !important;
 }

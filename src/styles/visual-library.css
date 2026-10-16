@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* =========================================================
@@ -687,4 +688,58 @@
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
+}
+
+/* =========================================================
+   SAB HEADINGS + CTA — Inter Tight (sab pages par ek jaisa)
+   Font: Inter Tight 800, letter-spacing -0.015em.
+   Page ke h1-h6, section titles, card titles aur CTA (final-cta) sab cover hain.
+   Hero title ka size/line-height neeche alag hai, baaki headings apna
+   size rakhti hain. Selector jaan-boojh kar mazboot hai kyunke purane
+   "Tamam Headings" rules !important ke saath Manrope laga rahe the.
+   ========================================================= */
+html body h1:not(#a):not(#b),
+html body h2:not(#a):not(#b),
+html body h3:not(#a):not(#b),
+html body h4:not(#a):not(#b),
+html body h5:not(#a):not(#b),
+html body h6:not(#a):not(#b),
+html body .lib-sec-h2:not(#a):not(#b),
+html body .lib-card-title:not(#a):not(#b),
+html body .lib-h1:not(#a):not(#b),
+html body h1:not(#a):not(#b) *,
+html body h2:not(#a):not(#b) *,
+html body h3:not(#a):not(#b) *,
+html body h4:not(#a):not(#b) *,
+html body h5:not(#a):not(#b) *,
+html body h6:not(#a):not(#b) *,
+html body .lib-sec-h2:not(#a):not(#b) *,
+html body .lib-card-title:not(#a):not(#b) *,
+html body .lib-h1:not(#a):not(#b) * {
+  font-family: 'Inter Tight', sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.015em !important;
+}
+
+/* HERO TITLE size */
+html body .lib-h1:not(#a):not(#b) {
+  font-size: clamp(1.5rem, 5vw, 4.5rem) !important;
+  line-height: 0.92 !important;
+  max-width: none !important;
+  overflow-wrap: break-word;
+}
+html body .lib-h1:not(#a):not(#b) * {
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* CTA buttons — sirf font family + spacing (weight apna) */
+html body [class*="final-button"]:not(#a):not(#b),
+html body [class*="final-btn"]:not(#a):not(#b),
+html body .final-cta-button:not(#a):not(#b),
+html body .lib-final-button:not(#a):not(#b),
+html body .ins-btn-primary:not(#a):not(#b),
+html body .cnt-submit:not(#a):not(#b) {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: -0.015em !important;
 }

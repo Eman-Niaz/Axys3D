@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Manrope:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
 
 /* =========================================================
@@ -365,7 +366,7 @@ html:not(.js) .indd-reveal { opacity: 1; transform: none; }
 }
 
 /* =========================================================
-   CONNECTED SERVICES (3rd Screenshot Style - Clean Horizontal Rows)
+   CONNECTED SERVICES (Clean Horizontal Rows)
    ========================================================= */
 .indd-svc-list {
   display: flex;
@@ -380,7 +381,7 @@ html:not(.js) .indd-reveal { opacity: 1; transform: none; }
   align-items: center;
   padding: 18px 22px 18px 18px;
   border-radius: 26px;
-  background: #141416;
+  background: #232323;
   border: 1px solid #232328;
   color: #ffffff;
   transition: transform 0.35s ease, border-color 0.3s ease, box-shadow 0.35s ease;
@@ -520,7 +521,7 @@ html:not(.js) .indd-reveal { opacity: 1; transform: none; }
 }
 
 /* =========================================================
-   RESPONSIBILITY BOUNDARY (2nd Screenshot Card - Grey Tone)
+   RESPONSIBILITY BOUNDARY
    ========================================================= */
 .indd-boundary { 
   display: grid; 
@@ -529,14 +530,13 @@ html:not(.js) .indd-reveal { opacity: 1; transform: none; }
   align-items: center; 
 }
 
-/* 2nd SS wala card: white se badal kar grey styling */
 .indd-card--wide { 
   display: flex; 
   align-items: center; 
   gap: 22px; 
   padding: 30px; 
   border-radius: 26px;
-  background: #1c1d22; /* Mix/dark grey */
+  background: #343538;
   border: 1px solid #2d2e38;
   color: #ffffff;
 }
@@ -731,4 +731,53 @@ html:not(.js) .indd-reveal { opacity: 1; transform: none; }
 
 @media (prefers-reduced-motion: reduce) {
   .indd-reveal { opacity: 1; transform: none; transition: none; }
+}
+
+/* =========================================================
+   SAB HEADINGS + CTA — Inter Tight (work.css ke mutabiq)
+   Font: Inter Tight 800, letter-spacing -0.015em.
+   ========================================================= */
+html body h1:not(#a):not(#b),
+html body h2:not(#a):not(#b),
+html body h3:not(#a):not(#b),
+html body h4:not(#a):not(#b),
+html body h5:not(#a):not(#b),
+html body h6:not(#a):not(#b),
+html body .indd-h1:not(#a):not(#b),
+html body .indd-h2:not(#a):not(#b),
+html body .indd-tile b:not(#a):not(#b),
+html body .indd-proj-body strong:not(#a):not(#b),
+html body h1:not(#a):not(#b) *,
+html body h2:not(#a):not(#b) *,
+html body h3:not(#a):not(#b) *,
+html body h4:not(#a):not(#b) *,
+html body h5:not(#a):not(#b) *,
+html body h6:not(#a):not(#b) *,
+html body .indd-h1:not(#a):not(#b) *,
+html body .indd-h2:not(#a):not(#b) * {
+  font-family: 'Inter Tight', sans-serif !important;
+  font-weight: 800 !important;
+  letter-spacing: -0.015em !important;
+}
+
+/* HERO TITLE size (work.css jaisa) */
+html body .indd-h1:not(#a):not(#b) {
+  font-size: clamp(1.5rem, 5vw, 4.5rem) !important;
+  line-height: 0.92 !important;
+  max-width: none !important;
+  overflow-wrap: break-word;
+}
+html body .indd-h1:not(#a):not(#b) * {
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* CTA & Action buttons — sirf font family + spacing */
+html body [class*="final-button"]:not(#a):not(#b),
+html body [class*="final-btn"]:not(#a):not(#b),
+html body .indd-final-btn:not(#a):not(#b),
+html body .indd-btn:not(#a):not(#b),
+html body .indd-svc-row-btn:not(#a):not(#b) {
+  font-family: 'Inter Tight', sans-serif !important;
+  letter-spacing: -0.015em !important;
 }

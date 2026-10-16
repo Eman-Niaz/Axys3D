@@ -4,7 +4,7 @@
 
 .site-footer {
   --bg-dark: #000000;
-  --brown: #5b3b27;
+  --brown: #1a1a1a;
   --brown-hi: #8f6444;
   --text-white: #ffffff;
   --text-muted: #959595;
@@ -14,7 +14,7 @@
   overflow: hidden;
   isolation: isolate;
   width: 100%;
-  background: var(--bg-dark);
+  background: var(--brown);
   color: var(--text-white);
   padding: 80px 0 30px;
   font-family: "Manrope", sans-serif;
