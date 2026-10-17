@@ -95,8 +95,8 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: 1px solid var(--pl-border);
-  background: #000000;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: linear-gradient(160deg, #3a2518 0%, #34312f 100%);
   color: #ffffff;
   cursor: pointer;
   padding: 0;
@@ -151,7 +151,7 @@
   scroll-snap-align: start;
   min-height: 490px;
   position: relative;
-  background: var(--pl-card-bg);
+  background: linear-gradient(160deg, #3a2518 0%, #34312f 50%, #1c1411 100%);
   border: 1px solid var(--pl-border);
   border-radius: 8px;
   overflow: hidden;
@@ -222,4 +222,18 @@
   .pl-top { align-items: center; margin-bottom: 4px; }
   .pl-arrow { width: 40px; height: 40px; }
   .pl-card { min-height: 460px; padding: 22px 20px; }
+}
+
+/* ---------- SIDE GLOWS (sirf left/right mid): left brown, right grey ---------- */
+.pl-section::before {
+  content: ""; position: absolute; top: 50%; left: -340px; width: 680px; height: 680px;
+  transform: translateY(-50%); border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(110, 72, 48, 0.3) 0%, transparent 100%);
+  pointer-events: none; z-index: 1;
+}
+.pl-section::after {
+  content: ""; position: absolute; top: 50%; right: -340px; width: 680px; height: 680px;
+  transform: translateY(-50%); border-radius: 50%;
+  background: radial-gradient(closest-side, rgba(174, 167, 163, 0.13) 0%, transparent 100%);
+  pointer-events: none; z-index: 1;
 }

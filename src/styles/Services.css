@@ -970,3 +970,45 @@ html body .cnt-submit:not(#a):not(#b) {
   font-family: 'Inter Tight', sans-serif !important;
   letter-spacing: -0.015em !important;
 }
+
+/* =========================================================
+   SERVICES CARDS — sab band (ek jaise), sirf cursor aane par khulein
+   Pehle 01 aur 05 default khule hote the (.is-open). Ab .is-open ka koi
+   asar nahi: card tab hi khulta hai jab hover ho (ya keyboard focus ho).
+========================================================= */
+
+/* 1) Band halat: .is-open wale cards bhi baqi jaise chhote */
+.js .svc-card.is-open:not(:hover):not(:focus-within) {
+  background: #0f0f0f;
+  border-color: rgba(255, 255, 255, 0.08);
+  padding-block: 16px;
+}
+.js .svc-card.is-open:not(:hover):not(:focus-within) .svc-card-media {
+  width: calc(var(--m) * 0.56);
+  height: calc(var(--m) * 0.38);
+}
+.js .svc-card.is-open:not(:hover):not(:focus-within) .svc-card-title {
+  font-size: clamp(17px, 1.5vw, 21px);
+}
+.js .svc-card.is-open:not(:hover):not(:focus-within) .svc-card-more {
+  grid-template-rows: 0fr;
+  opacity: 0;
+}
+
+/* 2) Cursor aaye (ya Tab se focus ho) to wahi card khule */
+.js .svc-card:is(:hover, :focus-within) {
+  background: #1b1b1b;
+  border-color: rgba(143, 100, 68, 0.5);
+  padding-block: clamp(18px, 2vw, 26px);
+}
+.js .svc-card:is(:hover, :focus-within) .svc-card-media {
+  width: var(--m);
+  height: calc(var(--m) * 1.3333);
+}
+.js .svc-card:is(:hover, :focus-within) .svc-card-title {
+  font-size: clamp(20px, 1.8vw, 26px);
+}
+.js .svc-card:is(:hover, :focus-within) .svc-card-more {
+  grid-template-rows: 1fr;
+  opacity: 1;
+}

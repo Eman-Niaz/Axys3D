@@ -17,6 +17,8 @@ const gallery = [
 ];
 
 const requestHref = "/Contact";
+// Visuals page: har service ka button yahan le jata hai, jaise /Visuals?service=bim-production
+const visualsHref = "/Visuals";
 const small = (u: string) => u.replace("w=1800&q=85", "w=620&q=72");
 const loop = [...gallery, ...gallery]; // entrance marquee: do baar, taake loop beech se na tute
 ---
@@ -108,7 +110,8 @@ const loop = [...gallery, ...gallery]; // entrance marquee: do baar, taake loop 
             </dl>
           </div>
           <div class="vg-actions">
-            <a id="vgDLink" class="vg-btn-solid" href={requestHref}>Request similar</a>
+            <a id="vgDVisuals" class="vg-btn-solid" href={visualsHref}>View visuals ↗</a>
+            <a id="vgDLink" class="vg-btn-ghost" href={requestHref}>Request similar</a>
             <button id="vgDNext" class="vg-btn-ghost">Next →</button>
           </div>
         </div>
@@ -117,7 +120,7 @@ const loop = [...gallery, ...gallery]; // entrance marquee: do baar, taake loop 
   </div>
 </section>
 
-<script define:vars={{ gallery, requestHref }}>
+<script define:vars={{ gallery, requestHref, visualsHref }}>
   const N = gallery.length;
   const GAP = 22;                       // cards ke beech gap (Production Layer jaisa)
   const $ = (id) => document.getElementById(id);
@@ -203,6 +206,9 @@ const loop = [...gallery, ...gallery]; // entrance marquee: do baar, taake loop 
     return `${requestHref}?${params.toString()}`;
   };
 
+  // Is service ke visuals: Visuals page par ?service=<slug> filter ke saath
+  const buildVisualsHref = (g) => `${visualsHref}?${new URLSearchParams({ service: g.slug }).toString()}`;
+
   function fill() {
     const g = gallery[idx];
     const sw = $("vgSwap");
@@ -214,6 +220,8 @@ const loop = [...gallery, ...gallery]; // entrance marquee: do baar, taake loop 
     $("vgDTools").textContent = g.tools;
     $("vgDDeliver").textContent = g.deliver;
     $("vgDLink").href = buildContactHref(g);
+    $("vgDVisuals").href = buildVisualsHref(g);
+    $("vgDVisuals").setAttribute("aria-label", `View ${g.service} visuals`);
     const nextImg = $(imgFlip ? "vgDImgA" : "vgDImgB"), prevImg = $(imgFlip ? "vgDImgB" : "vgDImgA");
     nextImg.src = g.image; nextImg.alt = g.service;
     nextImg.classList.add("is-on"); prevImg.classList.remove("is-on");

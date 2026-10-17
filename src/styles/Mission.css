@@ -45,8 +45,8 @@
   opacity: 0;
   transform: translateY(28px);
   border-radius: 24px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: linear-gradient(160deg, #161616 0%, #0c0c0c 100%);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: linear-gradient(160deg, #3a2518 0%, #5b5957 50%, #272321 100%);
   padding: 30px;
   box-sizing: border-box;
   cursor: default;
@@ -71,16 +71,16 @@
   font-weight: 700;
   letter-spacing: 1.2px;
   text-transform: uppercase;
-  color: #8f6444;
+  color: #b8946f;
   display: inline-block;
   margin-bottom: 12px;
 }
 
-.mission-card-tag--light { color: #959595; }
+.mission-card-tag--light { color: #b5afab; }
 .mission-card-tag--gold  { color: #b8946f; }
 
-.mission-card-copy { margin: 0; color: #959595; font-size: 13.5px; line-height: 1.55; }
-.mission-card-copy--light { color: #aea7a3; }
+.mission-card-copy { margin: 0; color: #b5afab; font-size: 13.5px; line-height: 1.55; }
+.mission-card-copy--light { color: #c4beba; }
 
 /* ---------- COLUMN 1 ---------- */
 .mission-card--avatars {
@@ -94,8 +94,8 @@
   display: flex; align-items: center; justify-content: center;
   width: 36px; height: 36px; border-radius: 50%;
   margin-left: -10px;
-  border: 2px solid #0c0c0c;
-  background: #363336;
+  border: 2px solid #2a2624;
+  background: #5a5654;
   color: #ffffff;
   font-size: 11px; font-weight: 700;
 }
@@ -107,7 +107,17 @@
 .mission-card-label { color: #aea7a3; font-size: 13px; font-weight: 600; }
 .mission-stat-inline { color: #ffffff; font-weight: 800; }
 
-.mission-card--stat { display: flex; flex-direction: column; justify-content: space-between; flex: 1.2; }
+.mission-card--stat {
+  display: flex; flex-direction: column; justify-content: space-between; flex: 1.2;
+  background:  #30261c;
+  border-color: rgba(255, 255, 255, 0.18);
+}
+/* light grey card ke upar text/numbers saaf dikhen */
+.mission-card--stat .mission-card-tag { color: #e3c9a8; }
+.mission-card--stat .mission-card-copy { color: #ece8e5; }
+.mission-card--stat .mission-card-note { color: #d6d0cc; }
+.mission-card--stat .mission-stat-value { background: linear-gradient(180deg, #ffffff 0%, #ddd7d3 100%); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+.mission-card--stat .mission-stat-suffix { background: linear-gradient(90deg, #f0d2ae, #c79a6e); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
 
 .mission-stat { display: flex; align-items: baseline; gap: 2px; margin: 8px 0; }
 
@@ -135,7 +145,7 @@
 
 /* ---------- COLUMN 2 (ACCENT TALL CARD) ---------- */
 .mission-card--accent {
-  background: linear-gradient(160deg, #1a110a 0%, #0c0805 55%, #0a0a0a 100%);
+  background: rgb(48, 48, 48);
   border: 1px solid rgba(143, 100, 68, 0.4);
   display: flex; flex-direction: column; justify-content: space-between;
   min-height: 380px;
@@ -166,7 +176,7 @@
 
 .mission-booking-label {
   display: block; font-size: 9px; text-transform: uppercase; letter-spacing: 1px;
-  color: #959595; font-weight: 600;
+  color: #b5afab; font-weight: 600;
 }
 
 .mission-booking-val { display: block; color: #ffffff; font-size: 12px; font-weight: 700; }
@@ -176,7 +186,7 @@
   grid-column: 3;
   min-height: 380px;
   display: flex; flex-direction: column; justify-content: space-between;
-  background: #090909;
+  background: linear-gradient(160deg, #121212 0%, #070707 55%, #000000 100%);
   border: 1px solid rgba(143, 100, 68, 0.3);
 }
 
@@ -200,14 +210,14 @@
 .mission-dark-bottom { display: flex; align-items: flex-end; justify-content: space-between; gap: 12px; }
 
 .mission-rating .mission-stat-value { font-size: clamp(34px, 3.4vw, 44px); }
-.mission-rating .mission-stat-suffix { background: none; -webkit-text-fill-color: #959595; color: #959595; }
+.mission-rating .mission-stat-suffix { background: none; -webkit-text-fill-color: #b5afab; color: #b5afab; }
 
 .mission-trust { text-align: right; }
 
 .mission-stars { display: block; color: #b8946f; font-size: 11px; letter-spacing: 2px; margin-bottom: 4px; }
 
 .mission-trust-label {
-  display: block; color: #959595; font-size: 9.5px; font-weight: 600;
+  display: block; color: #b5afab; font-size: 9.5px; font-weight: 600;
   letter-spacing: 0.3px; text-transform: uppercase; max-width: 120px;
 }
 
@@ -222,13 +232,13 @@
 }
 
 /* ---------- EXPLAINER NOTES ---------- */
-.mission-card-note { margin: 8px 0 0; color: #7d7d7f; font-size: 12px; line-height: 1.5; }
-.mission-card-note--light { color: #959595; margin: 0 0 4px; }
+.mission-card-note { margin: 8px 0 0; color: #a39d99; font-size: 12px; line-height: 1.5; }
+.mission-card-note--light { color: #b5afab; margin: 0 0 4px; }
 
 .mission-chips { display: flex; flex-wrap: wrap; align-items: center; gap: 6px; margin-top: 14px; }
 
 .mission-chips-label {
-  width: 100%; color: #959595; font-size: 9px; font-weight: 700;
+  width: 100%; color: #b5afab; font-size: 9px; font-weight: 700;
   letter-spacing: 1px; text-transform: uppercase;
 }
 
@@ -240,6 +250,6 @@
 }
 
 .mission-rating-label {
-  display: block; margin-bottom: 2px; color: #959595; font-size: 9px; font-weight: 600;
+  display: block; margin-bottom: 2px; color: #b5afab; font-size: 9px; font-weight: 600;
   letter-spacing: 1px; text-transform: uppercase;
 }

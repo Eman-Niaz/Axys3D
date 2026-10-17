@@ -743,3 +743,28 @@ html body .cnt-submit:not(#a):not(#b) {
   font-family: 'Inter Tight', sans-serif !important;
   letter-spacing: -0.015em !important;
 }
+
+/* =========================================================
+   CTA BACKGROUND — image fades in at top & bottom (same as Work page)
+   ========================================================= */
+.lib-final-cta {
+  position: relative;
+  isolation: isolate;
+  background: transparent !important;
+}
+
+.lib-final-cta::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image: var(--cta-image, url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop'));
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #262626;
+  background-blend-mode: multiply;
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 24%, #000 76%, transparent 100%);
+}

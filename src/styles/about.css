@@ -30,7 +30,7 @@
   font-family: 'Manrope', system-ui, sans-serif !important;
 }
 
-/* Background gradient remove kar diya gaya hai, ab sirf clean black screen rahegi */
+/* HERO background: halka brown + grey gradient (neeche black mein fade, taake section ki line na dikhe) */
 .abt-page-bg {
   position: absolute;
   top: 0;
@@ -39,7 +39,13 @@
   height: 120vh;
   z-index: 0;
   pointer-events: none;
-  background: #000000;
+  background:
+    radial-gradient(ellipse 55% 45% at 10% 22%, rgba(143, 100, 68, 0.30) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 42% at 90% 28%, rgba(174, 167, 163, 0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 50% 70%, rgba(91, 59, 39, 0.18) 0%, transparent 70%),
+    linear-gradient(180deg, #0c0907 0%, #000000 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
 }
 
 .abt-wrap {
@@ -119,13 +125,14 @@
   text-align: center;
 }
 
-/* Services style pill badge matching image_99272c.png */
+/* Tag (THE TEAM jaisa): bina pill/background ke, sirf simple likha hua */
 .abt-pill-badge {
   display: inline-block;
-  padding: 6px 18px;
-  border-radius: 999px;
-  background: #1c1c1f;
-  border: 1px solid #2e2e33;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  border: 0;
+  box-shadow: none;
   font-family: 'JetBrains Mono', ui-monospace, monospace !important;
   font-size: 11px !important;
   font-weight: 500 !important;

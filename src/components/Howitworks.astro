@@ -39,14 +39,43 @@ const imgs = [
   { stems: "/images/after", name: "after", alt: "Final delivered render" },
 ];
 const first = events[0];
+
+// =====================================================
+// CASE STUDY CONTENT (yahan se text badal sakte ho)
+// Numbers neeche `events` se khud calculate hote hain, isliye replay badlo to ye bhi sync rahenge.
+// =====================================================
+const dayNum = (e: { day: string }) => Number(String(e.day).replace(/\D/g, ""));
+const totalDays = dayNum(events[events.length - 1]);
+const qcChecks = Math.max(...events.map((e) => e.qc));
+const revIdx = events.findIndex((e) => e.badge && e.badge[1] === "rev");
+const revisions = events.filter((e) => e.badge && e.badge[1] === "rev").length;
+const revText = revIdx >= 0 ? `Requested Day ${dayNum(events[revIdx])}, closed Day ${dayNum(events[revIdx + 1])}` : "";
+
+const caseStudy = {
+  project: "Hillside residence",
+  // Button yahan le jayega. Apne case study page ka link yahan likho (jaise "/Work/hillside-residence")
+  href: "/Work",
+  buttonText: "View full case study",
+  facts: [
+    { label: "Project", value: "Hillside residence" },
+    { label: "Scope", value: "BIM model, renders" },
+    { label: "Inputs", value: "Survey, sketches" },
+    { label: "Timeline", value: `${totalDays} days, brief to delivery` },
+  ],
+  outcomes: [
+    { value: totalDays, suffix: " days", label: "From brief to final delivery" },
+    { value: qcChecks, suffix: " QC checks", label: "Passed in-house before the client saw each stage" },
+    { value: revisions, suffix: revisions === 1 ? " revision" : " revisions", label: revText },
+  ],
+};
 ---
 
 <section class="hw-section" id="howItWorks">
   <div class="hw-container">
     <div class="hw-header">
-      <span class="hw-tag">HOW WE WORK</span>
-      <h2 class="hw-title">Watch a<br />project <span class="hw-highlight">go live.</span></h2>
-      <p class="hw-subtitle">A 20 second replay. Every step passes in-house QC before the client sees it.</p>
+      <span class="hw-tag">CASE STUDY · {caseStudy.project.toUpperCase()}</span>
+      <h2 class="hw-title">Brief to delivery<br />in <span class="hw-highlight">{totalDays} days.</span></h2>
+      <p class="hw-subtitle">Follow one project step by step. Every stage passed in-house QC before the client saw it.</p>
     </div>
 
     <div class="hw-player" id="hwPlayer">
@@ -73,6 +102,16 @@ const first = events[0];
         </div>
 
         <div class="hw-info-pane">
+          <!-- CASE STUDY INFO: line by line (player ke andar) -->
+          <div class="hw-case-info">
+            {caseStudy.facts.map((f) => (
+              <div class="hw-case-row">
+                <span class="hw-case-label">{f.label}</span>
+                <span class="hw-case-val">{f.value}</span>
+              </div>
+            ))}
+          </div>
+
           <div class="hw-info-header">
             <div class="hw-role role-client" id="hwRoleBadge"><span class="hw-role-dot"></span><span id="hwRoleText">{first.role}</span></div>
             <div class="hw-day" id="hwDayText">{first.day}</div>
@@ -119,6 +158,24 @@ const first = events[0];
           </button>
         ))}
       </div>
+    </div>
+
+    <!-- CASE STUDY RESULT: project ka nateeja -->
+    <div class="hw-outcome-wrap">
+      <span class="hw-outcome-tag">RESULT</span>
+      <div class="hw-outcome">
+        {caseStudy.outcomes.map((o) => (
+          <div class="hw-outcome-card">
+            <div class="hw-outcome-num"><span class="hw-outcome-value">{o.value}</span><span class="hw-outcome-suffix">{o.suffix}</span></div>
+            <p class="hw-outcome-label">{o.label}</p>
+          </div>
+        ))}
+      </div>
+
+      <a href={caseStudy.href} class="hw-case-link">
+        <span>{caseStudy.buttonText}</span>
+        <span class="hw-case-link-arrow">↗</span>
+      </a>
     </div>
   </div>
 </section>

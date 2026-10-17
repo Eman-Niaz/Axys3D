@@ -194,17 +194,17 @@ import "../styles/Hero.css";
     max-width: 780px;
   }
   .hero .hero-main h1 {
-    font-size: clamp(36px, 4.8vw, 76px);
+    font-size: clamp(36px, 3.9vw, 62px);
     max-width: 780px;
     line-height: 1.02 !important;
   }
-  /* 3rd line: half brown look (white -> coffee brown gradient) */
+  /* 3rd line: solid brown (gradient hata diya) */
   .hero h1 .accent {
-    background: linear-gradient(90deg, #f2efeb 0%, #c8a77f 38%, #8f6444 72%, #5b3b27 100%);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent !important;
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+    -webkit-text-fill-color: #8f6444;
+    color: #8f6444 !important;
   }
   .hero .hero-eyebrow {
     font-size: 13px;
@@ -255,15 +255,15 @@ import "../styles/Hero.css";
 
   /* ---------- COLOURS (yahan se badal sakte ho) ---------- */
   const COL = {
-    wire: 0x8c8e92,      // wireframe lines  (grey)
-    wireGlass: 0xd2d0ce, // lines jab glass ban jaye
-    glass: 0xb9b6b3,     // translucent grey glass
-    white: 0xf2efeb,     // bright render stage
+    wire: 0x8f6444,      // wireframe lines  (brown)
+    wireGlass: 0xb8946f, // lines jab glass ban jaye (brown)
+    glass: 0x5b3b27,     // translucent brown glass
+    white: 0x6b452c,     // render stage (ab white nahi, brown)
     sand: 0xc8a77f,      // warm light neeche se
     brown: 0x5b3b27,     // FINAL coffee brown (slabs)
     edgeBrown: 0xb8946f, // brown stage ki lines
     beamWarm: 0xd9b08c,  // beam ka halka coffee/tan
-    beamWhite: 0xfff4ea, // beam ka white core
+    beamWhite: 0xd9b08c, // beam ka core (brown/tan)
   };
 
   /* ---------- TIMELINE (seconds, 25s loop) ---------- */
@@ -339,7 +339,7 @@ import "../styles/Hero.css";
     key.position.set(5, 6, 9);
     scene.add(key);
 
-    const rim = new THREE.DirectionalLight(0x9a9a9c, 0.8);   // left grey rim
+    const rim = new THREE.DirectionalLight(0x8f6444, 0.5);   // left brown rim
     rim.position.set(-8, 1, 3);
     scene.add(rim);
 
@@ -492,7 +492,7 @@ import "../styles/Hero.css";
       const visH = 2 * CAM_Z * Math.tan((FOV * Math.PI) / 360);
       const visW = visH * aspect;
       const wide = aspect >= 1.15;
-      tower.position.x = wide ? (0.64 - 0.5) * visW : 0.12 * visW;
+      tower.position.x = wide ? (0.72 - 0.5) * visW : 0.12 * visW;
       const s = wide ? 1 : Math.min(1, aspect * 0.95);
       tower.scale.setScalar(s);
       paintBackground(w, h, 0.5 + tower.position.x / visW);
@@ -546,7 +546,7 @@ import "../styles/Hero.css";
       // sab slabs ka "brown hold" tab tak jab tak dissolve na ho
       const dissolve = c < T.dissolveA ? 1 : 1 - smooth(ph(c, T.dissolveA, T.dissolveB));
       const inBrownHold = c < T.dissolveB;           // pichle cycle ka brown
-      const toBrown = c < T.dissolveB ? 1 : smooth(ph(c, T.warmA, T.brownFull));
+      const toBrown = 1; // hamesha brown (white/grey stage band)
 
       for (let i = 0; i < N; i++) {
         const s = slabs[i];
@@ -592,7 +592,7 @@ import "../styles/Hero.css";
       }
 
       /* --- lights --- */
-      const bm = c < T.dissolveB ? 1 : toBrown;
+      const bm = 1;
       key.intensity = 1.05 - 0.5 * bm;
       ambient.intensity = 0.28 - 0.1 * bm;
       // sun: brown stage ke hot patches (22.3 se shuru, 3.5s tak decay)
@@ -607,7 +607,7 @@ import "../styles/Hero.css";
       // warm sand light (neeche se)
       const warmI =
         smooth(ph(c, 19, 21)) * (1 - smooth(ph(c, 24, 25.6))) * (c >= 19 ? 1 : 0);
-      warm.intensity = warmI * 55;
+      warm.intensity = warmI * 25;
 
       // beam: tower ban jaye (glass/white/brown) to bilkul gayab; dissolve ke baad dobara aaye
       const beamS = c >= 17 ? 1 - smooth(ph(c, 17, 21)) : smooth(ph(c, 6.6, 7.8));

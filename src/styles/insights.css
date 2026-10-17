@@ -936,3 +936,47 @@ html body .isd-share-list button:not(#a):not(#b) {
   font-family: 'Inter Tight', sans-serif !important;
   letter-spacing: -0.015em !important;
 }
+/* ==========================================================================
+   HERO — gradient (left brown, right grey, bottom fade to black) like Process
+========================================================================== */
+.isl-page-bg {
+  background:
+    radial-gradient(ellipse 55% 45% at 10% 22%, rgba(143, 100, 68, 0.30) 0%, transparent 70%),
+    radial-gradient(ellipse 50% 42% at 90% 28%, rgba(174, 167, 163, 0.16) 0%, transparent 70%),
+    radial-gradient(ellipse 60% 40% at 50% 70%, rgba(91, 59, 39, 0.18) 0%, transparent 70%),
+    linear-gradient(180deg, #0c0907 0%, #000000 100%);
+  -webkit-mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+  mask-image: linear-gradient(to bottom, #000 55%, transparent 100%);
+}
+.isl-page-bg::before {
+  top: -120px; right: -100px; left: auto;
+  background: radial-gradient(circle at center, rgba(174, 167, 163, 0.12) 0%, transparent 70%);
+}
+.isl-page-bg::after {
+  content: "";
+  position: absolute;
+  top: 160px; left: -160px;
+  width: 500px; height: 500px;
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(circle at center, rgba(143, 100, 68, 0.22) 0%, transparent 70%);
+}
+
+/* hero visual thora left par */
+.isl-intro-media {
+  margin: 0 clamp(40px, 6vw, 110px) 0 auto;
+}
+@media (max-width: 900px) {
+  .isl-intro-media { margin: 0 auto; }
+}
+
+/* tags: Process jaisi styling (mono, grey, wide spacing) */
+.isl-kicker {
+  font-family: 'JetBrains Mono', ui-monospace, monospace !important;
+  font-size: 11px !important;
+  font-weight: 500 !important;
+  letter-spacing: 0.24em !important;
+  text-transform: uppercase !important;
+  color: var(--ins-muted) !important;
+}
